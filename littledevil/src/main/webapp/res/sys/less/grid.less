@@ -1,0 +1,67 @@
+//Grid system (网格系统)
+//------------------------------------
+
+//pc全屏
+.container-full{
+  width: 100%; height: 100%; min-width: 800px;
+
+  .row{
+    margin: 0 0;
+  }
+}
+//Container widths (宽度容器)
+//设置容器宽度，覆盖固定导航栏在媒体查询
+.container{
+  .container-fixed();
+
+  @media(min-width: @screen-sm-min){
+    width: @container-sm;
+  }
+  @media(min-width: @screen-md-min){
+    width: @container-md;
+  }
+  @media(min-width: @screen-lg-min){
+    width: @container-lg;
+  }
+}
+
+//Fluid container 流式容器
+//
+//利用固定宽度的容器，但没有任何定义
+//流式布局宽度
+.container-fluid{
+  .container-fixed();
+}
+
+
+//Row 行
+//行包含很多的列
+.row{
+  .make-row();
+}
+
+//Columns
+//常见的网格列大小样式
+.make-grid-columns();
+
+//Extra small grid(额外的小网格)
+//微型设备中的，列，偏移量，推，拉
+.make-grid(xs);
+
+//Small grid(小网格)
+//小型设备范围如手机
+@media(min-width: @screen-sm-min) {
+  .make-grid(sm);
+}
+
+//Medium grid（媒介网格）
+//桌面设备如平板
+@media(min-width: @screen-md-min) {
+  .make-grid(md);
+}
+
+//Large grid(大网格)
+//大型桌面设备范围如电脑
+@media(min-width: @screen-lg-min) {
+  .make-grid(lg);
+}

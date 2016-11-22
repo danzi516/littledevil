@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>  
+<!DOCTYPE generatorConfiguration  
+        PUBLIC "-//mybatis.org//DTD MyBatis Generator Configuration 1.0//EN"  
+        "http://mybatis.org/dtd/mybatis-generator-config_1_0.dtd">  
+<generatorConfiguration>  
+    <classPathEntry location="C:/Users/Administrator/.m2/repository/mysql/mysql-connector-java/5.1.18" />  
+  
+    <context id="my" targetRuntime="MyBatis3">  
+        <commentGenerator>  
+            <property name="suppressDate" value="false"/>  
+            <property name="suppressAllComments" value="true"/>  
+        </commentGenerator>  
+        <jdbcConnection driverClass="com.mysql.jdbc.Driver"  
+                        connectionURL="jdbc:mysql://192.168.1.156:3305/little_devil" userId="root"  
+                        password="123456"/>  
+        <javaModelGenerator targetPackage="company"  
+                            targetProject="D:/Users/Administrator/Workspaces/MyEclipse 2015 CI/littledevil/src/main/java/cn/com/hd/domain"/>  
+        <sqlMapGenerator targetPackage="company"  
+                         targetProject="D:/Users/Administrator/Workspaces/MyEclipse 2015 CI/littledevil/src/main/resources/cn/com/hd/persistance"/>  
+        <javaClientGenerator targetPackage="company"  
+                             targetProject="D:/Users/Administrator/Workspaces/MyEclipse 2015 CI/littledevil/src/main/java/cn/com/hd/persistance"  
+                             type="XMLMAPPER"/>  
+        <table schema="little_devil" tableName="t_company_commodity" domainObjectName="CompanyCommodity"
+         enableCountByExample="false" enableUpdateByExample="false" enableDeleteByExample="false"
+         enableSelectByExample="false" selectByExampleQueryId="false"></table>
+        <table schema="little_devil" tableName="t_company_info" domainObjectName="CompanyInfo"
+         enableCountByExample="false" enableUpdateByExample="false" enableDeleteByExample="false"
+         enableSelectByExample="false" selectByExampleQueryId="false"></table>
+         <table schema="little_devil" tableName="t_company_member" domainObjectName="CompanyMember"
+         enableCountByExample="false" enableUpdateByExample="false" enableDeleteByExample="false"
+         enableSelectByExample="false" selectByExampleQueryId="false"></table>
+        <table schema="little_devil" tableName="t_company_paytype" domainObjectName="CompanyPayType"
+         enableCountByExample="false" enableUpdateByExample="false" enableDeleteByExample="false"
+         enableSelectByExample="false" selectByExampleQueryId="false"></table>
+         <table schema="little_devil" tableName="t_company_role" domainObjectName="CompanyRole"
+         enableCountByExample="false" enableUpdateByExample="false" enableDeleteByExample="false"
+         enableSelectByExample="false" selectByExampleQueryId="false"></table>
+         <table schema="little_devil" tableName="t_company_role_operation" domainObjectName="CompanyRoleOperation"
+         enableCountByExample="false" enableUpdateByExample="false" enableDeleteByExample="false"
+         enableSelectByExample="false" selectByExampleQueryId="false"></table>
+        <table schema="little_devil" tableName="t_company_staff" domainObjectName="CompanyStaff"
+         enableCountByExample="false" enableUpdateByExample="false" enableDeleteByExample="false"
+         enableSelectByExample="false" selectByExampleQueryId="false"></table>
+    </context>  
+</generatorConfiguration>

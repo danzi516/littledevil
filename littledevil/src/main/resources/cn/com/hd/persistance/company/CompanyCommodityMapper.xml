@@ -1,0 +1,134 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.com.hd.persistance.company.CompanyCommodityMapper">
+  <resultMap id="BaseResultMap" type="cn.com.hd.domain.company.CompanyCommodity">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="company_id" jdbcType="INTEGER" property="companyId" />
+    <result column="commodity_name" jdbcType="VARCHAR" property="commodityName" />
+    <result column="commodity_price" jdbcType="DOUBLE" property="commodityPrice" />
+    <result column="commodity_logo" jdbcType="VARCHAR" property="commodityLogo" />
+    <result column="state" jdbcType="VARCHAR" property="state" />
+  </resultMap>
+  <resultMap extends="BaseResultMap" id="ResultMapWithBLOBs" type="cn.com.hd.domain.company.CompanyCommodity">
+    <result column="commodity_note" jdbcType="LONGVARCHAR" property="commodityNote" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    id, company_id, commodity_name, commodity_price, commodity_logo, state
+  </sql>
+  <sql id="Blob_Column_List">
+    commodity_note
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="ResultMapWithBLOBs">
+    select 
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from t_company_commodity
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from t_company_commodity
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="cn.com.hd.domain.company.CompanyCommodity">
+    insert into t_company_commodity (id, company_id, commodity_name, 
+      commodity_price, commodity_logo, state, 
+      commodity_note)
+    values (#{id,jdbcType=INTEGER}, #{companyId,jdbcType=INTEGER}, #{commodityName,jdbcType=VARCHAR}, 
+      #{commodityPrice,jdbcType=DOUBLE}, #{commodityLogo,jdbcType=VARCHAR}, #{state,jdbcType=VARCHAR}, 
+      #{commodityNote,jdbcType=LONGVARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="cn.com.hd.domain.company.CompanyCommodity">
+    insert into t_company_commodity
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="companyId != null">
+        company_id,
+      </if>
+      <if test="commodityName != null">
+        commodity_name,
+      </if>
+      <if test="commodityPrice != null">
+        commodity_price,
+      </if>
+      <if test="commodityLogo != null">
+        commodity_logo,
+      </if>
+      <if test="state != null">
+        state,
+      </if>
+      <if test="commodityNote != null">
+        commodity_note,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="companyId != null">
+        #{companyId,jdbcType=INTEGER},
+      </if>
+      <if test="commodityName != null">
+        #{commodityName,jdbcType=VARCHAR},
+      </if>
+      <if test="commodityPrice != null">
+        #{commodityPrice,jdbcType=DOUBLE},
+      </if>
+      <if test="commodityLogo != null">
+        #{commodityLogo,jdbcType=VARCHAR},
+      </if>
+      <if test="state != null">
+        #{state,jdbcType=VARCHAR},
+      </if>
+      <if test="commodityNote != null">
+        #{commodityNote,jdbcType=LONGVARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="cn.com.hd.domain.company.CompanyCommodity">
+    update t_company_commodity
+    <set>
+      <if test="companyId != null">
+        company_id = #{companyId,jdbcType=INTEGER},
+      </if>
+      <if test="commodityName != null">
+        commodity_name = #{commodityName,jdbcType=VARCHAR},
+      </if>
+      <if test="commodityPrice != null">
+        commodity_price = #{commodityPrice,jdbcType=DOUBLE},
+      </if>
+      <if test="commodityLogo != null">
+        commodity_logo = #{commodityLogo,jdbcType=VARCHAR},
+      </if>
+      <if test="state != null">
+        state = #{state,jdbcType=VARCHAR},
+      </if>
+      <if test="commodityNote != null">
+        commodity_note = #{commodityNote,jdbcType=LONGVARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKeyWithBLOBs" parameterType="cn.com.hd.domain.company.CompanyCommodity">
+    update t_company_commodity
+    set company_id = #{companyId,jdbcType=INTEGER},
+      commodity_name = #{commodityName,jdbcType=VARCHAR},
+      commodity_price = #{commodityPrice,jdbcType=DOUBLE},
+      commodity_logo = #{commodityLogo,jdbcType=VARCHAR},
+      state = #{state,jdbcType=VARCHAR},
+      commodity_note = #{commodityNote,jdbcType=LONGVARCHAR}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="cn.com.hd.domain.company.CompanyCommodity">
+    update t_company_commodity
+    set company_id = #{companyId,jdbcType=INTEGER},
+      commodity_name = #{commodityName,jdbcType=VARCHAR},
+      commodity_price = #{commodityPrice,jdbcType=DOUBLE},
+      commodity_logo = #{commodityLogo,jdbcType=VARCHAR},
+      state = #{state,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+ 
+</mapper>

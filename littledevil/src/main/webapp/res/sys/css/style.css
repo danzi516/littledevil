@@ -1,0 +1,212 @@
+/*panel*/
+.panel-heading{min-height: 40px;}
+.panel-heading h5 {
+    display: inline-block;
+    font-size: 14px;
+    margin: 0 0 7px;
+    padding: 0;
+    text-overflow: ellipsis;
+    float: left;
+}
+.panel-heading .label {
+    float: left;
+    margin-left: 4px;
+}
+.panel-tools {
+    display: inline-block;
+    float: right;
+    margin-top: 0;
+    position: relative;
+    padding: 0;
+}
+/* FLOT CHART  */
+.flot-chart {
+    display: block;
+    height: 200px;
+}
+.widget .flot-chart.dashboard-chart {
+    display: block;
+    height: 120px;
+    margin-top: 40px;
+}
+.flot-chart.dashboard-chart {
+    display: block;
+    height: 180px;
+    margin-top: 40px;
+}
+.flot-chart-content {
+    width: 100%;
+    height: 100%;
+}
+.flot-chart-pie-content {
+    width: 200px;
+    height: 200px;
+    margin: auto;
+}
+.jqstooltip {
+    position: absolute;
+    display: block;
+    left: 0px;
+    top: 0px;
+    visibility: hidden;
+    background: #2b303a;
+    background-color: rgba(43, 48, 58, 0.8);
+    color: white;
+    text-align: left;
+    white-space: nowrap;
+    z-index: 10000;
+    padding: 5px 5px 5px 5px;
+    min-height: 22px;
+    border-radius: 3px;
+}
+.jqsfield {
+    color: white;
+    text-align: left;
+}
+.h-200 {
+    min-height: 200px;
+}
+.legendLabel {
+    padding-left: 5px;
+}
+.stat-list li:first-child {
+    margin-top: 0;
+}
+.stat-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+.stat-percent {
+    float: right;
+}
+.stat-list li {
+    margin-top: 15px;
+    position: relative;
+}
+.stat-list li .no-margins{margin: 0 !important;font-size: 24px;}
+.progress-bar {
+    background-color: #1ab394;
+}
+.progress-small,
+.progress-small .progress-bar {
+    height: 10px;
+}
+.progress-small,
+.progress-mini {
+    margin-top: 5px;
+}
+.progress-mini,
+.progress-mini .progress-bar {
+    height: 5px;
+    margin-bottom: 0px;
+}
+.progress-bar-navy-light {
+    background-color: #3dc7ab;
+}
+.progress-bar-success {
+    background-color: #1c84c6;
+}
+.progress-bar-info {
+    background-color: #23c6c8;
+}
+.progress-bar-warning {
+    background-color: #f8ac59;
+}
+.progress-bar-danger {
+    background-color: #ed5565;
+}
+/* Intimeline */
+.timeline-item .date i {
+    position: absolute;
+    top: 0;
+    right: 0;
+    padding: 5px;
+    width: 30px;
+    text-align: center;
+    border-top: 1px solid #e7eaec;
+    border-bottom: 1px solid #e7eaec;
+    border-left: 1px solid #e7eaec;
+    background: #f8f8f8;
+}
+.timeline-item .date {
+    text-align: right;
+    width: 110px;
+    position: relative;
+    padding-top: 30px;
+}
+.timeline-item .content {
+    border-left: 1px solid #e7eaec;
+    border-top: 1px solid #e7eaec;
+    padding-top: 10px;
+    min-height: 100px;
+}
+.timeline-item .content:hover {
+    background: #f6f6f6;
+}
+/* PROFILE */
+.profile-content {
+    border-top: none !important;
+}
+.feed-activity-list .feed-element {
+    border-bottom: 1px solid #e7eaec;
+}
+.feed-element:first-child {
+    margin-top: 0;
+}
+.feed-element {
+    padding-bottom: 15px;
+}
+.feed-element,
+.feed-element .media {
+    margin-top: 15px;
+}
+.feed-element,
+.media-body {
+    overflow: hidden;
+}
+.feed-element > .pull-left {
+    margin-right: 10px;
+}
+.feed-element small.pull-right {
+    line-height: inherit;
+}
+.feed-element img.img-circle,
+.dropdown-messages-box img.img-circle {
+    width: 38px;
+    height: 38px;
+}
+.feed-element .well {
+    border: 1px solid #e7eaec;
+    box-shadow: none;
+    margin-top: 10px;
+    margin-bottom: 5px;
+    padding: 10px 20px;
+    font-size: 11px;
+    line-height: 16px;
+}
+.feed-element .actions {
+    margin-top: 10px;
+}
+.feed-element .photos {
+    margin: 10px 0;
+}
+.feed-photo {
+    max-height: 180px;
+    border-radius: 4px;
+    overflow: hidden;
+    margin-right: 10px;
+    margin-bottom: 10px;
+}
+
+.keyselect{ border:1px solid #dedede; border-bottom:0;}
+.keyselect dl{ border-bottom:1px solid #dedede; margin:0px 0px; padding:12px 0px; display:block;}
+.keyselect dd a{ display:inline-block;}
+.keyselect dt{ width:60px;}
+*+html .keyselect dd{ margin-left:70px;}
+*+html .keyselect dt{ width:60px;}
+.keyselect dd{ margin-left:70px;}
+.keyselect dd a{ margin:0px 4px; padding:0 5px; color:#454545;}
+.keyselect dd a.active{ background:#2fae00; color:#FFF;}
+
+.tabbox .tab-pane{ margin-top: -1px; border: 1px solid #dedede}

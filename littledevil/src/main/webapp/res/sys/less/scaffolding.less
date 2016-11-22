@@ -1,0 +1,117 @@
+//Scaffolding(脚手架)
+
+//重置box-sizing
+//
+//注意：这与一些第三方小部件复位可能会有冲突
+//对解决这种冲突，建议看看 http://getbootstrap.com/getting-started/#third-box-sizing
+
+*{
+  .box-sizing(border-box);
+}
+*:before,
+*:after{
+  .box-sizing(border-box);
+}
+
+//重置内容
+
+html{
+  font-size: 10px;
+  -webkit-tap-highlight-color: reba(0,0,0,0);
+}
+body{
+  font-family: @font-family-base;
+  font-size: @font-size-base;
+  line-height: @line-height-base;
+  color: @text-color;
+  background-color: @body-bg;
+}
+
+//重置文字相关元素
+input,button,select,textarea{
+  font-family: inherit;
+  font-size: inherit;
+  line-height: inherit;
+}
+
+//Links (超链接)
+a{
+  color: @link-color;
+  text-decoration: none;
+
+  &:hover,&:focus{
+    color: @link-hover-color;
+    text-decoration: @link-hover-decoration;
+  }
+
+  &:focus{
+    .tab-focus();
+  }
+}
+
+//Figuers(数据)
+
+figure{
+  margin: 0;
+}
+
+//Images(图片)
+img{
+  vertical-align: middle;
+}
+//响应图像（确保图片不超出它的父级元素）
+.img-responsive{
+  .img-responsive();
+}
+//圆角
+.img-rounded{
+  border-radius:@border-radius-large;
+}
+//缩略图
+.img-thumbnail{
+  padding: @thumbnail-padding;
+  line-height: @line-height-base;
+  background-color: @thumbnail-bg;
+  border:1px solid @thumbnail-border;
+  border-radius: @thumbnail-border-radius;
+
+  .transition(all .2s ease-in-out);
+  .img-responsive(inline-block);
+}
+
+//圆型图片(Perfect circle)
+.img-circle{
+  border-radius: 50%;
+}
+
+//分隔线
+hr{
+  margin-top: @line-height-computed;
+  margin-bottom: @line-height-computed;
+  border: 0;
+  border-top: 1px solid @hr-border;
+}
+
+//屏幕阅读唯一显示内容
+.sr-only{
+  position:absolute;
+  width: 1px;
+  height: 1px;
+  margin: -1px;
+  padding: 0;
+  overflow: hidden;
+  clip: rect(0,0,0,0);
+  border: 0;
+}
+//结合使用，sr-only 集中的时候显示内容
+.sr-only-focusable{
+  &:active,
+  &:focus{
+    position: static;
+    width: auto;
+    height: auto;
+    margin: 0;
+    overflow: visible;
+    clip: auto;
+  }
+}

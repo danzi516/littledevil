@@ -1,0 +1,160 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="cn.com.hd.persistance.sys.DistrictMapper" >
+  <resultMap id="BaseResultMap" type="cn.com.hd.domain.sys.District" >
+    <id column="ID" property="id" jdbcType="INTEGER" />
+    <result column="DISTRICT_CODE" property="districtCode" jdbcType="VARCHAR" />
+    <result column="DISTRICT_NAME" property="districtName" jdbcType="VARCHAR" />
+    <result column="PARENT_CODE" property="parentCode" jdbcType="VARCHAR" />
+    <result column="SORT" property="sort" jdbcType="VARCHAR" />
+    <result column="STATE" property="state" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    ID, DISTRICT_CODE, DISTRICT_NAME, PARENT_CODE, SORT, STATE
+  </sql>
+   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from t_district
+    where ID = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from t_district
+    where ID = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="cn.com.hd.domain.sys.District" useGeneratedKeys="true" keyProperty="id">
+    insert into t_district (DISTRICT_CODE, DISTRICT_NAME, 
+      PARENT_CODE, SORT, STATE
+      )
+    values (#{districtCode,jdbcType=VARCHAR}, #{districtName,jdbcType=VARCHAR}, 
+      #{parentCode,jdbcType=VARCHAR}, #{sort,jdbcType=VARCHAR}, #{state,jdbcType=VARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="cn.com.hd.domain.sys.District" useGeneratedKeys="true" keyProperty="id">
+    insert into t_district
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="districtCode != null" >
+        DISTRICT_CODE,
+      </if>
+      <if test="districtName != null" >
+        DISTRICT_NAME,
+      </if>
+      <if test="parentCode != null" >
+        PARENT_CODE,
+      </if>
+      <if test="sort != null" >
+        SORT,
+      </if>
+      <if test="state != null" >
+        STATE,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="districtCode != null" >
+        #{districtCode,jdbcType=VARCHAR},
+      </if>
+      <if test="districtName != null" >
+        #{districtName,jdbcType=VARCHAR},
+      </if>
+      <if test="parentCode != null" >
+        #{parentCode,jdbcType=VARCHAR},
+      </if>
+      <if test="sort != null" >
+        #{sort,jdbcType=VARCHAR},
+      </if>
+      <if test="state != null" >
+        #{state,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="cn.com.hd.domain.sys.District" >
+    update t_district
+    <set >
+      <if test="districtCode != null" >
+        DISTRICT_CODE = #{districtCode,jdbcType=VARCHAR},
+      </if>
+      <if test="districtName != null" >
+        DISTRICT_NAME = #{districtName,jdbcType=VARCHAR},
+      </if>
+      <if test="parentCode != null" >
+        PARENT_CODE = #{parentCode,jdbcType=VARCHAR},
+      </if>
+      <if test="sort != null" >
+        SORT = #{sort,jdbcType=VARCHAR},
+      </if>
+      <if test="state != null" >
+        STATE = #{state,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where ID = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="cn.com.hd.domain.sys.District" >
+    update t_district
+    set DISTRICT_CODE = #{districtCode,jdbcType=VARCHAR},
+      DISTRICT_NAME = #{districtName,jdbcType=VARCHAR},
+      PARENT_CODE = #{parentCode,jdbcType=VARCHAR},
+      SORT = #{sort,jdbcType=VARCHAR},
+      STATE = #{state,jdbcType=VARCHAR}
+    where ID = #{id,jdbcType=INTEGER}
+  </update>
+  
+   <select id="selectByDistrictCode" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from t_district
+    where DISTRICT_CODE = #{districtCode,jdbcType=VARCHAR}
+  </select>
+  <select id="selectByName" resultMap="BaseResultMap" parameterType="java.util.Map" resultType="java.util.List" >
+    select 
+    <include refid="Base_Column_List" />
+    from t_district
+    where DISTRICT_NAME = #{name,jdbcType=VARCHAR} and PARENT_CODE=#{parentCode,jdbcType=VARCHAR}
+  </select>
+  <select id="selectParentByDistrictCode" resultMap="BaseResultMap" parameterType="java.lang.String">
+    select 
+    <include refid="Base_Column_List" />
+    from t_district where DISTRICT_CODE =(select PARENT_CODE from t_district where DISTRICT_CODE = #{districtCode,jdbcType=VARCHAR})
+  </select>
+  
+  <select id="selectChildrenByDistrictCode" resultMap="BaseResultMap" resultType="java.util.List" parameterType="java.lang.String">
+    select 
+    <include refid="Base_Column_List" />
+    from t_district where PARENT_CODE =#{districtCode,jdbcType=VARCHAR}
+  </select>
+  
+  <select id="selectSameParentByDistrictCode" resultMap="BaseResultMap" parameterType="java.lang.String">
+    select 
+    <include refid="Base_Column_List" />
+    from t_district where PARENT_CODE =(select PARENT_CODE from t_district where DISTRICT_CODE = #{districtCode,jdbcType=VARCHAR})
+  </select>
+  
+  <update id="updateByDistrictCode" parameterType="cn.com.hd.domain.sys.District" >
+    update t_district
+    <set >
+      <if test="districtName != null" >
+        DISTRICT_NAME = #{districtName,jdbcType=VARCHAR},
+      </if>
+      <if test="parentCode != null" >
+        PARENT_CODE = #{parentCode,jdbcType=VARCHAR},
+      </if>
+      <if test="sort != null" >
+        SORT = #{sort,jdbcType=VARCHAR},
+      </if>
+      <if test="state != null" >
+        STATE = #{state,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where DISTRICT_CODE = #{districtCode,jdbcType=VARCHAR}
+  </update>
+  <select id="selectDistrictNameByCode" resultType="java.lang.String" parameterType="java.lang.String" >
+    select DISTRICT_NAME
+    from t_district
+    where DISTRICT_CODE = #{districtCode,jdbcType=VARCHAR}
+  </select>
+  
+  <select id="selectAllDistrict" resultMap="BaseResultMap">
+  	  select 
+    <include refid="Base_Column_List" />
+    from t_district
+  </select>
+</mapper>

@@ -1,0 +1,128 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="cn.com.hd.persistance.sys.AppInfoMapper" >
+  <resultMap id="BaseResultMap" type="cn.com.hd.domain.sys.AppInfo" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="app_name" property="appName" jdbcType="VARCHAR" />
+    <result column="app_code" property="appCode" jdbcType="VARCHAR" />
+    <result column="request_url" property="requestUrl" jdbcType="VARCHAR" />
+    <result column="app_logo" property="appLogo" jdbcType="VARCHAR" />
+    <result column="app_sort" property="appSort" jdbcType="INTEGER" />
+    <result column="is_pay" property="isPay" jdbcType="VARCHAR" />
+    <result column="state" property="state" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, app_name, app_code, request_url, app_logo, app_sort, is_pay, state
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from t_app_info
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from t_app_info
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="cn.com.hd.domain.sys.AppInfo" >
+    insert into t_app_info (id, app_name, app_code, 
+      request_url, app_logo, app_sort, 
+      is_pay, state)
+    values (#{id,jdbcType=INTEGER}, #{appName,jdbcType=VARCHAR}, #{appCode,jdbcType=VARCHAR}, 
+      #{requestUrl,jdbcType=VARCHAR}, #{appLogo,jdbcType=VARCHAR}, #{appSort,jdbcType=INTEGER}, 
+      #{isPay,jdbcType=VARCHAR}, #{state,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="cn.com.hd.domain.sys.AppInfo" >
+    insert into t_app_info
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="appName != null" >
+        app_name,
+      </if>
+      <if test="appCode != null" >
+        app_code,
+      </if>
+      <if test="requestUrl != null" >
+        request_url,
+      </if>
+      <if test="appLogo != null" >
+        app_logo,
+      </if>
+      <if test="appSort != null" >
+        app_sort,
+      </if>
+      <if test="isPay != null" >
+        is_pay,
+      </if>
+      <if test="state != null" >
+        state,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="appName != null" >
+        #{appName,jdbcType=VARCHAR},
+      </if>
+      <if test="appCode != null" >
+        #{appCode,jdbcType=VARCHAR},
+      </if>
+      <if test="requestUrl != null" >
+        #{requestUrl,jdbcType=VARCHAR},
+      </if>
+      <if test="appLogo != null" >
+        #{appLogo,jdbcType=VARCHAR},
+      </if>
+      <if test="appSort != null" >
+        #{appSort,jdbcType=INTEGER},
+      </if>
+      <if test="isPay != null" >
+        #{isPay,jdbcType=VARCHAR},
+      </if>
+      <if test="state != null" >
+        #{state,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="cn.com.hd.domain.sys.AppInfo" >
+    update t_app_info
+    <set >
+      <if test="appName != null" >
+        app_name = #{appName,jdbcType=VARCHAR},
+      </if>
+      <if test="appCode != null" >
+        app_code = #{appCode,jdbcType=VARCHAR},
+      </if>
+      <if test="requestUrl != null" >
+        request_url = #{requestUrl,jdbcType=VARCHAR},
+      </if>
+      <if test="appLogo != null" >
+        app_logo = #{appLogo,jdbcType=VARCHAR},
+      </if>
+      <if test="appSort != null" >
+        app_sort = #{appSort,jdbcType=INTEGER},
+      </if>
+      <if test="isPay != null" >
+        is_pay = #{isPay,jdbcType=VARCHAR},
+      </if>
+      <if test="state != null" >
+        state = #{state,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="cn.com.hd.domain.sys.AppInfo" >
+    update t_app_info
+    set app_name = #{appName,jdbcType=VARCHAR},
+      app_code = #{appCode,jdbcType=VARCHAR},
+      request_url = #{requestUrl,jdbcType=VARCHAR},
+      app_logo = #{appLogo,jdbcType=VARCHAR},
+      app_sort = #{appSort,jdbcType=INTEGER},
+      is_pay = #{isPay,jdbcType=VARCHAR},
+      state = #{state,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>

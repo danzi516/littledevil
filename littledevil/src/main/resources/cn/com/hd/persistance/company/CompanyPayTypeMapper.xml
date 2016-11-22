@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.com.hd.persistance.company.CompanyPayTypeMapper">
+  <resultMap id="BaseResultMap" type="cn.com.hd.domain.company.CompanyPayType">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="pay_type" jdbcType="VARCHAR" property="payType" />
+    <result column="company_id" jdbcType="INTEGER" property="companyId" />
+    <result column="pay_type_pictrue" jdbcType="VARCHAR" property="payTypePictrue" />
+    <result column="state" jdbcType="VARCHAR" property="state" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    id, pay_type, company_id, pay_type_pictrue, state
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from t_company_paytype
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from t_company_paytype
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="cn.com.hd.domain.company.CompanyPayType">
+    insert into t_company_paytype (id, pay_type, company_id, 
+      pay_type_pictrue, state)
+    values (#{id,jdbcType=INTEGER}, #{payType,jdbcType=VARCHAR}, #{companyId,jdbcType=INTEGER}, 
+      #{payTypePictrue,jdbcType=VARCHAR}, #{state,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="cn.com.hd.domain.company.CompanyPayType">
+    insert into t_company_paytype
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="payType != null">
+        pay_type,
+      </if>
+      <if test="companyId != null">
+        company_id,
+      </if>
+      <if test="payTypePictrue != null">
+        pay_type_pictrue,
+      </if>
+      <if test="state != null">
+        state,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="payType != null">
+        #{payType,jdbcType=VARCHAR},
+      </if>
+      <if test="companyId != null">
+        #{companyId,jdbcType=INTEGER},
+      </if>
+      <if test="payTypePictrue != null">
+        #{payTypePictrue,jdbcType=VARCHAR},
+      </if>
+      <if test="state != null">
+        #{state,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="cn.com.hd.domain.company.CompanyPayType">
+    update t_company_paytype
+    <set>
+      <if test="payType != null">
+        pay_type = #{payType,jdbcType=VARCHAR},
+      </if>
+      <if test="companyId != null">
+        company_id = #{companyId,jdbcType=INTEGER},
+      </if>
+      <if test="payTypePictrue != null">
+        pay_type_pictrue = #{payTypePictrue,jdbcType=VARCHAR},
+      </if>
+      <if test="state != null">
+        state = #{state,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="cn.com.hd.domain.company.CompanyPayType">
+    update t_company_paytype
+    set pay_type = #{payType,jdbcType=VARCHAR},
+      company_id = #{companyId,jdbcType=INTEGER},
+      pay_type_pictrue = #{payTypePictrue,jdbcType=VARCHAR},
+      state = #{state,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>

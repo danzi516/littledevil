@@ -1,0 +1,183 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="cn.com.hd.persistance.company.CompanyInfoMapper" >
+  <resultMap id="BaseResultMap" type="cn.com.hd.domain.company.CompanyInfo" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="company_name" property="companyName" jdbcType="VARCHAR" />
+    <result column="company_logo" property="companyLogo" jdbcType="VARCHAR" />
+    <result column="link_person" property="linkPerson" jdbcType="VARCHAR" />
+    <result column="link_phone" property="linkPhone" jdbcType="VARCHAR" />
+    <result column="provice_code" property="proviceCode" jdbcType="VARCHAR" />
+    <result column="city_code" property="cityCode" jdbcType="VARCHAR" />
+    <result column="county_code" property="countyCode" jdbcType="VARCHAR" />
+    <result column="address" property="address" jdbcType="VARCHAR" />
+    <result column="coordinate" property="coordinate" jdbcType="VARCHAR" />
+    <result column="company_type" property="companyType" jdbcType="INTEGER" />
+    <result column="register_time" property="registerTime" jdbcType="TIMESTAMP" />
+    <collection property="user" column="id" ofType="cn.com.hd.domain.uc.User" select="cn.com.hd.persistance.uc.UserMapper.selectByPrimaryKey"></collection>
+  	<collection property="CompanyTypeName" column="company_type" ofType="java.lang.String" select="cn.com.hd.persistance.sys.DictionaryMapper.selectDicNameById"></collection>
+  	<collection property="proviceName" column="provice_code" ofType="java.lang.String" select="cn.com.hd.persistance.sys.DistrictMapper.selectDistrictNameByCode"></collection>
+  	<collection property="cityName" column="city_code" ofType="java.lang.String" select="cn.com.hd.persistance.sys.DistrictMapper.selectDistrictNameByCode"></collection>
+  	<collection property="countyName" column="county_code" ofType="java.lang.String" select="cn.com.hd.persistance.sys.DistrictMapper.selectDistrictNameByCode"></collection>
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, company_name, company_logo, link_person, link_phone, provice_code, city_code, 
+    county_code, address, coordinate,company_type,registerTime
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from t_company_info
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from t_company_info
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="cn.com.hd.domain.company.CompanyInfo" >
+    insert into t_company_info (id, company_name, company_logo, 
+      link_person, link_phone, provice_code, 
+      city_code, county_code, address, 
+      coordinate,register_time)
+    values (#{id,jdbcType=INTEGER}, #{companyName,jdbcType=VARCHAR}, #{companyLogo,jdbcType=VARCHAR}, 
+      #{linkPerson,jdbcType=VARCHAR}, #{linkPhone,jdbcType=VARCHAR}, #{proviceCode,jdbcType=VARCHAR}, 
+      #{cityCode,jdbcType=VARCHAR}, #{countyCode,jdbcType=VARCHAR}, #{address,jdbcType=VARCHAR}, 
+      #{coordinate,jdbcType=VARCHAR},sysdate())
+  </insert>
+  <insert id="insertSelective" parameterType="cn.com.hd.domain.company.CompanyInfo" >
+    insert into t_company_info
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="companyName != null" >
+        company_name,
+      </if>
+      <if test="companyLogo != null" >
+        company_logo,
+      </if>
+      <if test="linkPerson != null" >
+        link_person,
+      </if>
+      <if test="linkPhone != null" >
+        link_phone,
+      </if>
+      <if test="proviceCode != null" >
+        provice_code,
+      </if>
+      <if test="cityCode != null" >
+        city_code,
+      </if>
+      <if test="countyCode != null" >
+        county_code,
+      </if>
+      <if test="address != null" >
+        address,
+      </if>
+      <if test="coordinate != null" >
+        coordinate,
+      </if>
+      register_time
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="companyName != null" >
+        #{companyName,jdbcType=VARCHAR},
+      </if>
+      <if test="companyLogo != null" >
+        #{companyLogo,jdbcType=VARCHAR},
+      </if>
+      <if test="linkPerson != null" >
+        #{linkPerson,jdbcType=VARCHAR},
+      </if>
+      <if test="linkPhone != null" >
+        #{linkPhone,jdbcType=VARCHAR},
+      </if>
+      <if test="proviceCode != null" >
+        #{proviceCode,jdbcType=VARCHAR},
+      </if>
+      <if test="cityCode != null" >
+        #{cityCode,jdbcType=VARCHAR},
+      </if>
+      <if test="countyCode != null" >
+        #{countyCode,jdbcType=VARCHAR},
+      </if>
+      <if test="address != null" >
+        #{address,jdbcType=VARCHAR},
+      </if>
+      <if test="coordinate != null" >
+        #{coordinate,jdbcType=VARCHAR},
+      </if>
+      sysdate()
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="cn.com.hd.domain.company.CompanyInfo" >
+    update t_company_info
+    <set >
+      <if test="companyName != null" >
+        company_name = #{companyName,jdbcType=VARCHAR},
+      </if>
+      <if test="companyLogo != null" >
+        company_logo = #{companyLogo,jdbcType=VARCHAR},
+      </if>
+      <if test="linkPerson != null" >
+        link_person = #{linkPerson,jdbcType=VARCHAR},
+      </if>
+      <if test="linkPhone != null" >
+        link_phone = #{linkPhone,jdbcType=VARCHAR},
+      </if>
+      <if test="proviceCode != null" >
+        provice_code = #{proviceCode,jdbcType=VARCHAR},
+      </if>
+      <if test="cityCode != null" >
+        city_code = #{cityCode,jdbcType=VARCHAR},
+      </if>
+      <if test="countyCode != null" >
+        county_code = #{countyCode,jdbcType=VARCHAR},
+      </if>
+      <if test="address != null" >
+        address = #{address,jdbcType=VARCHAR},
+      </if>
+      <if test="coordinate != null" >
+        coordinate = #{coordinate,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="cn.com.hd.domain.company.CompanyInfo" >
+    update t_company_info
+    set company_name = #{companyName,jdbcType=VARCHAR},
+      company_logo = #{companyLogo,jdbcType=VARCHAR},
+      link_person = #{linkPerson,jdbcType=VARCHAR},
+      link_phone = #{linkPhone,jdbcType=VARCHAR},
+      provice_code = #{proviceCode,jdbcType=VARCHAR},
+      city_code = #{cityCode,jdbcType=VARCHAR},
+      county_code = #{countyCode,jdbcType=VARCHAR},
+      address = #{address,jdbcType=VARCHAR},
+      coordinate = #{coordinate,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  
+  <select id="selectCompanyByPage" parameterType="cn.com.hd.common.Page" resultMap="BaseResultMap">
+  	select id, company_name, company_logo, link_person, link_phone, provice_code, city_code, 
+    county_code, address, coordinate,company_type,register_time from t_company_info
+    where 1=1
+    <if test="params['searchText'] != null and params['searchText'] != ''">  
+        	and company_name  like '%${params.searchText}%' 
+    </if>
+    <if test="params['proviceCode'] != null and params['proviceCode'] != ''">  
+        	and provice_code=#{params.proviceCode}
+    </if>
+    <if test="params['cityCode'] != null and params['cityCode'] != ''">  
+        	and city_code=#{params.cityCode}
+    </if>
+    <if test="params['countyCode'] != null and params['countyCode'] != ''">  
+        	and county_code=#{params.countyCode}
+    </if>
+    <if test="params['companyType'] != null and params['companyType'] != ''">  
+        	and company_type=#{params.companyType}
+    </if>
+  </select>
+</mapper>

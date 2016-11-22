@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.com.hd.persistance.company.CompanyMemberMapper">
+  <resultMap id="BaseResultMap" type="cn.com.hd.domain.company.CompanyMember">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="user_id" jdbcType="INTEGER" property="userId" />
+    <result column="company_id" jdbcType="INTEGER" property="companyId" />
+    <result column="member_type" jdbcType="INTEGER" property="memberType" />
+    <result column="is_delete" jdbcType="VARCHAR" property="isDelete" />
+    <collection column="user_id" ofType="cn.com.hd.domain.uc.User" property="user" select="cn.com.hd.persistance.uc.UserMapper.selectByPrimaryKey" />
+  	<collection column="user_id" ofType="cn.com.hd.domain.uc.UserInfo" property="userInfo" select="cn.com.hd.persistance.uc.UserInfoMapper.selectByPrimaryKey" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    id, user_id, company_id, member_type, is_delete
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from t_company_member
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from t_company_member
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="cn.com.hd.domain.company.CompanyMember">
+    insert into t_company_member (id, user_id, company_id,
+      member_type, is_delete)
+    values (#{id,jdbcType=INTEGER}, #{userId,jdbcType=INTEGER}, #{companyId,jdbcType=INTEGER},
+      #{memberType,jdbcType=INTEGER}, #{isDelete,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="cn.com.hd.domain.company.CompanyMember">
+    insert into t_company_member
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="userId != null">
+        user_id,
+      </if>
+      <if test="companyId != null">
+        company_id,
+      </if>
+      <if test="memberType != null">
+        member_type,
+      </if>
+      <if test="isDelete != null">
+        is_delete,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="userId != null">
+        #{userId,jdbcType=INTEGER},
+      </if>
+      <if test="companyId != null">
+        #{companyId,jdbcType=INTEGER},
+      </if>
+      <if test="memberType != null">
+        #{memberType,jdbcType=INTEGER},
+      </if>
+      <if test="isDelete != null">
+        #{isDelete,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="cn.com.hd.domain.company.CompanyMember">
+    update t_company_member
+    <set>
+      <if test="userId != null">
+        user_id = #{userId,jdbcType=INTEGER},
+      </if>
+      <if test="companyId != null">
+        company_id = #{companyId,jdbcType=INTEGER},
+      </if>
+      <if test="memberType != null">
+        member_type = #{memberType,jdbcType=INTEGER},
+      </if>
+      <if test="isDelete != null">
+        is_delete = #{isDelete,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="cn.com.hd.domain.company.CompanyMember">
+    update t_company_member
+    set user_id = #{userId,jdbcType=INTEGER},
+      company_id = #{companyId,jdbcType=INTEGER},
+      member_type = #{memberType,jdbcType=INTEGER},
+      is_delete = #{isDelete,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  
+   <select id="selectCompanyMemberByPage" parameterType="cn.com.hd.common.Page" resultMap="BaseResultMap">
+  	select id, user_id, company_id, member_type, is_delete from t_company_member
+    where 1=1 
+    <if test="params['companyId'] !=null"> 
+    and company_id=#{params.companyId}
+    </if>
+    <if test="params['searchText'] != null and params['searchText'] != ''">  
+        	and company_name  like '%${params.searchText}%' 
+    </if>
+  </select>
+</mapper>

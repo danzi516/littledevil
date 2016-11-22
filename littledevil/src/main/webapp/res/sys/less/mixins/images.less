@@ -1,0 +1,33 @@
+// Image Mixins 图像混合
+// - Responsive image 响应的图像
+// - Retina image 视网膜图像
+
+
+// Responsive image 响应图像
+//
+// Keep images from scaling beyond the width of their parents. 保持图像的缩放比例超过父母的宽度
+
+.img-responsive(@display: block){
+  display: @display;
+  max-width: 100%;
+  height: auto;
+}
+// Retina image 视网膜图像
+//
+// Short retina mixin for setting background-image and -size. Note that the 短视网膜混合设置背景图像大小。请注意，
+// spelling of `min--moz-device-pixel-ratio` is intentional. 拼写`分钟——MOZ设备像素比`是故意的。
+
+.img-responsive(@file-1x;@file-2x;@width-1x;@height-1x){
+  background-image: url("@{file-1x}");
+
+  @media
+  only screen and (-webkit-min-device-pixel-ratio: 2),
+  only screen and (min--moz-device-pixel-ratio: 2),
+  only screen and (-o-min-device-pixel-ratio: 2/1),
+  only screen and (min-device-pixel-ratio: 2),
+  only screen and (min-resolution: 192dpi),
+  only screen and (min-resolution: 2dppx){
+    background-image: url("@{file-2x}");
+    background-size: @width-1x @height-1x;
+  }
+}

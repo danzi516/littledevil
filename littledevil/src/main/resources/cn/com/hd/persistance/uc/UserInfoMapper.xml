@@ -1,0 +1,149 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="cn.com.hd.persistance.uc.UserInfoMapper" >
+  <resultMap id="BaseResultMap" type="cn.com.hd.domain.uc.UserInfo" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="uc_name" property="ucName" jdbcType="VARCHAR" />
+    <result column="sex" property="sex" jdbcType="VARCHAR" />
+    <result column="logo" property="logo" jdbcType="VARCHAR" />
+    <result column="sign" property="sign" jdbcType="VARCHAR" />
+    <result column="birthday" property="birthday" jdbcType="TIMESTAMP" />
+    <result column="weixin" property="weixin" jdbcType="VARCHAR" />
+    <result column="register_time" property="registerTime" jdbcType="TIMESTAMP" />
+    <collection property="user" column="id" ofType="cn.com.hd.domain.uc.User" select="cn.com.hd.persistance.uc.UserMapper.selectByPrimaryKey"></collection>
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, uc_name, sex, logo, sign, birthday, weixin, register_time
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer">
+    select 
+    <include refid="Base_Column_List" />
+    from t_user_info
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from t_user_info
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="cn.com.hd.domain.uc.UserInfo" >
+    insert into t_user_info (id, uc_name, sex, 
+      logo, sign, birthday, 
+      weixin, register_time)
+    values (#{id,jdbcType=INTEGER}, #{ucName,jdbcType=VARCHAR}, #{sex,jdbcType=VARCHAR}, 
+      #{logo,jdbcType=VARCHAR}, #{sign,jdbcType=VARCHAR}, #{birthday,jdbcType=TIMESTAMP}, 
+      #{weixin,jdbcType=VARCHAR}, sysdate())
+  </insert>
+  <insert id="insertSelective" parameterType="cn.com.hd.domain.uc.UserInfo" >
+    insert into t_user_info
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="ucName != null" >
+        uc_name,
+      </if>
+      <if test="sex != null" >
+        sex,
+      </if>
+      <if test="logo != null" >
+        logo,
+      </if>
+      <if test="sign != null" >
+        sign,
+      </if>
+      <if test="birthday != null" >
+        birthday,
+      </if>
+      <if test="weixin != null" >
+        weixin,
+      </if>
+      <if test="registerTime != null" >
+        register_time
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="ucName != null" >
+        #{ucName,jdbcType=VARCHAR},
+      </if>
+      <if test="sex != null" >
+        #{sex,jdbcType=VARCHAR},
+      </if>
+      <if test="logo != null" >
+        #{logo,jdbcType=VARCHAR},
+      </if>
+      <if test="sign != null" >
+        #{sign,jdbcType=VARCHAR},
+      </if>
+      <if test="birthday != null" >
+        #{birthday,jdbcType=TIMESTAMP},
+      </if>
+      <if test="weixin != null" >
+        #{weixin,jdbcType=VARCHAR},
+      </if>
+     sysdate()
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="cn.com.hd.domain.uc.UserInfo" >
+    update t_user_info
+    <set >
+      <if test="ucName != null" >
+        uc_name = #{ucName,jdbcType=VARCHAR},
+      </if>
+      <if test="sex != null" >
+        sex = #{sex,jdbcType=VARCHAR},
+      </if>
+      <if test="logo != null" >
+        logo = #{logo,jdbcType=VARCHAR},
+      </if>
+      <if test="sign != null" >
+        sign = #{sign,jdbcType=VARCHAR},
+      </if>
+      <if test="birthday != null" >
+        birthday = #{birthday,jdbcType=TIMESTAMP},
+      </if>
+      <if test="weixin != null" >
+        weixin = #{weixin,jdbcType=VARCHAR},
+      </if>
+      <if test="registerTime != null" >
+        register_time = #{registerTime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="cn.com.hd.domain.uc.UserInfo" >
+    update t_user_info
+    set uc_name = #{ucName,jdbcType=VARCHAR},
+      sex = #{sex,jdbcType=VARCHAR},
+      logo = #{logo,jdbcType=VARCHAR},
+      sign = #{sign,jdbcType=VARCHAR},
+      birthday = #{birthday,jdbcType=TIMESTAMP},
+      weixin = #{weixin,jdbcType=VARCHAR},
+      register_time = #{registerTime,jdbcType=TIMESTAMP}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <select id="selectUserInfoByPage" parameterType="cn.com.hd.common.Page" resultMap="BaseResultMap">
+  	 select 
+    t.ID, t.UC_NAME, t.register_time,t.SEX
+    from t_user_info t
+    left join  t_user u on u.id=t.id
+    where 1=1
+    <if test="params['searchText'] != null and params['searchText'] != ''">  
+        	and (u.USER_NAME  like '%${params.searchText}%' 
+                 or u.PHONE like '%${params.searchText}%' 
+                 or t.UC_NAME like '%${params.searchText}%')
+    </if>
+    <if test="params['state'] != null and params['state'] != ''">  
+        	and u.STATE=#{params.state}
+    </if>
+    <if test="params['userType'] != null and params['userType'] != ''">  
+        	and u.USER_TYPE=#{params.userType}
+    </if>
+    <if test="params['sex'] != null and params['sex'] != ''">  
+        	and t.SEX=#{params.sex}
+    </if>
+    order by t.register_time desc
+  </select>
+</mapper>

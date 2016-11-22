@@ -1,0 +1,157 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="cn.com.hd.persistance.sys.DictionaryMapper" >
+  <resultMap id="BaseResultMap" type="cn.com.hd.domain.sys.Dictionary" >
+    <id column="ID" property="id" jdbcType="INTEGER" />
+    <result column="DIC_NAME" property="dicName" jdbcType="VARCHAR" />
+    <result column="DIC_CODE" property="dicCode" jdbcType="VARCHAR" />
+    <result column="PARENT_ID" property="parentId" jdbcType="INTEGER" />
+    <result column="IS_TOP" property="isTop" jdbcType="VARCHAR" />
+    <result column="IS_LAST" property="isLast" jdbcType="VARCHAR" />
+    <result column="LVL" property="lvl" jdbcType="VARCHAR" />
+    <result column="CONTENT" property="content" jdbcType="VARCHAR" />
+    <result column="SORT" property="sort" jdbcType="VARCHAR" />
+    <result column="STATE" property="state" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    ID, DIC_NAME, DIC_CODE, PARENT_ID, IS_TOP, IS_LAST, LVL, CONTENT, SORT, STATE
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from t_dictionary
+    where ID = #{id,jdbcType=INTEGER}
+  </select>
+   <select id="selectDicNameById" resultType="java.lang.String"  parameterType="java.lang.Integer" >
+    select DIC_NAME
+    from t_dictionary
+    where ID = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from t_dictionary
+    where ID = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="cn.com.hd.domain.sys.Dictionary" >
+    insert into t_dictionary (ID, DIC_NAME, DIC_CODE, 
+      PARENT_ID, IS_TOP, IS_LAST, 
+      LVL, CONTENT, SORT, 
+      STATE)
+    values (#{id,jdbcType=INTEGER}, #{dicName,jdbcType=VARCHAR}, #{dicCode,jdbcType=VARCHAR}, 
+      #{parentId,jdbcType=INTEGER}, #{isTop,jdbcType=VARCHAR}, #{isLast,jdbcType=VARCHAR}, 
+      #{lvl,jdbcType=VARCHAR}, #{content,jdbcType=VARCHAR}, #{sort,jdbcType=VARCHAR}, 
+      #{state,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="cn.com.hd.domain.sys.Dictionary" >
+    insert into t_dictionary
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        ID,
+      </if>
+      <if test="dicName != null" >
+        DIC_NAME,
+      </if>
+      <if test="dicCode != null" >
+        DIC_CODE,
+      </if>
+      <if test="parentId != null" >
+        PARENT_ID,
+      </if>
+      <if test="isTop != null" >
+        IS_TOP,
+      </if>
+      <if test="isLast != null" >
+        IS_LAST,
+      </if>
+      <if test="lvl != null" >
+        LVL,
+      </if>
+      <if test="content != null" >
+        CONTENT,
+      </if>
+      <if test="sort != null" >
+        SORT,
+      </if>
+      <if test="state != null" >
+        STATE,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="dicName != null" >
+        #{dicName,jdbcType=VARCHAR},
+      </if>
+      <if test="dicCode != null" >
+        #{dicCode,jdbcType=VARCHAR},
+      </if>
+      <if test="parentId != null" >
+        #{parentId,jdbcType=INTEGER},
+      </if>
+      <if test="isTop != null" >
+        #{isTop,jdbcType=VARCHAR},
+      </if>
+      <if test="isLast != null" >
+        #{isLast,jdbcType=VARCHAR},
+      </if>
+      <if test="lvl != null" >
+        #{lvl,jdbcType=VARCHAR},
+      </if>
+      <if test="content != null" >
+        #{content,jdbcType=VARCHAR},
+      </if>
+      <if test="sort != null" >
+        #{sort,jdbcType=VARCHAR},
+      </if>
+      <if test="state != null" >
+        #{state,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="cn.com.hd.domain.sys.Dictionary" >
+    update t_dictionary
+    <set >
+      <if test="dicName != null" >
+        DIC_NAME = #{dicName,jdbcType=VARCHAR},
+      </if>
+      <if test="dicCode != null" >
+        DIC_CODE = #{dicCode,jdbcType=VARCHAR},
+      </if>
+      <if test="parentId != null" >
+        PARENT_ID = #{parentId,jdbcType=INTEGER},
+      </if>
+      <if test="isTop != null" >
+        IS_TOP = #{isTop,jdbcType=VARCHAR},
+      </if>
+      <if test="isLast != null" >
+        IS_LAST = #{isLast,jdbcType=VARCHAR},
+      </if>
+      <if test="lvl != null" >
+        LVL = #{lvl,jdbcType=VARCHAR},
+      </if>
+      <if test="content != null" >
+        CONTENT = #{content,jdbcType=VARCHAR},
+      </if>
+      <if test="sort != null" >
+        SORT = #{sort,jdbcType=VARCHAR},
+      </if>
+      <if test="state != null" >
+        STATE = #{state,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where ID = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="cn.com.hd.domain.sys.Dictionary" >
+    update t_dictionary
+    set DIC_NAME = #{dicName,jdbcType=VARCHAR},
+      DIC_CODE = #{dicCode,jdbcType=VARCHAR},
+      PARENT_ID = #{parentId,jdbcType=INTEGER},
+      IS_TOP = #{isTop,jdbcType=VARCHAR},
+      IS_LAST = #{isLast,jdbcType=VARCHAR},
+      LVL = #{lvl,jdbcType=VARCHAR},
+      CONTENT = #{content,jdbcType=VARCHAR},
+      SORT = #{sort,jdbcType=VARCHAR},
+      STATE = #{state,jdbcType=VARCHAR}
+    where ID = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>
