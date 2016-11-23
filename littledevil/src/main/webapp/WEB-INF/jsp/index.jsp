@@ -3,7 +3,7 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html>
 <head lang="en">
-	<%@ include file="../common/meta.jsp"%>
+	<%@ include file="common/meta.jsp"%>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
     <title>小鬼头</title>
@@ -103,7 +103,7 @@ function login(){
 		alert("请输入密码！");
 		return;
 	}
-	var url="${webRoot}/user/login/admin";
+	var url="${webRoot}/user/login";
 	var data={
 		"userName":userName,
 		"password":password

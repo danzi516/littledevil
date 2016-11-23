@@ -119,7 +119,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
   			companyId:'${userId}',
   			isDelete:'1',
   			user:{phone:$("#phone").val(),
-  				userType:'member'},
+  				userType:'person'},
   			userInfo:{ucName:$("#ucName").val()}
   	};
   	ajaxAction('post',url,$.toJSON(data),'json','addCompanyMember');

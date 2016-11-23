@@ -128,7 +128,8 @@
             		silent: true
                 });
             }
-        }'click .enable': function (e, value, row, index) {
+        },
+        'click .enable': function (e, value, row, index) {
            if(enableUser(row)){
            	$table.bootstrapTable('refresh', {
            		silent: true
