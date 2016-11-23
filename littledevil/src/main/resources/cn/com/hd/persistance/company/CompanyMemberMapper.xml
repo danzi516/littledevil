@@ -94,13 +94,20 @@
   </update>
   
    <select id="selectCompanyMemberByPage" parameterType="cn.com.hd.common.Page" resultMap="BaseResultMap">
-  	select id, user_id, company_id, member_type, is_delete from t_company_member
-    where 1=1 
+  SELECT
+	t.id,
+	t.user_id,
+	t.company_id,
+	t.member_type,
+	t.is_delete
+	FROM
+	t_company_member  t
+	LEFT JOIN t_user_info  u ON t.user_id = u.id WHERE 1 = 1
     <if test="params['companyId'] !=null"> 
     and company_id=#{params.companyId}
     </if>
     <if test="params['searchText'] != null and params['searchText'] != ''">  
-        	and company_name  like '%${params.searchText}%' 
+        	and (u.uc_name like '%${params.searchText}%' ) 
     </if>
   </select>
 </mapper>

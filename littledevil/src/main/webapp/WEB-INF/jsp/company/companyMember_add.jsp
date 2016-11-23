@@ -139,7 +139,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
   				var code=data.code;
   				if(code=='0'){
   					alert('添加成功！');
-  					window.open("${webRoot}/companyInfo/toCompanyList", "mainFrame");
+  					window.open("${webRoot}/companyMember/toCompanyMemberList", "mainFrame");
   				}else if(code=='1'){
   					alert('服务器异常，请稍后重试！');
   				}	

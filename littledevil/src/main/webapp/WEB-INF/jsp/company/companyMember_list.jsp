@@ -183,5 +183,32 @@ function refalshData(){
              // hide loading
              params.complete();
     }
+ 
+ function deleteUser(row){
+ 	if(confirm("您确定要删除用户:"+row.userInfo.ucName+" 吗?"))
+		{
+	    	var url="${webRoot}/companyMember/delete/"+row.id;
+	    	var code="";
+	    	$.ajax({
+				type : "post",
+				url : url,
+				data :  "",
+				async : false,
+				dataType : 'json',
+				success : function(data) {
+					code=data.code;
+				}
+			});
+	    	if(code=='0'){
+	    		alert("删除成功！");
+				return true;
+			}else{
+				alert("服务器异常，请稍后重试！");	
+				return false;
+			}
+		}
+ 	else{
+ 		}
+ }
     </script>
 </html>
