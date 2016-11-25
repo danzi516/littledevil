@@ -85,7 +85,7 @@ public class UserInfoController {
 	
 	/**
 	 *方法说明：跳转到前台起始页面
-	 *url:${webRoot}/user/toAddUser
+	 *url:${webRoot}/userInfo/toAddUser
 	 *请求方式：get
 	 *@return ModelAndView
 	 **/
@@ -103,7 +103,7 @@ public class UserInfoController {
 	
 	/**
 	 *方法说明：跳转到前台起始页面
-	 *url:${webRoot}/user/toEditUser/{id}
+	 *url:${webRoot}/userInfo/toEditUser/{id}
 	 *请求方式：get
 	 *@return ModelAndView
 	 **/

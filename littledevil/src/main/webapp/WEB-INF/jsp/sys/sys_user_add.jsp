@@ -98,7 +98,7 @@
 <script src="${webRoot}/res/common/js/layer/layer/layer.js"></script>
 <script>
     $(document).ready(function() {
-    	getRoleList();
+    	//getRoleList();  这里先屏蔽掉  
         //改变复选框与单选框的样式
         $("input[type='radio'],input[type='checkbox']").uniform();
         //initRoleData();

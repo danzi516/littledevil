@@ -57,9 +57,7 @@
       <if test="weixin != null" >
         weixin,
       </if>
-      <if test="registerTime != null" >
         register_time
-      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides="," >
       <if test="id != null" >
