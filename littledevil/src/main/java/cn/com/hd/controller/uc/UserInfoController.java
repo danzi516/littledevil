@@ -84,7 +84,7 @@ public class UserInfoController {
 	}
 	
 	/**
-	 *方法说明：跳转到前台起始页面
+	 *方法说明：跳转到添加管理员页面
 	 *url:${webRoot}/userInfo/toAddUser
 	 *请求方式：get
 	 *@return ModelAndView
@@ -97,6 +97,24 @@ public class UserInfoController {
 		ModelAndView modelView = new ModelAndView();
 		
 		modelView.setViewName("sys/sys_user_add");// 設置視圖名稱
+
+		return modelView;
+	}
+	
+	/**
+	 *方法说明：跳转到添加普通用户页面
+	 *url:${webRoot}/userInfo/toAddPerson
+	 *请求方式：get
+	 *@return ModelAndView
+	 **/
+	@RequestMapping("/toAddPerson")
+	public ModelAndView toAddPerson(HttpServletRequest request) {
+		/**
+		 * 想要在页面展现数据,必须返回ModelAndView类型,返回String是不能获取数据的
+		 * */
+		ModelAndView modelView = new ModelAndView();
+		
+		modelView.setViewName("person/person_user_add");// 設置視圖名稱
 
 		return modelView;
 	}
