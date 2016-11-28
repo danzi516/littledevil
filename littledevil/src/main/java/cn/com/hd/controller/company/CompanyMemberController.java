@@ -45,10 +45,30 @@ public class CompanyMemberController {
 	 * @return ModelAndView
 	 **/
 	@RequestMapping("/toCompanyMemberList")
-	public  ModelAndView toCompanyList(){
+	public  ModelAndView toCompanyMemberList(){
 		ModelAndView mv=new ModelAndView("company/companyMember_list");
 		return mv;
 	}
+	
+	 /**
+		 * 功能描述：跳转到会员详细页面
+		 * 作者：lijiaxing
+		 * url：${webRoot}/companyMember/CompanyMemberDetail/{id}
+		 * 请求方式：GET
+		 * @param id int
+		 * @return ModelAndView
+		 *          值 ：
+		 * */
+		@RequestMapping("/CompanyMemberDetail/{id}")
+		public  ModelAndView userInfoDetail(@PathVariable("id") int id){
+			ModelAndView mv=new ModelAndView("companyMember/companyMember_detail");
+			UserInfo userInfo=userInfoService.selectByPrimaryKey(id);
+			if(userInfo==null){
+				userInfo=new UserInfo();
+			}
+			mv.addObject("userInfo", userInfo);
+			return mv;
+		}
 	
 	 /**
 		 * 功能描述：跳转到会员添加页面

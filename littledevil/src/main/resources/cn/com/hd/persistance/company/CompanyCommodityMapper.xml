@@ -7,13 +7,14 @@
     <result column="commodity_name" jdbcType="VARCHAR" property="commodityName" />
     <result column="commodity_price" jdbcType="DOUBLE" property="commodityPrice" />
     <result column="commodity_logo" jdbcType="VARCHAR" property="commodityLogo" />
+    <result column="commodity_note" jdbcType="VARCHAR" property="commodityNote" />
     <result column="state" jdbcType="VARCHAR" property="state" />
   </resultMap>
   <resultMap extends="BaseResultMap" id="ResultMapWithBLOBs" type="cn.com.hd.domain.company.CompanyCommodity">
     <result column="commodity_note" jdbcType="LONGVARCHAR" property="commodityNote" />
   </resultMap>
   <sql id="Base_Column_List">
-    id, company_id, commodity_name, commodity_price, commodity_logo, state
+    id, company_id, commodity_name, commodity_price, commodity_logo,commodity_note, state
   </sql>
   <sql id="Blob_Column_List">
     commodity_note
@@ -26,6 +27,20 @@
     from t_company_commodity
     where id = #{id,jdbcType=INTEGER}
   </select>
+   <select id="selectCompanyCommodityByPage" parameterType="cn.com.hd.common.Page" resultMap="BaseResultMap">
+  SELECT
+	id, company_id, commodity_name, commodity_price, commodity_logo,commodity_note, state
+	FROM
+	t_company_commodity  t
+	 WHERE 1 = 1
+    <if test="params['companyId'] !=null"> 
+    and company_id=#{params.companyId}
+    </if>
+    <if test="params['searchText'] != null and params['searchText'] != ''">  
+        	and (commodity_name like '%${params.searchText}%' ) 
+    </if>
+  </select>
+  
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
     delete from t_company_commodity
     where id = #{id,jdbcType=INTEGER}

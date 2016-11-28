@@ -31,7 +31,7 @@
   </delete>
   <insert id="insert" parameterType="cn.com.hd.domain.uc.User" useGeneratedKeys="true" keyProperty="id">
     insert into t_user (id, user_name, phone, 
-      password, user_type, state,lastlogin_time
+      password, user_type, state
       )
     values (#{id,jdbcType=INTEGER}, #{userName,jdbcType=VARCHAR}, #{phone,jdbcType=VARCHAR}, 
       #{password,jdbcType=VARCHAR}, #{userType,jdbcType=VARCHAR}, #{state,jdbcType=VARCHAR}

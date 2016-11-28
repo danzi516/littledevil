@@ -6,7 +6,7 @@
 	<%@ include file="../common/meta.jsp"%>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-    <title>商户会员管理</title>
+    <title>商户商品管理</title>
     <link href="${webRoot}/res/sys/less/Nstrap.less" type="text/css" rel="stylesheet/less"/>
     <script src="${webRoot}/res/common/js/less.js"></script><!-- 
     <link href="css/Nstrap.css" rel="stylesheet">
@@ -23,19 +23,19 @@
 		<div class="row">
         <div class="col-sm-12">
             <div class="console-title clearfix">
-                <div class="pull-left"><a href="javascript:" class="btn btn-default">商户会员管理</a> </div>
+                <div class="pull-left"><a href="javascript:" class="btn btn-default">商户商品管理</a> </div>
             </div>
             <hr/>
 	 <div id="toolbar">
-        <div class="pull-left"><a href="${webRoot}/admin/adminUserAdd" role="button" class="btn btn-primary add" target="mainFrame" style="display: none">添加会员</a></div>&nbsp;&nbsp;&nbsp;&nbsp; 
+        <div class="pull-left"><a href="${webRoot}/companyCommodity/toAddCompanyCommodity" role="button" class="btn btn-primary add" target="mainFrame" >添加商品</a></div>&nbsp;&nbsp;&nbsp;&nbsp; 
         <div style="display: inline-table; width: 50px;">
         	<label>状态:</label>
         </div>
         <div style="display: inline-table; width: 100px;">
         	<select class="form-control" id="state" onchange="refalshData()">
         		<option value="" selected>全部</option>
-        		<option value="0">禁用</option>
-                <option value="1">正常使用</option>
+        		<option value="0">上线商品</option>
+                <option value="1">下线商品</option>
         	</select>
         </div></div>
         <table id="table"
@@ -46,7 +46,7 @@
 		       data-id-field="id"
 		       data-page-list="[10, 25, 50, 100, ALL]"
 		       data-side-pagination="server"
-		       data-ajax="getCompanyMemberList"
+		       data-ajax="getCompanyCommodityList"
 		       data-query-params-type=""
 		       >
 		</table>
@@ -79,10 +79,12 @@ $(document).ready(function() {
     $table.bootstrapTable({
         columns: [
             [
-             {field: 'userInfo.ucName',title: '会员名称',sortable: false, align: 'center'},
-             {field: 'user.phone',title: '联系方式',sortable: false, align: 'center'},
-             {field: 'isDelete',title: '状态',sortable: false, align: 'center'},
-             {field: 'userInfo.registerTime',title: '注册时间',sortable: false, align: 'center'},
+             {field: 'id',title: 'id',sortable: false, align: 'center'},
+             {field: 'commodityName',title: '商品名称',sortable: false, align: 'center'},
+             {field: 'commodityPrice',title: '商品价格',sortable: false, align: 'center'},
+             {field: 'commodityLogo',title: '商品图标',sortable: false, align: 'center'},
+             {field: 'commodityNote',title: '商品简介',sortable: false, align: 'center'},
+             {field: 'state',title: '商品状态',sortable: false, align: 'center'},
              {title: '操作',align: 'center',events: operateEvents,formatter: operateFormatter}
             ]
         ]
@@ -102,9 +104,9 @@ function operateFormatter(value, row, index) {
     var state=row.state;
     var userName=row.userName;
     if(state=='0'){
-    	html.push('<a class="enable btn" style="margin-left: 5px;font-size:1em" href="javascript:void(0)" target="mainFrame">启用</a>');
+    	html.push('<a class="enable btn" style="margin-left: 5px;font-size:1em" href="javascript:void(0)" target="mainFrame">上线</a>');
     }else{
-    	html.push('<a class="disable btn" style="margin-left: 5px;font-size:1em" href="javascript:void(0)" target="mainFrame">禁用</a>');
+    	html.push('<a class="disable btn" style="margin-left: 5px;font-size:1em" href="javascript:void(0)" target="mainFrame">下线</a>');
     }
     html.push('<a class="delete btn" style="margin-left: 5px;font-size:1em" href="javascript:;" target="mainFrame">删除</a>');
     html.push('<a class="detail btn" style="margin-left: 5px;font-size:1em" href="javascript:;" target="mainFrame">详情</a>');
@@ -149,8 +151,8 @@ function refalshData(){
 	});
 }
 
- function getCompanyMemberList(params){
-    	var url="${webRoot}/companyMember/selectByPage";
+ function getCompanyCommodityList(params){
+    	var url="${webRoot}/companyCommodity/selectByPage";
     	var searchText=params.data.searchText;
     	if(searchText==null){
     		searchText="";
@@ -192,7 +194,7 @@ function refalshData(){
     }
  
  function deleteUser(row){
- 	if(confirm("您确定要删除用户:"+row.userInfo.ucName+" 吗?"))
+ 	if(confirm("您确定要删除商品:"+row.commodityName+" 吗?"))
 		{
 	    	var url="${webRoot}/companyMember/delete/"+row.id;
 	    	var code="";

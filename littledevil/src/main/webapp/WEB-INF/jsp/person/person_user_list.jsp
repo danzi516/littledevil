@@ -65,6 +65,7 @@
         $table.bootstrapTable({
             columns: [
                 [
+				 {field: 'id',title: 'id',sortable: false, align: 'center'},
                  {field: 'user.userName',title: '用户名',sortable: false, align: 'center'},
                  {field: 'ucName',title: '真实姓名',sortable: false, align: 'center'},
                  {field: 'sexCode',title: '性别',sortable: false, align: 'center'},

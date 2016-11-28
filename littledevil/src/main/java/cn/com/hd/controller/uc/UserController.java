@@ -53,8 +53,9 @@ public class UserController {
 				map.put("msg", "登录失败：请输入用户名和密码！");
 				return map;
 			}
-			//user.setPassword(MD5Encrypt.getMD5Code(password));
+			user.setPassword(MD5Encrypt.getMD5Code(password));
 			User record=userService.userLogin(user);
+			userService.updateByPrimaryKey(record);
 			if(null==record){
 				map.put("msg", "登录失败：用户名/密码错误！");
 				return map;
