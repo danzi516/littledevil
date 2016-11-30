@@ -22,4 +22,6 @@ public interface CompanyCommodityMapper {
     int updateByPrimaryKey(CompanyCommodity record);
     
     List<CompanyCommodity> selectCompanyCommodityByPage(Page page);
+    
+    List<CompanyCommodity> selectByCompanyId(Integer companyId);
 }

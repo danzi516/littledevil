@@ -6,7 +6,7 @@
 	<%@ include file="../common/meta.jsp"%>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-    <title>商户会员管理</title>
+    <title>消费记录管理</title>
     <link href="${webRoot}/res/sys/less/Nstrap.less" type="text/css" rel="stylesheet/less"/>
     <script src="${webRoot}/res/common/js/less.js"></script><!-- 
     <link href="css/Nstrap.css" rel="stylesheet">
@@ -23,11 +23,11 @@
 		<div class="row">
         <div class="col-sm-12">
             <div class="console-title clearfix">
-                <div class="pull-left"><a href="javascript:" class="btn btn-default">商户会员管理</a> </div>
+                <div class="pull-left"><a href="javascript:" class="btn btn-default">消费记录管理</a> </div>
             </div>
             <hr/>
 	 <div id="toolbar">
-        <div class="pull-left"><a href="${webRoot}/admin/adminUserAdd" role="button" class="btn btn-primary add" target="mainFrame" style="display: none">添加会员</a></div>&nbsp;&nbsp;&nbsp;&nbsp; 
+        <div class="pull-left"><a href="${webRoot}/admin/adminUserAdd" role="button" class="btn btn-primary add" target="mainFrame" style="display: none">添加消费</a></div>&nbsp;&nbsp;&nbsp;&nbsp; 
         <div style="display: inline-table; width: 50px;">
         	<label>状态:</label>
         </div>
@@ -108,8 +108,6 @@ function operateFormatter(value, row, index) {
     }
     html.push('<a class="delete btn" style="margin-left: 5px;font-size:1em" href="javascript:;" target="mainFrame">删除</a>');
     html.push('<a class="detail btn" style="margin-left: 5px;font-size:1em" href="javascript:;" target="mainFrame">详情</a>');
-    html.push('<a class="consume btn" style="margin-left: 5px;font-size:1em" href="javascript:;" target="mainFrame">扣款</a>');
-    html.push('<a class="detail btn" style="margin-left: 5px;font-size:1em" href="javascript:;" target="mainFrame">充值</a>');
     return html.join('');
 }
 
@@ -143,25 +141,12 @@ window.operateEvents = {
                });
            }
        }
-       ,
-       'click .consume': function (e, value, row, index) {
-           if(consumeUser(row)){
-           	$table.bootstrapTable('refresh', {
-           		silent: true
-               });
-           }
-       }
     };
 
 function refalshData(){
 	$table.bootstrapTable('refresh',{
 		query: {pageNumber: 1}
 	});
-}
-
-function consumeUser(row){
-	window.open("${webRoot}/memberConsume/toAddMemberConsume/"+row.id, "mainFrame");
-	 
 }
 
  function getCompanyMemberList(params){

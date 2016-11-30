@@ -21,11 +21,15 @@
   </sql>
   <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="ResultMapWithBLOBs">
     select 
-    <include refid="Base_Column_List" />
-    ,
     <include refid="Blob_Column_List" />
     from t_company_commodity
     where id = #{id,jdbcType=INTEGER}
+  </select>
+   <select id="selectByCompanyId" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    id, company_id, commodity_name, commodity_price, commodity_logo,commodity_note, state
+    from t_company_commodity
+    where company_id = #{id,jdbcType=INTEGER}
   </select>
    <select id="selectCompanyCommodityByPage" parameterType="cn.com.hd.common.Page" resultMap="BaseResultMap">
   SELECT
