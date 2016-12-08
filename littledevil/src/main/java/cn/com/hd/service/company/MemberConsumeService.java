@@ -9,6 +9,7 @@ import org.springframework.transaction.annotation.Transactional;
 import cn.com.hd.common.Page;
 import cn.com.hd.domain.company.CompanyInfo;
 import cn.com.hd.domain.company.MemberConsume;
+import cn.com.hd.domain.company.MemberRecharge;
 import cn.com.hd.persistance.company.CompanyInfoMapper;
 import cn.com.hd.persistance.company.MemberConsumeMapper;
 
@@ -29,7 +30,7 @@ public class MemberConsumeService {
     	return memberConsumeMapper.insertSelective(record);
     }
 
-	public CompanyInfo selectByPrimaryKey(Integer id){
+	public MemberConsume selectByPrimaryKey(Integer id){
     	return memberConsumeMapper.selectByPrimaryKey(id);
     }
 	@Transactional

@@ -19,9 +19,9 @@
   <sql id="Blob_Column_List">
     commodity_note
   </sql>
-  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="ResultMapWithBLOBs">
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
     select 
-    <include refid="Blob_Column_List" />
+    <include refid="Base_Column_List" />
     from t_company_commodity
     where id = #{id,jdbcType=INTEGER}
   </select>

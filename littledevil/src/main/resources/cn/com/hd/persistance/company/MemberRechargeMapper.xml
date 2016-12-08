@@ -1,43 +1,41 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
-<mapper namespace="cn.com.hd.persistance.company.MemberConsumeMapper" >
-  <resultMap id="BaseResultMap" type="cn.com.hd.domain.company.MemberConsume" >
+<mapper namespace="cn.com.hd.persistance.company.MemberRechargeMapper" >
+  <resultMap id="BaseResultMap" type="cn.com.hd.domain.company.MemberRecharge" >
     <id column="id" property="id" jdbcType="INTEGER" />
     <result column="company_member_id" property="companyMemberId" jdbcType="INTEGER" />
     <result column="company_id" property="companyId" jdbcType="INTEGER" />
-    <result column="consume_cash" property="consumeCash" jdbcType="VARCHAR" />
+    <result column="recharge_cash" property="rechargeCash" jdbcType="VARCHAR" />
     <result column="pay_cash" property="payCash" jdbcType="VARCHAR" />
-    <result column="commodity_id" property="commodityId" jdbcType="INTEGER" />
     <result column="is_delete" property="isDelete" jdbcType="VARCHAR" />
     <result column="user_id" property="userId" jdbcType="INTEGER" />
-    <result column="consume_time" property="consumeTime" jdbcType="TIMESTAMP" />
+    <result column="recharge_time" property="rechargeTime" jdbcType="TIMESTAMP" />
     <collection property="user" column="user_id" ofType="cn.com.hd.domain.uc.User" select="cn.com.hd.persistance.uc.UserMapper.selectByPrimaryKey"></collection>
   	<collection property="userInfo" column="user_id" ofType="cn.com.hd.domain.uc.UserInfo"  select="cn.com.hd.persistance.uc.UserInfoMapper.selectByPrimaryKey" />
- 	<collection property="companyCommodity" column="commodity_id" ofType="cn.com.hd.domain.company.CompanyCommodity"  select="cn.com.hd.persistance.company.CompanyCommodityMapper.selectByPrimaryKey" />
   </resultMap>
   <sql id="Base_Column_List" >
-    id, company_member_id, company_id, consume_cash, pay_cash, commodity_id, is_delete, 
-    user_id, consume_time
+    id, company_member_id, company_id, recharge_cash, pay_cash, is_delete, 
+    user_id, recharge_time
   </sql>
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
     select 
     <include refid="Base_Column_List" />
-    from t_member_consume
+    from t_member_recharge
     where id = #{id,jdbcType=INTEGER}
   </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
-    delete from t_member_consume
+    delete from t_member_recharge
     where id = #{id,jdbcType=INTEGER}
   </delete>
   <insert id="insert" parameterType="cn.com.hd.domain.company.MemberConsume" >
-    insert into t_member_consume (company_member_id, company_id, consume_cash, pay_cash, commodity_id, is_delete, 
-    user_id, consume_time)
+    insert into t_member_recharge (company_member_id, company_id, recharge_cash, pay_cash,  is_delete, 
+    user_id, recharge_time)
     values (#{companyMemberId,jdbcType=INTEGER}, #{companyId,jdbcType=INTEGER}, 
-      #{consumeCash,jdbcType=VARCHAR}, #{payCash,jdbcType=VARCHAR}, #{commodityId,jdbcType=INTEGER}, 
+      #{rechargeCash,jdbcType=VARCHAR}, #{payCash,jdbcType=VARCHAR}, 
       #{isDelete,jdbcType=VARCHAR}, #{userId,jdbcType=INTEGER},sysdate())
   </insert>
   <insert id="insertSelective" parameterType="cn.com.hd.domain.company.MemberConsume" >
-    insert into t_member_consume
+    insert into t_member_recharge
     <trim prefix="(" suffix=")" suffixOverrides="," >
       <if test="id != null" >
         id,
@@ -49,13 +47,10 @@
         company_id,
       </if>
       <if test="consumeCash != null" >
-        consume_cash,
+        recharge_cash,
       </if>
       <if test="payCash != null" >
         pay_cash,
-      </if>
-      <if test="commodityId != null" >
-        commodity_id,
       </if>
       <if test="isDelete != null" >
         is_delete,
@@ -63,7 +58,7 @@
       <if test="userId != null" >
         user_id,
       </if>
-     consume_time
+     recharge_time
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides="," >
       <if test="id != null" >
@@ -94,7 +89,7 @@
     </trim>
   </insert>
   <update id="updateByPrimaryKeySelective" parameterType="cn.com.hd.domain.company.MemberConsume" >
-    update t_member_consume
+    update t_member_recharge
     <set >
       <if test="companyMemberId != null" >
         company_member_id = #{companyMemberId,jdbcType=VARCHAR},
@@ -103,13 +98,10 @@
         company_id = #{companyId,jdbcType=VARCHAR},
       </if>
       <if test="consumeCash != null" >
-        consume_cash = #{consumeCash,jdbcType=VARCHAR},
+        recharge_cash = #{consumeCash,jdbcType=VARCHAR},
       </if>
       <if test="payCash != null" >
         pay_cash = #{payCash,jdbcType=VARCHAR},
-      </if>
-      <if test="commodityId != null" >
-        commodity_id = #{commodityId,jdbcType=VARCHAR},
       </if>
       <if test="isDelete != null" >
         is_delete = #{isDelete,jdbcType=VARCHAR},
@@ -121,22 +113,20 @@
     where id = #{id,jdbcType=INTEGER}
   </update>
   <update id="updateByPrimaryKey" parameterType="cn.com.hd.domain.company.MemberConsume" >
-    update t_member_consume
+    update t_member_recharge
     set company_member_id = #{companyMemberId,jdbcType=VARCHAR},
       company_id = #{companyId,jdbcType=VARCHAR},
-      consume_cash = #{consumeCash,jdbcType=VARCHAR},
+      recharge_cash = #{consumeCash,jdbcType=VARCHAR},
       pay_cash = #{payCash,jdbcType=VARCHAR},
-      commodity_id = #{commodityId,jdbcType=VARCHAR},
       is_delete = #{isDelete,jdbcType=VARCHAR},
       user_id = #{userId,jdbcType=VARCHAR}
     where id = #{id,jdbcType=INTEGER}
   </update>
   
   <select id="selectCompanyByPage" parameterType="cn.com.hd.common.Page" resultMap="BaseResultMap">
-  	select t.id, t.company_member_id, t.company_id, t.consume_cash, t.pay_cash, t.commodity_id, t.is_delete, 
-    t.user_id, t.consume_time from t_member_consume t
-    LEFT JOIN t_user_info  u ON t.user_id = u.id
-    where 1=1
+  	select t.id, t.company_member_id, t.company_id, t.recharge_cash, t.pay_cash, t.is_delete, 
+    t.user_id, t.recharge_time from t_member_recharge t
+    LEFT JOIN t_user_info  u ON t.user_id = u.id where 1=1
     <if test="params['companyMemberId'] !=null"> 
     and company_member_id=#{params.companyMemberId}
     </if>

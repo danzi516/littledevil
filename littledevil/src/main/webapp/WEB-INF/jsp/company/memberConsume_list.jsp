@@ -46,7 +46,7 @@
 		       data-id-field="id"
 		       data-page-list="[10, 25, 50, 100, ALL]"
 		       data-side-pagination="server"
-		       data-ajax="getCompanyMemberList"
+		       data-ajax="getList"
 		       data-query-params-type=""
 		       >
 		</table>
@@ -81,8 +81,13 @@ $(document).ready(function() {
             [
              {field: 'userInfo.ucName',title: '会员名称',sortable: false, align: 'center'},
              {field: 'user.phone',title: '联系方式',sortable: false, align: 'center'},
+             {field: 'consumeCash',title: '消费金额',sortable: false, align: 'center'},
+             {field: 'companyCommodity.id',title: '商品id',sortable: false, align: 'center'},
+             {field: 'companyCommodity.commodityName',title: '商品名称',sortable: false, align: 'center'},
+             {field: 'companyCommodity.commodityNote',title: '商品介绍',sortable: false, align: 'center'},
              {field: 'isDelete',title: '状态',sortable: false, align: 'center'},
              {field: 'userInfo.registerTime',title: '注册时间',sortable: false, align: 'center'},
+             {field: 'consumeTime',title: '消费时间',sortable: false, align: 'center'},
              {title: '操作',align: 'center',events: operateEvents,formatter: operateFormatter}
             ]
         ]
@@ -101,46 +106,11 @@ function operateFormatter(value, row, index) {
 	var html=[];
     var state=row.state;
     var userName=row.userName;
-    if(state=='0'){
-    	html.push('<a class="enable btn" style="margin-left: 5px;font-size:1em" href="javascript:void(0)" target="mainFrame">启用</a>');
-    }else{
-    	html.push('<a class="disable btn" style="margin-left: 5px;font-size:1em" href="javascript:void(0)" target="mainFrame">禁用</a>');
-    }
-    html.push('<a class="delete btn" style="margin-left: 5px;font-size:1em" href="javascript:;" target="mainFrame">删除</a>');
-    html.push('<a class="detail btn" style="margin-left: 5px;font-size:1em" href="javascript:;" target="mainFrame">详情</a>');
     return html.join('');
 }
 
 
 window.operateEvents = {
-        'click .delete': function (e, value, row, index) {
-            if(deleteUser(row)){
-            	$table.bootstrapTable('refresh', {
-            		silent: true
-                });
-            }
-        },
-        'click .enable': function (e, value, row, index) {
-           if(enableUser(row)){
-           	$table.bootstrapTable('refresh', {
-           		silent: true
-               });
-           }
-       },
-       'click .disable': function (e, value, row, index) {
-           if(disableUser(row)){
-           	$table.bootstrapTable('refresh', {
-           		silent: true
-               });
-           }
-       },
-       'click .detail': function (e, value, row, index) {
-           if(detailUser(row)){
-           	$table.bootstrapTable('refresh', {
-           		silent: true
-               });
-           }
-       }
     };
 
 function refalshData(){
@@ -149,8 +119,8 @@ function refalshData(){
 	});
 }
 
- function getCompanyMemberList(params){
-    	var url="${webRoot}/companyMember/selectByPage";
+ function getList(params){
+    	var url="${webRoot}/memberConsume/selectByPage";
     	var searchText=params.data.searchText;
     	if(searchText==null){
     		searchText="";
@@ -159,7 +129,7 @@ function refalshData(){
     			'page':params.data.pageNumber,
     			'rows':params.data.pageSize,
     			'params':{
-    				"companyId":userId,
+    				"companyMemberId":"${companyMemberId}",
     				"searchText":searchText
     			}
     	}

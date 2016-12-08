@@ -23,21 +23,23 @@ import cn.com.hd.domain.company.CompanyCommodity;
 import cn.com.hd.domain.company.CompanyInfo;
 import cn.com.hd.domain.company.CompanyMember;
 import cn.com.hd.domain.company.MemberConsume;
+import cn.com.hd.domain.company.MemberRecharge;
 import cn.com.hd.domain.uc.User;
 import cn.com.hd.domain.uc.UserInfo;
 import cn.com.hd.service.company.CompanyCommodityService;
 import cn.com.hd.service.company.CompanyInfoService;
 import cn.com.hd.service.company.CompanyMemberService;
-import cn.com.hd.service.company.MemberConsumeService;
+import cn.com.hd.service.company.MemberRechargeService;
+import cn.com.hd.service.company.MemberRechargeService;
 import cn.com.hd.service.uc.UserInfoService;
 import cn.com.hd.service.uc.UserService;
 import net.sf.json.JSONObject;
 
 @Controller
-@RequestMapping("/memberConsume")
-public class MemberConsumeController {
+@RequestMapping("/memberRecharge")
+public class MemberRechargeController {
 	@Resource
-	private MemberConsumeService memberConsumeService;
+	private MemberRechargeService memberRechargeService;
 	@Resource
 	private UserService userService;
 	@Resource
@@ -51,34 +53,33 @@ public class MemberConsumeController {
 	/**
 	 * 功能描述：跳转到消费列表页面
 	 * 作者：lijiaxing
-	 * url：${webRoot}/memberConsume/toMemberConsumeList/{id}
+	 * url：${webRoot}/memberRecharge/toMemberRechargeList/{id}
 	 * 请求方式：GET
 	 * @param id int
 	 * @return ModelAndView
 	 **/
-	@RequestMapping("/toMemberConsumeList/{id}")
+	@RequestMapping("/toMemberRechargeList/{id}")
 	public  ModelAndView toMemberConsumeList(@PathVariable("id") int id){
-		ModelAndView mv=new ModelAndView("company/memberConsume_list");
+		ModelAndView mv=new ModelAndView("company/memberRecharge_list");
 		mv.addObject("companyMemberId",id);
 		return mv;
 	}
 	 /**
-	 * 功能描述：跳转到消费添加页面
+	 * 功能描述：跳转到充值添加页面
 	 * 作者：lijiaxing
-	 * url：${webRoot}/memberConsume/toAddMemberConsume/{id}
-	 * 请求方式：GET
+	 * url：${webRoot}/memberRecharge/toAddMemberRecharge/{id}
+	 * 请求方式：POST
 	 * @param companyMember
 	 * @return ModelAndView
 	 *          值 ：含义【userInfo：个人扩展信息，user：帐号信息】
 	 **/
-	@RequestMapping("toAddMemberConsume/{id}")
+	@RequestMapping("toAddMemberRecharge/{id}")
 	public  ModelAndView toAddMemberConsume(@PathVariable("id") int id){
-		ModelAndView mv=new ModelAndView("company/memberConsume_add");
+		ModelAndView mv=new ModelAndView("company/memberRecharge_add");
 		CompanyMember companyMember=companyMemberService.selectByPrimaryKey(id);
 		UserInfo userInfo=userInfoService.selectByPrimaryKey(companyMember.getUserId());
 		User user=userService.selectByPrimaryKey(companyMember.getUserId());
-		User record = (User) session.getAttribute("user");
-		List<CompanyCommodity> companyCommodityList = companyCommodityService.selectByCompanyId(record.getId());
+		List<CompanyCommodity> companyCommodityList = companyCommodityService.selectByCompanyId(companyMember.getCompanyId());
 		List<String> companyCommodity = new ArrayList<String>();
 		for (int i =0;i<=companyCommodityList.size()-1;i++){
 			JSONObject json = JSONObject.fromObject(companyCommodityList.get(i));
@@ -102,7 +103,7 @@ public class MemberConsumeController {
 	@RequestMapping("/toEditCompany/{id}")
 	public  ModelAndView toEditCompany(@PathVariable("id") int id){
 		ModelAndView mv=new ModelAndView("company/memberConsume_edit");
-		MemberConsume record=memberConsumeService.selectByPrimaryKey(id);
+		MemberRecharge record=memberRechargeService.selectByPrimaryKey(id);
 		mv.addObject("record", record);
 		return mv;
 	}
@@ -111,7 +112,7 @@ public class MemberConsumeController {
 	/**
 	 * 功能描述：分页查询所有消费记录
 	 * 作者：lijiaxing
-	 * url：${webRoot}/memberConsume/selectByPage
+	 * url：${webRoot}/memberRecharge/selectByPage
 	 * 请求方式：POST
 	 * @param  Page page
 	 * @return Map<String,Object>
@@ -124,7 +125,7 @@ public class MemberConsumeController {
         Map<String,Object> map = new HashMap<String,Object>();
         String code="";
         try{
-            page = memberConsumeService.selectCompanyByPage(page);
+            page = memberRechargeService.selectCompanyByPage(page);
             code="0";
             map.put("rows", page.getData());
     		map.put("total", page.getTotalRecord());
@@ -139,7 +140,7 @@ public class MemberConsumeController {
     /**
 	 * 功能描述：添加消费记录
 	 * 作者：lijiaxing
-	 * url：${webRoot}/memberConsume/insert
+	 * url：${webRoot}/memberRecharge/insert
 	 * 请求方式：POST
 	 * @param  Page page
 	 * @return Map<String,Object>
@@ -148,11 +149,11 @@ public class MemberConsumeController {
 	 *         key:total[记录总数]
 	 */
     @RequestMapping(value="insert",method=RequestMethod.POST)
-    public @ResponseBody Map<String, Object> insert(@RequestBody MemberConsume record){
+    public @ResponseBody Map<String, Object> insert(@RequestBody MemberRecharge record){
         Map<String,Object> map = new HashMap<String,Object>();
         String code="";
         try{
-        	memberConsumeService.insert(record);
+        	memberRechargeService.insert(record);
             code="0";
         }catch(Exception e){
             code="1";
@@ -163,9 +164,9 @@ public class MemberConsumeController {
     }
     
     /**
-	 * 功能描述：分页查询所有企业
+	 * 功能描述：分页查询所有记录
 	 * 作者：lijiaxing
-	 * url：${webRoot}/companyInfo/update
+	 * url：${webRoot}/memberRecharge/update
 	 * 请求方式：POST
 	 * @param  Page page
 	 * @return Map<String,Object>
@@ -174,13 +175,13 @@ public class MemberConsumeController {
 	 *         key:total[记录总数]
 	 */
     @RequestMapping(value="update",method=RequestMethod.POST)
-    public @ResponseBody Map<String, Object> update(@RequestBody MemberConsume record){
+    public @ResponseBody Map<String, Object> update(@RequestBody MemberRecharge record){
         Map<String,Object> map = new HashMap<String,Object>();
         String code="";
         try{
         	User user=record.getUser();
         	userService.updateByPrimaryKeySelective(user);
-        	memberConsumeService.updateByPrimaryKeySelective(record);
+        	memberRechargeService.updateByPrimaryKeySelective(record);
             code="0";
         }catch(Exception e){
             code="1";
@@ -193,7 +194,7 @@ public class MemberConsumeController {
     /**
 	 * 功能描述：分页查询所有企业
 	 * 作者：lijiaxing
-	 * url：${webRoot}/companyInfo/update
+	 * url：${webRoot}/memberRecharge/update
 	 * 请求方式：POST
 	 * @param  Page page
 	 * @return Map<String,Object>
@@ -207,7 +208,7 @@ public class MemberConsumeController {
         String code="";
         try{
         	userService.deleteByPrimaryKey(id);
-        	memberConsumeService.deleteByPrimaryKey(id);
+        	memberRechargeService.deleteByPrimaryKey(id);
             code="0";
         }catch(Exception e){
             code="1";

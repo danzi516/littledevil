@@ -9,7 +9,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
   <head>
     <base href="<%=basePath%>">
     
-    <title>消费</title>
+    <title>添加会员</title>
     <%@ include file="../common/meta.jsp"%>
 	<meta http-equiv="pragma" content="no-cache">
 	<meta http-equiv="cache-control" content="no-cache">
@@ -31,7 +31,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
                 <div class="pull-right"><a href="member_main.html" class="btn btn-link">返回</a> </div>
             </div>
             <hr/>
-            <form class="form-horizontal" method="post" id="addMemberConsumeForm">
+            <form class="form-horizontal" method="post" id="addMemberRechargeForm">
                 <div class="panel panel-default">
                     <div class="panel-heading">添加消费</div>
                     <div class="panel-body">
@@ -50,17 +50,10 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
                                 <input type="text" id="phone" name="phone" class="form-control" placeholder="" disabled="disabled">
                             </div>
                         </div>
-                          <div class="form-group">
-                            <label for="" class="col-sm-2 control-label">商品 ：</label>
-                            <div class="col-sm-4 " id="priceDiv">
-                            <div style="float:left">
-                            <input type="radio" name="price" value="" checked="checked" id=0 />  
-                            </div> 
-                            <div style="float:left">其他：</div>
-                            <div style="float:left">
-                            <input type="text" name="priceOther" id="priceOther" value="" />
-                            </div>
-                            <div style="width:50px;height:10px;"></div>
+                           <div class="form-group">
+                            <label for="" class="col-sm-2 control-label">充值金额 ：</label>
+                            <div class="col-sm-4">
+                                <input type="text" id="price" name="price" class="form-control" placeholder="" >
                             </div>
                         </div>
                         <div class="form-group">
@@ -100,29 +93,24 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
       for (var i=0;i<companyCommodity.length;i++){
     	  $("#priceDiv").append("<br><br><input type='radio' name='price' id='"+companyCommodity[i].id+"' value='"+companyCommodity[i].commodityPrice+"'  />"+companyCommodity[i].commodityName+"价格："+companyCommodity[i].commodityPrice);
       }
-      $("#addMemberConsumeForm").validate({
+      $("#addMemberRechargeForm").validate({
     	  submitHandler:function(form){
-    		  addMemberConsume();
+    		  addMemberRecharge();
           } 
       });
   });
   
   /**
-   * 提交注册信息
+   * 提交信息
    */
-  function addMemberConsume(){
-  	$("#addMemberConsumeForm").validate();
-  	var url="${webRoot}/memberConsume/insert";
-  	var consumeCash=$("input[name='price']:checked").val();
-  	if(!consumeCash){
-  		consumeCash = $("#priceOther").val();
-  	};
+  function addMemberRecharge(){
+  	$("#addMemberRechargeForm").validate();
+  	var url="${webRoot}/memberRecharge/insert";
   	 var data={
   			companyId:"${companyMember.companyId}",
   			companyMemberId:"${companyMember.id}",
-  			consumeCash:consumeCash,
+  			rechargeCash:$("#price").val(),
   			payCash:0,
-  			commodityId:$("input[name='price']:checked").attr("id"),
   			isDelete:'0',
   			userId:"${companyMember.userId}"
   				}

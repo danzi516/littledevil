@@ -6,7 +6,7 @@
 	<%@ include file="../common/meta.jsp"%>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-    <title>商户会员管理</title>
+    <title>充值记录管理</title>
     <link href="${webRoot}/res/sys/less/Nstrap.less" type="text/css" rel="stylesheet/less"/>
     <script src="${webRoot}/res/common/js/less.js"></script><!-- 
     <link href="css/Nstrap.css" rel="stylesheet">
@@ -23,11 +23,11 @@
 		<div class="row">
         <div class="col-sm-12">
             <div class="console-title clearfix">
-                <div class="pull-left"><a href="javascript:" class="btn btn-default">商户会员管理</a> </div>
+                <div class="pull-left"><a href="javascript:" class="btn btn-default">充值记录管理</a> </div>
             </div>
             <hr/>
 	 <div id="toolbar">
-        <div class="pull-left"><a href="${webRoot}/admin/adminUserAdd" role="button" class="btn btn-primary add" target="mainFrame" style="display: none">添加会员</a></div>&nbsp;&nbsp;&nbsp;&nbsp; 
+        <div class="pull-left"><a href="${webRoot}/admin/adminUserAdd" role="button" class="btn btn-primary add" target="mainFrame" style="display: none">添加消费</a></div>&nbsp;&nbsp;&nbsp;&nbsp; 
         <div style="display: inline-table; width: 50px;">
         	<label>状态:</label>
         </div>
@@ -46,7 +46,7 @@
 		       data-id-field="id"
 		       data-page-list="[10, 25, 50, 100, ALL]"
 		       data-side-pagination="server"
-		       data-ajax="getCompanyMemberList"
+		       data-ajax="getList"
 		       data-query-params-type=""
 		       >
 		</table>
@@ -81,8 +81,10 @@ $(document).ready(function() {
             [
              {field: 'userInfo.ucName',title: '会员名称',sortable: false, align: 'center'},
              {field: 'user.phone',title: '联系方式',sortable: false, align: 'center'},
+             {field: 'rechargeCash',title: '充值金额',sortable: false, align: 'center'},
              {field: 'isDelete',title: '状态',sortable: false, align: 'center'},
              {field: 'userInfo.registerTime',title: '注册时间',sortable: false, align: 'center'},
+             {field: 'rechargeTime',title: '充值时间',sortable: false, align: 'center'},
              {title: '操作',align: 'center',events: operateEvents,formatter: operateFormatter}
             ]
         ]
@@ -101,79 +103,11 @@ function operateFormatter(value, row, index) {
 	var html=[];
     var state=row.state;
     var userName=row.userName;
-    if(state=='0'){
-    	html.push('<a class="enable btn" style="margin-left: 5px;font-size:1em" href="javascript:void(0)" target="mainFrame">启用</a>');
-    }else{
-    	html.push('<a class="disable btn" style="margin-left: 5px;font-size:1em" href="javascript:void(0)" target="mainFrame">禁用</a>');
-    }
-    html.push('<a class="delete btn" style="margin-left: 5px;font-size:1em" href="javascript:;" target="mainFrame">删除</a>');
-    html.push('<a class="detail btn" style="margin-left: 5px;font-size:1em" href="javascript:;" target="mainFrame">详情</a>');
-    html.push('<a class="consume btn" style="margin-left: 5px;font-size:1em" href="javascript:;" target="mainFrame">扣款</a>');
-    html.push('<a class="recharge btn" style="margin-left: 5px;font-size:1em" href="javascript:;" target="mainFrame">充值</a>');
-    html.push('<a class="consumeList btn" style="margin-left: 5px;font-size:1em" href="javascript:;" target="mainFrame">扣款记录</a>');
-    html.push('<a class="rechargeList btn" style="margin-left: 5px;font-size:1em" href="javascript:;" target="mainFrame">充值记录</a>');
     return html.join('');
 }
 
 
 window.operateEvents = {
-        'click .delete': function (e, value, row, index) {
-            if(deleteUser(row)){
-            	$table.bootstrapTable('refresh', {
-            		silent: true
-                });
-            }
-        },
-        'click .enable': function (e, value, row, index) {
-           if(enableUser(row)){
-           	$table.bootstrapTable('refresh', {
-           		silent: true
-               });
-           }
-       },
-       'click .disable': function (e, value, row, index) {
-           if(disableUser(row)){
-           	$table.bootstrapTable('refresh', {
-           		silent: true
-               });
-           }
-       },
-       'click .detail': function (e, value, row, index) {
-           if(detailUser(row)){
-           	$table.bootstrapTable('refresh', {
-           		silent: true
-               });
-           }
-       },
-       'click .consume': function (e, value, row, index) {
-           if(consumeUser(row)){
-           	$table.bootstrapTable('refresh', {
-           		silent: true
-               });
-           }
-       },
-       'click .recharge': function (e, value, row, index) {
-           if(rechargeUser(row)){
-           	$table.bootstrapTable('refresh', {
-           		silent: true
-               });
-           }
-       }
-       ,
-       'click .consumeList': function (e, value, row, index) {
-           if(consumeListUser(row)){
-           	$table.bootstrapTable('refresh', {
-           		silent: true
-               });
-           }
-       },
-       'click .rechargeList': function (e, value, row, index) {
-           if(rechargeListUser(row)){
-           	$table.bootstrapTable('refresh', {
-           		silent: true
-               });
-           }
-       }
     };
 
 function refalshData(){
@@ -182,28 +116,8 @@ function refalshData(){
 	});
 }
 
-function consumeUser(row){
-	window.open("${webRoot}/memberConsume/toAddMemberConsume/"+row.id, "mainFrame");
-	 
-}
-
-function rechargeUser(row){
-	window.open("${webRoot}/memberRecharge/toAddMemberRecharge/"+row.id, "mainFrame");
-	 
-}
-
-function consumeListUser(row){
-	window.open("${webRoot}/memberConsume/toMemberConsumeList/"+row.id, "mainFrame");
-	 
-}
-
-function rechargeListUser(row){
-	window.open("${webRoot}/memberRecharge/toMemberRechargeList/"+row.id, "mainFrame");
-	 
-}
-
- function getCompanyMemberList(params){
-    	var url="${webRoot}/companyMember/selectByPage";
+ function getList(params){
+    	var url="${webRoot}/memberRecharge/selectByPage";
     	var searchText=params.data.searchText;
     	if(searchText==null){
     		searchText="";
@@ -212,7 +126,7 @@ function rechargeListUser(row){
     			'page':params.data.pageNumber,
     			'rows':params.data.pageSize,
     			'params':{
-    				"companyId":userId,
+    				"companyMemberId":"${companyMemberId}",
     				"searchText":searchText
     			}
     	}
