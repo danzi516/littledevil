@@ -69,6 +69,16 @@
                                 </select>
                             </div>
                         </div>
+                          <div class="form-group">
+                            <label for="" class="col-sm-2 control-label">用户分组：</label>
+                            <div class="col-sm-4">
+                                <select name="state" id="userRole"  class="form-control">
+                                    <option value="1">超管</option>
+                                    <option value="3" selected>普通</option>
+                                    <option value="2" >财务</option>
+                                </select>
+                            </div>
+                        </div>
                         <div class="form-group">
                             <div class="col-sm-offset-2 col-sm-10">
                                 <button type="submit" class="btn btn-primary" id="addBtn">确认添加</button>
@@ -194,7 +204,8 @@
 	    			password:password,
 	    			state:$("#state").val(),
 	    			userType:'sys'
-    			}
+    			},
+    			roleId:$("#userRole").val()
     	};
     	ajaxAction('post',url,$.toJSON(data),'json','addUser');
     }

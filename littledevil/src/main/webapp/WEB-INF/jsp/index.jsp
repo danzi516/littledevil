@@ -121,8 +121,14 @@ function ajaxAction(type, url, reqData, returnType, requestName) {
 		success : function(data) {
 			if (requestName == "login"){
 				var msg=data.msg;
+				var userType=data.userType;
 				if(msg=='ok'){
-					window.location.href='${webRoot}/admin/main';
+					if(userType=='sys'){
+						window.location.href='${webRoot}/admin/userList';
+					}
+					else{
+						window.location.href='${webRoot}/person/userList';
+					}
 				}else{
 					alert(msg);
 				}

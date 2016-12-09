@@ -71,6 +71,12 @@ public class UserController {
 				return map;
 			}
 			session.setAttribute("user", record);
+			if(record.getUserType().equals("sys")){
+				map.put("userType", "sys");
+			}
+			else{
+				map.put("userType", "person");
+			}
 			map.put("msg", "ok");
 		}catch(Exception e){
 			map.put("msg", "服务器异常，请稍后重试！");

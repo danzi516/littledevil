@@ -22,8 +22,18 @@ public class UserInfo {
     private User user;
     
     private String sexCode;
+    
+    private Integer roleId;
 
-    public Integer getId() {
+    public Integer getRoleId() {
+		return roleId;
+	}
+
+	public void setRoleId(Integer roleId) {
+		this.roleId = roleId;
+	}
+
+	public Integer getId() {
         return id;
     }
 

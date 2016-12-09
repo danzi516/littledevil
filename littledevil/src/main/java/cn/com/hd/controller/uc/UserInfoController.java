@@ -16,8 +16,10 @@ import org.springframework.web.servlet.ModelAndView;
 
 import cn.com.hd.common.MD5Encrypt;
 import cn.com.hd.common.Page;
+import cn.com.hd.domain.company.CompanyStaff;
 import cn.com.hd.domain.uc.User;
 import cn.com.hd.domain.uc.UserInfo;
+import cn.com.hd.service.company.CompanyStaffService;
 import cn.com.hd.service.uc.UserInfoService;
 import cn.com.hd.service.uc.UserService;
 
@@ -35,6 +37,8 @@ public class UserInfoController {
 	@Resource
 	private UserService userService;
 	
+	@Resource
+	private CompanyStaffService companyStaffService;
 	/**
 	 * 功能描述：分页查询所有用户
 	 * 作者：lijiaxing
@@ -181,6 +185,12 @@ public class UserInfoController {
 			userService.insertSelective(record);
 			user.setId(record.getId());
 			userInfoService.insertSelective(user);
+			CompanyStaff companyStaff = new CompanyStaff();
+			companyStaff.setCompanyId(0);
+			companyStaff.setRoleId(user.getRoleId());
+			companyStaff.setUserId(record.getId());
+			companyStaff.setIsDelete("1");
+			companyStaffService.insert(companyStaff);
 			code="0";
 		}catch(Exception e){
             code="1";

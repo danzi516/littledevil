@@ -46,11 +46,11 @@ public class IndexController {
 	
 	/**
 	 *方法说明：跳转到前台起始页面
-	 *url:${webRoot}/sys/userList
+	 *url:${webRoot}/admin/userList
 	 *请求方式：get
 	 *@return ModelAndView
 	 **/
-	@RequestMapping("/sys/userList")
+	@RequestMapping("/admin/userList")
 	public ModelAndView toSysUserList(HttpServletRequest request) {
 		/**
 		 * 想要在页面展现数据,必须返回ModelAndView类型,返回String是不能获取数据的
