@@ -6,7 +6,7 @@
 	<%@ include file="../common/meta.jsp"%>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-    <title>个人用户管理</title>
+    <title>系统用户管理</title>
     <link href="${webRoot}/res/sys/less/Nstrap.less" type="text/css" rel="stylesheet/less"/>
     <script src="${webRoot}/res/common/js/less.js"></script><!-- 
     <link href="css/Nstrap.css" rel="stylesheet">
@@ -27,7 +27,9 @@
             </div>
             <hr/>
 	 <div id="toolbar">
-        <div class="pull-left"><a href="${webRoot}/userInfo/toAddUser" role="button" class="btn btn-primary add" target="mainFrame">添加系统用户</a></div>&nbsp;&nbsp;&nbsp;&nbsp; 
+        <div class="pull-left"><a href="${webRoot}/userInfo/toAddUser" role="button" class="btn btn-primary add" target="mainFrame">添加系统用户</a></div>&nbsp;&nbsp;&nbsp;&nbsp;
+         <div style="margin-left:10px" class="pull-left"><a href="${webRoot}/person/userList" role="button" class="btn btn-primary add" target="mainFrame">个人用户管理</a></div>&nbsp;&nbsp;&nbsp;&nbsp; 
+          <div style="margin-left:10px" class="pull-left"><a href="${webRoot}/companyInfo/toCompanyList" role="button" class="btn btn-primary add" target="mainFrame">商户管理</a></div>&nbsp;&nbsp;&nbsp;&nbsp;
         <div style="display: inline-table; width: 50px;">
         	<label>状态:</label>
         </div>

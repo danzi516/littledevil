@@ -91,7 +91,7 @@
             '重置密码',
             '</a>'];
         html.push('<a class="delete btn" style="margin-left: 5px;font-size:1em" href="javascript:;" target="mainFrame">删除</a>');
-        html.push('<a class="detail btn" style="margin-left: 5px;font-size:1em" href="javascript:;" target="mainFrame">详情</a>');
+        html.push('<a class="detail btn" style="margin-left: 5px;font-size:1em" href="javascript:;" target="mainFrame">详情(没做)</a>');
         return html.join('');
     }
 
@@ -187,7 +187,7 @@
     		}
     }
     function deleteUser(row){
-    	if(confirm("您确定要删除用户:"+row.userName+" 吗?"))
+    	if(confirm("您确定要删除用户:"+row.user.userName+" 吗?"))
 		{
 	    	var url="${webRoot}/user/deleteUser/"+row.id;
 	    	var code="";

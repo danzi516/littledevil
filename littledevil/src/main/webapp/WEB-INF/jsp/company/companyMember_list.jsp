@@ -101,11 +101,6 @@ function operateFormatter(value, row, index) {
 	var html=[];
     var state=row.state;
     var userName=row.userName;
-    if(state=='0'){
-    	html.push('<a class="enable btn" style="margin-left: 5px;font-size:1em" href="javascript:void(0)" target="mainFrame">启用</a>');
-    }else{
-    	html.push('<a class="disable btn" style="margin-left: 5px;font-size:1em" href="javascript:void(0)" target="mainFrame">禁用</a>');
-    }
     html.push('<a class="delete btn" style="margin-left: 5px;font-size:1em" href="javascript:;" target="mainFrame">删除</a>');
     html.push('<a class="detail btn" style="margin-left: 5px;font-size:1em" href="javascript:;" target="mainFrame">详情</a>');
     html.push('<a class="consume btn" style="margin-left: 5px;font-size:1em" href="javascript:;" target="mainFrame">扣款</a>');
@@ -124,20 +119,6 @@ window.operateEvents = {
                 });
             }
         },
-        'click .enable': function (e, value, row, index) {
-           if(enableUser(row)){
-           	$table.bootstrapTable('refresh', {
-           		silent: true
-               });
-           }
-       },
-       'click .disable': function (e, value, row, index) {
-           if(disableUser(row)){
-           	$table.bootstrapTable('refresh', {
-           		silent: true
-               });
-           }
-       },
        'click .detail': function (e, value, row, index) {
            if(detailUser(row)){
            	$table.bootstrapTable('refresh', {

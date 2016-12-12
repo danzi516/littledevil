@@ -127,7 +127,7 @@ function ajaxAction(type, url, reqData, returnType, requestName) {
 						window.location.href='${webRoot}/admin/userList';
 					}
 					else{
-						window.location.href='${webRoot}/person/userList';
+						window.location.href='${webRoot}/companyMember/toCompanyMemberList';
 					}
 				}else{
 					alert(msg);

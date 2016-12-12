@@ -17,6 +17,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 import cn.com.hd.common.MD5Encrypt;
 import cn.com.hd.common.Page;
+import cn.com.hd.domain.company.CompanyInfo;
 import cn.com.hd.domain.company.CompanyMember;
 import cn.com.hd.domain.uc.User;
 import cn.com.hd.domain.uc.UserInfo;
@@ -172,6 +173,34 @@ public class CompanyMemberController {
 	        String code="";
 	        try{
 	        	companyMemberService.deleteByPrimaryKey(id);
+	            code="0";
+	        }catch(Exception e){
+	            code="1";
+	            e.printStackTrace();
+	        }
+	        map.put("code", code);
+	        return map;
+	    }
+	    
+	    /**
+		 * 功能描述：更新
+		 * 作者：lijiaxing
+		 * url：${webRoot}/companyMember/update
+		 * 请求方式：POST
+		 * @param  Page page
+		 * @return Map<String,Object>
+		 *         key:code["0":"成功","1":"失败"]
+		 *         key:rows[查询结果ist]
+		 *         key:total[记录总数]
+		 */
+	    @RequestMapping(value="update",method=RequestMethod.POST)
+	    public @ResponseBody Map<String, Object> update(@RequestBody CompanyMember record){
+	        Map<String,Object> map = new HashMap<String,Object>();
+	        String code="";
+	        try{
+	        	User user=record.getUser();
+	        	//userService.updateByPrimaryKeySelective(user);
+	        	companyMemberService.updateByPrimaryKeySelective(record);
 	            code="0";
 	        }catch(Exception e){
 	            code="1";

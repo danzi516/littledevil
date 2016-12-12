@@ -77,8 +77,9 @@
         $table.bootstrapTable({
             columns: [
                 [
+				 {field: 'id',title: '商户id',sortable: false, align: 'center'},
                  {field: 'companyName',title: '商户名称',sortable: false, align: 'center'},
-                 {field: 'CompanyTypeName',title: '商户类型',sortable: false, align: 'center'},
+                 {field: 'companyType',title: '商户类型',sortable: false, align: 'center'},
                  {field: 'linkPerson',title: '联系人',sortable: false, align: 'center'},
                  {field: 'linkPhone',title: '联系方式',sortable: false, align: 'center'},
                  {field: 'user.state',title: '状态',sortable: false, align: 'center'},
@@ -101,7 +102,7 @@
            '<a class="reset btn" style="margin-left: 5px;font-size:1em" href="javascript:void(0)" target="mainFrame">',
             '重置密码',
             '</a>'];
-        var state=row.state;
+        var state=row.user.state;
         var userName=row.userName;
         if(state=='0'){
         	html.push('<a class="enable btn" style="margin-left: 5px;font-size:1em" href="javascript:void(0)" target="mainFrame">启用</a>');
@@ -109,7 +110,7 @@
         	html.push('<a class="disable btn" style="margin-left: 5px;font-size:1em" href="javascript:void(0)" target="mainFrame">禁用</a>');
         }
         //html.push('<a class="delete btn" style="margin-left: 5px;font-size:1em" href="javascript:;" target="mainFrame">删除</a>');
-        html.push('<a class="detail btn" style="margin-left: 5px;font-size:1em" href="javascript:;" target="mainFrame">详情</a>');
+        html.push('<a class="detail btn" style="margin-left: 5px;font-size:1em" href="javascript:;" target="mainFrame">详情(没做)</a>');
         return html.join('');
     }
 
