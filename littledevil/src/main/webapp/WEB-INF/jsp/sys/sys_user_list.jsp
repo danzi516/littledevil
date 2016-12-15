@@ -69,7 +69,7 @@
 <script src="${webRoot}/res/common/js/bootstrap_table/bootstrap-table-editable.js"></script>
 <script src="${webRoot}/res/common/js/bootstrap-editable.js"></script>
 <script type="text/javascript" src="${webRoot}/res/common/js/bootstrap_table/locale/bootstrap-table-zh-CN.js"></script>
-<script src="${webRoot}/res/common/js/layer/layer/layer.js"></script>
+<script src="${webRoot}/res/common/js/layer1/layer.js"></script>
 <script>
     var userId='${userId}';
     var basePath='${webRoot}';
@@ -84,6 +84,7 @@
                  {field: 'sexCode',title: '性别',sortable: false, align: 'center'},
                  {field: 'user.phone',title: '手机',sortable: false, align: 'center'},
                  {field: 'weixin',title: '微信',sortable: false, align: 'center'},
+                 {field: 'user.state',title: '状态',sortable: false, align: 'center'},
                  {field: 'registerTime',title: '注册时间',sortable: false, align: 'center'},
                  {title: '操作',align: 'center',events: operateEvents,formatter: operateFormatter}
                 ]
@@ -103,8 +104,8 @@
            '<a class="reset btn" style="margin-left: 5px;font-size:1em" href="javascript:void(0)" target="mainFrame">',
             '重置密码',
             '</a>'];
-        var state=row.state;
-        var userName=row.userName;
+        var state=row.user.state;
+        var userName=row.user.userName;
         if(state=='0'){
         	html.push('<a class="enable btn" style="margin-left: 5px;font-size:1em" href="javascript:void(0)" target="mainFrame">启用</a>');
         }else{
@@ -222,7 +223,7 @@
     		}
     }
     function deleteUser(row){
-    	if(confirm("您确定要删除用户:"+row.userName+" 吗?"))
+    	if(confirm("您确定要删除用户:"+row.user.userName+" 吗?"))
 		{
 	    	var url="${webRoot}/user/deleteUser/"+row.id;
 	    	var code="";
@@ -249,7 +250,7 @@
     }
     
     function enableUser(row){
-    	if(confirm("您确定要启用用户:"+row.userName+" 吗?"))
+    	if(confirm("您确定要启用用户:"+row.user.userName+" 吗?"))
 		{
 	    	var url="${webRoot}/user/updateStatus";
 	    	var code="";
@@ -279,7 +280,7 @@
     		}
     }
     function disableUser(row){
-    	if(confirm("您确定要禁用用户:"+row.userName+" 吗?"))
+    	if(confirm("您确定要禁用用户:"+row.user.userName+" 吗?"))
 		{
 	    	var url="${webRoot}/user/updateStatus";
 	    	var data={

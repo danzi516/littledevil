@@ -125,4 +125,15 @@
       state = #{state,jdbcType=VARCHAR}
     where id = #{id,jdbcType=INTEGER}
   </update>
+  <select id="selectAppInfoByPage" parameterType="cn.com.hd.common.Page" resultMap="BaseResultMap">
+  	 select 
+   	id, app_name, app_code, request_url, app_logo, app_sort, is_pay, state
+    from t_app_info t
+    where 1=1
+    <if test="params['searchText'] != null and params['searchText'] != ''">  
+        	and  app_name like '%${params.searchText}%' 
+    </if>
+  
+    
+  </select>
 </mapper>

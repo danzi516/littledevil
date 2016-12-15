@@ -40,7 +40,8 @@ var grantList = getGrantOperationList();
  function GrantFilter(){
 	 if(grantList){
 		 for(var item in grantList){
-			 $('a[title=' + grantList[item] + ']').show();
+			// $('a[title=' + grantList[item] + ']').show();
+			 $('a.'+grantList[item]).show();
 		 }
 	 }else{
 		 throw new Error("未找到可用权限信息。");

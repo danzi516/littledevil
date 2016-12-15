@@ -67,7 +67,7 @@
 <script src="${webRoot}/res/common/js/bootstrap_table/bootstrap-table-editable.js"></script>
 <script src="${webRoot}/res/common/js/bootstrap-editable.js"></script>
 <script type="text/javascript" src="${webRoot}/res/common/js/bootstrap_table/locale/bootstrap-table-zh-CN.js"></script>
-<script src="${webRoot}/res/common/js/layer/layer/layer.js"></script>
+<script src="${webRoot}/res/common/js/layer1/layer.js"></script>
 <script>
     var userId='${userId}';
     var basePath='${webRoot}';
