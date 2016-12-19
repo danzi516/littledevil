@@ -16,8 +16,18 @@ public class AppInfo {
     private String isPay;
 
     private String state;
+    
+    private AppExtendInfo appExtendInfo;
 
-    public Integer getId() {
+    public AppExtendInfo getAppExtendInfo() {
+		return appExtendInfo;
+	}
+
+	public void setAppExtendInfo(AppExtendInfo appExtendInfo) {
+		this.appExtendInfo = appExtendInfo;
+	}
+
+	public Integer getId() {
         return id;
     }
 

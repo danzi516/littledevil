@@ -98,8 +98,10 @@
            '<a class="delete btn" style="margin-left: 5px;font-size:1em;display: inline" href="javascript:void(0)" target="mainFrame" title="GRYHGL_edit">',
             '删除',
             '</a>'];
+    	  html.push('<a class="edit btn" style="margin-left: 5px;font-size:1em;display: inline"  target="mainFrame" title="GRYHGL_update">权限设置</a>')
         html.push('<a class=" btn" style="margin-left: 5px;font-size:1em;display: inline"  target="mainFrame" title="GRYHGL_detail">详情(没做)</a>')
         html.push('<a class="edit btn" style="margin-left: 5px;font-size:1em;display: inline" href="${webRoot}/appInfo/toEditAppInfo/'+row.id+'" target="mainFrame" title="GRYHGL_update">编辑</a>')
+       
         var state=row.state;
         if(state=='0'){
         	html.push('<a class="enable btn" style="margin-left: 5px;font-size:1em" href="javascript:void(0)" target="mainFrame">上架</a>');

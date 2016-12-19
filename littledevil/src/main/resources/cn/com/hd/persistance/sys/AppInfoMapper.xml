@@ -32,7 +32,7 @@
       #{requestUrl,jdbcType=VARCHAR}, #{appLogo,jdbcType=VARCHAR}, #{appSort,jdbcType=INTEGER}, 
       #{isPay,jdbcType=VARCHAR}, #{state,jdbcType=VARCHAR})
   </insert>
-  <insert id="insertSelective" parameterType="cn.com.hd.domain.sys.AppInfo" >
+  <insert id="insertSelective" parameterType="cn.com.hd.domain.sys.AppInfo" useGeneratedKeys="true" keyProperty="id">
     insert into t_app_info
     <trim prefix="(" suffix=")" suffixOverrides="," >
       <if test="id != null" >

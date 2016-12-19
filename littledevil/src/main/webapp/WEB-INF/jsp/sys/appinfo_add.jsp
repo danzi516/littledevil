@@ -95,6 +95,12 @@
                                 <p class="form-control-static">0下架；1上架</p>
                             </div>
                         </div>
+                         <div class="form-group">
+                            <label for="" class="col-sm-2 control-label">适用人群：</label>
+                            <input type="checkbox" name="userType" value="sys"  checked="checked" /> 系统用户 
+                            <input type="checkbox" name="userType" value="person"   /> 普通用户 
+                            <input type="checkbox" name="userType" value="company"   /> 企业用户 
+                        </div>
                         <div class="form-group">
                             <div class="col-sm-offset-2 col-sm-10">
                                 <button type="submit" class="btn btn-primary" id="addAppInfo">确认添加</button>
@@ -150,6 +156,10 @@ $(document).ready(function() {
   function addAppInfo(){
   	$("#addAppInfoForm").validate();
   	var url="${webRoot}/appInfo/insert";
+  	var userType = "";
+	$("input[name='userType']:checked").each(function(){ 
+		userType = userType+$(this).val()+","; 
+		});
   	var data={
   			appName:$("#appName").val(),
   			appCode:$("#appCode").val(),
@@ -157,7 +167,11 @@ $(document).ready(function() {
   			appLogo:$("#appLogo").val(),
   			appSort:$("#appSort").val(),
   			isPay:$("#isPay").val(),
-  			state:$("#state").val()
+  			state:$("#state").val(),
+  		
+  			appExtendInfo:{
+  				userType:userType
+  			}
   	};
   	ajaxAction('post',url,$.toJSON(data),'json','addAppInfo');
   }

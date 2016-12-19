@@ -29,7 +29,7 @@
     select 
     id, company_id, commodity_name, commodity_price, commodity_logo,commodity_note, state
     from t_company_commodity
-    where company_id = #{id,jdbcType=INTEGER}
+    where company_id = #{companyId,jdbcType=INTEGER}
   </select>
    <select id="selectCompanyCommodityByPage" parameterType="cn.com.hd.common.Page" resultMap="BaseResultMap">
   SELECT

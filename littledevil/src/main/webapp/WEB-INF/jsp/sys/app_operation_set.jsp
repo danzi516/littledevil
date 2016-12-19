@@ -23,81 +23,20 @@
     <div class="row">
         <div class="col-sm-12">
             <div class="console-title clearfix">
-                <div class="pull-left"><a href="javascript:" class="btn btn-default">个人用户管理</a> </div>
+                <div class="pull-left"><a href="javascript:" class="btn btn-default">应用设置管理</a> </div>
             </div>
             <hr/>
 	 <div id="toolbar">
+	 <div>
+	 
+	 
+	 
+	 
+	 </div>>
         <div class="pull-left"><a href="${webRoot}/person/personUserAdd" role="button" class="btn btn-primary add" target="mainFrame" title="GRYHGL_insert" style="display: none">添加个人用户</a></div>&nbsp;&nbsp;&nbsp;&nbsp; 
-        <div style="display: inline-table;">
-        	<label style="width: 30px;">状态:</label>
-        </div>
-        <div style="display: inline-table; width: 100px;">
-        	<select class="form-control" id="state" onchange="refalshData()">
-        		<option value="">全部</option>
-        		<option value="0">禁用</option>
-                <option value="1" selected>正常使用</option>
-        	</select>
-        </div>
-        <div style="display: inline-table;">
-        	<label style="width: 30px;">角色:</label>
-        </div>
-        <div style="display: inline-table; width: 100px;">
-        	<select class="form-control" id="userRole" onchange="refalshData()">
-        		<option value="">全部</option>
-        		<option value="student">学生</option>
-        		<option value="teacher">教师</option>
-                <option value="parent" >家长</option>
-        	</select>
-        </div>
-         <div style="display: inline-table;">
-        	<label style="width: 60px;">空间状态:</label>
-        </div>
-        <div style="display: inline-table; width: 100px;">
-        	<select class="form-control" id="spaceState" onchange="refalshData()">
-        		<option value="">全部</option>
-        		<option value="0">禁用</option>
-        		<option value="1">正常使用</option>
-        	</select>
-        </div>
-         <div style="display: inline-table;">
-        	<label style="width: 60px;">空间等级:</label>
-        </div>
-        <div style="display: inline-table; width: 100px;">
-        	<select class="form-control" id="spaceLevel" onchange="refalshData()">
-        		<option value="">全部</option>
-        		<option value="0">普通</option>
-        		<option value="1">优秀</option>
-        	</select>
-        </div>
-        <div style="display: inline-table; width: 100px;">
-        	<select class="form-control" id="provinceCode" onchange="onProvinceChange()">
-        	</select>
-        </div>
-        <div style="display: inline-table; width: 100px;">
-        	<select class="form-control" style="display:none" id="cityCode" onchange="onCityChange()">
-        	</select>
-        </div>
-        <div style="display: inline-table; width: 100px;">
-        	<select class="form-control" style="display:none" id="countyCode" onchange="onCountyChange()">
-        	</select>
-        </div>
-        <div style="display: inline-table; width: 100px;">
-        	<select class="form-control" style="display:none" id="schoolId" onchange="refalshData()">
-        	</select>
-        </div>
+   
+   
     </div>
-        <table id="table"
-		       data-toolbar="#toolbar"
-		       data-search="true"
-		       data-minimum-count-columns="2"
-		       data-pagination="true"
-		       data-id-field="id"
-		       data-page-list="[10, 25, 50, 100, ALL]"
-		       data-side-pagination="server"
-		       data-ajax="getUserList"
-		       data-query-params-type=""
-		       >
-		</table>
         </div>
     </div>
 </div>

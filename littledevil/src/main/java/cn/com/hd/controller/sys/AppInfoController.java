@@ -1,7 +1,9 @@
 package cn.com.hd.controller.sys;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import javax.annotation.Resource;
@@ -20,11 +22,14 @@ import org.springframework.web.servlet.ModelAndView;
 import cn.com.hd.common.MD5Encrypt;
 import cn.com.hd.common.Page;
 import cn.com.hd.domain.company.CompanyInfo;
+import cn.com.hd.domain.sys.AppExtendInfo;
 import cn.com.hd.domain.sys.AppInfo;
 import cn.com.hd.domain.uc.User;
 import cn.com.hd.domain.uc.UserInfo;
+import cn.com.hd.service.sys.AppExtendInfoService;
 import cn.com.hd.service.sys.AppInfoService;
 import cn.com.hd.service.uc.UserService;
+import net.sf.json.JSONObject;
 
 /**
  *类说明：系统初始化页面控制器
@@ -36,6 +41,10 @@ import cn.com.hd.service.uc.UserService;
 public class AppInfoController {
 	@Resource
 	private AppInfoService appInfoService;
+	@Resource
+	private AppExtendInfoService appExtendInfoService;
+	
+	
 	@Autowired
 	HttpSession session;
 	
@@ -127,7 +136,14 @@ public class AppInfoController {
 	public  ModelAndView toEditAppInfo(@PathVariable("id") int id){
 		ModelAndView mv=new ModelAndView("sys/appinfo_edit");
 		AppInfo record=appInfoService.selectByPrimaryKey(id);
+		List<AppExtendInfo> appExtendInfoList = appExtendInfoService.selectByappId(id);
 		mv.addObject("appInfo", record);
+		List<String> appExtendInfo = new ArrayList<String>();
+		for (int i =0;i<=appExtendInfoList.size()-1;i++){
+			JSONObject json = JSONObject.fromObject(appExtendInfoList.get(i));
+			appExtendInfo.add(json.toString());
+		}
+		mv.addObject("appExtendInfo", appExtendInfo);
 		return mv;
 	}
 	
@@ -148,6 +164,14 @@ public class AppInfoController {
 	        String code="";
 	        try{
 	        	appInfoService.insertSelective(record);
+	        	AppExtendInfo appExtendInfo = new AppExtendInfo();
+	        	appExtendInfo.setAppId(record.getId());
+	        	String[] list = record.getAppExtendInfo().getUserType().split(",");
+	        	for (int i=0;i<list.length;i++){
+	        		appExtendInfo.setUserType(list[i]);
+	        		appExtendInfoService.insertSelective(appExtendInfo);
+	        	}
+	        	
 	            code="0";
 	        }catch(Exception e){
 	            code="1";
@@ -168,12 +192,13 @@ public class AppInfoController {
 		 *         key:rows[查询结果ist]
 		 *         key:total[记录总数]
 		 */
-	    @RequestMapping(value="delete/{id}",method=RequestMethod.POST)
+	    @RequestMapping(value="delete/{id}")
 	    public @ResponseBody Map<String, Object> delete(@PathVariable("id") int id){
 	        Map<String,Object> map = new HashMap<String,Object>();
 	        String code="";
 	        try{
 	        	appInfoService.deleteByPrimaryKey(id);
+	        	
 	            code="0";
 	        }catch(Exception e){
 	            code="1";
@@ -200,6 +225,15 @@ public class AppInfoController {
 	        String code="";
 	        try{
 	        	appInfoService.updateByPrimaryKeySelective(record);
+	        	appExtendInfoService.deleteByAppId(record.getId());
+	        	AppExtendInfo appExtendInfo = new AppExtendInfo();
+	        	appExtendInfo.setAppId(record.getId());
+	        	String[] list = record.getAppExtendInfo().getUserType().split(",");
+	        	for (int i=0;i<list.length;i++){
+	        		appExtendInfo.setUserType(list[i]);
+	        		appExtendInfoService.insertSelective(appExtendInfo);
+	        	}
+	        
 	            code="0";
 	        }catch(Exception e){
 	            code="1";

@@ -28,7 +28,7 @@
             <hr/>
 	 <div id="toolbar">
     </div>
-     <form class="form-horizontal" method="post" id="addAppInfoForm">
+     <form class="form-horizontal" method="post" id="editAppInfoForm">
                 <div class="panel panel-default">
                     <div class="panel-heading">修改应用</div>
                     <div class="panel-body">
@@ -95,9 +95,15 @@
                                 <p class="form-control-static">0下架；1上架</p>
                             </div>
                         </div>
+                         <div class="form-group">
+                            <label for="" class="col-sm-2 control-label">适用人群：</label>
+                            <input type="checkbox" name="userType" value="sys"   /> 系统用户 
+                            <input type="checkbox" name="userType" value="person"   /> 普通用户 
+                            <input type="checkbox" name="userType" value="company"   /> 企业用户 
+                        </div>
                         <div class="form-group">
                             <div class="col-sm-offset-2 col-sm-10">
-                                <button type="submit" class="btn btn-primary" id="addAppInfo">确认添加</button>
+                                <button type="submit" class="btn btn-primary" id="editAppInfo">确认修改</button>
                             </div>
                         </div>
                     </div>
@@ -136,11 +142,20 @@ $(document).ready(function() {
 	        var b1=regu1.test(value);
 		    return b1 == eval(param);
 		 }, "请输入用户名，4-20个字符（字母、数字、下划线），注册后不能更改");
-	$("#addAppInfoForm").validate({
+	$("#editAppInfoForm").validate({
 		submitHandler:function(form){
-			addAppInfo();
+			editAppInfo();
         }
 	});
+	 var appExtendInfo = ${appExtendInfo};
+    for (var i=0;i<appExtendInfo.length;i++){
+    	 var userType=appExtendInfo[i].userType;
+    		$("input[name='userType']").each(function(){ 
+    			if(userType == $(this).val()){
+    				$(this).attr('checked', 'checked')
+    			}; 
+    			});
+     } 
 		$("#appName").val("${appInfo.appName}");
 		$("#appCode").val("${appInfo.appCode}");
 		$("#requestUrl").val("${appInfo.requestUrl}");
@@ -154,9 +169,13 @@ $(document).ready(function() {
   /**
    * 提交注册信息
    */
-  function addAppInfo(){
-  	$("#addAppInfoForm").validate();
+  function editAppInfo(){
+  	$("#editAppInfoForm").validate();
   	var url="${webRoot}/appInfo/update";
+  	var userType = "";
+  	$("input[name='userType']:checked").each(function(){ 
+		userType = userType+$(this).val()+","; 
+		});
   	var data={
   			id:"${appInfo.id}",
   			appName:$("#appName").val(),
@@ -165,9 +184,12 @@ $(document).ready(function() {
   			appLogo:$("#appLogo").val(),
   			appSort:$("#appSort").val(),
   			isPay:$("#isPay").val(),
-  			state:$("#state").val()
+  			state:$("#state").val(),
+  			appExtendInfo:{
+  				userType:userType
+  			}
   	};
-  	ajaxAction('post',url,$.toJSON(data),'json','addAppInfo');
+  	ajaxAction('post',url,$.toJSON(data),'json','editAppInfo');
   }
   
   
@@ -181,10 +203,10 @@ $(document).ready(function() {
   		dataType : returnType,
   		contentType : 'application/json',
   		success : function(data) {
-  			if (requestName == "addAppInfo"){
+  			if (requestName == "editAppInfo"){
   				var code=data.code;
   				if(code=='0'){
-  					alert('添加成功！');
+  					alert('修改成功！');
   					window.open("${webRoot}/appInfo/toAppInfoList", "mainFrame");
   				}else if(code=='1'){
   					alert('服务器异常，请稍后重试！');
