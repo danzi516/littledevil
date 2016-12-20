@@ -79,4 +79,22 @@
       operation_code = #{operationCode,jdbcType=VARCHAR}
     where id = #{id,jdbcType=INTEGER}
   </update>
+  
+   <select id="selectByAppId" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    id, operation_name, app_id, operation_code
+    from t_app_operation
+    where app_id = #{appId,jdbcType=INTEGER}
+  </select>
+  <select id="selectByCondition" resultMap="BaseResultMap" parameterType="cn.com.hd.domain.sys.AppOperation" >
+    select id, operation_name, app_id, operation_code
+    from t_app_operation 
+    where app_id=#{appId}
+    <if test="operationName != null">  
+        	and operation_name=#{operationName}
+    </if>
+    <if test="operationCode != null">  
+        	and operation_code=#{operationCode}
+    </if>
+  </select>
 </mapper>

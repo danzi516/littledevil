@@ -1,6 +1,9 @@
 package cn.com.hd.persistance.sys;
 
+import java.util.List;
+
 import cn.com.hd.domain.sys.AppOperation;
+import cn.com.hd.domain.uc.User;
 
 
 public interface AppOperationMapper {
@@ -15,4 +18,8 @@ public interface AppOperationMapper {
     int updateByPrimaryKeySelective(AppOperation record);
 
     int updateByPrimaryKey(AppOperation record);
+    
+    List<AppOperation> selectByAppId(Integer appId);
+    
+    AppOperation selectByCondition(AppOperation record);
 }

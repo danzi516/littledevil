@@ -1,13 +1,17 @@
 package cn.com.hd.service.sys;
 
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import cn.com.hd.common.Page;
+import cn.com.hd.domain.sys.AppExtendInfo;
 import cn.com.hd.domain.sys.AppInfo;
 import cn.com.hd.domain.sys.AppOperation;
+import cn.com.hd.domain.uc.User;
 import cn.com.hd.domain.uc.UserInfo;
 import cn.com.hd.persistance.sys.AppInfoMapper;
 import cn.com.hd.persistance.sys.AppOperationMapper;
@@ -42,6 +46,15 @@ public class AppOperationService {
     	return appOperationMapper.updateByPrimaryKey(record);
     }
     
+    
+    public List<AppOperation> selectByappId(Integer appId){
+		List<AppOperation> AppOperationList = appOperationMapper.selectByAppId(appId);
+    	return AppOperationList;
+    }
+    
+    public AppOperation selectByCondition(AppOperation record){
+    	return appOperationMapper.selectByCondition(record);
+    }
    /* public Page selectAppInfoByPage(Page page){
     	page.setData(appOperationMapper.selectAppInfoByPage(page));
     	return page;

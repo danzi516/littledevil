@@ -3,10 +3,10 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html>
 <head lang="en">
-	<%@ include file="../common/meta.jsp"%>
+<%@ include file="../common/meta.jsp"%>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-    <title>系统用户管理</title>
+    <title>应用设置</title>
     <link href="${webRoot}/res/sys/less/Nstrap.less" type="text/css" rel="stylesheet/less"/>
     <script src="${webRoot}/res/common/js/less.js"></script><!-- 
     <link href="css/Nstrap.css" rel="stylesheet">
@@ -17,489 +17,177 @@
     <script src="http://apps.bdimg.com/libs/html5shiv/3.7/html5shiv.min.js"></script>
     <script src="http://apps.bdimg.com/libs/respond.js/1.4.2/respond.min.js"></script>
     <![endif]-->
+
 </head>
 <body>
 <div class="console-container">
     <div class="row">
         <div class="col-sm-12">
             <div class="console-title clearfix">
-                <div class="pull-left"><a href="javascript:" class="btn btn-default">应用设置管理</a> </div>
+                <div class="pull-left"> <h5>应用设置</h5></div>
+                <div class="pull-right"><a href="javascript:void(0)" onclick="window.history.back();" class="btn btn-link">返回</a> </div>
             </div>
             <hr/>
-	 <div id="toolbar">
-	 <div>
-	 
-	 
-	 
-	 
-	 </div>>
-        <div class="pull-left"><a href="${webRoot}/person/personUserAdd" role="button" class="btn btn-primary add" target="mainFrame" title="GRYHGL_insert" style="display: none">添加个人用户</a></div>&nbsp;&nbsp;&nbsp;&nbsp; 
-   
-   
-    </div>
+            <form class="form-horizontal" id="editAppForm">
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                    	<div class="panel-title">
+         					应用权限功能设置
+         					<button type="button" class="btn btn-default" style="float:right;margin-top:-5px" data-itme="add" onclick="addOperation()">新增功能</button>
+      					</div>
+                   	</div>
+                     <div class="panel-body operationList" id="operationList">
+                        
+                    </div>
+                </div>
+            </form>
         </div>
     </div>
 </div>
+
+<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+       	<h4 class="modal-title">添加操作</h4>
+      </div>
+      	<div class="modal-body text-left">
+ 			<form class="form-horizontal" id="operationAdd" name="operationAdd" role="form">			
+  				<div class="form-group">
+    				<label class="col-sm-2 control-label">操作名称：</label>
+    					<div class="col-sm-10"> 
+							<input name="operationName" id="operationName" />
+					   </div>
+  			  </div>
+  				<div class="form-group">
+    				<label class="col-sm-2 control-label">操作编码：</label>
+    					<div class="col-sm-10">
+    						<input name="operationCode" id="operationCode"/>
+					   </div>
+  			  </div>
+  			  <div class="form-group">
+                            <div class="col-sm-offset-2 col-sm-10">
+                                <button type="submit" class="btn btn-primary" id="addBtn">确认添加</button>
+                                <button type="button" class="btn btn-primary" data-dismiss="modal" aria-hidden="true">关闭</button>
+                            </div>
+                        </div>
+		  </form>
+  		</div>
+    </div><!-- /.modal-content -->
+  </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->   
 </body>
-<!-- Bootstrap core JavaScript
-================================================== -->
-<!-- Placed at the end of the document so the pages load faster -->
+<!-- 放在文件的末端，使页面加载速度更快 -->
 <script src="${webRoot}/res/common/js/jquery.min.js"></script>
 <script src="${webRoot}/res/common/js/bootstrap.min.js"></script>
+<!-- 只是为了让我们的占位符图像工作。不要实际复制下一行！ -->
+<script src="${webRoot}/res/common/js/vendor/holder.js"></script>
+<!-- IE10视口黑客的表面/桌面Windows 8的bug -->
+<script src="${webRoot}/res/common/js/ie10-viewport-bug-workaround.js"></script>
+<script src="${webRoot}/res/common/js/browser.js" type="text/javascript"></script>
+<!-- 复选框，单选框，下拉选框美化 -->
+<script src="${webRoot}/res/common/js/uniform-master/jquery.uniform.js"></script>
+<script src="${webRoot}/res/common/js/validate/jquery.validate.min.js"></script>
+<script src="${webRoot}/res/common/js/validate/messages_zh.min.js"></script>
 <script src="${webRoot}/res/common/js/jquery.json-2.4.js"></script>
-<!-- Flot -->
-<script src="${webRoot}/res/common/js/bootstrap_table/bootstrap-table.js"></script>
-<script src="${webRoot}/res/common/js/bootstrap_table/bootstrap-table-export.js"></script>
-<script src="${webRoot}/res/common/js/tableExport.js"></script>
-<script src="${webRoot}/res/common/js/bootstrap_table/bootstrap-table-editable.js"></script>
-<script src="${webRoot}/res/common/js/bootstrap-editable.js"></script>
-<script type="text/javascript" src="${webRoot}/res/common/js/bootstrap_table/locale/bootstrap-table-zh-CN.js"></script>
-<script src="${webRoot}/res/common/js/layer/layer/layer.js"></script>
-<script src="${webRoot}/res/common/js/area.js"></script>
+
+<!-- 弹出层 -->
+<script src="${webRoot}/res/common/js/layer1/layer.js"></script>
 <script>
-    var userId='${userId}';
-    var basePath='${webRoot}';
-	var $table = $('#table');
-	
-	provinceTag="provinceCode";
-	cityTag="cityCode";
-	countyTag="countyCode";
-	schoolTag="schoolId";
-	
-	
-   
-    $(document).ready(function() {   
-    	initRoleData();	
-    	getProvinceList();
-        $table.bootstrapTable({
-            columns: [
-                [
-                 {field: 'user.userName',title: '用户名',sortable: false, align: 'center'},
-                 {field: 'ucName',title: '真实姓名',sortable: false, align: 'center'},
-                 {field: 'user.idcard',title: '身份证',sortable: false, align: 'center'},
-                 {field: 'sexValue',title: '性别',sortable: false, align: 'center'},
-                 {field: 'user.email',title: '邮箱',sortable: false, align: 'center'},
-                 {field: 'user.phone',title: '手机',sortable: false, align: 'center'},
-                 {field: 'user.stateCode',title: '状态',sortable: false, align: 'center'},
-                 {field: 'spaceStateCode',title: '空间状态',sortable: false, align: 'center'},
-                 {field: 'spaceLevelCode',title: '空间等级',sortable: false, align: 'center'},
-                 {field: 'userRoleValue',title: '用户角色',sortable: false, align: 'center'},
-                 {field: 'registerDateString',title: '注册时间',sortable: false, align: 'center'},
-                 {title: '操作',align: 'center',events: operateEvents,formatter: operateFormatter}
-                ]
-            ]
-        });
+var appId='${appId}';
+    $(document).ready(function() {
+        //改变复选框与单选框的样式
+      /*   getAppReTypeList();
+        getBackstageGroupList();
+        getReceptionGroupList();
+        getAppGroupList();*/
+        getAppOperationList(); 
+      // validate signup form on keyup and submit
+      $("#operationAdd").validate({
+          rules: {
+          	operationName: {
+          		required: true,
+                  remote: {
+                  	type: "get",
+                  	dataType: "json",
+                  	url: "${webRoot}/appOperation/isExitsByCondition",
+                  	data: {
+                  		operate: function() {
+                  			return $("#operationName").val();
+                  		},
+                  		appId:appId
+                  	}
+                  }
+              },
+          	operationCode: {
+                  required: true,
+                  remote: {
+                  	type: "get",
+                  	dataType: "json",
+                  	url: "${webRoot}/appOperation/isExitsByCondition",
+                  	data: {
+                  		code: function() {
+                  			return $("#operationCode").val();
+                  		},
+                  		appId:appId
+                  	}
+                  }
+              }
+          },
+          success: function(element) {
+          	element.closest('.form-group').removeClass('has-error').addClass('has-success');
+  			$("#codeButton").removeAttr("disabled","");
+  		},
+          messages: {
+          	operationName: {        		
+          		required: "操作名称不能为空！",
+          		remote: "操作已经存在，请重新输入！"
+          	},
+          	operationCode: {        		
+          		required: "操作编码不能为空！",
+          		remote: "操作编码已经存在，请重新输入！"
+          	}
+          },
+          submitHandler:function(form){
+          	saveOperation();
+          }
+      });
     });
-    
-    function onProvinceChange(){
-		provinceChange();
-		refalshData();
-	}
-
-	function onCityChange(){
-		cityChange();
-		refalshData();
-	}
-	
-	function onCountyChange(){
-		countyChange();
-		refalshData();
-	}
-    
-    function detailFormatter(index, row) {
-        var html = [];
-        $.each(row, function (key, value) {
-            html.push('<p><b>' + key + ':</b> ' + value + '</p>');
-        });
-        return html.join('');
-    }
-
-    function operateFormatter(value, row, index) {
-    	var html=[
-           '<a class="edit btn" style="margin-left: 5px;font-size:1em;display: none" href="javascript:void(0)" target="mainFrame" title="GRYHGL_edit">',
-            '重置密码',
-            '</a>'];
-        html.push('<a class=" btn" style="margin-left: 5px;font-size:1em;display: none" href="${webRoot}/userInfo/userInfoDetail/'+row.id+'" target="mainFrame" title="GRYHGL_detail">详情</a>')
-        html.push('<a class=" btn" style="margin-left: 5px;font-size:1em;display: none" href="${webRoot}/userInfo/userInfoEdit/'+row.id+'" target="mainFrame" title="GRYHGL_update">编辑</a>')
-        var state=row.user.state;
-       if(state=='0'){
-        	html.push('<a class="enable btn" style="margin-left: 5px;font-size:1em;display: none" href="javascript:void(0)" target="mainFrame" title="GRYHGL_open">启用</a>');
-        }else{
-        	html.push('<a class="disable btn" style="margin-left: 5px;font-size:1em;display: none" href="javascript:void(0)" target="mainFrame" title="GRYHGL_close">禁用</a>');
-        }
-        var spaceState=row.spaceState;
-       if(spaceState=='0'){
-        	html.push('<a class="spaceenable btn" style="margin-left: 5px;font-size:1em;display: none" href="javascript:void(0)" target="mainFrame" title="GRYHGL_space_open">空间启用</a>');
-        }else{
-        	html.push('<a class="spacedisable btn" style="margin-left: 5px;font-size:1em;display: none" href="javascript:void(0)" target="mainFrame" title="GRYHGL_space_close">空间禁用</a>');
-        }
-        var spaceLevel=row.spaceLevel;
-       if(spaceLevel=='0'){
-        	html.push('<a class="spaceset btn" style="margin-left: 5px;font-size:1em;display: none" href="javascript:void(0)" target="mainFrame" title="GRYHGL_space_set">设为优秀空间</a>');
-        }else{
-        	html.push('<a class="spacecancel btn" style="margin-left: 5px;font-size:1em;display: none" href="javascript:void(0)" target="mainFrame" title="GRYHGL_space_cancel">取消优秀空间</a>');
-        }
-        return html.join('');
-    }
-
-    window.operateEvents = {
-        'click .edit': function (e, value, row, index) {
-         if(resetPassword(row)){
-           	$table.bootstrapTable('refresh', {
-           		silent: true
-               });
-           }
-           
-        },
-      /*   'click .delete': function (e, value, row, index) {
-            if(deleteUser(row)){
-            	$table.bootstrapTable('refresh', {
-            		silent: true
-                });
-            }
-        }, */
-        'click .enable': function (e, value, row, index) {
-           if(enableUser(row)){
-           	$table.bootstrapTable('refresh', {
-           		silent: true
-               });
-           }
-       },
-       'click .disable': function (e, value, row, index) {
-           if(disableUser(row)){
-           	$table.bootstrapTable('refresh', {
-           		silent: true
-               });
-           }
-       },
-        'click .spaceenable': function (e, value, row, index) {
-           if(spaceenableUser(row)){
-           	$table.bootstrapTable('refresh', {
-           		silent: true
-               });
-           }
-       },
-       'click .spacedisable': function (e, value, row, index) {
-           if(spacedisableUser(row)){
-           	$table.bootstrapTable('refresh', {
-           		silent: true
-               });
-           }
-       },
-        'click .spaceset': function (e, value, row, index) {
-           if(spaceset(row)){
-           	$table.bootstrapTable('refresh', {
-           		silent: true
-               });
-           }
-       },
-       'click .spacecancel': function (e, value, row, index) {
-           if(spacecancel(row)){
-           	$table.bootstrapTable('refresh', {
-           		silent: true
-               });
-           }
-       }
-    };
-    function getUserList(params){
-    	var url="${webRoot}/userInfo/selectUserInfoByPage";
-    	var searchText=params.data.searchText;
-    	if(searchText==null){
-    		searchText="";
+    function addOperation(){
+    	$("#operationName").val("");
+ 		$("#operationCode").val("");
+ 		$("#operationAdd").validate().resetForm();
+    	$('#myModal').modal('show');
+     }
+     
+     function saveOperation(){
+     	$("#operationAdd").validate();
+     	var url="${webRoot}/appOperation/insert";
+     	var data={
+     		appId:appId,
+     		operationName:$("#operationName").val(),
+     		operationCode:$("#operationCode").val()
+     	};
+     	ajaxAction('post',url,$.toJSON(data),'json','saveOperation');
+     }
+     
+      //删除权限操作：
+     function removeOperation(id){
+    	var url="${webRoot}/appOperation/delete/"+id;
+    	if(confirm("您确定删除吗?")){
+    		ajaxAction('get',url,"",'json','removeOperation');
     	}
-    	var data={
-    			'page':params.data.pageNumber,
-    			'rows':params.data.pageSize,
-    			'rows':params.data.pageSize == 0 ? 10 : params.data.pageSize,
-    			'params':{
-    				"userType":"person",
-    				"userRole":$("#userRole").val(),
-    				"state":$("#state").val(),
-    				"searchText":searchText,
-    				"province":$("#provinceCode").val(),
-    				"city":$("#cityCode").val(),
-    				"county":$("#countyCode").val(),
-    				"schoolId":$("#schoolId").val(),
-    				"spaceState":$("#spaceState").val(),
-    				"spaceLevel":$("#spaceLevel").val()
-    			}
-    	}
-    	var code="";
-    	var list;
-    	var total=0;
-    	$.ajax({
-			type : "post",
-			url : url,
-			data :  data,
-			async : false,
-			dataType : 'json',
-			success : function(data) {
-				code=data.code;
-				list=data.rows;
-				total=data.total;
-			}
-		});
-    	if(code=='1'){
-			layer.msg("数据库异常，请稍后重试！");	
-			params.complete();
-			return false;
-		}
-             params.success({
-                 total: total,
-                 rows: list
-             }); 
-             // hide loading
-             params.complete();
-             GrantFilter();
+     }
+    
+    
+    function getAppOperationList(){
+    	var url="${webRoot}/appOperation/selectByAppId/"+appId;
+    	ajaxAction('get',url,"",'json','getAppOperationList');
     }
     
-    function refalshData(){
-    	$table.bootstrapTable('refresh',{
-    		query: {pageNumber: 1}
-    	});
-    }
-    
-    /* function deleteUser(row){
-    	if(confirm("您确定要启用用户:"+row.user.userName+"吗?"))
-		{
-	    	var url="${webRoot}/user/deleteUser/"+row.id;
-	    	var code="";
-	    	$.ajax({
-				type : "post",
-				url : url,
-				data :  "",
-				async : false,
-				dataType : 'json',
-				success : function(data) {
-					code=data.code;
-				}
-			});
-	    	if(code=='1'){
-				layer.msg("服务器异常，请稍后重试！");	
-				return false;
-			}else{
-				layer.msg("删除成功！");
-				return true;
-			}
-		}
-    	else{
-    		}
-    	} */
-    
-    function resetPassword(row){
-    	if(confirm("您确定要重置用户:"+row.user.userName+" 的密码吗?"))
-		{
-	    	var url="${webRoot}/user/resetPassword/"+row.id;
-	    	var code="";
-	    	$.ajax({
-				type : "post",
-				url : url,
-				data :  "",
-				async : false,
-				dataType : 'json',
-				success : function(data) {
-					code=data.code;
-				}
-			});
-	    	if(code=='2'){
-				alert("服务器异常，请稍后重试！");	
-				return false;
-			}else{
-				alert("设置成功，重置后的密码为123456！");
-				return true;
-			}
-		}
-    	else{
-    		return false;
-    	}
-    }
-    function enableUser(row){
-    	if(confirm("您确定要启用用户:"+row.user.userName+" 吗?"))
-		{
-	    	var url="${webRoot}/user/updateStatus";
-	    	var code="";
-	    	var data={
-	    		"id":row.id,
-	    		"state":'1'
-	    	}
-	    	$.ajax({
-				type : "post",
-				url : url,
-				data :  data,
-				async : false,
-				dataType : 'json',
-				success : function(data) {
-					code=data.code;
-				}
-			});
-	    	if(code=='1'){
-				alert("服务器异常，请稍后重试！");	
-				return false;
-			}else{
-				alert("设置成功，该用户已可以正常访问本系统！");
-				return true;
-			}
-		}else{
-			return false;
-		}
-    }
-    function disableUser(row){
-    	if(confirm("您确定要禁用用户:"+row.user.userName+" 吗?"))
-		{
-	    	var url="${webRoot}/user/updateStatus";
-	    	var data={
-	    		"id":row.id,
-	    		"state":'0'
-	    	}
-	    	var code="";
-	    	$.ajax({
-				type : "post",
-				url : url,
-				data :  data,
-				async : false,
-				dataType : 'json',
-				success : function(data) {
-					code=data.code;
-				}
-			});
-	    	if(code=='2'){
-				alert("服务器异常，请稍后重试！");	
-				return false;
-			}else{
-				alert("设置成功，该用户将禁止访问本系统！");
-				return true;
-			}
-		}
-    	else{
-    		return false;
-    	}
-    }
-    
-     function spaceenableUser(row){
-    	if(confirm("您确定要启用用户空间:"+row.user.userName+" 吗?"))
-		{
-	    	var url="${webRoot}/userInfo/editSpaceStateByUserId/"+row.id+"/1";
-	    	var code="";
-	    	var data={}
-	    	$.ajax({
-				type : "get",
-				url : url,
-				data :  $.toJSON(data),
-				async : false,
-				dataType : 'json',
-				contentType : 'application/json',
-				success : function(data) {
-					code=data.code;
-				}
-			});
-	    	if(code=='1'){
-				alert("服务器异常，请稍后重试！");	
-				return false;
-			}else{
-				alert("设置成功，该用户空间已开通！");
-				return true;
-			}
-		}
-    	else{
-    		}
-    }
-    function spacedisableUser(row){
-    	if(confirm("您确定要禁用用户空间:"+row.user.userName+" 吗?"))
-		{
-	    	var url="${webRoot}/userInfo/editSpaceStateByUserId/"+row.id+"/0";
-	    	var data={}
-	    	var code="";
-	    	$.ajax({
-				type : "get",
-				url : url,
-				data : $.toJSON(data),
-				async : false,
-				dataType : 'json',
-				contentType : 'application/json',
-				success : function(data) {
-					code=data.code;
-				}
-			});
-	    	if(code=='1'){
-				alert("服务器异常，请稍后重试！");	
-				return false;
-			}else{
-				alert("设置成功，该用户空间将禁止访问！");
-				return true;
-			}
-		}
-    	else{
-    		}
-    }
-     function spaceset(row){
-    	if(confirm("您确定要将个人:"+row.ucName+" 设置为优秀空间吗?"))
-		{
-	    	var url="${webRoot}/userInfo/setSpaceLevel";
-	    	var code="";
-	    	var data={
-	    		"id":row.id,
-	    		"spaceLevel":1
-	    	}
-	    	$.ajax({
-				type : "post",
-				url : url,
-				data :  data,
-				async : false,
-				dataType : 'json',
-				success : function(data) {
-					code=data.code;
-				}
-			});
-	    	if(code=='1'){
-				alert("服务器异常，请稍后重试！");	
-				return false;
-			}else{
-				alert("设置成功，该用户空间已设置为优秀空间！");
-				return true;
-			}
-		}
-    	else{
-    		}
-    }
-    function spacecancel(row){
-    	if(confirm("您确定要取消个人空间:"+row.ucName+" 的优秀空间吗?"))
-		{
-	    	var url="${webRoot}/userInfo/setSpaceLevel";
-	    	var data={
-	    		"id":row.id,
-	    		"spaceLevel":0
-	    	}
-	    	var code="";
-	    	$.ajax({
-				type : "post",
-				url : url,
-				data : data,
-				async : false,
-				dataType : 'json',
-				success : function(data) {
-					code=data.code;
-				}
-			});
-	    	if(code=='1'){
-				alert("服务器异常，请稍后重试！");	
-				return false;
-			}else{
-				alert("设置成功，已取消该用户的优秀空间");
-				return true;
-			}
-		}
-    	else{
-    		}
-    }
-    /**
-     * 初始化系统后台角色
-     */
-    function initRoleData(){
-    	var url="${webRoot}/dictionary/queryChildrenByDicCode/person";
-    	ajaxAction('get',url,'','json','initRoleData');
-    }
-    
-     function ajaxAction(type, url, reqData, returnType, requestName) {
+  //ajax请求
+    function ajaxAction(type, url, reqData, returnType, requestName) {
     	$.ajax({
     		type : type,
     		url : url,
@@ -508,19 +196,45 @@
     		dataType : returnType,
     		contentType : 'application/json',
     		success : function(data) {
-    			if(requestName == "initRoleData"){
+    			if (requestName == "getAppOperationList"){
     				var code=data.code;
-    				if(code=='1'){
-    					alert('服务器异常，请稍后重试！');
-    				}else{
-    					var roleList=data.list;
-    					$("#userRole").empty();
-    					$("#userRole").append('<option value="">全部</option>');
-    					for(var i=0;i<roleList.length;i++){
-    						var html="<option value='"+roleList[i].dicCode+"'>"+roleList[i].dicName+"</option>";
-    						$("#userRole").append(html);
+    				if(code=='0'){
+    					var list=data.list;
+    					$("#operationList").empty();
+    					if(list==null||list.length==0){
+    						$("#operationList").html('<h4>没有操作信息！</h4>');
+    						return;
     					}
+    					for(var i=0;i<list.length;i++){
+    						var html="<div class='form-group'>"
+    						+"<label for='' class='col-sm-2 control-label'>操作名称：</label><div class='col-sm-2'><div class='input-group'>"
+    						+"<p  name='operationName' class='form-control' data-id=''>"+list[i].operationName+"</p>"
+    						+"</div></div><label for='' class='col-sm-2 control-label'>操作编码：</label><div class='col-sm-2'><div class='input-group'>"
+    						+"<p  name='operationCode' class='form-control' data-id='' placeholder='操作编码'>"+list[i].operationCode+"</p>"
+    						+"</div></div><div class='col-sm-2'><button type='button' class='btn btn-default' data-itme='add' "
+    						+"onclick=removeOperation('"+list[i].id+"')>删除</button></div></div>";
+    						$("#operationList").append(html);
+    					}
+    				}else if(code=='1'){
+    					alert('服务器异常，请稍后重试！');
+    				}	
+    			}else if (requestName == "removeOperation"){
+    				var code=data.code;
+    				if(code=='0'){
+    					alert("删除成功！");
+    					getAppOperationList();
+    				}else if(code=='1'){
+    					alert('服务器异常，请稍后重试！');
+    				}	
+    			}else if (requestName == "saveOperation"){
+    				var code=data.code;
+    				if(code=='0'){
+    					alert("添加成功！");
+    					getAppOperationList();
+    				}else if(code=='1'){
+    					alert('服务器异常，请稍后重试！');
     				}
+    				$('#myModal').modal('hide');
     			}
     		}
     	});
