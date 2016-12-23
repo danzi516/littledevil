@@ -1,5 +1,7 @@
 package cn.com.hd.domain.sys;
 
+import java.util.List;
+
 public class AppInfo {
     private Integer id;
 
@@ -18,8 +20,18 @@ public class AppInfo {
     private String state;
     
     private AppExtendInfo appExtendInfo;
+    
+    private List<AppOperation> appOperationList;
 
-    public AppExtendInfo getAppExtendInfo() {
+    public List<AppOperation> getAppOperationList() {
+		return appOperationList;
+	}
+
+	public void setAppOperationList(List<AppOperation> appOperationList) {
+		this.appOperationList = appOperationList;
+	}
+
+	public AppExtendInfo getAppExtendInfo() {
 		return appExtendInfo;
 	}
 

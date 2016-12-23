@@ -1,13 +1,12 @@
 package cn.com.hd.controller.sys;
 
-import java.io.IOException;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 import javax.annotation.Resource;
-import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,16 +18,11 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
-import cn.com.hd.common.MD5Encrypt;
 import cn.com.hd.common.Page;
-import cn.com.hd.domain.company.CompanyInfo;
 import cn.com.hd.domain.sys.AppExtendInfo;
 import cn.com.hd.domain.sys.AppInfo;
-import cn.com.hd.domain.uc.User;
-import cn.com.hd.domain.uc.UserInfo;
 import cn.com.hd.service.sys.AppExtendInfoService;
 import cn.com.hd.service.sys.AppInfoService;
-import cn.com.hd.service.uc.UserService;
 import net.sf.json.JSONObject;
 
 /**
@@ -68,6 +62,33 @@ public class AppInfoController {
             code="0";
             map.put("rows", page.getData());
     		map.put("total", page.getTotalRecord());
+        }catch(Exception e){
+            code="1";
+            e.printStackTrace();
+        }
+        map.put("code", code);
+        return map;
+    }
+    
+    /**
+	 * 功能描述：查询所有应用
+	 * 作者：lijiaxing
+	 * url：${webRoot}/appInfo/selectAllAppInfo
+	 * 请求方式：POST
+	 * @param  
+	 * @return Map<String,Object>
+	 *         key:code["0":"成功","1":"失败"]
+	 *         key:rows[查询结果ist]
+	 *         key:total[记录总数]
+	 */
+    @RequestMapping(value="selectAllAppInfo",method=RequestMethod.GET)
+    public @ResponseBody Map<String, Object> selectAllAppInfo(){
+        Map<String,Object> map = new HashMap<String,Object>();
+        String code="";
+        try{
+        	List<AppInfo> appInfo=appInfoService.selectAllAppInfo();
+            code="0";
+            map.put("appInfo",appInfo );
         }catch(Exception e){
             code="1";
             e.printStackTrace();

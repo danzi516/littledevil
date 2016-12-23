@@ -124,11 +124,12 @@ function ajaxAction(type, url, reqData, returnType, requestName) {
 				var userType=data.userType;
 				if(msg=='ok'){
 					if(userType=='sys'){
-						window.location.href='${webRoot}/admin/userList';
+						window.location.href='${webRoot}/admin/index';
 					}
-					else{
+					else if(userType=='company'){
 						window.location.href='${webRoot}/companyMember/toCompanyMemberList';
 					}
+					else {alert("暂不支持个人登录！！！！")}
 				}else{
 					alert(msg);
 				}

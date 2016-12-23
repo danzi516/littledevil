@@ -10,6 +10,7 @@
     <result column="app_sort" property="appSort" jdbcType="INTEGER" />
     <result column="is_pay" property="isPay" jdbcType="VARCHAR" />
     <result column="state" property="state" jdbcType="VARCHAR" />
+    <collection property="appOperationList" column="id" ofType="cn.com.hd.domain.sys.AppOperation" select="cn.com.hd.persistance.sys.AppOperationMapper.selectByAppId"></collection>
   </resultMap>
   <sql id="Base_Column_List" >
     id, app_name, app_code, request_url, app_logo, app_sort, is_pay, state
@@ -126,14 +127,17 @@
     where id = #{id,jdbcType=INTEGER}
   </update>
   <select id="selectAppInfoByPage" parameterType="cn.com.hd.common.Page" resultMap="BaseResultMap">
-  	 select 
+  	select 
    	id, app_name, app_code, request_url, app_logo, app_sort, is_pay, state
     from t_app_info t
     where 1=1
     <if test="params['searchText'] != null and params['searchText'] != ''">  
         	and  app_name like '%${params.searchText}%' 
     </if>
-  
-    
+  </select>
+  <select id="selectAllAppInfo" parameterType="cn.com.hd.domain.sys.AppInfo" resultMap="BaseResultMap">
+  	select 
+   	id, app_name, app_code, request_url, app_logo, app_sort, is_pay, state
+    from t_app_info t
   </select>
 </mapper>

@@ -6,6 +6,9 @@
     <result column="role_id" jdbcType="INTEGER" property="roleId" />
     <result column="app_id" jdbcType="INTEGER" property="appId" />
     <result column="operation_id" jdbcType="INTEGER" property="operationId" />
+    <collection property="role" column="role_id" ofType="cn.com.hd.domain.company.CompanyRole" select="cn.com.hd.persistance.company.CompanyRoleMapper.selectByPrimaryKey"></collection>
+    <collection property="appInfo" column="app_id" ofType="cn.com.hd.domain.sys.AppInfo" select="cn.com.hd.persistance.sys.AppInfoMapper.selectByPrimaryKey"></collection>
+    <collection property="operation" column="operation_id" ofType="cn.com.hd.domain.sys.AppOperation" select="cn.com.hd.persistance.sys.AppOperationMapper.selectByPrimaryKey"></collection>
   </resultMap>
   <sql id="Base_Column_List">
     id, role_id, app_id, operation_id
@@ -16,9 +19,19 @@
     from t_company_role_operation
     where id = #{id,jdbcType=INTEGER}
   </select>
+   <select id="selectByRoleId" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from t_company_role_operation
+    where role_id = #{roleId,jdbcType=INTEGER}
+  </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
     delete from t_company_role_operation
     where id = #{id,jdbcType=INTEGER}
+  </delete>
+    <delete id="deleteByRoleId" parameterType="java.lang.Integer">
+    delete from t_company_role_operation
+    where role_id = #{roleId,jdbcType=INTEGER}
   </delete>
   <insert id="insert" parameterType="cn.com.hd.domain.company.CompanyRoleOperation">
     insert into t_company_role_operation (id, role_id, app_id, 
@@ -79,4 +92,5 @@
       operation_id = #{operationId,jdbcType=INTEGER}
     where id = #{id,jdbcType=INTEGER}
   </update>
+  
 </mapper>

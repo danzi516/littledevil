@@ -71,10 +71,17 @@ public class UserController {
 				return map;
 			}
 			session.setAttribute("user", record);
+			//查找companyId
+			
 			if(record.getUserType().equals("sys")){
 				map.put("userType", "sys");
+				map.put("companyId", 0);
 			}
-			else{
+			else if(record.getUserType().equals("company")){
+				map.put("userType", "company");
+				map.put("companyId", record.getId());
+			}
+			else {
 				map.put("userType", "person");
 			}
 			map.put("msg", "ok");

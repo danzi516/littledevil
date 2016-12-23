@@ -74,8 +74,8 @@
                             <div class="col-sm-4">
                                 <select name="state" id="userRole"  class="form-control">
                                     <option value="1">超管</option>
-                                    <option value="3" selected>普通</option>
                                     <option value="2" >财务</option>
+                                    <option value="3" selected>普通</option>
                                 </select>
                             </div>
                         </div>

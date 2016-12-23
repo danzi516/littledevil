@@ -79,4 +79,15 @@
       state = #{state,jdbcType=VARCHAR}
     where id = #{id,jdbcType=INTEGER}
   </update>
+  <select id="selectByPage" parameterType="cn.com.hd.common.Page" resultMap="BaseResultMap">
+  	select  id, company_id, role_name, state from t_company_role
+    where 1=1 and role_name != 'admin'
+    <if test="params['companyId'] !=null and params['companyId'] != ''"> 
+    and company_id=#{params.companyId}
+    </if>
+    <if test="params['searchText'] != null and params['searchText'] != ''">  
+        	and role_name  like '%${params.searchText}%' 
+    </if>
+  </select>
+  
 </mapper>
