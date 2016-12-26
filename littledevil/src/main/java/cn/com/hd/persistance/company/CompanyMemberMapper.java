@@ -4,6 +4,7 @@ import java.util.List;
 
 import cn.com.hd.common.Page;
 import cn.com.hd.domain.company.CompanyMember;
+import cn.com.hd.domain.uc.User;
 
 
 public interface CompanyMemberMapper {
@@ -20,4 +21,6 @@ public interface CompanyMemberMapper {
     int updateByPrimaryKey(CompanyMember record);
     
     List<CompanyMember> selectCompanyMemberByPage(Page page);
+    
+    CompanyMember selectByCondition(CompanyMember record);
 }

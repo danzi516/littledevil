@@ -37,6 +37,20 @@ public class CompanyMemberController {
 	@Autowired
 	HttpSession session;
 
+	
+	/**
+	 * 功能描述：跳转到企业首页
+	 * 作者：lijiaxing
+	 * url：${webRoot}/companyMember/index
+	 * 请求方式：GET
+	 * @param id int
+	 * @return ModelAndView
+	 **/
+	@RequestMapping("/index")
+	public  ModelAndView toIndex(){
+		ModelAndView mv=new ModelAndView("company/index");
+		return mv;
+	}
 	/**
 	 * 功能描述：跳转到会员列表页面
 	 * 作者：wanglin
@@ -102,24 +116,28 @@ public class CompanyMemberController {
 	        Map<String,Object> map = new HashMap<String,Object>();
 	        String code="";
 	        try{
-	        	if(userService.selectByCondition(record.getUser())==null){
-	        		User user=record.getUser();
-	        		UserInfo Userinfo=record.getUserInfo();
-	        		String aaa = record.getUser().getPhone().toString();
-	        		user.setUserName(aaa);
-	        		user.setPassword(MD5Encrypt.getMD5Code("123456"));
-		        	userService.insertSelective(user);
-		        	record.setUserId(user.getId());
-		        	Userinfo.setId(user.getId());
-		        	userInfoService.insert(Userinfo);
-		        	companyMemberService.insert(record);
-	        	}
-	        	else{
-	        		record.setUserId(userService.selectByCondition(record.getUser()).getId());
-	        		companyMemberService.insert(record);
-	        		
-	        	}
-	            code="0";
+	        		if(userService.selectByCondition(record.getUser())==null){
+		        		User user=record.getUser();
+		        		UserInfo Userinfo=record.getUserInfo();
+		        		String aaa = record.getUser().getPhone().toString();
+		        		user.setUserName(aaa);
+		        		user.setPassword(MD5Encrypt.getMD5Code("123456"));
+			        	userService.insertSelective(user);
+			        	record.setUserId(user.getId());
+			        	Userinfo.setId(user.getId());
+			        	userInfoService.insert(Userinfo);
+			        	companyMemberService.insert(record);
+			        	code="0";
+	        		}
+		        	else{
+		        		record.setUserId(userService.selectByCondition(record.getUser()).getId());
+		        		if(companyMemberService.selectByCondition(record)==null){
+		        			record.setUserId(userService.selectByCondition(record.getUser()).getId());
+			        		companyMemberService.insert(record);
+			        		code="0";
+		        		}
+		        		else{code="已经存在";}
+		        	}
 	        }catch(Exception e){
 	            code="1";
 	            e.printStackTrace();

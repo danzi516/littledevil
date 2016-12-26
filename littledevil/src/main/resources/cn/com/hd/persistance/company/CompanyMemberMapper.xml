@@ -110,4 +110,20 @@
         	and (u.uc_name like '%${params.searchText}%' ) 
     </if>
   </select>
+  
+      <!-- 根据条件查找用户信息 -->
+  <select id="selectByCondition" resultMap="BaseResultMap" parameterType="cn.com.hd.domain.company.CompanyMember" >
+    SELECT
+	t.id,
+	t.user_id,
+	t.company_id,
+	t.member_type,
+	t.is_delete
+	FROM
+	t_company_member  t
+    where 1=1
+    <if test="userId != null">  
+        	and t.user_id=#{userId} and t.company_id=#{companyId}
+    </if>
+  </select>
 </mapper>

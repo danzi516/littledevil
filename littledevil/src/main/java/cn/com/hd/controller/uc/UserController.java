@@ -76,10 +76,12 @@ public class UserController {
 			if(record.getUserType().equals("sys")){
 				map.put("userType", "sys");
 				map.put("companyId", 0);
+				session.setAttribute("companyId", 0);
 			}
 			else if(record.getUserType().equals("company")){
 				map.put("userType", "company");
 				map.put("companyId", record.getId());
+				session.setAttribute("companyId", record.getId());
 			}
 			else {
 				map.put("userType", "person");

@@ -28,7 +28,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
         <div class="col-sm-12">
             <div class="console-title clearfix">
                 <div class="pull-left"> <h5>首页</h5></div>
-                <div class="pull-right"><a href="member_main.html" class="btn btn-link">返回</a> </div>
+                <div class="pull-right"><a href="javascript:history.back(-1)" class="btn btn-link">返回</a> </div>
             </div>
             <hr/>
             <form class="form-horizontal" method="post" id="addCompanyCommodityForm">
@@ -89,7 +89,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 <script src="${webRoot}/res/common/js/jquery.json-2.4.js"></script>
   <script>
   $(document).ready(function() {
-	  alert('${userId}');
+	 // alert('${userId}');
 	//改变复选框与单选框的样式
       $("input[type='radio'],input[type='checkbox']").uniform();
       //initRoleData();

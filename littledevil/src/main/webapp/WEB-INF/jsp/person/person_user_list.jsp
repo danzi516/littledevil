@@ -26,6 +26,18 @@
                 <div class="pull-left"><a href="javascript:" class="btn btn-default">个人用户管理</a> </div>
             </div>
             <hr/>
+            <div id="toolbar">
+        <div class="pull-left"><a href="${webRoot}/companyMember/toAddCompanyMember" role="button" class="btn btn-primary add" target="mainFrame">添加个人用户</a></div>&nbsp;&nbsp;&nbsp;&nbsp;
+        <div style="display: inline-table; width: 50px;">
+        	<label>状态:</label>
+        </div>
+        <div style="display: inline-table; width: 100px;">
+        	<select class="form-control" id="state" onchange="refalshData()">
+        		<option value="" selected>全部</option>
+        		<option value="0">禁用</option>
+                <option value="1">正常使用</option>
+        	</select>
+        </div></div>
         <table id="table"
 		       data-toolbar="#toolbar"
 		       data-search="true"

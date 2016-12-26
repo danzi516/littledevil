@@ -26,7 +26,7 @@
         <div class="col-sm-12">
             <div class="console-title clearfix">
                 <div class="pull-left"> <h5>分配权限</h5></div>
-                <div class="pull-right"><a id="back" href="${webRoot}/role/toRoleList/${role.objectId}/${role.objectType}" target="manageMainFrame" class="btn btn-link">返回</a> </div>
+                <div class="pull-right"><a id="back" href="javascript:history.back(-1)" target="manageMainFrame" class="btn btn-link">返回</a> </div>
             </div>
             <hr/>
             <div class="panel panel-default">

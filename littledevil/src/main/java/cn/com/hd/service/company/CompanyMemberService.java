@@ -7,6 +7,7 @@ import org.springframework.transaction.annotation.Transactional;
 import cn.com.hd.common.Page;
 import cn.com.hd.domain.company.CompanyInfo;
 import cn.com.hd.domain.company.CompanyMember;
+import cn.com.hd.domain.uc.User;
 import cn.com.hd.persistance.company.CompanyMemberMapper;
 
 
@@ -47,5 +48,9 @@ public class CompanyMemberService {
 	public Page selectCompanyMemberByPage(Page page){
 		page.setData(companyMemberMapper.selectCompanyMemberByPage(page));
     	return page;
+    }
+	
+    public CompanyMember selectByCondition(CompanyMember record){
+    	return companyMemberMapper.selectByCondition(record);
     }
 }

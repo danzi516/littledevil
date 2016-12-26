@@ -161,14 +161,18 @@
   </update>
   
   <select id="selectCompanyByPage" parameterType="cn.com.hd.common.Page" resultMap="BaseResultMap">
-  	select id, company_name, company_logo, link_person, link_phone, provice_code, city_code, 
-    county_code, address, coordinate,company_type,register_time from t_company_info
-    where 1=1
+  	select t.id, t.company_name, t.company_logo, t.link_person, t.link_phone, t.provice_code, t.city_code, 
+    t.county_code, t.address, t.coordinate,t.company_type,t.register_time from t_company_info t
+    LEFT JOIN t_user u on u.id = t.id
+    where 1=1 
     <if test="params['searchText'] != null and params['searchText'] != ''">  
         	and company_name  like '%${params.searchText}%' 
     </if>
-    <if test="params['proviceCode'] != null and params['proviceCode'] != ''">  
+     <if test="params['proviceCode'] != null and params['proviceCode'] != ''">  
         	and provice_code=#{params.proviceCode}
+    </if>
+    <if test="params['state'] != null and params['state'] != ''">  
+        	and state=#{params.state}
     </if>
     <if test="params['cityCode'] != null and params['cityCode'] != ''">  
         	and city_code=#{params.cityCode}

@@ -134,7 +134,7 @@
                <!--  <li data-toggle="tooltip" data-placement="right" title="常用菜单" class="active"><a href="#home" aria-controls="home" role="tab" data-toggle="tab"><i class="fa fa-tasks"></i></a></li>
                 <li data-toggle="tooltip" data-placement="right" title="插件管理"><a href="#profile" aria-controls="profile" role="tab" data-toggle="tab"><i class="fa fa-th"></i></a></li>
                 <li data-toggle="tooltip" data-placement="right" title="会员管理"><a href="#messages" aria-controls="messages" role="tab" data-toggle="tab"><i class="fa fa-user"></i></a></li> -->
-                <li data-toggle="tooltip" data-placement="right" title="系统设置" class="active"><a href="#settings" aria-controls="settings" role="tab" data-toggle="tab" ><i class="fa fa-globe"></i></a></li>
+                <li data-toggle="tooltip" data-placement="right" title="会员管理" class="active"><a href="#settings" aria-controls="settings" role="tab" data-toggle="tab" ><i class="fa fa-globe"></i></a></li>
             </ul>
         </div>
         <div class="sideber-content">
@@ -273,10 +273,11 @@
                     <h6>系统设置</h6>
                     <ul>
                         <!-- <li><a href="sys_set.html" target="mainFrame"><span></span>全局参数设置</a></li> -->
-                        <li><a href="${webRoot}/companyRole/toCompanyRoleList" target="mainFrame"><span></span>系统角色管理</a></li>
-                        <li><a href="${webRoot}/admin/userList" target="mainFrame"><span></span>系统用户管理</a></li>
+                        <li><a href="${webRoot}/companyMember/toCompanyMemberList" target="mainFrame"><span></span>会员管理</a></li>
+                        <li><a href="${webRoot}/companyCommodity/toCompanyCommodityList" target="mainFrame"><span></span>商品管理</a></li>
+                        <%-- <li><a href="${webRoot}/admin/userList" target="mainFrame"><span></span>系统用户管理</a></li>
                         <li><a href="${webRoot}/person/userList" target="mainFrame"><span></span>个人用户管理</a></li>
-                        <li><a href="${webRoot}/companyInfo/toCompanyList" target="mainFrame"><span></span>商户管理</a></li>
+                        <li><a href="${webRoot}/companyInfo/toCompanyList" target="mainFrame"><span></span>商户管理</a></li> --%>
                         <!-- <li><a href="sys_stepselect_main.html" target="mainFrame"><span></span>联动枚举</a></li>
                         <li><a href="sys_dictionary.html" target="mainFrame"><span></span>图片水印设置</a></li>
                         <li><a href="sys_custom.html" target="mainFrame"><span></span>自定义文档属性</a></li>
@@ -308,7 +309,7 @@
 
 
     <div class="main-content">
-        <iframe src="${webRoot}/admin/main" class="frame_class" name="mainFrame" frameborder="0"></iframe>
+        <iframe src="${webRoot}/companyMember/toCompanyMemberList" class="frame_class" name="mainFrame" frameborder="0"></iframe>
     </div>
 
 

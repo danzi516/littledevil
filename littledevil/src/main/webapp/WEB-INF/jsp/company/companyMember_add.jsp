@@ -28,7 +28,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
         <div class="col-sm-12">
             <div class="console-title clearfix">
                 <div class="pull-left"> <h5>首页</h5></div>
-                <div class="pull-right"><a href="member_main.html" class="btn btn-link">返回用户管理</a> </div>
+               <div class="pull-right"><a href="javascript:history.back(-1)" class="btn btn-link">返回</a> </div>
             </div>
             <hr/>
             <form class="form-horizontal" method="post" id="addCompanyMemberForm">
@@ -77,7 +77,6 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 <script src="${webRoot}/res/common/js/jquery.json-2.4.js"></script>
   <script>
   $(document).ready(function() {
-	  alert('${userId}');
 	//改变复选框与单选框的样式
       $("input[type='radio'],input[type='checkbox']").uniform();
       //initRoleData();
@@ -116,7 +115,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
   	$("#addCompanyMemberForm").validate();
   	var url="${webRoot}/companyMember/insert";
   	var data={
-  			companyId:'${userId}',
+  			companyId:'${companyId}',
   			isDelete:'1',
   			user:{phone:$("#phone").val(),
   				userType:'person'},
@@ -139,10 +138,14 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
   				var code=data.code;
   				if(code=='0'){
   					alert('添加成功！');
-  					window.open("${webRoot}/companyMember/toCompanyMemberList", "mainFrame");
+  					/* window.open("${webRoot}/companyMember/toCompanyMemberList", "mainFrame"); */
+  					history.back();
   				}else if(code=='1'){
   					alert('服务器异常，请稍后重试！');
-  				}	
+  				}
+  				else{
+  					alert('已经存在！');
+  				}
   			}
   		}
   	});

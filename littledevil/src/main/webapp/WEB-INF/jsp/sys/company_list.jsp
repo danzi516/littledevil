@@ -27,7 +27,7 @@
             </div>
             <hr/>
 	 <div id="toolbar">
-        <div class="pull-left"><a href="${webRoot}/admin/adminUserAdd" role="button" class="btn btn-primary add" target="mainFrame" style="display: none">添加商户</a></div>&nbsp;&nbsp;&nbsp;&nbsp; 
+        <div class="pull-left"><a href="${webRoot}/companyInfo/toAddCompany" role="button" class="btn btn-primary add" target="mainFrame" >添加商户</a></div>&nbsp;&nbsp;&nbsp;&nbsp; 
         <div style="display: inline-table; width: 50px;">
         	<label>状态:</label>
         </div>

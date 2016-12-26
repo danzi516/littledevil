@@ -72,4 +72,15 @@ public class IndexController {
 
 		return modelView;
 	}
+	@RequestMapping("/admin/main")
+	public ModelAndView toSysMain(HttpServletRequest request) {
+		/**
+		 * 想要在页面展现数据,必须返回ModelAndView类型,返回String是不能获取数据的
+		 * */
+		ModelAndView modelView = new ModelAndView();
+		
+		modelView.setViewName("sys/main");// 設置視圖名稱
+
+		return modelView;
+	}
 }

@@ -41,6 +41,7 @@ public class CompanyInfoController {
 		ModelAndView mv=new ModelAndView("sys/company_list");
 		return mv;
 	}
+	
 	 /**
 	 * 功能描述：跳转到企业添加页面
 	 * 作者：lijiaxing

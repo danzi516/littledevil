@@ -167,7 +167,7 @@ public class UserInfoController {
 	}
 	
 	/**
-	 * 功能描述：添加后台用户
+	 * 功能描述：添加用户
 	 * 作者：lijiaxing
 	 * url：${webRoot}/userInfo/insert
 	 * 请求方式：POST

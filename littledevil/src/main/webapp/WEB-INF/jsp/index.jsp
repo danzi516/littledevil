@@ -127,7 +127,7 @@ function ajaxAction(type, url, reqData, returnType, requestName) {
 						window.location.href='${webRoot}/admin/index';
 					}
 					else if(userType=='company'){
-						window.location.href='${webRoot}/companyMember/toCompanyMemberList';
+						window.location.href='${webRoot}/companyMember/index';
 					}
 					else {alert("暂不支持个人登录！！！！")}
 				}else{
