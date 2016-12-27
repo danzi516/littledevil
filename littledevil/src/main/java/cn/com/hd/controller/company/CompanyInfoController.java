@@ -148,7 +148,7 @@ public class CompanyInfoController {
     }
     
     /**
-	 * 功能描述：分页查询所有企业
+	 * 功能描述：更新企业
 	 * 作者：lijiaxing
 	 * url：${webRoot}/companyInfo/update
 	 * 请求方式：POST

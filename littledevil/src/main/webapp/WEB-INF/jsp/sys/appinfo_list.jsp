@@ -23,11 +23,11 @@
     <div class="row">
         <div class="col-sm-12">
             <div class="console-title clearfix">
-                <div class="pull-left"><a href="javascript:" class="btn btn-default">应用管理</a> </div>
+                <div class="GRYHGL_insert pull-left"><a href="javascript:" class="btn btn-default">应用管理</a> </div>
             </div>
             <hr/>
 	 <div id="toolbar">
-        <div class="pull-left"><a href="${webRoot}/appInfo/toAddAppInfo" role="button" class="btn btn-primary add" target="mainFrame" title="GRYHGL_insert" style="display: block">添加应用</a></div>&nbsp;&nbsp;&nbsp;&nbsp; 
+        <div class="pull-left"><a href="${webRoot}/appInfo/toAddAppInfo" role="button" class="btn btn-primary add" target="mainFrame" title="GRYHGL_insert" >添加应用</a></div>&nbsp;&nbsp;&nbsp;&nbsp; 
         <div style="display: inline-table;">
         	<label style="width: 30px;">状态:</label>
         </div>
@@ -74,13 +74,14 @@
     var basePath='${webRoot}';
 	var $table = $('#table');
     $(document).ready(function() {   
-    	//initRoleData();	
+    	//initRoleData();
+    	$('div.'+'GRYHGL_insert').show();
         $table.bootstrapTable({
             columns: [
                 [
                  {field: 'id',title: '应用id',sortable: false, align: 'center'},
                  {field: 'appName',title: '应用名称',sortable: false, align: 'center'},
-                 {field: 'appCode',title: '应用编号',sortable: false, align: 'center'},
+                 {field: 'appCode',title: '应用编码',sortable: false, align: 'center'},
                  {field: 'requestUrl',title: '应用地址',sortable: false, align: 'center'},
                  {field: 'appLogo',title: '应用logo',sortable: false, align: 'center'},
                  {field: 'appSort',title: '序号',sortable: false, align: 'center'},
@@ -100,7 +101,7 @@
             '</a>'];
     	html.push('<a class=" btn" style="margin-left: 5px;font-size:1em;display: inline" href="${webRoot}/appOperation/toEditAppOperation/'+row.id+'" target="mainFrame" title="GRYHGL_update">权限设置</a>')
         html.push('<a class=" btn" style="margin-left: 5px;font-size:1em;display: inline"  target="mainFrame" title="GRYHGL_detail">详情(没做)</a>')
-        html.push('<a class="edit btn" style="margin-left: 5px;font-size:1em;display: inline" href="${webRoot}/appInfo/toEditAppInfo/'+row.id+'" target="mainFrame" title="GRYHGL_update">编辑</a>')
+        html.push('<a class="edit btn" style="margin-left: 5px;font-size:1em;" href="${webRoot}/appInfo/toEditAppInfo/'+row.id+'" target="mainFrame" title="GRYHGL_update">编辑</a>')
        
         var state=row.state;
         if(state=='0'){

@@ -233,6 +233,67 @@ function refalshData(){
 			}
 		});
  }
- 
+ function enableUser(row){
+ 	if(confirm("您确定要上线:"+row.commodityName+" 吗?"))
+		{
+	    	var url="${webRoot}/companyCommodity/update";
+	    	var code="";
+	    	var data={
+	    		"id":row.id,
+	    		"state":'1'
+	    	}
+	    	$.ajax({
+				type : "post",
+				url : url,
+				data :  $.toJSON(data),
+				async : false,
+				dataType : 'json',
+				contentType : 'application/json',
+				success : function(data) {
+					code=data.code;
+				}
+			});
+	    	if(code=='1'){
+				alert("服务器异常，请稍后重试！");	
+				return false;
+			}else{
+				alert("设置成功！");
+				return true;
+			}
+		}
+ 	else{
+ 		}
+ }
+ function disableUser(row){
+ 	if(confirm("您确定要下线:"+row.commodityName+" 吗?"))
+		{
+	    	var url="${webRoot}/companyCommodity/update";
+	    	var data={
+	    		"id":row.id,
+	    		"state":'0'
+	    	}
+	    	var code="";
+	    	$.ajax({
+				type : "post",
+				url : url,
+				data :  $.toJSON(data),
+				async : false,
+				dataType : 'json',
+				contentType : 'application/json',
+				success : function(data) {
+					code=data.code;
+				}
+			});
+	    	if(code=='2'){
+				alert("服务器异常，请稍后重试！");	
+				return false;
+			}else{
+				alert("设置成功！");
+				return true;
+			}
+		}
+ 	else{
+ 		}
+ }
     </script>
 </html>
