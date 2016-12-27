@@ -34,8 +34,8 @@
         <div style="display: inline-table; width: 100px;">
         	<select class="form-control" id="state" onchange="refalshData()">
         		<option value="" selected>全部</option>
-        		<option value="0">上线商品</option>
-                <option value="1">下线商品</option>
+        		<option value="1">上线商品</option>
+                <option value="0">下线商品</option>
         	</select>
         </div></div>
         <table id="table"
@@ -162,7 +162,8 @@ function refalshData(){
     			'rows':params.data.pageSize,
     			'params':{
     				"companyId":userId,
-    				"searchText":searchText
+    				"searchText":searchText,
+    				"state":$("#state").val()
     			}
     	}
     	var code="";

@@ -106,6 +106,9 @@
     <if test="params['companyId'] !=null"> 
     and company_id=#{params.companyId}
     </if>
+    <if test="params['isDelete'] != null and params['isDelete'] != ''">  
+        	and t.is_delete=#{params.isDelete}
+    </if>
     <if test="params['searchText'] != null and params['searchText'] != ''">  
         	and (u.uc_name like '%${params.searchText}%' ) 
     </if>

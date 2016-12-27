@@ -194,7 +194,8 @@ function rechargeListUser(row){
     			'rows':params.data.pageSize,
     			'params':{
     				"companyId":userId,
-    				"searchText":searchText
+    				"searchText":searchText,
+    				"isDelete":$("#state").val()
     			}
     	}
     	var code="";

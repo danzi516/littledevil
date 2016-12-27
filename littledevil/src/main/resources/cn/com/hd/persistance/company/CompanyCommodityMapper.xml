@@ -43,6 +43,9 @@
     <if test="params['searchText'] != null and params['searchText'] != ''">  
         	and (commodity_name like '%${params.searchText}%' ) 
     </if>
+    <if test="params['state'] != null and params['state'] != ''">  
+        	and state=#{params.state}
+    </if>
   </select>
   
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
