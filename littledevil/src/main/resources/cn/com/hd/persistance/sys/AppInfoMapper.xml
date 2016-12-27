@@ -134,6 +134,10 @@
     <if test="params['searchText'] != null and params['searchText'] != ''">  
         	and  app_name like '%${params.searchText}%' 
     </if>
+     <if test="params['state'] != null and params['state'] != ''">  
+        	and state=#{params.state}
+    </if>
+    order by app_sort
   </select>
   <select id="selectAllAppInfo" parameterType="cn.com.hd.domain.sys.AppInfo" resultMap="BaseResultMap">
   	select 

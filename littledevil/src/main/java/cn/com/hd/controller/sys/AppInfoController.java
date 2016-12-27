@@ -246,15 +246,16 @@ public class AppInfoController {
 	        String code="";
 	        try{
 	        	appInfoService.updateByPrimaryKeySelective(record);
-	        	appExtendInfoService.deleteByAppId(record.getId());
-	        	AppExtendInfo appExtendInfo = new AppExtendInfo();
-	        	appExtendInfo.setAppId(record.getId());
-	        	String[] list = record.getAppExtendInfo().getUserType().split(",");
-	        	for (int i=0;i<list.length;i++){
-	        		appExtendInfo.setUserType(list[i]);
-	        		appExtendInfoService.insertSelective(appExtendInfo);
+	        	if(record.getAppExtendInfo()!=null){
+	        		appExtendInfoService.deleteByAppId(record.getId());
+		        	AppExtendInfo appExtendInfo = new AppExtendInfo();
+		        	appExtendInfo.setAppId(record.getId());
+		        	String[] list = record.getAppExtendInfo().getUserType().split(",");
+		        	for (int i=0;i<list.length;i++){
+		        		appExtendInfo.setUserType(list[i]);
+		        		appExtendInfoService.insertSelective(appExtendInfo);
+		        	}
 	        	}
-	        
 	            code="0";
 	        }catch(Exception e){
 	            code="1";

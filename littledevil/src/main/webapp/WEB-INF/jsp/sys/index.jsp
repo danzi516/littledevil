@@ -273,10 +273,11 @@
                     <h6>系统设置</h6>
                     <ul>
                         <!-- <li><a href="sys_set.html" target="mainFrame"><span></span>全局参数设置</a></li> -->
-                        <li><a href="${webRoot}/companyRole/toCompanyRoleList" target="mainFrame"><span></span>系统角色管理</a></li>
                         <li><a href="${webRoot}/admin/userList" target="mainFrame"><span></span>系统用户管理</a></li>
                         <li><a href="${webRoot}/person/userList" target="mainFrame"><span></span>个人用户管理</a></li>
                         <li><a href="${webRoot}/companyInfo/toCompanyList" target="mainFrame"><span></span>商户管理</a></li>
+                        <li><a href="${webRoot}/appInfo/toAppInfoList" target="mainFrame"><span></span>应用管理</a></li>
+                        <li><a href="${webRoot}/companyRole/toCompanyRoleList" target="mainFrame"><span></span>系统角色管理</a></li>
                         <!-- <li><a href="sys_stepselect_main.html" target="mainFrame"><span></span>联动枚举</a></li>
                         <li><a href="sys_dictionary.html" target="mainFrame"><span></span>图片水印设置</a></li>
                         <li><a href="sys_custom.html" target="mainFrame"><span></span>自定义文档属性</a></li>

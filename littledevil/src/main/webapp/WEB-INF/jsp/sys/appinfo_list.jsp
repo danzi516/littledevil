@@ -33,9 +33,9 @@
         </div>
         <div style="display: inline-table; width: 100px;">
         	<select class="form-control" id="state" onchange="refalshData()">
-        		<option value="">全部</option>
-        		<option value="0">禁用</option>
-                <option value="1" selected>正常使用</option>
+        		<option value="" selected>全部</option>
+        		<option value="0">下架</option>
+                <option value="1" >上架</option>
         	</select>
         </div>
     </div>
