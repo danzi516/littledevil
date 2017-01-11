@@ -39,7 +39,7 @@ public class IndexController {
 		 * */
 		ModelAndView modelView = new ModelAndView();
 		
-		modelView.setViewName("person/person_user_list");// 設置視圖名稱
+		modelView.setViewName("sys/person_user_list");// 設置視圖名稱
 
 		return modelView;
 	}

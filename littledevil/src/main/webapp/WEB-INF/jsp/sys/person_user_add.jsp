@@ -24,13 +24,13 @@
     <div class="row">
         <div class="col-sm-12">
             <div class="console-title clearfix">
-                <div class="pull-left"> <h5>系统用户添加</h5></div>
+                <div class="pull-left"> <h5>个人用户添加</h5></div>
                 <div class="pull-right"><a href="${webRoot}/admin/userList"  target="mainFrame" class="btn btn-link">返回</a> </div>
             </div>
             <hr/>
             <form class="form-horizontal" id="addUserForm">
                 <div class="panel panel-default">
-                    <div class="panel-heading">增加系统用户</div>
+                    <div class="panel-heading">增加个人用户</div>
                     <div class="panel-body">
                         <div class="form-group">
                             <label for="" class="col-sm-2 control-label">用户名<span style="color:red">*</span>：</label>

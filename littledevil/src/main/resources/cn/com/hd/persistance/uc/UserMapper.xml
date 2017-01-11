@@ -9,6 +9,7 @@
     <result column="user_type" property="userType" jdbcType="VARCHAR" />
     <result column="state" property="state" jdbcType="VARCHAR" />
     <result column="lastlogin_time" property="lastLoginTime" jdbcType="TIMESTAMP" />
+    <result column="open_id" property="openId" jdbcType="VARCHAR" />
   </resultMap>
   <sql id="Base_Column_List" >
     id, user_name, phone, password, user_type, state,lastlogin_time
@@ -23,7 +24,14 @@
     select 
     <include refid="Base_Column_List" />
     from t_user
-    where user_name = #{userName,jdbcType=VARCHAR} and password=#{password,jdbcType=VARCHAR}
+    where 1=1 
+     <if test="userName != null" >
+       and user_name = #{userName,jdbcType=VARCHAR}
+      </if>
+      <if test="openId != null" >
+       and open_id = #{openId,jdbcType=VARCHAR}
+      </if>
+     and password=#{password,jdbcType=VARCHAR}
   </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
     delete from t_user
@@ -31,10 +39,11 @@
   </delete>
   <insert id="insert" parameterType="cn.com.hd.domain.uc.User" useGeneratedKeys="true" keyProperty="id">
     insert into t_user (id, user_name, phone, 
-      password, user_type, state
+      password, user_type, open_id,state
       )
     values (#{id,jdbcType=INTEGER}, #{userName,jdbcType=VARCHAR}, #{phone,jdbcType=VARCHAR}, 
-      #{password,jdbcType=VARCHAR}, #{userType,jdbcType=VARCHAR}, #{state,jdbcType=VARCHAR}
+      #{password,jdbcType=VARCHAR}, #{userType,jdbcType=VARCHAR}, 
+      #{openId,jdbcType=VARCHAR}, #{state,jdbcType=VARCHAR}
       )
   </insert>
   <insert id="insertSelective" parameterType="cn.com.hd.domain.uc.User"  useGeneratedKeys="true" keyProperty="id">
@@ -58,7 +67,9 @@
       <if test="state != null" >
         state
       </if>
-      
+      <if test="openId != null" >
+        open_id
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides="," >
       <if test="id != null" >
@@ -78,6 +89,9 @@
       </if>
       <if test="state != null" >
         #{state,jdbcType=VARCHAR}
+      </if>
+       <if test="openId != null" >
+        #{openId,jdbcType=VARCHAR}
       </if>
     </trim>
   </insert>

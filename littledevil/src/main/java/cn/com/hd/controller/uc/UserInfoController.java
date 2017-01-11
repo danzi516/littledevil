@@ -118,7 +118,7 @@ public class UserInfoController {
 		 * */
 		ModelAndView modelView = new ModelAndView();
 		
-		modelView.setViewName("person/person_user_add");// 設置視圖名稱
+		modelView.setViewName("sys/person_user_add");// 設置視圖名稱
 
 		return modelView;
 	}
