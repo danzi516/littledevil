@@ -30,7 +30,7 @@
       logo, sign, birthday, 
       weixin, register_time)
     values (#{id,jdbcType=INTEGER}, #{ucName,jdbcType=VARCHAR}, #{sex,jdbcType=VARCHAR}, 
-      #{logo,jdbcType=VARCHAR}, #{sign,jdbcType=VARCHAR}, #{birthday,jdbcType=TIMESTAMP}, 
+      #{logo,jdbcType=VARCHAR}, #{sign,jdbcType=VARCHAR}, #{birthday,jdbcType=TIMESTAMP},
       #{weixin,jdbcType=VARCHAR}, sysdate())
   </insert>
   <insert id="insertSelective" parameterType="cn.com.hd.domain.uc.UserInfo" >

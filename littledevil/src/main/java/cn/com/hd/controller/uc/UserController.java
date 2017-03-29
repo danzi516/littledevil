@@ -93,6 +93,45 @@ public class UserController {
 		return map;
 	}
 	
+	//微信登录
+	@RequestMapping("openIdLogin")
+	public @ResponseBody Map<String,Object> openIdLogin(User user) throws IOException {
+		Map<String,Object> map=new HashMap<String,Object>();
+		try{
+			User record=userService.userLogin(user);
+			userService.updateByPrimaryKey(record);
+			if(null==record){
+				map.put("msg", "登录失败！");
+				return map;
+			}
+			String state=record.getState();
+			if("0".equals(state)){
+				map.put("msg", "登录失败：帐号禁止登录，请联系管理员！");
+				return map;
+			}
+			session.setAttribute("user", record);
+			//查找companyId
+			
+			if(record.getUserType().equals("sys")){
+				map.put("userType", "sys");
+				map.put("companyId", 0);
+				session.setAttribute("companyId", 0);
+			}
+			else if(record.getUserType().equals("company")){
+				map.put("userType", "company");
+				map.put("companyId", record.getId());
+				session.setAttribute("companyId", record.getId());
+			}
+			else {
+				map.put("userType", "person");
+			}
+			map.put("msg", "ok");
+		}catch(Exception e){
+			map.put("msg", "服务器异常，请稍后重试！");
+		}
+		return map;
+	}
+	
 	/**
 	 * 功能描述：重置用户密码
 	 * 作者：lijiaxing

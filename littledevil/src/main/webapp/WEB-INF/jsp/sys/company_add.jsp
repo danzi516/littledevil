@@ -104,6 +104,15 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
                                 <input type="text" id="phone" name="phone" class="form-control" placeholder="">
                             </div>
                         </div>
+                         <div class="form-group">
+                            <label for="" class="col-sm-2 control-label">图片logo ：</label>
+                            <div class="col-sm-4">
+                                <input size="1" name="file" type="file" class="filePrew" id="defaultIconUpload" 
+                                onchange="return ajaxUpload('defaultIconUpload','defaultIconImg','defaultIcon');"/>
+                            </div>
+                            <img width="150" height="150" src="" id="defaultIconImg">
+                            <input type="hidden" maxlength="20" class="" id="defaultIcon" name="cover">
+                        </div>
                         <!-- <div class="form-group">
                             <label for="" class="col-sm-2 control-label">合同编号：</label>
                             <div class="col-sm-4">
@@ -183,6 +192,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 <script src="${webRoot}/res/common/js/validate/jquery.validate.min.js"></script>
 <script src="${webRoot}/res/common/js/validate/messages_zh.min.js"></script>
 <script src="${webRoot}/res/common/js/jquery.json-2.4.js"></script>
+<script src="${webRoot}/res/common/js/ajaxfileupload.js"></script>
 
   <script>
   $(document).ready(function() {
@@ -311,5 +321,31 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
   		}
   	});
   }
+  
+  function ajaxUpload(id, imgId, hiddId)
+  {
+  	var content = document.getElementById(id).value;
+  	if (content.length == '') {
+  		alert("请选择图片!");
+  		return false;
+  	}
+  	var url = "${webRoot}/upload";
+  	jQuery.ajaxFileUpload({
+  		url : url, // 你处理上传文件的服务端
+  		secureuri : false,
+  		fileElementId : id,
+  		dataType : 'json',
+  		folder:'photo',  //存放子文件夹名称
+  		success : function(data,status) {
+  						$("#" + imgId).attr("src", "${webRoot}/"+data.tempShowDir);
+  						$("#" + hiddId).val("${webRoot}/"+data.tempShowDir);
+  					},
+  					error : function(data, status, e) {
+  						alert("上传图片失败!");
+  					}
+  				});
+
+  		return false;
+  	}
   </script>
 </html>

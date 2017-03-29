@@ -16,6 +16,8 @@ public class UserInfo {
     private Date birthday;
 
     private String weixin;
+    
+    private String saleState;
 
     private String registerTime;
     
@@ -119,4 +121,13 @@ public class UserInfo {
 	public void setSexCode(String sexCode) {
 		this.sexCode = sexCode;
 	}
+
+	public String getSaleState() {
+		return saleState;
+	}
+
+	public void setSaleState(String saleState) {
+		this.saleState = saleState;
+	}
+	
 }

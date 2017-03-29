@@ -89,7 +89,15 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
       $("#addCompanyMemberForm").validate({
           rules: {
           	phone : {
-          	    phone : true
+          	   phone : true,
+          	   remote: {
+                 	type: "get",
+                 	dataType: "json",
+                 	url: "${webRoot}/user/isExitsByCondition",
+                 	data: {
+                 		phone: function() {return $("#phone").val();}
+                 	}
+                 }
           	 }
           },
           success: function(element) {

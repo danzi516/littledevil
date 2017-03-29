@@ -21,7 +21,7 @@ import cn.com.hd.common.SysConstants;
 /**
  * Servlet implementation class FileUploadServlet
  */
-@WebServlet(name = "PhotoUploadServlet", urlPatterns = {"/batchUpload"})
+@WebServlet(name = "PhotoUploadServlet", urlPatterns = {"/upload"})
 @MultipartConfig(location = "/")
 public class PhotoUploadServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
@@ -39,7 +39,7 @@ public class PhotoUploadServlet extends HttpServlet {
 		response.setCharacterEncoding("UTF-8");
 		//获取上传文件
 		Part part = request.getPart("file");
-		final String tempDir = request.getParameter("tempDirId");
+		final String tempDir = request.getParameter("folder");
 		//获取文件夹名
 		String folder = request.getParameter("folder");
 		

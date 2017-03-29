@@ -129,6 +129,11 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
   	ajaxAction('post',url,$.toJSON(data),'json','addCompanyMember');
   }
   
+  function getCompanyCommodityList(){
+	  
+  }
+  
+  
 //ajax请求
   function ajaxAction(type, url, reqData, returnType, requestName) {
   	$.ajax({
@@ -147,6 +152,9 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
   				}else if(code=='1'){
   					alert('服务器异常，请稍后重试！');
   				}	
+  			}
+  			if (requestName == "getCompanyCommodityList"){
+  				
   			}
   		}
   	});

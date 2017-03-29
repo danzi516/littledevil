@@ -67,7 +67,7 @@
 <script src="${webRoot}/res/common/js/bootstrap_table/bootstrap-table-editable.js"></script>
 <script src="${webRoot}/res/common/js/bootstrap-editable.js"></script>
 <script type="text/javascript" src="${webRoot}/res/common/js/bootstrap_table/locale/bootstrap-table-zh-CN.js"></script>
-<script src="${webRoot}/res/common/js/layer/layer/layer.js"></script>
+<script src="${webRoot}/res/common/js/layer1/layer.js"></script>
 <script>
     var userId='${userId}';
     var basePath='${webRoot}';
@@ -104,6 +104,7 @@
             '</a>'];
         html.push('<a class="delete btn" style="margin-left: 5px;font-size:1em" href="javascript:;" target="mainFrame">删除</a>');
         html.push('<a class="detail btn" style="margin-left: 5px;font-size:1em" href="javascript:;" target="mainFrame">详情(没做)</a>');
+        html.push('<a class="edit btn" style="margin-left: 5px;font-size:1em" href="${webRoot}/userInfo/toEditPerson/'+row.id+'" target="mainFrame">修改</a>');
         return html.join('');
     }
 
@@ -224,5 +225,7 @@
     	else{
     		}
     }
+    
+  
 </script>
 </html>

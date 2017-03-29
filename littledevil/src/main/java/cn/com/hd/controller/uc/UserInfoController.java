@@ -17,9 +17,11 @@ import org.springframework.web.servlet.ModelAndView;
 import cn.com.hd.common.MD5Encrypt;
 import cn.com.hd.common.Page;
 import cn.com.hd.domain.company.CompanyStaff;
+import cn.com.hd.domain.uc.SaleMan;
 import cn.com.hd.domain.uc.User;
 import cn.com.hd.domain.uc.UserInfo;
 import cn.com.hd.service.company.CompanyStaffService;
+import cn.com.hd.service.uc.SaleManService;
 import cn.com.hd.service.uc.UserInfoService;
 import cn.com.hd.service.uc.UserService;
 
@@ -38,35 +40,17 @@ public class UserInfoController {
 	private UserService userService;
 	
 	@Resource
+	private SaleManService saleManService;
+	
+	@Resource
 	private CompanyStaffService companyStaffService;
-	/**
-	 * 功能描述：分页查询所有用户
-	 * 作者：lijiaxing
-	 * url：${webRoot}/userInfo/selectUserInfoByPage
-	 * 请求方式：POST
-	 * @param  Page page
-	 * @return Map<String,Object>
-	 *         key:code["0":"成功","1":"失败"]
-	 *         key:rows[查询结果ist]
-	 *         key:total[记录总数]
-	 */
-    @RequestMapping(value="selectUserInfoByPage",method=RequestMethod.POST)
-    public @ResponseBody Map<String, Object> selectByPage(Page page){
-        Map<String,Object> map = new HashMap<String,Object>();
-        String code="";
-        try{
-            page = userInfoService.selectUserInfoByPage(page);
-            code="0";
-            map.put("rows", page.getData());
-    		map.put("total", page.getTotalRecord());
-        }catch(Exception e){
-            code="1";
-            e.printStackTrace();
-        }
-        map.put("code", code);
-        return map;
-    }
+	
+	
+
     
+    
+    
+/********************后台用户方法***********************/
     /**
 	 * 功能描述：跳转到个人详细页面
 	 * 作者：lijiaxing
@@ -88,7 +72,7 @@ public class UserInfoController {
 	}
 	
 	/**
-	 *方法说明：跳转到添加管理员页面
+	 *方法说明：跳转到添加后台用户页面
 	 *url:${webRoot}/userInfo/toAddUser
 	 *请求方式：get
 	 *@return ModelAndView
@@ -106,25 +90,7 @@ public class UserInfoController {
 	}
 	
 	/**
-	 *方法说明：跳转到添加普通用户页面
-	 *url:${webRoot}/userInfo/toAddPerson
-	 *请求方式：get
-	 *@return ModelAndView
-	 **/
-	@RequestMapping("/toAddPerson")
-	public ModelAndView toAddPerson(HttpServletRequest request) {
-		/**
-		 * 想要在页面展现数据,必须返回ModelAndView类型,返回String是不能获取数据的
-		 * */
-		ModelAndView modelView = new ModelAndView();
-		
-		modelView.setViewName("sys/person_user_add");// 設置視圖名稱
-
-		return modelView;
-	}
-	
-	/**
-	 *方法说明：跳转到前台起始页面
+	 *方法说明：跳转到修改后台用户页面
 	 *url:${webRoot}/userInfo/toEditUser/{id}
 	 *请求方式：get
 	 *@return ModelAndView
@@ -140,6 +106,54 @@ public class UserInfoController {
 		modelView.addObject("userInfo", record);
 		return modelView;
 	}
+	
+/********************前台普通用户方法***********************/	
+	/**
+	 *方法说明：跳转到添加普通用户页面
+	 *url:${webRoot}/userInfo/toAddPerson
+	 *请求方式：get
+	 *@return ModelAndView
+	 **/
+	@RequestMapping("/toAddPerson")
+	public ModelAndView toAddPerson(HttpServletRequest request) {
+		/**
+		 * 想要在页面展现数据,必须返回ModelAndView类型,返回String是不能获取数据的
+		 * */
+		ModelAndView modelView = new ModelAndView();
+		
+		modelView.setViewName("person/person_user_add");// 設置視圖名稱
+
+		return modelView;
+	}
+	
+	/**
+	 *方法说明：跳转到修改普通用户页面
+	 *url:${webRoot}/userInfo/toEditPerson
+	 *请求方式：get
+	 *@return ModelAndView
+	 **/
+	@RequestMapping("/toEditPerson/{id}")
+	public ModelAndView toEditPerson(@PathVariable("id") int id) {
+		/**
+		 * 想要在页面展现数据,必须返回ModelAndView类型,返回String是不能获取数据的
+		 * */
+		ModelAndView modelView = new ModelAndView();
+		
+		modelView.setViewName("person/person_user_edit");// 設置視圖名稱
+		UserInfo record=userInfoService.selectByPrimaryKey(id);
+		if(saleManService.selectByPrimaryKey(id)!=null){
+			if(saleManService.selectByPrimaryKey(id).getState().equals("1")){
+				record.setSaleState("1");
+			}
+			else{
+				record.setSaleState("0");
+			}
+		}
+		modelView.addObject("userInfo", record);
+		return modelView;
+	}
+	
+	
 	
 	/**
 	 * 功能描述：删除用户
@@ -165,7 +179,36 @@ public class UserInfoController {
         map.put("code", code);
         return map;
 	}
+/********************公用用户方法***********************/	
 	
+	/**
+	 * 功能描述：分页查询所有用户
+	 * 作者：lijiaxing
+	 * url：${webRoot}/userInfo/selectUserInfoByPage
+	 * 请求方式：POST
+	 * @param  Page page   通过身份userType区分后台用户和普通个人用户
+	 * @return Map<String,Object>
+	 *         key:code["0":"成功","1":"失败"]
+	 *         key:rows[查询结果ist]
+	 *         key:total[记录总数]
+	 */
+    @RequestMapping(value="selectUserInfoByPage",method=RequestMethod.POST)
+    public @ResponseBody Map<String, Object> selectByPage(Page page){
+        Map<String,Object> map = new HashMap<String,Object>();
+        String code="";
+        try{
+            page = userInfoService.selectUserInfoByPage(page);
+            code="0";
+            map.put("rows", page.getData());
+    		map.put("total", page.getTotalRecord());
+        }catch(Exception e){
+            code="1";
+            e.printStackTrace();
+        }
+        map.put("code", code);
+        return map;
+    }
+    
 	/**
 	 * 功能描述：添加用户
 	 * 作者：lijiaxing
@@ -185,12 +228,20 @@ public class UserInfoController {
 			userService.insertSelective(record);
 			user.setId(record.getId());
 			userInfoService.insertSelective(user);
-			CompanyStaff companyStaff = new CompanyStaff();
-			companyStaff.setCompanyId(0);
-			companyStaff.setRoleId(user.getRoleId());
-			companyStaff.setUserId(record.getId());
-			companyStaff.setIsDelete("1");
-			companyStaffService.insert(companyStaff);
+			if(user.getRoleId()!=null){//没有角色id的就是普通用户，不进里面
+				CompanyStaff companyStaff = new CompanyStaff();
+				companyStaff.setCompanyId(0);
+				companyStaff.setRoleId(user.getRoleId());
+				companyStaff.setUserId(record.getId());
+				companyStaff.setIsDelete("1");
+				companyStaffService.insert(companyStaff);
+			}
+			if(user.getSaleState().equals("1")){//赋予了业务员身份，写入数据库
+				SaleMan saleMan = new SaleMan();
+				saleMan.setId(record.getId());
+				saleMan.setState("1");
+				saleManService.insert(saleMan);
+			}
 			code="0";
 		}catch(Exception e){
             code="1";
@@ -215,8 +266,19 @@ public class UserInfoController {
 		String code="";
 		try{
 			User record=user.getUser();
+			SaleMan saleMan = new SaleMan();
+			saleMan.setId(record.getId());
+			saleMan.setState(user.getSaleState());
 			userService.updateByPrimaryKeySelective(record);
 			userInfoService.updateByPrimaryKeySelective(user);
+			if(user.getSaleState().equals("1")){//赋予了业务员身份
+				if(saleManService.selectByPrimaryKey(user.getId())!=null){
+					saleManService.updateByPrimaryKey(saleMan);
+				}
+				else{
+					saleManService.insert(saleMan);
+				}
+			}
 			code="0";
 		}catch(Exception e){
             code="1";

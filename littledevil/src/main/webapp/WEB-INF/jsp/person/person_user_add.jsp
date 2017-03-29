@@ -69,6 +69,12 @@
                                 </select>
                             </div>
                         </div>
+                         <div class="form-group">
+                            <label for="" class="col-sm-2 control-label">是否为业务员 ：</label>
+                            <div class="col-sm-4">
+                               <input type="checkbox" name="saleState" value=""  id="saleState" />
+                            </div>
+                        </div>
                         <div class="form-group">
                             <div class="col-sm-offset-2 col-sm-10">
                                 <button type="submit" class="btn btn-primary" id="addBtn">确认添加</button>
@@ -95,7 +101,7 @@
 <script src="${webRoot}/res/common/js/validate/messages_zh.min.js"></script>
 <script src="${webRoot}/res/common/js/jquery.json-2.4.js"></script>
 <!-- 弹出层 -->
-<script src="${webRoot}/res/common/js/layer/layer/layer.js"></script>
+<script src="${webRoot}/res/common/js/layer1/layer.js"></script>
 <script>
     $(document).ready(function() {
     	//getRoleList();  这里先屏蔽掉  
@@ -132,7 +138,7 @@
                   	}
                   }
               },
-          	phone : {
+          	/* phone : {
           	    phone : true,
           	    remote: {
                   	type: "get",
@@ -142,7 +148,7 @@
                   		phone: function() {return $("#phone").val();}
                   	}
                   }
-          	 },
+          	 }, */
               password: {
                   required: true,
                   minlength: 5,
@@ -159,10 +165,10 @@
           		isuserName: "请输入用户名，4-20个字符（字母、数字、下划线），注册后不能更改",
           		remote: "用户名已经存在，请换一个"
           	},
-          	phone: {        		
+          /* 	phone: {        		
           		phone: "请输入正确的手机号",
           		remote: "手机号已经存在，请换一个"
-          	},
+          	}, */
               password: {
                   required: "请输入您的密码",
                   minlength: "密码必须5个字符以上",
@@ -194,7 +200,8 @@
 	    			password:password,
 	    			state:$("#state").val(),
 	    			userType:'person'
-    			}
+    			},
+    				saleState:$("#saleState").is(':checked')?1:0
     	};
     	ajaxAction('post',url,$.toJSON(data),'json','addUser');
     }

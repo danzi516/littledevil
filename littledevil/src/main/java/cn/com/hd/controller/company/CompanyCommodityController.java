@@ -1,6 +1,7 @@
 package cn.com.hd.controller.company;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import javax.annotation.Resource;
@@ -138,4 +139,32 @@ public class CompanyCommodityController {
           return map;
       }
     
+      /**
+    	 * 功能描述：通过商户id查找商品
+    	 * 作者：lijiaxing
+    	 * url：${webRoot}/companyCommodity/update
+    	 * 请求方式：POST
+    	 * @param   CompanyInfo
+    	 * @return Map<String,Object>
+    	 *         key:code["0":"成功","1":"失败"]
+    	 *         key:rows[查询结果ist]
+    	 *         key:total[记录总数]
+    	 */
+      @RequestMapping(value="selectByCompanyId/{id}",method=RequestMethod.POST)
+        public @ResponseBody Map<String, Object> selectByCompanyId(@PathVariable("id") int id){
+            Map<String,Object> map = new HashMap<String,Object>();
+            String code="";
+            try{
+            	List<CompanyCommodity> companyCommodityList = companyCommodityService.selectByCompanyId(id);
+                code="0";
+                map.put("companyCommodityList",companyCommodityList);
+            }catch(Exception e){
+                code="1";
+                e.printStackTrace();
+            }
+            map.put("code", code);
+            
+            return map;
+        }      
+      
 }

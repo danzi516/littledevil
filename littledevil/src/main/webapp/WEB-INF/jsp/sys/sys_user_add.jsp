@@ -142,7 +142,7 @@
                   	}
                   }
               },
-          	phone : {
+          /* 	phone : {
           	    phone : true,
           	    remote: {
                   	type: "get",
@@ -152,7 +152,7 @@
                   		phone: function() {return $("#phone").val();}
                   	}
                   }
-          	 },
+          	 }, */
               password: {
                   required: true,
                   minlength: 5,
@@ -169,10 +169,10 @@
           		isuserName: "请输入用户名，4-20个字符（字母、数字、下划线），注册后不能更改",
           		remote: "用户名已经存在，请换一个"
           	},
-          	phone: {        		
+          /* 	phone: {        		
           		phone: "请输入正确的手机号",
           		remote: "手机号已经存在，请换一个"
-          	},
+          	}, */
               password: {
                   required: "请输入您的密码",
                   minlength: "密码必须5个字符以上",
