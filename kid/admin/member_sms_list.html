@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <title>会员动态记录</title>
+    <!--<link href="less/Nstrap.less" type="text/css" rel="stylesheet/less"/>
+    <script src="js/less.js"></script>-->
+    <link href="css/Nstrap.css" rel="stylesheet">
+    <link href="css/style.css" rel="stylesheet">
+    <link href="js/bootstrap_table/bootstrap-table.css" rel="stylesheet">
+    <link rel="stylesheet" href="js/bootstrap_table/bootstrap-editable.css">
+    <!--[if lt IE 9]>
+    <script src="http://apps.bdimg.com/libs/html5shiv/3.7/html5shiv.min.js"></script>
+    <script src="http://apps.bdimg.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+</head>
+<body>
+<div class="console-container">
+    <div class="row">
+        <div class="col-sm-12">
+            <div class="console-title clearfix">
+                <div class="pull-left"> <h5>首页</h5> <a href="javascript:" class="btn btn-default">会员动态记录</a> </div>
+                <div class="pull-right"><a href="javascript:;" class="btn btn-link">返回</a> </div>
+            </div>
+            <hr/>
+            <div id="toolbar">
+                <div class="btn-group" role="group" aria-label="...">
+                    <button id="checkAll" class="btn btn-default">全选</button>
+                    <button id="uncheckAll" class="btn btn-default">取消</button>
+                    <button id="remove" class="btn btn-default">删除</button>
+                </div>
+                <div class="form-inline" style="display: inline-table">
+                    <div class="form-group">
+                        <select class="form-control">
+                            <option value="">时间范围</option>
+                            <option value="">资源</option>
+                            <option value="">论题</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <select class="form-control">
+                            <option value="">状态</option>
+                            <option value="">资源</option>
+                            <option value="">论题</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+            <table id="table"
+                   data-toolbar="#toolbar"
+                   data-search="true"
+                   data-show-refresh="true"
+                   data-show-toggle="true"
+                   data-show-columns="true"
+                   data-show-export="true"
+                   data-detail-formatter="detailFormatter"
+                   data-pagination="true"
+                   data-id-field="id"
+                   data-page-list="[10, 25, 50, 100, ALL]"
+                   data-side-pagination="server"
+                   data-url="js/bootstrap_table/json/select.json"
+                   data-response-handler="responseHandler">
+            </table>
+        </div>
+    </div>
+
+    <div class="alert alert-success" role="alert"> <strong>特别提醒： </strong> 当网站运行一段时间后,网站的会员动态记录表可能存放着大量的记录,为使系统的运行性能更佳,建议一段时间后清理一次。</div>
+
+</div>
+
+</body>
+<!-- Bootstrap core JavaScript
+================================================== -->
+<!-- Placed at the end of the document so the pages load faster -->
+<script src="http://cdn.bootcss.com/jquery/1.11.2/jquery.min.js"></script>
+<script src="http://cdn.bootcss.com/bootstrap/3.3.4/js/bootstrap.min.js"></script>
+<!-- Flot -->
+<script src="js/bootstrap_table/bootstrap-table.js"></script>
+<script src="js/bootstrap_table/bootstrap-table-export.js"></script>
+<script src="js/bootstrap_table/bootstrap-table-editable.js"></script>
+<script src="js/bootstrap_table/bootstrap-editable.js"></script>
+<script src="js/bootstrap_table/locale/bootstrap-table-zh-CN.js"></script>
+<script>
+    var $table = $('#table'),
+            $remove = $('#remove'),
+            $append = $('#append'),
+            $checkAll=$('#checkAll'),
+            $uncheckAll=$('#uncheckAll'),
+            selections = [];
+
+
+    $(function () {
+        $table.bootstrapTable({
+            columns: [
+                [{field: 'state',checkbox: true,align: 'center',valign: 'middle'},
+                    {field: 'textbook.id',title: '编号',align: 'center',valign: 'middle'},
+                    {field: 'textbook.name',title: '内容',align: 'center',editable: true,valign: 'middle'},
+                    {field: 'textbook.grades',title: '发送时间',align: 'center',valign: 'middle'},
+                    {field: 'operate',title: '操作',align: 'center',events: operateEvents,formatter: operateFormatter}
+                ]
+            ]
+        });
+        $remove.click(function () {
+            var ids = $.map($table.bootstrapTable('getSelections'), function (row) {
+                return row.id;
+            });
+            $table.bootstrapTable('remove', {
+                field: 'id',
+                values: ids
+            });
+        });
+        $checkAll.click(function () {
+            $table.bootstrapTable('checkAll');
+        });
+        $uncheckAll.click(function () {
+            $table.bootstrapTable('uncheckAll');
+        });
+    });
+
+    function getIdSelections() {
+        return $.map($table.bootstrapTable('getSelections'), function (row) {
+            return row.id
+        });
+    }
+
+    function responseHandler(res) {
+        $.each(res.rows, function (i, row) {
+            row.state = $.inArray(row.id, selections) !== -1;
+        });
+        return res;
+    }
+
+    function detailFormatter(index, row) {
+        var html = [];
+        $.each(row, function (key, value) {
+            html.push('<p><b>' + key + ':</b> ' + value + '</p>');
+        });
+        return html.join('');
+    }
+
+    function operateFormatter(value, row, index) {
+        return [
+            '<a class="remove" href="javascript:void(0)" title="Remove">',
+            ' 删除'
+        ].join('');
+    }
+
+    window.operateEvents = {
+        'click .like': function (e, value, row, index) {
+            alert('You click like action, row: ' + JSON.stringify(row));
+        },
+        'click .remove': function (e, value, row, index) {
+            alert('You click like action, row: ' + JSON.stringify(row));
+            $table.bootstrapTable('remove', {
+                field: 'id',
+                values: [row.id]
+            });
+        }
+    };
+
+    function totalTextFormatter(data) {
+        return 'Total';
+    }
+
+    function totalNameFormatter(data) {
+        return data.length;
+    }
+
+    function totalPriceFormatter(data) {
+        var total = 0;
+        $.each(data, function (i, row) {
+            total += +(row.price.substring(1));
+        });
+        return '$' + total;
+    }
+
+    function getHeight() {
+        return $(window).height() - $('h1').outerHeight(true);
+    }
+
+</script>
+</html>

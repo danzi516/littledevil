@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <title>网站登录</title>
+    <link href="less/Nstrap.less" type="text/css" rel="stylesheet/less"/>
+    <script src="js/less.js"></script>
+    <!--[if lt IE 9]>
+    <script src="http://apps.bdimg.com/libs/html5shiv/3.7/html5shiv.min.js"></script>
+    <script src="http://apps.bdimg.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+    <link href="js/dataTables/css/dataTables.bootstrap.css" type="text/css" rel="stylesheet">
+</head>
+<body>
+<div class="console-container">
+    <div class="row">
+        <div class="col-sm-12">
+            <div class="console-title clearfix">
+                <div class="pull-left"> <h5>首页</h5> <a href="javascript:" class="btn btn-default">这个很重要</a> </div>
+                <div class="pull-right"><a href="javascript:;" class="btn btn-link">返回</a> </div>
+            </div>
+            <hr/><!--
+            <div class="clearfix">
+                <a href="javascript:" class="btn btn-default">添加文档</a>
+                <a href="javascript:" class="btn btn-default">我的文档</a>
+                <a href="javascript:" class="btn btn-default">稿件审核</a>
+                <a href="javascript:" class="btn btn-default">栏目管理</a>
+                <a href="javascript:" class="btn btn-default">更新列表</a>
+                <a href="javascript:" class="btn btn-default">更新文档</a>
+            </div>
+            <hr class="hr"/>-->
+                    <table class="table table-box" id="editable">
+                        <thead>
+                        <tr>
+                            <th width="40">选择</th>
+                            <th width="40">ID</th>
+                            <th>应用名称</th>
+                            <th>更新时间</th>
+                            <th>类目</th>
+                            <th>使用</th>
+                            <th>发布人</th>
+                            <th class='text-center'>操作</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+
+                        </tbody>
+                        <tfoot>
+                            <tr>
+                                <td colspan="10">
+                                    <div class="pull-left">
+                                    <!--<a onclick="fnClickAddRow();" href="javascript:void(0);" class="btn btn-primary">添加文档</a>-->
+                                    <a href="javascript:;" class="btn btn-default">全选</a>
+                                    <a href="javascript:;" class="btn btn-default">取消</a>
+                                    <a href="javascript:;" class="btn btn-default">更新</a>
+                                    <a href="javascript:;" class="btn btn-default">审核</a>
+                                    <a href="javascript:;" class="btn btn-default">推荐</a>
+                                    <a href="javascript:;" class="btn btn-default">移动</a>
+                                    <a href="javascript:;" class="btn btn-default">删除</a>
+                                    <a href="javascript:;"  class="btn btn-default">增加属性</a>
+                                    <a href="javascript:;" class="btn btn-default">删除属性</a>
+                                    </div>
+                                </td>
+                            </tr>
+                        </tfoot>
+
+                    </table>
+
+        </div>
+    </div>
+</div>
+
+</body>
+<!-- Bootstrap core JavaScript
+================================================== -->
+<!-- Placed at the end of the document so the pages load faster -->
+<script src="http://cdn.bootcss.com/jquery/1.11.2/jquery.min.js"></script>
+<script src="http://cdn.bootcss.com/bootstrap/3.3.4/js/bootstrap.min.js"></script>
+<!-- Just to make our placeholder images work. Don't actually copy the next line! -->
+<script src="js/vendor/holder.js"></script>
+<!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
+<script src="js/ie10-viewport-bug-workaround.js"></script>
+<script src="js/browser.js" type="text/javascript"></script>
+<script src="js/holder.js" type="text/javascript"></script>
+
+<script type="text/javascript" src="js/dataTables/jquery.dataTables.js"></script>
+<script type="text/javascript" src="js/dataTables/dataTables.bootstrap.js"></script>
+<script>
+    var datastore=[{id:"0",title:"",time:"2015-10-11",type:"a",click:"",createHtml:"",power:"",publisher:""},
+        {id:"0",title:"",time:"2015-10-11",type:"a",click:"",createHtml:"",power:"",publisher:""},{id:"0",title:"",time:"2015-10-11",type:"a",click:"",createHtml:"",power:"",publisher:""},{id:"0",title:"",time:"2015-10-11",type:"a",click:"",createHtml:"",power:"",publisher:""},{id:"0",title:"",time:"2015-10-11",type:"a",click:"",createHtml:"",power:"",publisher:""},{id:"0",title:"",time:"2015-10-11",type:"a",click:"",createHtml:"",power:"",publisher:""},{id:"0",title:"",time:"2015-10-11",type:"a",click:"",createHtml:"",power:"",publisher:""},{id:"0",title:"",time:"2015-10-11",type:"a",click:"",createHtml:"",power:"",publisher:""},{id:"0",title:"",time:"2015-10-11",type:"a",click:"",createHtml:"",power:"",publisher:""},{id:"0",title:"",time:"2015-10-11",type:"a",click:"",createHtml:"",power:"",publisher:""},{id:"0",title:"",time:"2015-10-11",type:"a",click:"",createHtml:"",power:"",publisher:""},{id:"0",title:"",time:"2015-10-11",type:"a",click:"",createHtml:"",power:"",publisher:""},{id:"0",title:"",time:"2015-10-11",type:"a",click:"",createHtml:"",power:"",publisher:""},{id:"0",title:"",time:"2015-10-11",type:"a",click:"",createHtml:"",power:"",publisher:""},{id:"0",title:"",time:"2015-10-11",type:"a",click:"",createHtml:"",power:"",publisher:""},{id:"0",title:"",time:"2015-10-11",type:"a",click:"",createHtml:"",power:"",publisher:""},
+        {id:"1",title:"",time:"2015-10-10",type:"b",click:"",createHtml:"",power:"",publisher:""},
+        {id:"2",title:"",time:"2015-10-9",type:"f",click:"",createHtml:"",power:"",publisher:""},
+        {id:"3",title:"",time:"2015-10-8",type:"c",click:"",createHtml:"",power:"",publisher:""},
+        {id:"4",title:"",time:"2015-10-7",type:"g",click:"",createHtml:"",power:"",publisher:""},
+        {id:"5",title:"",time:"2015-10-6",type:"z",click:"",createHtml:"",power:"",publisher:""},
+        {id:"6",title:"",time:"2015-10-6",type:"m",click:"",createHtml:"",power:"",publisher:""},
+        {id:"7",title:"",time:"2015-10-5",type:"e",click:"",createHtml:"",power:"",publisher:""}];
+    function filltr(apendtotable,ddataitem){
+        $("tbody",apendtotable).append("<tr><td><input type='checkbox'></td><td>"+ddataitem.id+"</td><td>"+ddataitem.title+"</td><td>"+ddataitem.time+"</td><td>"+ddataitem.type+"</td><td>"+ddataitem.click+"</td><td>"+ddataitem.createHtml+"</td><td>"+ddataitem.power+"</td><td>"+ddataitem.publisher+"</td><td class='text-center'><a href='javascript:;'>修改</a> / <a href='javascript:;'>预览</a> / <a href='javascript:;' data-delete=''>删除</a></td></tr>");
+    }
+    $(document).ready(function() {
+        for(var i=0;i<datastore.length;i++){
+            filltr($("#editable"),datastore[i]);
+        }
+
+        /* Init DataTables */
+        $('#editable').dataTable({
+            "order": [[ 3, "desc" ]], //设置第几列默认排序
+            //"bServerSide":false,//服务端处理分页
+            //"sAjaxSource": "/kuiyu.net/article/getarticle",
+            //'bPaginate': true,  //是否分页。
+            //"bProcessing": true, //当datatable获取数据时候是否显示正在处理提示信息。
+            //'bFilter': false,  //是否使用内置的过滤功能
+            //'bLengthChange': true, //是否允许自定义每页显示条数.
+            //"iDisplayLength":5,//设置每页显示条数
+            "aLengthMenu": [[20, 40, 60, -1], [20, 40, 60, "所有"]],
+            "iDisplayLength":20,
+            "aoColumnDefs": [
+                { "asSorting": ["null"], "aTargets": [ 0 ] },
+                //{ "asSorting": [ "desc", "asc" ], "aTargets": [ 2 ] },
+                { "asSorting": ["null"] , "aTargets": [ 9 ] }
+            ]
+           /* "aoColumns": [
+                null,
+                { "asSorting": [ "asc" ] },
+                { "asSorting": [ "desc", "asc", "asc" ] },
+                { "asSorting": [ "desc" ] },
+                null
+            ]*/
+        });
+
+        var btnBox = '<div class="pull-right"><a class="btn btn-primary" href="#" role="button">添加应用</a> <a class="btn btn-default" href="#" role="button">更新列表</a> <a class="btn btn-default" href="#" role="button">更新文档</a></div>';
+        $("#editable_wrapper .col-sm-12").eq(0).append(btnBox);
+
+    });
+    function fnClickAddRow() {
+        $('#editable').dataTable().fnAddData([
+            "Custom row",
+            "New row",
+            "New row",
+            "New row",
+            "New row"]);
+        var oTable = $('#editable').dataTable();
+
+        /* Apply the jEditable handlers to the table */
+        oTable.$('td').editable('../example_ajax.php', {
+            "callback": function (sValue, y) {
+                var aPos = oTable.fnGetPosition(this);
+                oTable.fnUpdate(sValue, aPos[0], aPos[1]);
+            },
+            "submitdata": function (value, settings) {
+                return {
+                    "row_id": this.parentNode.getAttribute('id'),
+                    "column": oTable.fnGetPosition(this)[2]
+                };
+            },
+
+            "width": "90%",
+            "height": "100%"
+        });
+    }
+</script>
+</html>

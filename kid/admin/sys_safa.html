@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <title>验证码设置</title>
+    <!--<link href="less/Nstrap.less" type="text/css" rel="stylesheet/less"/>
+    <script src="js/less.js"></script>-->
+    <link href="css/Nstrap.css" rel="stylesheet">
+    <link href="css/style.css" rel="stylesheet">
+    <link href="js/gritter/jquery.gritter.css" rel="stylesheet">
+    <link href="js/uniform-master/themes/default/css/uniform.default.css" type="text/css" rel="stylesheet">
+    <!--[if lt IE 9]>
+    <script src="http://apps.bdimg.com/libs/html5shiv/3.7/html5shiv.min.js"></script>
+    <script src="http://apps.bdimg.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+</head>
+<body>
+<div class="console-container">
+    <div class="row">
+        <div class="col-sm-12">
+            <div class="console-title clearfix">
+                <div class="pull-left"> <h5>验证码设置</h5></div>
+            </div>
+            <hr class="hr">
+
+            <form class="form-horizontal">
+                <div class="panel panel-default">
+                    <div class="panel-heading">验证码参数设置</div>
+                    <div class="panel-body">
+                        <div class="form-group">
+                            <label for="" class="col-sm-2 control-label">开启系统验证码：</label>
+                            <div class="col-sm-10">
+                                <label class="checkbox-inline">
+                                    <input type="checkbox" id="inlineCheckbox1" value="option1"> 注册会员
+                                </label>
+                                <label class="checkbox-inline">
+                                    <input type="checkbox" id="inlineCheckbox2" value="option2"> 前台登陆
+                                </label>
+                                <label class="checkbox-inline">
+                                    <input type="checkbox" id="inlineCheckbox3" value="option3"> 会员投稿
+                                </label>
+                                <label class="checkbox-inline">
+                                    <input type="checkbox" id="inlineCheckbox2" value="option2"> 文档评论
+                                </label>
+                                <label class="checkbox-inline">
+                                    <input type="checkbox" id="inlineCheckbox3" value="option3"> 会员短消息
+                                </label>
+                                <label class="checkbox-inline">
+                                    <input type="checkbox" id="inlineCheckbox2" value="option2"> 后台登陆
+                                </label>
+                                <label class="checkbox-inline">
+                                    <input type="checkbox" id="inlineCheckbox3" value="option3"> 问答
+                                </label>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="" class="col-sm-2 control-label">验证码生成类型：</label>
+                            <div class="col-sm-10">
+                                <label class="radio-inline">
+                                    <input type="radio" name="inlineRadioOptions" id="inlineRadio1" value="option1"> 数字
+                                </label>
+                                <label class="radio-inline">
+                                    <input type="radio" name="inlineRadioOptions" id="inlineRadio2" value="option2"> 英文
+                                </label>
+                                <label class="radio-inline">
+                                    <input type="radio" name="inlineRadioOptions" id="inlineRadio2" value="option2"> 单词
+                                </label>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="" class="col-sm-2 control-label">选择验证码文件类型：</label>
+                            <div class="col-sm-10">
+                                <label class="radio-inline">
+                                    <input type="radio" name="inlineRadioOptions" id="inlineRadio1" value="option1"> gif (GD>= 2.0.28)
+                                </label>
+                                <label class="radio-inline">
+                                    <input type="radio" name="inlineRadioOptions" id="inlineRadio2" value="option2"> png
+                                </label>
+                                <label class="radio-inline">
+                                    <input type="radio" name="inlineRadioOptions" id="inlineRadio2" value="option2"> jpg
+                                </label>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="" class="col-sm-2 control-label">验证码干扰设置：</label>
+                            <div class="col-sm-10">
+                                <label class="checkbox-inline">
+                                    <input type="checkbox" id="inlineCheckbox1" value="option1"> 背景线
+                                </label>
+                                <label class="checkbox-inline">
+                                    <input type="checkbox" id="inlineCheckbox2" value="option2"> 背景图像
+                                </label>
+                                <label class="checkbox-inline">
+                                    <input type="checkbox" id="inlineCheckbox3" value="option3"> 混杂文本色
+                                </label>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="" class="col-sm-2 control-label">验证码图片大小：</label>
+                            <div class="col-sm-3">
+                                <label for="" class="col-sm-1 control-label">高：</label>
+                                <div class="col-sm-2">
+                                    <input type="text" class="form-control" placeholder="">
+                                </div>
+                                <label for="" class="col-sm-1 control-label">宽：</label>
+                                <div class="col-sm-2">
+                                    <input type="text" class="form-control" placeholder="">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="" class="col-sm-2 control-label">验证码字符数：</label>
+                            <div class="col-sm-1">
+                                <input type="text" class="form-control" placeholder="">
+                            </div>
+                            <div class="col-sm-2">
+                                <p class="form-control-static"> 个(类型设为单词,该属性无效)</p>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="col-sm-offset-2 col-sm-10">
+                                <button type="submit" class="btn btn-primary" id="addBtn">确认添加</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </form>
+
+
+        </div>
+    </div>
+</div>
+
+</body>
+<!-- 放在文件的末端，使页面加载速度更快 -->
+<script src="http://cdn.bootcss.com/jquery/1.11.2/jquery.min.js"></script>
+<script src="http://cdn.bootcss.com/bootstrap/3.3.4/js/bootstrap.min.js"></script>
+<!-- 只是为了让我们的占位符图像工作。不要实际复制下一行！ -->
+<script src="js/vendor/holder.js"></script>
+<!-- IE10视口黑客的表面/桌面Windows 8的bug -->
+<script src="js/ie10-viewport-bug-workaround.js"></script>
+<script src="js/browser.js" type="text/javascript"></script>
+<!-- 复选框，单选框，下拉选框美化 -->
+<script src="js/uniform-master/jquery.uniform.js"></script>
+
+<!-- 弹出层 -->
+<script src="js/layer/layer/layer.js"></script>
+
+<script>
+    $(document).ready(function() {
+        //改变复选框与单选框的样式
+        $("input[type='radio'],input[type='checkbox']").uniform();
+    });
+</script>
+</html>

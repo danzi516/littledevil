@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <title>网站登录</title>
+    <!--<link href="less/Nstrap.less" type="text/css" rel="stylesheet/less"/>
+    <script src="js/less.js"></script>-->
+    <link href="css/Nstrap.css" rel="stylesheet">
+    <link href="css/style.css" rel="stylesheet">
+    <link href="js/gritter/jquery.gritter.css" rel="stylesheet">
+    <!--[if lt IE 9]>
+    <script src="http://apps.bdimg.com/libs/html5shiv/3.7/html5shiv.min.js"></script>
+    <script src="http://apps.bdimg.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+    <link href="js/dataTables/css/dataTables.bootstrap.css" type="text/css" rel="stylesheet">
+</head>
+<body>
+<div class="console-container">
+    <div class="row">
+        <div class="col-sm-12">
+            <div class="console-title clearfix">
+                <div class="pull-left"> <h5>首页</h5> <a href="javascript:" class="btn btn-default">这个很重要</a> </div>
+                <div class="pull-right"><a href="javascript:;" class="btn btn-link">返回</a> </div>
+            </div>
+            <hr/><!--
+            <div class="clearfix">
+                <a href="javascript:" class="btn btn-default">添加文档</a>
+                <a href="javascript:" class="btn btn-default">我的文档</a>
+                <a href="javascript:" class="btn btn-default">稿件审核</a>
+                <a href="javascript:" class="btn btn-default">栏目管理</a>
+                <a href="javascript:" class="btn btn-default">更新列表</a>
+                <a href="javascript:" class="btn btn-default">更新文档</a>
+            </div>
+            <hr class="hr"/>-->
+            <table class="table table-box" id="editable">
+                <thead>
+                <tr>
+                    <th width="40">Rank</th>
+                    <th class='text-center'>角色名称</th>
+                    <th width="200" class='text-center'>管理</th>
+                </tr>
+                </thead>
+                <tbody>
+
+                </tbody>
+
+            </table>
+
+        </div>
+    </div>
+</div>
+
+</body>
+<!-- Bootstrap core JavaScript
+================================================== -->
+<!-- Placed at the end of the document so the pages load faster -->
+<script src="http://cdn.bootcss.com/jquery/1.11.2/jquery.min.js"></script>
+<script src="http://cdn.bootcss.com/bootstrap/3.3.4/js/bootstrap.min.js"></script>
+<!-- Just to make our placeholder images work. Don't actually copy the next line! -->
+<script src="js/vendor/holder.js"></script>
+<!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
+<script src="js/ie10-viewport-bug-workaround.js"></script>
+<script src="js/browser.js" type="text/javascript"></script>
+<script src="js/holder.js" type="text/javascript"></script>
+
+<script type="text/javascript" src="js/dataTables/jquery.dataTables.js"></script>
+<script type="text/javascript" src="js/dataTables/dataTables.bootstrap.js"></script>
+<script>
+    var datastore=[{id:"0",title:"超级管理员",time:"2015-10-11"},
+        {id:"1",title:"频道管理员",time:"2015-10-10"},
+        {id:"2",title:"语文编辑",time:"2015-10-9"},
+        {id:"3",title:"数学编辑",time:"2015-10-8"}];
+    function filltr(apendtotable,ddataitem){
+        $("tbody",apendtotable).append("<tr><td>"+ddataitem.id+"</td><td>"+ddataitem.title+"</td><td class='text-center'><a href='sys_user_group_edit.html'>权限设定</a> / <a href='javascript:;'>角色用户</a></td></tr>");
+    }
+    $(document).ready(function() {
+        for(var i=0;i<datastore.length;i++){
+            filltr($("#editable"),datastore[i]);
+        }
+
+        /* Init DataTables */
+        $('#editable').dataTable({
+            "order": [[ 0, "desc" ]], //设置第几列默认排序
+            //"bServerSide":false,//服务端处理分页
+            //"sAjaxSource": "/kuiyu.net/article/getarticle",
+            //'bPaginate': true,  //是否分页。
+            //"bProcessing": true, //当datatable获取数据时候是否显示正在处理提示信息。
+            //'bFilter': false,  //是否使用内置的过滤功能
+            //'bLengthChange': true, //是否允许自定义每页显示条数.
+            //"iDisplayLength":5,//设置每页显示条数
+            "aLengthMenu": [[20, 40, 60, -1], [20, 40, 60, "所有"]],
+            "iDisplayLength":20,
+            "aoColumnDefs": [
+                { "asSorting": ["null"], "aTargets": [ 0 ] },
+                //{ "asSorting": [ "desc", "asc" ], "aTargets": [ 2 ] },
+                { "asSorting": ["null"] , "aTargets": [ 1 ] }
+            ]
+        });
+
+        var btnBox = '<div class="pull-right"><a class="btn btn-primary" href="sys_user_group_add.html" role="button">添加用户角色</a> <a class="btn btn-default" href="sys_admin_user.html" role="button">管理系统用户</a></div>';
+        $("#editable_wrapper .col-sm-12").eq(0).append(btnBox);
+
+    });
+</script>
+</html>

@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <title>教材管理</title>
+    <!--<link href="less/Nstrap.less" type="text/css" rel="stylesheet/less"/>
+    <script src="js/less.js"></script>-->
+    <link href="css/Nstrap.css" rel="stylesheet">
+    <link href="css/style.css" rel="stylesheet">
+    <link href="js/bootstrap_table/bootstrap-table.css" rel="stylesheet">
+    <!--[if lt IE 9]>
+    <script src="http://apps.bdimg.com/libs/html5shiv/3.7/html5shiv.min.js"></script>
+    <script src="http://apps.bdimg.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+</head>
+<body>
+<div class="console-container">
+    <div class="row">
+        <div class="col-sm-12">
+            <div class="console-title clearfix">
+                <div class="pull-left"> <h5>首页</h5> <a href="javascript:" class="btn btn-default">教材管理</a> </div>
+                <div class="pull-right"><a href="javascript:;" class="btn btn-link">返回</a> </div>
+            </div>
+            <hr/>
+            <div id="toolbar">
+                <div class="btn-group" role="group" aria-label="...">
+                    <a href="textbook_add.html" class="btn btn-default">添加</a>
+                    <button id="remove" class="btn btn-default">删除</button>
+                    <button id="checkAll" class="btn btn-default">全选</button>
+                    <button id="uncheckAll" class="btn btn-default">取消</button>
+                </div>
+                <div class="form-inline" style="display: inline-table">
+                    <div class="form-group">
+                        <select class="form-control">
+                            <option value="">学段</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <select class="form-control">
+                            <option value="">年级</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <select class="form-control">
+                            <option value="">科目</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <select class="form-control">
+                            <option value="">类型</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+            <table id="table"
+                   data-toolbar="#toolbar"
+                   data-search="true"
+                   data-show-refresh="true"
+                   data-show-toggle="true"
+                   data-show-columns="true"
+                   data-show-export="true"
+                   data-detail-formatter="detailFormatter"
+                   data-pagination="true"
+                   data-id-field="id"
+                   data-page-list="[10, 25, 50, 100, ALL]"
+                   data-side-pagination="server"
+                   data-url="js/bootstrap_table/json/textbook.json"
+                   data-response-handler="responseHandler">
+            </table>
+        </div>
+    </div>
+</div>
+
+
+
+
+</body>
+<!-- Bootstrap core JavaScript
+================================================== -->
+<!-- Placed at the end of the document so the pages load faster -->
+<script src="http://cdn.bootcss.com/jquery/1.11.2/jquery.min.js"></script>
+<script src="http://cdn.bootcss.com/bootstrap/3.3.4/js/bootstrap.min.js"></script>
+<!-- Flot -->
+<script src="js/bootstrap_table/bootstrap-table.js"></script>
+<script src="js/bootstrap_table/bootstrap-table-export.js"></script>
+<script src="js/bootstrap_table/locale/bootstrap-table-zh-CN.js"></script>
+<script>
+    var $table = $('#table'),
+            $remove = $('#remove'),
+            $append = $('#append'),
+            $checkAll=$('#checkAll'),
+            $uncheckAll=$('#uncheckAll'),
+            selections = [];
+
+
+    $(function () {
+        $table.bootstrapTable({
+            columns: [
+                [{field: 'state',checkbox: true,align: 'center',valign: 'middle'},
+                    {field: 'textbook.id',title: 'ID',align: 'center',valign: 'middle'},
+                    {field: 'textbook.name',title: '名称',align: 'center',valign: 'middle'},
+                    {field: 'textbook.grades',title: '学段',align: 'center',valign: 'middle'},
+                    {field: 'textbook.subject',title: '科目',align: 'center',valign: 'middle'},
+                    {field: 'textbook.edition',title: '版本',align: 'center',valign: 'middle'},
+                    {field: 'textbook.rev',title: '版次',align: 'center',valign: 'middle'},
+                    {field: 'textbook.class',title: '类型',align: 'center',valign: 'middle'},
+                    {field: 'operate',title: '操作',align: 'center',events: operateEvents,formatter: operateFormatter}
+                ]
+            ]
+        });
+        $remove.click(function () {
+            var ids = $.map($table.bootstrapTable('getSelections'), function (row) {
+                return row.id;
+            });
+            $table.bootstrapTable('remove', {
+                field: 'id',
+                values: ids
+            });
+        });
+        $checkAll.click(function () {
+            $table.bootstrapTable('checkAll');
+        });
+        $uncheckAll.click(function () {
+            $table.bootstrapTable('uncheckAll');
+        });
+    });
+
+    function getIdSelections() {
+        return $.map($table.bootstrapTable('getSelections'), function (row) {
+            return row.id
+        });
+    }
+
+    function responseHandler(res) {
+        $.each(res.rows, function (i, row) {
+            row.state = $.inArray(row.id, selections) !== -1;
+        });
+        return res;
+    }
+
+    function detailFormatter(index, row) {
+        var html = [];
+        $.each(row, function (key, value) {
+            html.push('<p><b>' + key + ':</b> ' + value + '</p>');
+        });
+        return html.join('');
+    }
+
+    function operateFormatter(value, row, index) {
+        return [
+            '<a class="like" href="javascript:void(0)" title="Like">',
+            ' 章节设置',
+            '</a>  ',
+            '<a class="remove" href="javascript:void(0)" title="Remove">',
+            ' 修改',
+            '</a>',
+            '<a class="edit" href="javascript:void(0)" title="edit">',
+            ' 删除',
+            '</a>',
+            '<a class="edit" href="javascript:void(0)" title="edit">',
+            ' 资料',
+            '</a>',
+            '<a class="edit" href="javascript:void(0)" title="edit">',
+            ' 试题',
+            '</a>'
+        ].join('');
+    }
+
+    window.operateEvents = {
+        'click .like': function (e, value, row, index) {
+            alert('You click like action, row: ' + JSON.stringify(row));
+        },
+        'click .remove': function (e, value, row, index) {
+            alert('You click like action, row: ' + JSON.stringify(row));
+            $table.bootstrapTable('remove', {
+                field: 'id',
+                values: [row.id]
+            });
+        }
+    };
+
+    function totalTextFormatter(data) {
+        return 'Total';
+    }
+
+    function totalNameFormatter(data) {
+        return data.length;
+    }
+
+    function totalPriceFormatter(data) {
+        var total = 0;
+        $.each(data, function (i, row) {
+            total += +(row.price.substring(1));
+        });
+        return '$' + total;
+    }
+
+    function getHeight() {
+        return $(window).height() - $('h1').outerHeight(true);
+    }
+
+</script>
+</html>

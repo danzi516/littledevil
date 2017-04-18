@@ -1,0 +1,239 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <!--网页页面字符集-->
+    <meta charset="utf-8">
+    <!--让IE使用最新的渲染模式-->
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <!--针对移动设备,网站显示宽度等于设备屏幕显示宽度,内容缩放比例为1:1-->
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!--将下面的 <meta> 标签加入到页面中，可以让部分国产浏览器默认采用高速模式渲染页面：-->
+    <meta name="renderer" content="webkit">
+    <!-- 上述3个meta标签*必须*放在最前面，任何其他内容都*必须*跟随其后！ -->
+    <title>资源上传</title>
+    <link href="css/Nstrap.css" rel="stylesheet">
+    <link href="../common/style/style.css" rel="stylesheet">
+    <link href="js/bootstrap_table/bootstrap-table.css" rel="stylesheet">
+    <link rel="stylesheet" href="js/bootstrap_table/bootstrap-editable.css">
+    <!--[if lt IE 9]>
+    <script src="http://apps.bdimg.com/libs/html5shiv/3.7/html5shiv.min.js"></script>
+    <script src="http://apps.bdimg.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+    <link href="css/select_class.css" rel="stylesheet" />
+    <link href="js/ztree/css/awesomeStyle/awesome.css"  rel="stylesheet">
+</head>
+<body>
+<div class="console-container">
+    <div class="row">
+        <div class="col-sm-12">
+            <div class="console-title clearfix">
+                <div class="pull-left"> <h5>添加产品</h5></div>
+                <div class="pull-right"><a href="javascript:;" class="btn btn-link">返回产品列表</a> </div>
+            </div>
+            <hr/>
+            <div class="mask-con">
+                <ul class="nav nav-tabs">
+                    <li role="presentation" class="active"><a href="#">基本信息</a></li>
+                </ul>
+            </div>
+            <hr class="hr">
+            <form class="form-horizontal">
+                <div class="panel panel-default">
+                    <div class="panel-heading">资源基本信息</div>
+                    <div class="panel-body">
+                        <div class="form-group">
+                            <label for="" class="col-sm-2 control-label">资源标题：</label>
+                            <div class="col-sm-5 num-box">
+                                <input type="text" class="form-control" id="title" onkeyup="cls(this,50,'Btitle')" oncontextmenu="cls(this,50,'Btitle')" placeholder="文章标题至少6个字符,最多25个汉字" datatype="s6-18" errormsg="文章标题至少6个字符,最多25个汉字！" nullmsg="文章标题不能为空！"/>
+                                <div class="num-count"><span class="num-hint" id="Btitle">50</span> / 50</div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="" class="col-sm-2 control-label">选择教材：</label>
+                            <div class="col-sm-5">
+                                <ol class="breadcrumb">
+                                    <li class="dropdown" id="List_style_1">
+                                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">学段<span class="caret"></span></a>
+                                        <ul class="dropdown-menu" id="faculty_list_id">
+                                            <li><a href="javascript:;" id="faculty_list_id_864e1f1749c54bbb80a17729b98caf66" onclick="initSubjFaculty('864e1f1749c54bbb80a17729b98caf66');">小学</a></li>
+                                            <li><a href="javascript:;" id="faculty_list_id_45e99850dd13441087e228e715aab150" onclick="initSubjFaculty('45e99850dd13441087e228e715aab150');">初中</a></li>
+                                            <li><a href="javascript:;" id="faculty_list_id_681665e8ba8a404ebd61a02b63f4efe6" onclick="initSubjFaculty('681665e8ba8a404ebd61a02b63f4efe6');">高中</a></li>
+                                        </ul>
+                                    </li>
+                                    <li class="dropdown" id="List_style_2" style="display:none">
+                                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">科目<span class="caret"></span></a>
+                                        <ul class="dropdown-menu" id="sub_List_id">
+                                        </ul>
+                                    </li>
+                                    <li class="dropdown" id="List_style_3" style="display:none">
+                                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">版本<span class="caret"></span></a>
+                                        <ul class="dropdown-menu" id="ideent_List_id">
+                                        </ul>
+                                    </li>
+                                    <li class="dropdown" id="List_style_4" style="display:none">
+                                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">年级<span class="caret"></span></a>
+                                        <ul class="dropdown-menu" id="class_List_id">
+                                        </ul>
+                                    </li>
+                                    <li class="dropdown" id="List_style_5" style="display:none">
+                                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">教材<span class="caret"></span></a>
+                                        <ul class="dropdown-menu" id="book_List_id">
+                                        </ul>
+                                    </li>
+                                </ol>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="" class="col-sm-2 control-label">关联章节：</label>
+                            <div class="col-sm-2">
+                                <div class="input-group">
+                                    <input type="text" id="fileName" class="form-control" placeholder="请选择章节">
+                                    <lable id="chapList" class="selitme1"></lable>
+                                    <div class="input-group-btn">
+                                        <button type="button" class="btn btn-default" >选择章节</button>
+                                    </div>
+                                </div><!-- /input-group -->
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="" class="col-sm-2 control-label">关联知识点：</label>
+                            <div class="col-sm-2">
+                                <div class="input-group">
+                                    <input type="text" id="fileName" class="form-control" placeholder="关联知识点">
+                                    <lable id="knowList" class="selitme1"></lable>
+                                    <div class="input-group-btn">
+                                        <button type="button" class="btn btn-default" >选择知识点</button>
+                                    </div>
+                                </div><!-- /input-group -->
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="" class="col-sm-2 control-label">资源类型：</label>
+                            <div class="col-sm-2">
+                                <select id="sel_rourceType"	name="sel_rourceType" class="form-control"></select>
+                            </div>
+                            <div class="col-sm-2">
+                                <select id="meitisucaiId" name="meitisucaiId" class="form-control"></select>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="" class="col-sm-2 control-label">缩 略 图：</label>
+                            <div class="col-sm-4">
+                                <div class="input-group">
+                                    <input type="text" id="fileName" class="form-control" placeholder="支持jpg、jpeg、gif、png格式，文件小于5M">
+                                    <div class="input-group-btn">
+                                        <a href="javascript:void(0);" class="btn btn-default">
+                                            <span><i class="fontawesome fontawesome-picture"></i> 选择图片</span>
+                                            <input  type="file"name="file" id="defaultIconUpload" onchange="return uploadImg(this,'defaultIconUpload','defaultIconImg','picturePath');" class="filePrew"/>
+                                        </a>
+                                    </div>
+                                </div><!-- /input-group -->
+                            </div>
+                            <div class="col-sm-2">
+                                <button type="button" class="btn btn-default" data-id="imgShow">查看图片</button>
+                                <input id="imageInput" type="file" data-id='file' name="myPhoto" onchange="loadImageFile()" class="hide" />
+                                <input type="hidden" maxlength="20" class="" id="picturePath" name="picturePath" />
+                                <div id="imagePreview" class="" style="width:0px; height: 0px; overflow: hidden; filter: progid:DXImageTransform.Microsoft.AlphaImageLoader(sizingMethod=scale);"> </div>
+                                <span data-style="width" class="hide"></span><span data-style="height" class="hide"></span>
+                                <img width="100" height="50"  src="" id="defaultIconImg" calss="hide" />
+                                <span class="hide" id="defaultIconUpload_mess" style="color:red">支持jpg、jpeg、gif、png格式，文件小于50K</span>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="" class="col-sm-2 control-label">附件：</label>
+                            <div class="col-sm-8">
+                                <div class="tab-content">
+                                    <div class="tab-pane active" id="tab1">
+                                        <p>
+                                            <span class=" glyphicon glyphicon-link discuss-score"></span><a href="javascript:;" onclick="checkFile();">添加附件</a>(支持格式：doc,docx,ppt,pptx,txt,pdf,bmp,gif,jpeg,jpg,png)
+                                            <input id="filePathName" name="file" size="26" class="upload_file1" style="display:none" onchange="ajaxUploadFile('filePathName');"  type="file" />
+                                            <input type="hidden" id="fileName" name="fileName" />
+                                            <input type="hidden" id="fileSize" name="fileSize" />
+                                            <input type="hidden" id="filePath" name="resourcePath" />
+                                            <input type="hidden" id="fileDir" name="tempFileDir" />
+                                            <input type="hidden" name="tempDirId" id="tempDirId" value=""  />		<!-- 文件存放的临时目录 -->
+                                        </p>
+                                        <img id="onloading" src="images/loading.gif" style="width:50;height:50; display:none;" />
+                                        <div class="alert alert-success alert-dismissible" role="alert" id="fileContent">
+                                        </div>
+                                        <div class="modal fade bs-example-modal-sm" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true" id="previewFileImg">
+                                            <div class="modal-dialog modal-sm">
+                                                <div style="position: absolute;">
+                                                    <button type="button" class="btn btn-default btn-sm phclose" data-dismiss="modal" style=""><b class="glyphicon glyphicon-remove"></b></button></div>
+                                                <img src="" style="max-width:800px;max-height:800px;overflow:auto;" id="previewFileImgShow"/>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="" class="col-sm-2 control-label">创作人：</label>
+                            <div class="col-sm-5">
+                                <input id="author" type="text" class="form-control"  placeholder="创作人">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="" class="col-sm-2 control-label">消费盘古币：</label>
+                            <div class="col-sm-5">
+                                <input id="price" type="text" class="form-control"  placeholder="请输入正整数！且不填写或者0表示免费">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="" class="col-sm-2 control-label">关键词：</label>
+                            <div class="col-sm-5">
+                                <input type="text" id="keyWords" class="form-control"  placeholder="自动获取，手动填写用‘,’分开">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="" class="col-sm-2 control-label">内容摘要：</label>
+                            <div class="col-sm-9 num-box">
+                                <textarea id="description" class="form-control" onkeyup="cls(this,200,'v')" oncontextmenu="cls(this,200,'v')" rows="2" placeholder="最多不超过100个汉字"></textarea>
+                                <div class="num-count bottom"><span class="num-hint" id="v">200</span> / 200</div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="col-sm-offset-2 col-sm-10">
+                                <button type="button" onclick="saveResource();" class="btn btn-primary" style="margin:2px 8px;" >确认发布</button>
+                                <button type="button" onclick="toMyResource()" class="btn btn-default" style="margin:2px 8px;" >取消并返回到管理页</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+<div id="btree" class="hide">
+    <div class="main-left " style="overflow-y: hidden;">
+        <ul id="menuUl" class="nav nav-tabs nav-justified" role="tablist">
+            <li role="presentation" style="padding-top:2px;" class="active"><a id="1" href="javascript:void(0);" onclick="tab(this)">章节目录</a></li>
+            <li role="presentation"><a id="2" href="javascript:void(0);" onclick="tab(this)">知识点目录</a></li>
+        </ul>
+        <ul id="treeChapter" class="ztree ztreeAction"></ul>
+        <ul style="display:none" id="treeKnow" class="ztree ztreeAction"></ul>
+    </div>
+</div>
+
+
+
+
+
+<script src="js/jquery.js"></script>
+<script src="js/bootstrap.js"></script>
+<script src="js/uniform.js"></script>
+<script src="js/loader.js"></script>
+<script src="../common/js/layer/layer/layer.js"></script>
+<script src="js/chapter/jquery.json-2.4.js"></script>
+<script src="js/chapter/jquery.ztree.core-3.4.js"></script>
+<script src="js/chapter/jquery.ztree.excheck-3.4.js"></script>
+<script src="js/chapter/jquery.ztree.exedit-3.4.js"></script>
+<script src="js/jquery-pager-1.0.js"></script>
+<script src="js/jquery.easyui.min.js" ></script>
+<script src="js/easyui-lang-zh_CN.js"></script>
+<script src="js/ajaxfileupload.js"></script>
+<script src="../common/js/get_root_path.js"></script>
+<script src="js/resource/resourceUpload.js"></script>
+</body>
+</html>

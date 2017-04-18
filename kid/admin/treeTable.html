@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <title>网站登录</title>
+    <link href="less/Nstrap.less" type="text/css" rel="stylesheet/less"/>
+    <script src="js/less.js"></script>
+    <!--[if lt IE 9]>
+    <script src="http://apps.bdimg.com/libs/html5shiv/3.7/html5shiv.min.js"></script>
+    <script src="http://apps.bdimg.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+    <link href="js/treeTable/css/jquery.treetable.css" type="text/css" rel="stylesheet">
+    <link href="js/treeTable/css/jquery.treetable.theme.default.css" type="text/css" rel="stylesheet">
+</head>
+<body>
+<div class="console-container">
+    <div class="row">
+        <div class="col-sm-4">
+            <div class="widget-box">
+                <div class="widget-title">
+                    <span class="icon"><i class="fa fa-save"></i> </span>
+                    <h5>发布</h5>
+                    <div class="pull-right" ><span class="icon"  data-toggle="collapse" href="#collapseG2"><i class="fa fa-chevron-up"></i> </span></div>
+                </div>
+                <div class="widget-content collapse in" id="collapseG2">
+                    <table class="treetable" id="tree_table" >
+                        <thead><tr><th>&nbsp;</th><th>名称</th><th width="20%">操作</th></tr></thead>
+                        <tbody>
+                        <tr data-tt-id="node-1"><td><input type="radio" name="tt"></td><td>第一级1</td><td>&nbsp;&nbsp;操作</td></tr>
+                        <tr data-tt-id="node-2" data-tt-parent-id="node-1"><td><input type="radio" name="tt"></td><td>第二级</td><td>&nbsp;&nbsp;操作</td></tr>
+                        <tr data-tt-id="node-3" data-tt-parent-id="node-2"><td><input type="radio" name="tt"></td><td>第三级</td><td>&nbsp;&nbsp;操作</td></tr>
+                        <tr data-tt-id="node-4" data-tt-parent-id="node-3"><td><input type="radio" name="tt"></td><td>第四级</td><td>&nbsp;&nbsp;操作</td></tr>
+                        <tr data-tt-id="node-5" data-tt-parent-id="node-4"><td><input type="radio" name="tt"></td><td>第五级</td><td>&nbsp;&nbsp;操作</td></tr>
+                        <tr data-tt-id="node-6"><td><input type="radio" name="tt"></td><td>第一级2</td><td>&nbsp;&nbsp;操作</td></tr>
+                        </tbody>
+                        <tfoot>
+                        </tfoot>
+                    </table>
+                    <hr>
+                    动态表单加载
+                    <table class="treetable table table-hover table-box table-bordered table-condensed table-responsive" id="tree_table2">
+                        <thead><tr><th>名称</th><th width="10%">排序</th><th width="30%">操作</th></tr></thead>
+                        <tbody></tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+</body>
+<!-- Bootstrap core JavaScript
+================================================== -->
+<!-- Placed at the end of the document so the pages load faster -->
+<script src="http://cdn.bootcss.com/jquery/1.11.2/jquery.min.js"></script>
+<script src="http://cdn.bootcss.com/bootstrap/3.3.4/js/bootstrap.min.js"></script>
+<!-- Just to make our placeholder images work. Don't actually copy the next line! -->
+<script src="js/vendor/holder.js"></script>
+<!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
+<script src="js/ie10-viewport-bug-workaround.js"></script>
+<script src="js/browser.js" type="text/javascript"></script>
+<script src="js/holder.js" type="text/javascript"></script>
+
+
+<script type="text/javascript" src="js/treeTable/jquery.treetable.js"></script>
+<script type="text/javascript">
+    //用于构建动态表格的数据集
+    var datastore=[{name:'节点1',id:'node1',parent:null},
+        {name:'节点8',id:'node8',parent:null},
+        {name:'节点2',id:'node2',parent:'node1'},
+        {name:'节点3',id:'node3',parent:'node2'},
+        {name:'节点4',id:'node4',parent:'node3'},
+        {name:'节点5',id:'node5',parent:'node4'},
+        {name:'节点6',id:'node6',parent:'node5'},
+        {name:'节点7',id:'node7',parent:'node3'},
+        {name:'节点9',id:'node9',parent:'node1'},
+        {name:'节点10',id:'node10',parent:'node9'}];
+    $(function(){
+        $("#tree_table").treetable({expandable:true});//treeColumn：0表示表格第二列显示树形结构。但是会影响此表单之后的树形表单显示
+        for(var i=0;i<datastore.length;i++){
+            filltr($("#tree_table2"),datastore[i]);
+        }
+$("#tree_table2").treetable({expandable:true});
+        expandAll();//此处注意，由于第一个表格是第二列作为树形展现，不能在同一个界面里同时使用两个以上表格操作。
+        function expandAll(){$("#tree_table2").treetable('expandAll'); return false;}
+        function collapseAll(){$("#tree_table2").treetable('collapseAll'); return false;}
+        $("#tree_table2 tbody").on("mousedown", "tr", function() {
+            $(".selected").not(this).removeClass("selected");
+            $(this).toggleClass("selected");
+        });
+    });
+    function filltr(apendtotable,ddataitem){
+        if(ddataitem.parent==null){
+            $("tbody",apendtotable).append("<tr data-tt-id='"+ddataitem.id+"'><td><i class='glyphicon glyphicon-stop'></i>"+ddataitem.name+"</td><td><input type='text' class='form-control'></td><td><a href='javascript:;'>添加子栏目</a> / <a href='javascript:;'>删除</a></td></tr>");
+        }else{
+            $("tr[data-tt-id="+ddataitem.parent+"]",apendtotable).after("<tr data-tt-id='"+ddataitem.id+"'  data-tt-parent-id='"+ddataitem.parent+"'><td><i class='glyphicon glyphicon-stop'>"+ddataitem.name+"</td><td><input type='text' class='form-control'></td><td><a href='javascript:;'>添加子栏目</a> / <a href='javascript:;'>删除</a></td></tr>");
+        }
+    }
+</script>
+</html>

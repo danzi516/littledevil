@@ -1,0 +1,364 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <title>资源管理</title>
+    <!--<link href="less/Nstrap.less" type="text/css" rel="stylesheet/less"/>
+    <script src="js/less.js"></script>-->
+    <link href="css/Nstrap.css" rel="stylesheet">
+    <link href="css/style.css" rel="stylesheet">
+    <link href="js/bootstrap_table/bootstrap-table.css" rel="stylesheet">
+    <link href="js/ztree/css/awesomeStyle/awesome.css"  rel="stylesheet">
+    <!--[if lt IE 9]>
+    <script src="http://apps.bdimg.com/libs/html5shiv/3.7/html5shiv.min.js"></script>
+    <script src="http://apps.bdimg.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+</head>
+<body>
+<div class="console-container">
+    <div class="row">
+        <div class="col-sm-12">
+            <div class="console-title clearfix">
+                <div class="pull-left"> <h5>首页</h5> <a href="javascript:" class="btn btn-default">资源管理</a> </div>
+                <div class="pull-right"><a href="javascript:;" class="btn btn-link">返回</a> </div>
+            </div>
+            <hr/>
+            <hr class="hr"/>
+            <div class="row">
+                <div class="col-md-12">
+                    <div id="souBar" class="well well-sm">
+                        <form class="form-horizontal">
+                            <div class="form-group">
+                                <label class="col-sm-1 control-label">学段</label>
+                                <div class="col-sm-2">
+                                    <select class="form-control"><option>学段</option></select>
+                                </div>
+                                <div class="col-sm-2">
+                                    <select class="form-control"><option>年级</option></select>
+                                </div>
+                                <div class="col-sm-2">
+                                    <select class="form-control"><option>学期</option></select>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-sm-1 control-label">教材章节</label>
+                                <div class="col-sm-2">
+                                    <select class="form-control"><option>科目</option></select>
+                                </div>
+                                <div class="col-sm-2">
+                                    <select class="form-control"><option>教材版本</option></select>
+                                </div>
+                                <div class="col-sm-2">
+                                    <select class="form-control"><option>章节</option></select>
+                                </div>
+                                <div class="col-sm-2">
+                                    <select class="form-control"><option>知识点</option></select>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-sm-1 control-label">类型</label>
+                                <div class="col-sm-2">
+                                    <select class="form-control"><option>选择类型</option></select>
+                                </div>
+                                <label class="col-sm-1 control-label">发布人</label>
+                                <div class="col-sm-2">
+                                    <select class="form-control"><option>选择类型</option></select>
+                                </div>
+                                <label class="col-sm-1 control-label">审核人</label>
+                                <div class="col-sm-2">
+                                    <select class="form-control"><option>章节</option></select>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-sm-1 control-label">发布时间段</label>
+                                <div class="col-sm-2">
+                                    <select class="form-control"><option>选择时间</option></select>
+                                </div>
+                                <div class="col-sm-2">
+                                    <select class="form-control"><option>选择时间</option></select>
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label class="col-sm-1 control-label">点击率</label>
+                                <div class="col-sm-1">
+                                    <select class="form-control"><option>大于</option><option>小于</option><option>等于</option></select>
+                                </div>
+                                <div class="col-sm-2">
+                                    <input type="text" class="form-control" id="" placeholder="Jane Doe">
+                                </div>
+
+                                <label class="col-sm-1 control-label">收藏次数</label>
+                                <div class="col-sm-1">
+                                    <select class="form-control"><option>大于</option><option>小于</option><option>等于</option></select>
+                                </div>
+                                <div class="col-sm-2">
+                                    <input type="text" class="form-control" id="" placeholder="Jane Doe">
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-sm-1 control-label">下载次数</label>
+                                <div class="col-sm-1">
+                                    <select class="form-control"><option>大于</option><option>小于</option><option>等于</option></select>
+                                </div>
+                                <div class="col-sm-2">
+                                    <input type="text" class="form-control" id="" placeholder="Jane Doe">
+                                </div>
+
+                                <label class="col-sm-1 control-label">评分</label>
+                                <div class="col-sm-1">
+                                    <select class="form-control"><option>大于</option><option>小于</option><option>等于</option></select>
+                                </div>
+                                <div class="col-sm-2">
+                                    <input type="text" class="form-control" id="" placeholder="Jane Doe">
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <div class="col-sm-offset-1 col-sm-11">
+                                    <button type="submit" class="btn btn-danger">搜索</button> <button type="submit" class="btn btn-default">生成统计报表</button>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                    <hr class="hr"/>
+                    <div id="toolbar">
+                        <div class="btn-group" role="group" aria-label="...">
+                            <button id="checkAll" class="btn btn-default">全选</button>
+                            <button id="uncheckAll" class="btn btn-default">取消选择</button>
+                        </div>
+                        <button id="remove" class="btn btn-default">删除</button>
+                        <a href="resources_add.html" class="btn btn-default">修改属性</a>
+                        <a href="resources_add.html" class="btn btn-default">审核</a>
+                        <a href="resources_add.html" class="btn btn-primary">添加资源</a>
+                        <a href="resources_add.html" class="btn btn-primary">批量添加</a>
+
+                    </div>
+                    <table id="table"
+                           data-toolbar="#toolbar"
+                           data-search="true"
+                           data-show-refresh="true"
+                           data-show-toggle="true"
+                           data-show-columns="true"
+                           data-show-export="true"
+                           data-detail-formatter="detailFormatter"
+                           data-pagination="true"
+                           data-id-field="id"
+                           data-page-list="[10, 25, 50, 100, ALL]"
+                           data-side-pagination="server"
+                           data-url="js/bootstrap_table/json/textbook.json"
+                           data-response-handler="responseHandler">
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+</body>
+<!-- Bootstrap core JavaScript
+================================================== -->
+<!-- Placed at the end of the document so the pages load faster -->
+<script src="http://cdn.bootcss.com/jquery/1.11.2/jquery.min.js"></script>
+<script src="http://cdn.bootcss.com/bootstrap/3.3.4/js/bootstrap.min.js"></script>
+<!-- Flot -->
+<script src="js/bootstrap_table/bootstrap-table.js"></script>
+<script src="js/bootstrap_table/bootstrap-table-export.js"></script>
+<script src="js/bootstrap_table/locale/bootstrap-table-zh-CN.js"></script>
+<script src="js/ztree/js/jquery.ztree.core-3.5.js"></script>
+<script>
+
+    var setting = {
+        view: {
+            addHoverDom: addHoverDom,
+            removeHoverDom: removeHoverDom,
+            selectedMulti: false
+        },
+        check: {
+            enable: true
+            ,chkStyle: 'radio'
+            ,radioType: "level"
+        },
+        data: {
+            simpleData: {
+                enable: true
+            }
+        },
+        edit: {
+            enable: true
+        }
+    };
+
+    var zNodes =[
+        { id:1, pId:0, name:"第一单元", open:true},
+        { id:11, pId:1, name:"1 在山的那边"},
+        { id:111, pId:1, name:"2 走一步，再走一步"},
+        { id:112, pId:1, name:"3.1 蝉"},
+        { id:113, pId:1, name:"3.2 贝壳"},
+        { id:114, pId:1, name:"4 藤萝瀑布"},
+        { id:12, pId:1, name:"5 童趣"},
+        { id:121, pId:1, name:"单元测试"},
+        { id:2, pId:0, name:"第二单元"},
+        { id:21, pId:2, name:"6 理想", open:true},
+        { id:211, pId:2, name:"7.1 行道树"},
+        { id:212, pId:2, name:"7.2 第一次真好"},
+        { id:213, pId:2, name:"8.1 白兔和月亮"},
+        { id:214, pId:2, name:"8.2 落难的王子"},
+        { id:22, pId:2, name:"9 我的信念"},
+        { id:221, pId:2, name:"10 《论语》十则"},
+        { id:222, pId:2, name:"单元测试"},
+        { id:3, pId:0, name:"第三单元", isParent:true}
+    ];
+    function setCheck() {
+        setting.check.chkStyle = $("#r1").attr("checked")? "checkbox":"radio";
+        setting.check.enable = (!$("#disablechk").attr("checked"));
+        $.fn.zTree.init($("#treeDemo"), setting, zNodes);
+    }
+    $(document).ready(function(){
+        $.fn.zTree.init($("#treeDemo"), setting, zNodes);
+        setCheck();
+        $("#r1").bind("change", setCheck);
+        $("#r2").bind("change", setCheck);
+        $("#disablechk").bind("change", setCheck);
+    });
+
+    var newCount = 1;
+    function addHoverDom(treeId, treeNode) {
+        var sObj = $("#" + treeNode.tId + "_span");
+        if (treeNode.editNameFlag || $("#addBtn_"+treeNode.tId).length>0) return;
+        var addStr = "<span class='button add' id='addBtn_" + treeNode.tId
+                + "' title='add node' onfocus='this.blur();'></span>";
+        sObj.after(addStr);
+        var btn = $("#addBtn_"+treeNode.tId);
+        if (btn) btn.bind("click", function(){
+            var zTree = $.fn.zTree.getZTreeObj("treeDemo");
+            zTree.addNodes(treeNode, {id:(100 + newCount), pId:treeNode.id, name:"new node" + (newCount++)});
+            return false;
+        });
+    };
+
+    function removeHoverDom(treeId, treeNode) {
+        $("#addBtn_"+treeNode.tId).unbind().remove();
+    };
+
+
+
+
+    var $table = $('#table'),
+            $remove = $('#remove'),
+            $append = $('#append'),
+            $checkAll=$('#checkAll'),
+            $uncheckAll=$('#uncheckAll'),
+            selections = [];
+
+
+    $(function () {
+        $table.bootstrapTable({
+            columns: [
+                [
+                    {field: 'state',checkbox: true,align: 'center',valign: 'middle'},
+                    {field: 'textbook.id',title: 'ID',align: 'center',valign: 'middle'},
+                    {field: 'textbook.name',title: '名称',align: 'center',valign: 'middle'},
+                    {field: 'textbook.grades',title: '学段',align: 'center',valign: 'middle'},
+                    {field: 'textbook.subject',title: '科目',align: 'center',valign: 'middle'},
+                    {field: 'textbook.edition',title: '教材',align: 'center',valign: 'middle'},
+                    {field: 'textbook.rev',title: '时间',align: 'center',valign: 'middle'},
+                    {field: 'textbook.class',title: '类型',align: 'center',valign: 'middle'},
+                    {field: 'textbook.class',title: '点击/下载/使用/收藏',align: 'center',valign: 'middle'},
+                    {field: 'textbook.class',title: '审核',align: 'center',valign: 'middle'},
+                    {field: 'textbook.class',title: '发布人',align: 'center',valign: 'middle'},
+                    {field: 'operate',title: '操作',align: 'center',events: operateEvents,formatter: operateFormatter}
+                ]
+            ]
+        });
+        $remove.click(function () {
+            var ids = $.map($table.bootstrapTable('getSelections'), function (row) {
+                return row.id;
+            });
+            $table.bootstrapTable('remove', {
+                field: 'id',
+                values: ids
+            });
+        });
+        $checkAll.click(function () {
+            $table.bootstrapTable('checkAll');
+        });
+        $uncheckAll.click(function () {
+            $table.bootstrapTable('uncheckAll');
+        });
+    });
+
+    function getIdSelections() {
+        return $.map($table.bootstrapTable('getSelections'), function (row) {
+            return row.id
+        });
+    }
+
+    function responseHandler(res) {
+        $.each(res.rows, function (i, row) {
+            row.state = $.inArray(row.id, selections) !== -1;
+        });
+        return res;
+    }
+
+    function detailFormatter(index, row) {
+        var html = [];
+        $.each(row, function (key, value) {
+            html.push('<p><b>' + key + ':</b> ' + value + '</p>');
+        });
+        return html.join('');
+    }
+
+    function operateFormatter(value, row, index) {
+        return [
+            '<a class="like" href="javascript:void(0)" title="Like">',
+            ' 属性',
+            '</a>  ',
+            '<a class="remove" href="javascript:void(0)" title="Remove">',
+            ' 修改',
+            '</a>',
+            '<a class="edit" href="javascript:void(0)" title="edit">',
+            ' 删除',
+            '</a>'
+        ].join('');
+    }
+
+    window.operateEvents = {
+        'click .like': function (e, value, row, index) {
+            alert('You click like action, row: ' + JSON.stringify(row));
+        },
+        'click .remove': function (e, value, row, index) {
+            alert('You click like action, row: ' + JSON.stringify(row));
+            $table.bootstrapTable('remove', {
+                field: 'id',
+                values: [row.id]
+            });
+        }
+    };
+
+    function totalTextFormatter(data) {
+        return 'Total';
+    }
+
+    function totalNameFormatter(data) {
+        return data.length;
+    }
+
+    function totalPriceFormatter(data) {
+        var total = 0;
+        $.each(data, function (i, row) {
+            total += +(row.price.substring(1));
+        });
+        return '$' + total;
+    }
+
+    function getHeight() {
+        return $(window).height() - $('h1').outerHeight(true);
+    }
+
+</script>
+</html>

@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <title>网站栏目管理</title>
+    <link href="less/Nstrap.less" type="text/css" rel="stylesheet/less"/>
+    <script src="js/less.js"></script>
+    <!--[if lt IE 9]>
+    <script src="http://apps.bdimg.com/libs/html5shiv/3.7/html5shiv.min.js"></script>
+    <script src="http://apps.bdimg.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+    <link rel="stylesheet" type="text/css" media="screen" href="js/treeTable/css/ui..css" />
+    <link rel="stylesheet" type="text/css" media="screen" href="js/treeTable/css/ui.jqgrid-bootstrap-ui.css" />
+    <meta charset="utf-8" />
+    <title>jqTreeGrid - Load On Demand - Load all Rows at once collapsed</title>
+</head>
+<body>
+
+<table id="tree"></table>
+<div id="pager"></div>
+
+
+
+
+</body>
+<script src="http://cdn.bootcss.com/jquery/1.11.2/jquery.min.js"></script>
+<script src="http://cdn.bootcss.com/bootstrap/3.3.4/js/bootstrap.min.js"></script>
+<!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
+<script src="js/ie10-viewport-bug-workaround.js"></script>
+<script src="js/browser.js" type="text/javascript"></script>
+<script src="js/holder.js" type="text/javascript"></script>
+<script src="js/layer/layer/layer.js"></script>
+
+<script src="js/treeTable/js/jquery.jqGrid.min.js"></script>
+<script src="js/treeTable/js/i18n/grid.locale-cn.js"></script>
+
+<script type="text/javascript">
+
+    jQuery(document).ready(function($) {
+        jQuery('#tree').jqGrid({
+            "url":"js/treeTable/data.json",
+            "colModel":[
+                {
+                    "name":"category_id",
+                    "index":"accounts.account_id",
+                    "sorttype":"int",
+                    "key":true,
+                    "hidden":true,
+                    "width":50
+                },{
+                    "name":"name",
+                    "index":"name",
+                    "sorttype":"string",
+                    "label":"Name",
+                    "width":170
+                },{
+                    "name":"price",
+                    "index":"price",
+                    "sorttype":"numeric",
+                    "label":"Price",
+                    "width":90,
+                    "align":"right"
+                },{
+                    "name":"qty_onhand",
+                    "index":"qty_onhand",
+                    "sorttype":"int",
+                    "label":"Qty",
+                    "width":90,
+                    "align":"right"
+                },{
+                    "name":"color",
+                    "index":"color",
+                    "sorttype":"string",
+                    "label":"Color",
+                    "width":100
+                },{
+                    "name":"lft",
+                    "hidden":true
+                },{
+                    "name":"rgt",
+                    "hidden":true
+                },{
+                    "name":"level",
+                    "hidden":true
+                },{
+                    "name":"uiicon",
+                    "hidden":true
+                }
+            ],
+            "width":"780",
+            "hoverrows":false,
+            "viewrecords":false,
+            "gridview":true,
+            "height":"auto",
+            "sortname":"lft",
+            "loadonce":true,
+            "rowNum":100,
+            "scrollrows":true,
+            // enable tree grid
+            "treeGrid":true,
+            // which column is expandable
+            "ExpandColumn":"name",
+            // datatype
+            "treedatatype":"json",
+            // the model used
+            "treeGridModel":"nested",
+            // configuration of the data comming from server
+            "treeReader":{
+                "left_field":"lft",
+                "right_field":"rgt",
+                "level_field":"level",
+                "leaf_field":"isLeaf",
+                "expanded_field":"expanded",
+                "loaded":"loaded",
+                "icon_field":"icon"
+            },
+            "sortorder":"asc",
+            "datatype":"json",
+            "pager":"#pager"
+        });
+    });
+
+</script>
+</html>

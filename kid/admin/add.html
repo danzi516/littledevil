@@ -1,0 +1,766 @@
+<!DOCTYPE html>
+<html  lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <title>管理员添加页</title>
+    <link href="less/Nstrap.less" type="text/css" rel="stylesheet/less"/>
+    <script src="js/less.js"></script>
+    <!--[if lt IE 9]>
+    <script src="http://apps.bdimg.com/libs/html5shiv/3.7/html5shiv.min.js"></script>
+    <script src="http://apps.bdimg.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+    <link href="js/Validform_v5.3.2/Validform_v5.3.2/demo/css/style.css" type="text/css" rel="stylesheet">
+    <link href="js/uniform-master/themes/default/css/uniform.default.css" type="text/css" rel="stylesheet">
+    <link href="js/select2-master/css/select2.css" type="text/css" rel="stylesheet">
+    <link href="js/bootstrap-wysihtml5/bootstrap-wysihtml5-0.0.2.css" type="text/css" rel="stylesheet">
+    <link href="js/webuploader/webuploader.css" type="text/css" rel="stylesheet">
+    <link href="js/webuploader/webuploader-demo.css" type="text/css" rel="stylesheet">
+    <link href="js/layer/lay/layer/skin/layer.css" type="text/css" rel="stylesheet">
+    <link href="js/colorpicker/css/bootstrap-colorpicker.min.css" type="text/css" rel="stylesheet">
+</head>
+<body>
+<div class="console-container">
+    <div class="row">
+        <div class="col-sm-12">
+            <div class="console-title clearfix">
+                <div class="pull-left"> <h5>添加产品</h5></div>
+                <div class="pull-right"><a href="javascript:;" class="btn btn-link">返回产品列表</a> </div>
+            </div>
+            <hr/>
+            <div class="mask-con">
+                <ul class="nav nav-tabs">
+                    <li role="presentation" class="active"><a href="#">基本信息</a></li>
+                    <li role="presentation"><a href="#">高级设置</a></li>
+                </ul>
+            </div>
+            <hr class="hr">
+
+            <form class="form-horizontal">
+                <div class="panel panel-default">
+                    <div class="panel-heading">基本信息</div>
+                    <div class="panel-body">
+                        <div class="form-group">
+                            <label for="" class="col-sm-2 control-label">文章标题：</label>
+                            <div class="col-sm-5 num-box">
+                                <input type="text" class="form-control" id="T_title" onkeyup="cls(this,50,'Btitle')" oncontextmenu="cls(this,50,'Btitle')" placeholder="文章标题至少6个字符,最多25个汉字" datatype="s6-18" errormsg="文章标题至少6个字符,最多25个汉字！" nullmsg="文章标题不能为空！"/>
+                                <div class="num-count"><span class="num-hint" id="Btitle">50</span> / 50</div>
+                            </div>
+                            <label for="" class="col-sm-1 control-label">简略标题：</label>
+                            <div class="col-sm-3">
+                                <input type="text" class="form-control" id="" placeholder="简略标题">
+                            </div>
+                        </div>
+                        <div class="form-group"  data-checked="type">
+                            <label for="" class="col-sm-2 control-label">自定义属性：</label>
+                            <div class="col-sm-10">
+                                <label class="checkbox-inline">
+                                    <input type="checkbox" name="type" id="flagsh" value="option1"> 头条[h]
+                                </label>
+                                <label class="checkbox-inline">
+                                    <input type="checkbox" name="type" id="flagsc" value="option1"> 推荐[c]
+                                </label>
+                                <label class="checkbox-inline">
+                                    <input type="checkbox" name="type" id="flagsf" value="option1"> 幻灯[f]
+                                </label>
+                                <label class="checkbox-inline">
+                                    <input type="checkbox" name="type" id="flagsa" value="option1"> 特荐[a]
+                                </label>
+                                <label class="checkbox-inline">
+                                    <input type="checkbox" name="type" id="flagss" value="option1"> 滚动[s]
+                                </label>
+                                <label class="checkbox-inline">
+                                    <input type="checkbox" name="type" id="flagsb" value="option1"> 加粗[b]
+                                </label>
+                                <label class="checkbox-inline">
+                                    <input type="checkbox" name="type" id="flagsp" value="option1"> 图片[p]
+                                </label>
+                                <label class="checkbox-inline">
+                                    <input type="checkbox" name="type" id="flagsj" value="option1"> 跳转[j]
+                                </label>
+                            </div>
+                        </div>
+                        <div class="form-group hide" data-target="flagsj">
+                            <label for="" class="col-sm-2 control-label">跳转链接设置：</label>
+                            <div class="col-sm-4">
+                                <input type="text" class="form-control"  placeholder="例如：http://www.163.com(只有选中跳转才有)">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="" class="col-sm-2 control-label">TAG标签：</label>
+                            <div class="col-sm-4">
+                                <input type="text" class="form-control" id="" placeholder="(','号分开，单个标签小于12字节)">
+                            </div>
+                            <label for="" class="col-sm-1 control-label">权重：</label>
+                            <div class="col-sm-2">
+                                <input type="number" class="form-control" id="" placeholder="数字越小越靠前">
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="" class="col-sm-2 control-label">缩 略 图：</label>
+                            <div class="col-sm-4">
+                                <div class="input-group">
+                                    <input type="text" id="fileName" class="form-control" placeholder="若是远程图片请在文本框内填写远程图片地址">
+                                    <div class="input-group-btn">
+                                        <button type="button" class="btn btn-default" data-id="upImg">本地上传</button>
+                                        <button type="button" class="btn btn-default" data-id="imgGroup">站内选择</button>
+                                        <button type="button" class="btn btn-default" data-id="imgEdit">裁剪图片</button>
+                                    </div>
+                                </div><!-- /input-group -->
+                            </div>
+                            <div class="col-sm-2">
+                                <button type="button" class="btn btn-default" data-id="imgShow">查看图片</button>
+                                <input id="imageInput" type="file" data-id='file' name="myPhoto" onchange="loadImageFile()" class="hide" />
+                                <div id="imagePreview" class="" style="width:0px; height: 0px; overflow: hidden; filter: progid:DXImageTransform.Microsoft.AlphaImageLoader(sizingMethod=scale);"> </div>
+                                <span data-style="width" class="hide"></span><span data-style="height" class="hide"></span>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="" class="col-sm-2 control-label">所属栏目：</label>
+                            <div class="col-sm-3">
+                                <select class="form-control" id="type-select" datatype="*" nullmsg="请选择所属栏目" errormsg="请选择所属栏目">
+                                    <option></option>
+                                    <option value="1">1</option>
+                                    <option value="2">2</option>
+                                    <option value="3">3</option>
+                                    <option value="4">4</option>
+                                    <option value="5">5</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="" class="col-sm-2 control-label">关键词：</label>
+                            <div class="col-sm-5">
+                                <input type="text" class="form-control"  placeholder="自动获取，手动填写用‘,’分开">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="" class="col-sm-2 control-label">内容摘要：</label>
+                            <div class="col-sm-9 num-box">
+                                <textarea class="form-control" onkeyup="cls(this,200,'v')" oncontextmenu="cls(this,200,'v')" rows="3" placeholder="最多不超过100个汉字"></textarea>
+                                <div class="num-count bottom"><span class="num-hint" id="v">200</span> / 200</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="panel panel-default">
+                    <div class="panel-heading">详细内容</div>
+                    <div class="panel-body">
+                        <div class="form-group">
+                            <label for="" class="col-sm-2 control-label">附加选项：</label>
+                            <div class="col-sm-10">
+                                <label class="checkbox-inline">
+                                    <input type="checkbox" id="" value="option1"> 下载远程图片和资源
+                                </label>
+                                <label class="checkbox-inline">
+                                    <input type="checkbox" id="" value="option1"> 删除非站内链接 [设置]
+                                </label>
+                                <label class="checkbox-inline">
+                                    <input type="checkbox" id="" value="option1"> 提取第一个图片为缩略图
+                                </label>
+                                <label class="checkbox-inline">
+                                    <input type="checkbox" id="" value="option1"> 图片是否加水印
+                                </label>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="" class="col-sm-2 control-label">内容分页方式：</label>
+                            <div class="col-sm-10">
+                                <label class="radio-inline">
+                                    <input type="radio" name="inlineRadioOptions" id="" value="option1"> 自动分页
+                                </label>
+                                <label class="radio-inline">
+                                    <input type="radio" name="inlineRadioOptions" id="" value="option1"> 手动标签分页　　(分页符为： ‘#p#’,分页标题‘#e#’ )
+                                </label>
+                                <label class="radio-inline">
+                                    <input type="radio" name="inlineRadioOptions" id="" value="option1"> 按内容大小分页
+                                </label>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="" class="col-sm-2 control-label">内容大小分页设置：</label>
+                            <div class="col-sm-1">
+                                <input type="number" class="form-control" id="" placeholder="单位K(字节)">
+                            </div>
+                            <label for="" class="col-sm-6 control-label text-left">K (字节/一个中文字是2K)</label>
+                        </div>
+                        <div class="form-group">
+                            <label for="" class="col-sm-2 control-label">详细内容：</label>
+                            <div class="col-sm-9">
+                                <script id="TextArea1" type="text/plain" style="width:100%; height:400px;"></script>
+                                <!--<textarea class="form-control" id="TextArea1" rows="3" placeholder="最多不超过100个字符"></textarea>-->
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="panel panel-default">
+                    <div class="panel-heading">内容信息</div>
+                    <div class="panel-body">
+                        <div class="form-group">
+                            <label for="" class="col-sm-2 control-label">所属行业：</label>
+                            <div class="col-sm-2">
+                                <select class="form-control" data-select="default">
+                                    <option>默认排序</option><option>置顶一天</option><option>置顶二天</option><option>置顶一周</option><option>置顶一个月</option><option>置顶一年</option>
+                                </select>
+                            </div>
+                            <div class="col-sm-2">
+                                <select class="form-control" data-select="default">
+                                    <option>默认排序</option><option>置顶一天</option><option>置顶二天</option><option>置顶一周</option><option>置顶一个月</option><option>置顶一年</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="" class="col-sm-2 control-label">产品类型：</label>
+                            <div class="col-sm-2">
+                                <select class="form-control" data-select="default">
+                                    <option>默认排序</option><option>置顶一天</option><option>置顶二天</option><option>置顶一周</option><option>置顶一个月</option><option>置顶一年</option>
+                                </select>
+                            </div>
+                            <div class="col-sm-2">
+                                <select class="form-control" data-select="default">
+                                    <option>默认排序</option><option>置顶一天</option><option>置顶二天</option><option>置顶一周</option><option>置顶一个月</option><option>置顶一年</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="" class="col-sm-2 control-label">市场价：</label>
+                            <div class="col-sm-2">
+                                <input type="number" class="form-control" placeholder="填写数值">
+                            </div>
+                            <label for="" class="col-sm-2 control-label">优惠价：</label>
+                            <div class="col-sm-2">
+                                <input type="number" class="form-control" placeholder="填写数值">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="" class="col-sm-2 control-label">所属品牌：</label>
+                            <div class="col-sm-2">
+                                <select class="form-control">
+                                    <option>开放浏览</option><option>等待审核</option><option>注册会员</option><option>中级会员</option><option>高级会员</option><option>给力会员</option>
+                                </select>
+                            </div>
+                            <label for="" class="col-sm-2 control-label">计量单位：</label>
+                            <div class="col-sm-2">
+                                <input type="text" class="form-control" placeholder="个，位，次，件，箱等">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="" class="col-sm-2 control-label">上架时间：</label>
+                            <div class="col-sm-2">
+                                <input type="text"  id="start" class="form-control" placeholder="上架时间">
+                            </div>
+                            <label for="" class="col-sm-2 control-label">下架时间：</label>
+                            <div class="col-sm-2">
+                                <input type="text"  id="end" class="form-control" placeholder="下架时间">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="panel panel-default">
+                    <div class="panel-heading">多图上传</div>
+                    <div class="panel-body">
+                        <div class="form-group">
+                            <label for="" class="col-sm-2 control-label">图片上传方式：</label>
+                            <div class="col-sm-4">
+                                <button type="button" class="btn btn-default" data-img="upMore" >手工上传图片</button>
+                                <button type="button" class="btn btn-default">上传图片压缩包</button>
+                                <button type="button" class="btn btn-default">网上提制图片</button>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="" class="col-sm-2 control-label">图片浏览：</label>
+                            <div class="col-sm-10">
+                                <div class="row">
+                                    <div class="col-xs-6 col-md-2">
+                                        <div class="thumbnail">
+                                            <img src="holder.js/100%x180" alt="100%x180">
+                                            <div class="caption">
+                                                <p><input type="text" class="form-control" placeholder="图片名称"></p>
+                                                <p><textarea class="form-control" rows="3" placeholder="图片描述"></textarea></p>
+                                                <p><a href="#" class="btn btn-xs btn-primary" role="button">修改</a> <a href="#" class="btn btn-xs btn-default" role="button">删除</a></p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-xs-6 col-md-2">
+                                        <div class="thumbnail">
+                                            <img src="holder.js/100%x180" alt="100%x180">
+                                            <div class="caption">
+                                                <p><input type="text" class="form-control" placeholder="图片名称"></p>
+                                                <p><textarea class="form-control" rows="3" placeholder="图片描述"></textarea></p>
+                                                <p><a href="#" class="btn btn-xs btn-primary" role="button">修改</a> <a href="#" class="btn btn-xs btn-default" role="button">删除</a></p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-xs-6 col-md-2">
+                                        <div class="thumbnail">
+                                            <img src="holder.js/100%x180" alt="100%x180">
+                                            <div class="caption">
+                                                <p><input type="text" class="form-control" placeholder="图片名称"></p>
+                                                <p><textarea class="form-control" rows="3" placeholder="图片描述"></textarea></p>
+                                                <p><a href="#" class="btn btn-xs btn-primary" role="button">修改</a> <a href="#" class="btn btn-xs btn-default" role="button">删除</a></p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-xs-6 col-md-2">
+                                        <div class="thumbnail">
+                                            <img src="holder.js/100%x180" alt="100%x180">
+                                            <div class="caption">
+                                                <p><input type="text" class="form-control" placeholder="图片名称"></p>
+                                                <p><textarea class="form-control" rows="3" placeholder="图片描述"></textarea></p>
+                                                <p><a href="#" class="btn btn-xs btn-primary" role="button">修改</a> <a href="#" class="btn btn-xs btn-default" role="button">删除</a></p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-xs-6 col-md-2">
+                                        <div class="thumbnail">
+                                            <img src="holder.js/100%x180" alt="100%x180">
+                                            <div class="caption">
+                                                <p><input type="text" class="form-control" placeholder="图片名称"></p>
+                                                <p><textarea class="form-control" rows="3" placeholder="图片描述"></textarea></p>
+                                                <p><a href="#" class="btn btn-xs btn-primary" role="button">修改</a> <a href="#" class="btn btn-xs btn-default" role="button">删除</a></p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-xs-6 col-md-2">
+                                        <div class="thumbnail">
+                                            <img src="holder.js/100%x180" alt="100%x180">
+                                            <div class="caption">
+                                                <p><input type="text" class="form-control" placeholder="图片名称"></p>
+                                                <p><textarea class="form-control" rows="3" placeholder="图片描述"></textarea></p>
+                                                <p><a href="#" class="btn btn-xs btn-primary" role="button">修改</a> <a href="#" class="btn btn-xs btn-default" role="button">删除</a></p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+
+                <!--<div class="panel panel-default">
+                    <div class="panel-heading">多图上传</div>
+                    <div class="panel-body">
+                        <div class="form-group">
+                            <label for="" class="col-sm-2 control-label">手工上传图片：</label>
+                            <div class="col-sm-10">
+                                <div class="page-container">
+                                    <div id="uploader" class="wu-example">
+                                        <div class="queueList">
+                                            <div id="dndArea" class="placeholder">
+                                                <div id="filePicker" class="webuploader-container"><div class="webuploader-pick">点击选择图片</div><div id="rt_rt_19rs1d7661l621mna13c215gm1a321" style="position: absolute; top: 0px; left: 448px; width: 168px; height: 44px; overflow: hidden; bottom: auto; right: auto;"><input type="file" name="file" class="webuploader-element-invisible" multiple="multiple" accept="image/*"><label style="opacity: 0; width: 100%; height: 100%; display: block; cursor: pointer; background: rgb(255, 255, 255);"></label></div></div>
+                                                <p>或将照片拖到这里，单次最多可选300张</p>
+                                            </div>
+                                        </div>
+                                        <div class="statusBar" style="display:none;">
+                                            <div class="progress" style="display: none;">
+                                                <span class="text">0%</span>
+                                                <span class="percentage" style="width: 0%;"></span>
+                                            </div><div class="info">共0张（0B），已上传0张</div>
+                                            <div class="btns">
+                                                <div id="filePicker2" class="webuploader-container"><div class="webuploader-pick">继续添加</div><div id="rt_rt_19rs1d76c8iuu9l1ol7tc71rma6" style="position: absolute; top: 0px; left: 0px; width: 1px; height: 1px; overflow: hidden;"><input type="file" name="file" class="webuploader-element-invisible" multiple="multiple" accept="image/*"><label style="opacity: 0; width: 100%; height: 100%; display: block; cursor: pointer; background: rgb(255, 255, 255);"></label></div></div><div class="uploadBtn state-pedding">开始上传</div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>-->
+
+
+                <div class="panel panel-default">
+                    <div class="panel-heading">多图上传</div>
+                    <div class="panel-body">
+                        <div class="form-group">
+                            <label for="" class="col-sm-2 control-label">手工上传图片：</label>
+                            <div class="col-sm-10 ">
+                                <div id="uploader">
+                                    <!--用来存放item-->
+                                    <ul id="fileList" class="filelist"></ul>
+                                    <div id="filePicker">选择图片(你可以选择多个图片)</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="panel panel-default">
+                    <div class="panel-heading">投票设置</div>
+                    <div class="panel-body">
+                        <div class="form-group">
+                            <label for="" class="col-sm-2 control-label">投票：</label>
+                            <div class="col-sm-4">
+                                <div class="input-group">
+                                    <input type="text" class="form-control" disabled data-id="" placeholder="在投票模块选择">
+                                    <div class="input-group-btn">
+                                        <button type="button" class="btn btn-default" data-itme="select">选择投票</button>
+                                        <button type="button" class="btn btn-default" data-itme="dalTop">清除</button>
+                                    </div>
+                                </div><!-- /input-group -->
+                            </div>
+                            <div class="col-sm-4">
+                                <button type="button" class="btn btn-default" data-itme="add">新增投票</button>
+                                <button type="button" class="btn btn-default" data-itme="show">查看投票</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+
+                <div class="panel panel-default">
+                    <div class="panel-heading">高级设置</div>
+                    <div class="panel-body">
+                        <div class="form-group">
+                            <label for="" class="col-sm-2 control-label">评论选项：</label>
+                            <div class="col-sm-3">
+                                <label class="radio-inline">
+                                    <input type="radio" name="inlineRadioOptions" id="inlineRadio1" value="option1"> 允许评论
+                                </label>
+                                <label class="radio-inline">
+                                    <input type="radio" name="inlineRadioOptions" id="inlineRadio2" value="option2"> 禁止评论
+                                </label>
+                            </div>
+                            <label for="" class="col-sm-2 control-label">浏览次数：</label>
+                            <div class="col-sm-3">
+                                <input type="number" class="form-control" value="0">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="" class="col-sm-2 control-label">文章排序：</label>
+                            <div class="col-sm-3">
+                                <select class="form-control" data-select="default">
+                                    <option>默认排序</option><option>置顶一天</option><option>置顶二天</option><option>置顶一周</option><option>置顶一个月</option><option>置顶一年</option>
+                                </select>
+                            </div>
+                            <label for="" class="col-sm-2 control-label">标题颜色：</label>
+                            <div class="col-sm-2">
+                                <div class="input-group colorpicker-demo2">
+                                    <input type="text" value="" class="form-control" />
+                                    <span class="input-group-addon"><i></i></span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="" class="col-sm-2 control-label">阅读权限：</label>
+                            <div class="col-sm-3">
+                                <select class="form-control" data-select="default">
+                                    <option>开放浏览</option><option>等待审核</option><option>注册会员</option><option>中级会员</option><option>高级会员</option><option>给力会员</option>
+                                </select>
+                            </div>
+                            <label for="" class="col-sm-2 control-label">消费金币：</label>
+                            <div class="col-sm-3">
+                                <input type="number" class="form-control" placeholder="消费金币">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="" class="col-sm-2 control-label">发布时间：</label>
+                            <div class="col-sm-3">
+                                <div class="input-group">
+                                    <input type="text" class="form-control" id="datetime" placeholder="发布时间" >
+                                    <div class="input-group-btn"><button type="button" date-id="datetime" class="btn btn-default"><i class="fa fa-calendar-o"></i> </button></div>
+                                </div><!-- /input-group -->
+                            </div>
+                            <label for="" class="col-sm-2 control-label">发布选项：</label>
+                            <div class="col-sm-3">
+                                <label class="radio-inline">
+                                    <input type="radio" name="inlineRadioOptions" id="inlineRadio1" value="option1"> 生成HTML
+                                </label>
+                                <label class="radio-inline">
+                                    <input type="radio" name="inlineRadioOptions" id="inlineRadio2" value="option2"> 仅动态浏览
+                                </label>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="" class="col-sm-2 control-label">自定义文件名：</label>
+                            <div class="col-sm-2">
+                                <input type="text" class="form-control" placeholder="（不包括后缀名如.html等）">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+
+
+                <div class="form-group">
+                    <div class="col-sm-offset-2 col-sm-10">
+                        <button type="submit" class="btn btn-primary" id="addBtn">确认发布</button>
+                    </div>
+                </div>
+            </form>
+
+
+        </div>
+    </div>
+</div>
+</body>
+<!-- 放在文件的末端，使页面加载速度更快 -->
+<script src="http://cdn.bootcss.com/jquery/1.11.2/jquery.min.js"></script>
+<script src="http://cdn.bootcss.com/bootstrap/3.3.4/js/bootstrap.min.js"></script>
+<!-- 只是为了让我们的占位符图像工作。不要实际复制下一行！ -->
+<script src="js/vendor/holder.js"></script>
+<!-- IE10视口黑客的表面/桌面Windows 8的bug -->
+<script src="js/ie10-viewport-bug-workaround.js"></script>
+<script src="js/browser.js" type="text/javascript"></script>
+<!-- 复选框，单选框，下拉选框美化 -->
+<script src="js/uniform-master/jquery.uniform.js"></script>
+<script src="js/select2-master/js/select2.js"></script>
+<!-- 百度上传插件 -->
+<script src="js/webuploader/webuploader.js"></script>
+<script src="js/webuploader/getting-started.js"></script>
+<!-- 弹出层 -->
+<script src="js/layer/layer/layer.js"></script>
+<!-- 时间控件 -->
+<script src="js/laydate/laydate.js"></script>
+<!-- 颜色控件 -->
+<script src="js/colorpicker/bootstrap-colorpicker.min.js"></script>
+<!-- ueditor富文本插件 -->
+<script type="text/javascript" src="js/ueditor/ueditor.config.js"></script>
+<script type="text/javascript" src="js/ueditor/ueditor.all.js"></script>
+<script>
+    $(document).ready(function() {
+
+        //调用富文本编辑器
+        var ue= UE.getEditor("TextArea1");
+        //上传图片
+        $("button[data-id='upImg']").click(function(){
+            return $("#imageInput").click();
+        });
+        //查看图片，弹出图片层
+        $("button[data-id='imgShow']").click(function(){
+            if($("input[data-id='file']").val()!=""){
+                $('#imagePreview img').css({"background":"#fff"})
+                var imgWidth = ($('#imagePreview img').width()) + "px";
+                var imgHeight = ($('#imagePreview img').height()) + "px";
+                //alert($("#imagePreview img").attr("src"));
+                layer.open({
+                    type: 1,
+                    title: false,
+                    closeBtn: false,
+                    area: [imgWidth, imgHeight],
+                    skin: 'layui-layer-nobg', //没有背景色
+                    shadeClose: true,
+                    content: $('#imagePreview img')
+                });
+            }else{
+                layer.msg('您还没有上传图片', function(){});
+            }
+        });
+        //多图上传弹出层
+        $("button[ data-img='upMore']").click(function(){
+            //iframe层-禁滚动条
+            layer.open({
+                type: 2,
+                area: ['1000px', '620px'],
+                skin: 'layui-layer-rim', //加上边框
+                content: ['webuploader.html', 'no']
+            });
+        });
+        //改变复选框与单选框的样式
+        $("input[type='radio'],input[type='checkbox']").uniform();
+        $("#uniform-flagsj").bind("click",function(){
+            if($(this).find("span").attr('class')==""){
+                $("div[data-target='flagsj']").addClass("hide");
+            }else{
+                //do someting else
+                $("div[data-target='flagsj']").removeClass("hide");
+            }
+        });
+
+        //改变选择的样式
+        $("select[data-select='default']").select2();
+        $("#type-select").select2({
+            placeholder: "请选择所属栏目",
+            allowClear: true
+        });
+        //选择时间皮肤
+        laydate.skin('molv');
+        //选择颜色
+        $('.colorpicker-demo2').colorpicker();
+
+
+       $("#addBtn").bind("click",function(){
+           var reg=/[^x00-xff]/gm;
+           var str=$("#T_title").val().replace(reg,'aa');//全换成单字节字符计算
+            if($("#T_title").val()==""){
+                layer.msg('文章标题不能为空', function(){}); return false
+            }else if(str.length<6){
+                layer.msg('文章标题不能少于6个字符', function(){}); return false
+            }else{}
+            if($("#flagsj").is(":checked")){
+                console.log(IsURL($("div[data-target='flagsj'] input").val()));
+                if(IsURL($("div[data-target='flagsj'] input").val())){
+
+                }else{
+                    layer.msg('请正确填写网址', function(){});return false
+                }
+            }
+            if($("#type-select").val()=="" && $("#type-select").val()==0){layer.msg('栏目不能为空', function(){}); return false}else{}
+
+        });
+
+        //投票模块
+        //选择投票
+        $("button[data-itme='select']").bind("click",function(){
+            var _this = $(this);
+            var index =layer.open({
+                type: 1,
+                title:'请选择投票',
+                skin: 'layui-layer-rim', //加上边框
+                area: ['540px', '240px'], //宽高
+                content: '<table class="table table-bordered">'+
+                '<thead><tr><th>ID</th><th>投票标题</th><th>开始时间</th><th>结束时间</th><th>选择</th></thead>'+
+                '<tbody>'+
+                '<tr><th scope="row">1</th><td>你是从哪儿得知本站的？</td><td>2010-02-17</td><td>2020-02-17</td><td><a href="javascript:;" data-id="1" data-title="你是从哪儿得知本站的？" data-btn="close">选择</a></td></tr>'+
+                '</tbody>'+
+                '</table>'
+            });
+            $("[data-btn='close']").bind("click",function(){
+                var daid=$(this).attr("data-id");
+                var datitle=$(this).attr("data-title");
+                _this.parents(".form-group").find(".form-control").attr({"data-id":daid,"value":datitle});
+                layer.close(index);
+            })
+        });
+        //添加投票
+        $("button[data-itme='add']").bind("click",function(){
+            layer.open({
+                type: 1,
+                title:'请选择投票',
+                skin: 'layui-layer-rim', //加上边框
+                area: ['620px', '480px'], //宽高
+                content: 'html内容'
+            });
+        });
+        //查看投票
+        $("button[data-itme='show']").bind("click",function(){
+            layer.open({
+                type: 1,
+                title:'请选择投票',
+                skin: 'layui-layer-rim', //加上边框
+                area: ['420px', '240px'], //宽高
+                content: 'html内容'
+            });
+        });
+        //删除第一个投票
+        $("button[data-itme='dalTop']").bind("click",function(){
+            var _this = $(this);
+            layer.confirm('你确定要删除这项投票吗？', {icon: 3}, function(index){
+                layer.close(index);
+                _this.parent().siblings(".form-control").attr({"data-id":"","value":""});
+           });
+        });
+        //删除从第二个投票开始
+        $("button[data-itme='dal']").bind("click",function(){
+            var _this = $(this);
+            layer.confirm('你确定要删除这项投票吗？', {icon: 3}, function(index){
+                layer.close(index);
+                _this.parents(".form-group").remove();
+            });
+        });
+    });
+    //链接地址验证
+    function IsURL(str_url){
+        var strRegex = "^((https|http|ftp|rtsp|mms)?://)";
+        var re=new RegExp(strRegex);
+        //re.test()
+        if (re.test(str_url)){
+            return (true);
+        }else{
+            return (false);
+        }
+    }
+
+    //单图上传图片后的事件
+    var loadImageFile = (function () {
+        if (window.FileReader) {
+            var addinput = document.getElementById("fileName");
+            var oPreviewImg = null, oFReader = new window.FileReader(),
+                    rFilter = /^(?:image\/bmp|image\/cis\-cod|image\/gif|image\/ief|image\/jpeg|image\/jpeg|image\/jpeg|image\/pipeg|image\/png|image\/svg\+xml|image\/tiff|image\/x\-cmu\-raster|image\/x\-cmx|image\/x\-icon|image\/x\-portable\-anymap|image\/x\-portable\-bitmap|image\/x\-portable\-graymap|image\/x\-portable\-pixmap|image\/x\-rgb|image\/x\-xbitmap|image\/x\-xpixmap|image\/x\-xwindowdump)$/i;
+
+
+            oFReader.onload = function (oFREvent) {
+                if (!oPreviewImg) {
+                    var newPreview = document.getElementById("imagePreview");
+                    oPreviewImg = new Image();
+                    //oPreviewImg.style.height = (oPreviewImg.width).toString() + "px";
+                    newPreview.appendChild(oPreviewImg);
+                }
+                oPreviewImg.src = oFREvent.target.result;
+                addinput.value = document.getElementById("imageInput").value;
+            };
+
+            return function () {
+                var aFiles = document.getElementById("imageInput").files;
+                if (aFiles.length === 0) { return; }
+                if (!rFilter.test(aFiles[0].type)) { alert("You must select a valid image file!"); return; }
+                oFReader.readAsDataURL(aFiles[0]);
+            }
+        }
+        if (navigator.appName === "Microsoft Internet Explorer") {
+            return function () {
+                alert(document.getElementById("imageInput").value);
+                document.getElementById("imagePreview").filters.item("DXImageTransform.Microsoft.AlphaImageLoader").src = document.getElementById("imageInput").value;
+            }
+        }
+    })();
+
+
+    //外部js调用
+    laydate({
+        elem: '#datetime', //目标元素。由于laydate.js封装了一个轻量级的选择器引擎，因此elem还允许你传入class、tag但必须按照这种方式 '#id .class'
+        event: 'focus' //响应事件。如果没有传入event，则按照默认的click
+    });
+    $("button[date-id='datetime']").click(function(){laydate({elem: '#datetime'})});
+
+    //日期范围限制
+    var start = {
+        elem: '#start',
+        format: 'YYYY/MM/DD hh:mm:ss',
+        min: laydate.now(), //设定最小日期为当前日期
+        max: '2099-06-16 23:59:59', //最大日期
+        istime: true,
+        istoday: false,
+        choose: function(datas){
+            end.min = datas; //开始日选好后，重置结束日的最小日期
+            end.start = datas //将结束日的初始值设定为开始日
+        }
+    };
+    var end = {
+        elem: '#end',
+        format: 'YYYY/MM/DD hh:mm:ss',
+        min: laydate.now(),
+        max: '2099-06-16 23:59:59',
+        istime: true,
+        istoday: false,
+        choose: function(datas){
+            start.max = datas; //结束日选好后，重置开始日的最大日期
+        }
+    };
+    laydate(start);
+    laydate(end);
+
+
+    //字节数计算
+    function cls(obj,max,id){
+        var reg=/[^x00-xff]/gm;
+        var str=obj.value.replace(reg,'aa');//全换成单字节字符计算
+        var v=document.getElementById(id);
+
+        if(str.length>max){
+            var n=0,strr=[];
+            for(var i=0;i<obj.value.length;i++){//得到50字节以内的字符
+                /[^x00-xff]/.test(obj.value.charAt(i))?n+=2:n+=1;
+                if(n>max){layer.msg('只能输入'+max+'个字符', function(){});break;}
+                strr.push(obj.value.charAt(i));
+            }
+            obj.value=strr.join('');
+            v.innerHTML=0;
+        }else{
+            v.innerHTML=max-str.length;
+        }
+    }
+</script>
+</html>

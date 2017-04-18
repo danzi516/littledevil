@@ -1,0 +1,202 @@
+/*nickcss v1.0*/
+//1.设置默认的无衬线字体
+//2.防止IOS文字大小调整方向改变后，没有禁用用户缩放
+html{
+  font-family: sans-serif;//1
+  -ms-text-size-adjust: 100%;//2
+  -webkit-text-size-adjust: 100%;//2
+}
+//删除默认边距
+body{
+  margin:0px;
+}
+//HTML5显示定义
+//正确的“块”显示不为任何HTML5元素定义在IE9/IE8
+//正确的“块”显示没有定义“细节”或摘要 IE10/11,Firefox
+article,aside,details,figcaption,figure,footer,header,hgroup,main,menu,nav,section,summary{
+  display:block
+}
+//1.在IE8/9中inline-block显示没有定义
+//2.在Chrome,Firefox,Opera正常化垂直
+audio,canvas,progress,video{
+  display: inline-block; //1
+  vertical-align: baseline;//2
+}
+//防止浏览器不兼容音频标签
+//在IOS5的设备中删除多余的高度
+audio:not([controls]){
+  display: none;
+  height: 0;
+}
+//在IE8/9/10中不能隐藏地址
+//在IE8/9/10,Firefox,Safari隐藏template元素
+[hidden],template{
+  display: none;
+}
+//a:link 删除IE10中的灰色背影
+a{
+  background-color:transparent;
+}
+a:active,a:hover{
+  outline: 0;
+}
+
+abbr[title]{
+  border-bottom: 1px dotted;
+}
+
+b,strong{
+  font-weight: bold;
+}
+
+dfn{
+  font-style:italic;
+}
+
+h1{
+  font-size: 2em;
+  margin: 0.67em 0;
+}
+
+mark{
+  background: #ff0;
+}
+
+small{
+  font-size: 75%;
+  line-height: 0;
+  position: relative;
+  vertical-align: baseline;
+}
+
+sup{
+  top:-0.5em;
+}
+
+sub{
+  bottom: -0.25em;
+}
+
+img{
+  border: 0;
+}
+
+svg:not(:root){
+  overflow: hidden;
+}
+
+figure{
+  margin: 1em 40px;
+}
+
+hr{
+  -moz-box-sizing: content-box;
+  box-sizing: content-box;
+  height: 0;
+}
+pre{
+  overflow: auto;
+}
+
+code,kbd,pre,samp{
+  font-family: monospace,monospace;
+}
+
+
+//Forms=========
+
+button,input,optgroup,select,textarea{
+  color: inherit;
+  font: inherit;
+  margin: 0;
+}
+
+button{
+  overflow: visible;
+}
+
+button,select{
+  text-transform: none;
+}
+
+button,html input[type='button'],input[type='reset'],input[type='submit']{
+  cursor: default;
+}
+
+button[disabled],html input[disabled]{
+  cursor: default;
+}
+
+button::-moz-focus-inner,input::-moz-focus-inner{
+  border:0px;
+  padding: 0px;
+}
+
+input{
+  line-height: normal;
+}
+
+input[type="checkbox"],input[type="radio"]{
+  box-sizing: border-box;//1
+  padding: 0;//2
+}
+
+input[type="number"]::-webkit-inner-spin-button,input[type="number"]::-webkit-inner-spin-button{
+  height: auto;
+}
+
+input[type="search"]{
+  -webkit-appearance: textfield;//1
+  -moz-box-sizing: content-box;
+  -webkit-box-sizing: content-box;
+  box-sizing: content-box;
+}
+//
+//删除内部值和搜索取消按钮在Safari和Chrome OS X
+//
+//
+input[type="search"]::-webkit-search-cancel-button,input[type="search"]::-webkit-search-decoration{
+  -webkit-appearance: none;
+}
+//
+//在IE8/9/10/11删除默认的垂直滚动条
+//
+textarea{
+  overflow: auto;
+}
+
+//统一定义fieldset的边距与边框及内边距
+
+fieldset{
+  border: 1px solid #c0c0c0;
+  margin: 0 2px;
+  padding: 0.35em 0.625em 0 0.75em;
+}
+//
+//1.”color“在IE8/9/10/11中不正确
+//2.删除填充
+//
+legend{
+  border: 0;//1
+  padding: 0;//2
+}
+
+//
+//不继承上面设置的字体规则
+//注意：默认安全在OS X Chrome和Safari
+//
+
+optgroup{
+  font-weight: bold;
+}
+
+//Tables
+
+table{
+  border-collapse: collapse;
+  border-spacing: 0;
+}
+
+td,th{
+  padding: 0
+}

@@ -1,0 +1,287 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <title>网站栏目管理</title>
+    <link href="less/Nstrap.less" type="text/css" rel="stylesheet/less"/>
+    <script src="js/less.js"></script>
+    <!--[if lt IE 9]>
+    <script src="http://apps.bdimg.com/libs/html5shiv/3.7/html5shiv.min.js"></script>
+    <script src="http://apps.bdimg.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+    <link href="js/treeTable/css/jquery.treetable.css" type="text/css" rel="stylesheet">
+    <link href="js/treeTable/css/jquery.treetable.theme.default.css" type="text/css" rel="stylesheet">
+    <link href="js/layer/lay/layer/skin/layer.css" type="text/css" rel="stylesheet">
+</head>
+<body>
+<div class="console-container">
+    <div class="row">
+        <div class="col-sm-12">
+            <div class="console-title clearfix">
+                <div class="pull-left">
+                    <h5>一年级语文 》 教材</h5>
+                </div>
+                <div class="pull-right"><a href="javascript:;"  class="btn btn-link">返回</a> </div>
+            </div>
+            <hr>
+            <div class="search-form">
+                <div class="form-inline">
+                    <a href="javascript:" class="btn btn-primary"  data-toggle="modal" data-target="#myModal">添加章节</a>
+                </div>
+            </div>
+            <hr class="hr">
+            <table class="treetable table table-hover table-box" id="tree_table2">
+                <thead><tr><th> <a href="javascript:;" data-targets='target' data-state="true">[展开]</a>　　章节名称</th><th width="30%" class="text-center">知识点</th><th width="80" class="text-right">排序</th><th width="300" class="text-right">操作</th></tr></thead>
+                <tbody></tbody>
+            </table>
+        </div>
+    </div>
+</div>
+<!-- Modal -->
+<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="myModalLabel">增加章节</h4>
+            </div>
+            <div class="modal-body">
+                <div class="form-horizontal">
+                    <div class="form-group">
+                        <label for="" class="col-sm-2 control-label">所在学段：</label>
+                        <div class="col-sm-6">
+                            <select class="form-control">
+                                <option>学段/年级</option>
+                                <option>2</option>
+                                <option>3</option>
+                                <option>4</option>
+                                <option>5</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="" class="col-sm-2 control-label">所属科目：</label>
+                        <div class="col-sm-6">
+                            <select class="form-control">
+                                <option>科目</option>
+                                <option>2</option>
+                                <option>3</option>
+                                <option>4</option>
+                                <option>5</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="" class="col-sm-2 control-label">所属教材：</label>
+                        <div class="col-sm-6">
+                            <select class="form-control">
+                                <option>教材</option>
+                                <option>2</option>
+                                <option>3</option>
+                                <option>4</option>
+                                <option>5</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="" class="col-sm-2 control-label">隶属章节：</label>
+                        <div class="col-sm-6">
+                            <select class="form-control">
+                                <option>章节</option>
+                                <option>2</option>
+                                <option>3</option>
+                                <option>4</option>
+                                <option>5</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="inputPassword3" class="col-sm-2 control-label">章节名称：</label>
+                        <div class="col-sm-10">
+                            <input type="password" class="form-control" id="inputPassword3" placeholder="章节名称">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="" class="col-sm-2 control-label">知识点：</label>
+                        <div class="col-sm-10">
+                            <div class="input-group">
+                                <input type="text" id="fileName" class="form-control" placeholder="选择知识点">
+                                <div class="input-group-btn">
+                                    <button type="button" class="btn btn-default" >选择</button>
+                                </div>
+                            </div><!-- /input-group -->
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="inputPassword3" class="col-sm-2 control-label">排序：</label>
+                        <div class="col-sm-3">
+                            <input type="text" class="form-control" id="" placeholder="数字越小越靠前">
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+                <button type="button" class="btn btn-primary">保存</button>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+<!-- Bootstrap core JavaScript
+================================================== -->
+<!-- Placed at the end of the document so the pages load faster -->
+<script src="http://cdn.bootcss.com/jquery/1.11.2/jquery.min.js"></script>
+<script src="http://cdn.bootcss.com/bootstrap/3.3.4/js/bootstrap.min.js"></script>
+<!-- Just to make our placeholder images work. Don't actually copy the next line! -->
+<script src="js/vendor/holder.js"></script>
+<!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
+<script src="js/ie10-viewport-bug-workaround.js"></script>
+<script src="js/browser.js" type="text/javascript"></script>
+<script src="js/holder.js" type="text/javascript"></script>
+<script src="js/layer/layer/layer.js"></script>
+
+<script type="text/javascript" src="js/treeTable/jquery.treetable.js"></script>
+<script type="text/javascript">
+    //用于构建动态表格的数据集
+    var datastore=[{id:'1',parent:"0",name:'第一单元',sort:'0'},
+        {id:'2',parent:'1',name:'1 在山的那边',sort:'1'},
+        {id:'3',parent:'1',name:'2 走一步，再走一步',sort:'1'},
+        {id:'4',parent:'1',name:'3.1 蝉',sort:'1'},
+        {id:'5',parent:'1',name:'3.2 贝壳',sort:'1'},
+        {id:'12',parent:'8',name:'8.1 白兔和月亮',sort:'1'},
+        {id:'13',parent:'8',name:'8.2 落难的王子',sort:'1'},
+        {id:'6',parent:'1',name:'4 藤萝瀑布',sort:'1'},
+        {id:'7',parent:'1',name:'5 童趣',sort:'1'},
+        {id:'8',parent:"0",name:'第二单元',sort:'1'},
+        {id:'9',parent:'8',name:'6 理想',sort:'1'},
+        {id:'10',parent:'8',name:'7.1 行道树',sort:'1'},
+        {id:'11',parent:'8',name:'7.2 第一次真好',sort:'1'},
+        {id:'14',parent:'8',name:'9 我的信念',sort:'1'},
+        {id:'15',parent:'8',name:'9 我的信念',sort:'1'},
+        {id:'16',parent:'8',name:'10 《论语》十则',sort:'1'}];
+
+
+    //用于构建动态表格的数据集
+    function createTable(jsonData){
+        //重组JSON格式
+        var jsonDataTree = transData(jsonData, 'id', 'parent', 'chindren');
+        //重组JSON排序
+        function _temp() {this.init.apply(this, arguments)}
+        _temp.prototype = tablesort;
+        var sort1 = new _temp(jsonDataTree, "sort", "down") //建立对象
+        sort1.init(jsonDataTree, "sort", "up");//初始化参数更改
+        sort1.sot();
+        console.log(jsonDataTree);
+        /*递归实现获取无级树数据并生成DOM结构*/
+        var str = "";
+        var forTree = function(jsondata){
+            for(var i=0;i<jsondata.length;i++){
+                var trList = "";
+                try{
+                    if(jsondata[i]["parent"] == "0"){
+                        trList = "<tr data-tt-id='"+jsondata[i]["id"]+"'><td class='inputTd'>"+jsondata[i]["name"]+"</td><td class='inputTd'><select class='form-control' data-select='default'> <option>在年级科目下选择关联知识点(多选)</option></select></td><td class='inputTd'><input type='text' class='form-control' value='"+jsondata[i]["sort"]+"'></td><td class='text-right'><a href='javascript:;' data-function='update'>更新</a> / <a href='javascript:;' data-function='move'>移动</a> / <a href='javascript:;' data-function='remove'>删除</a></td></tr>";
+                    }else{
+                        trList = "<tr data-tt-id='"+jsondata[i]["id"]+"' data-tt-parent-id='"+jsondata[i]["parent"]+"'><td class='inputTd'>"+jsondata[i]["name"]+"</td><td class='inputTd'><select class='form-control' data-select='default'> <option>在年级科目下选择关联知识点(多选)</option></select></td><td class='inputTd'><input type='text' class='form-control' value='"+jsondata[i]["sort"]+"'></td><td class='text-right'><a href='javascript:;' data-function='update'>更新</a> / <a href='javascript:;' data-function='move'>移动</a> / <a href='javascript:;' data-function='remove'>删除</a></td></tr>";
+                    }
+                    str += trList;
+                    if(jsondata[i]["chindren"] != null){
+                        forTree(jsondata[i]["chindren"]);
+                    }
+                }catch(e){}
+            }
+            return str;
+        }
+        return forTree(jsonDataTree);
+    }
+
+    $(document).ready(function () {
+        /*添加无级树*/
+        $("#tree_table2 tbody").html(createTable(datastore));
+        $("#tree_table2").treetable({expandable:true});//树形样式
+        $("#tree_table2").treetable('expandAll');//展开显示
+        Aevent();
+        /*$("#tree_table2 tbody").on("hover", "tr", function() {
+         $(".selected").not(this).removeClass("selected");
+         $(this).toggleClass("selected");
+         });*/
+
+    });
+    //页面事件
+    //展开收起
+    function expandAll(){$("#tree_table2").treetable('expandAll'); return false;}
+    function collapseAll(){$("#tree_table2").treetable('collapseAll'); return false;}
+    $("a[data-targets='target']").click(function(){
+        if($(this).attr("data-state") == "true"){
+            $(this).attr("data-state","");
+            $(this).html("");
+            $(this).html("[收起]");
+            expandAll();
+        }else{
+            $(this).attr("data-state","true");
+            $(this).html("");
+            $(this).html("[展开]");
+            collapseAll();
+        }
+    });
+    //表格内部事件
+    function Aevent(){
+        $("a[data-function]").bind('click',function(){
+            var sId =$(this).parent().parent().attr("data-tt-id");
+            var funtionDate=$(this).attr("data-function");
+            switch (funtionDate){
+                case ("update")://更新
+                    alert(sId);
+                    break;
+                case ("remove")://删除
+                    layer.confirm('你确定删除'+sId+'？', {icon: 3}, function(index){
+                        layer.close(index);
+                    });
+                    break;
+                case ("move")://移动
+                    alert("move")
+                    break;
+            }
+            /*var sId=$("a[data-function='seeData']").parent().parent().attr("data-tt-id");
+             parent.location.href="resources_list.html?class="+sId;*/
+        });
+    }
+
+
+    //重组方法
+    function transData(a, idStr, pidStr, chindrenStr){
+        var r = [], hash = {}, id = idStr, pid = pidStr, children = chindrenStr, i = 0, j = 0, len = a.length;
+        for(; i < len; i++){
+            hash[a[i][id]] = a[i];
+        }
+        for(; j < len; j++){
+            var aVal = a[j], hashVP = hash[aVal[pid]];
+            if(hashVP){
+                !hashVP[children] && (hashVP[children] = []);
+                hashVP[children].push(aVal);
+            }else{
+                r.push(aVal);
+            }
+        }
+        return r;
+    }
+    //排序
+    var tablesort = {
+        init: function (arry, parm, sortby) {
+            this.obj = arry
+            this.parm = parm
+            this.b = sortby
+        },sot: function () {
+            var $this = this
+            var down = function (x, y) {return (eval("x." + $this.parm) > eval("y." + $this.parm)) ? -1 : 1}//通过eval对json对象的键值传参
+            var up = function (x, y) {return (eval("x." + $this.parm) < eval("y." + $this.parm)) ? -1 : 1}
+            if (this.b == "down") {
+                this.obj.sort(down)
+            }else {
+                this.obj.sort(up)
+            }
+        }
+    }
+</script>
+</html>

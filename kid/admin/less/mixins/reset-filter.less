@@ -1,0 +1,8 @@
+// Reset filters for IE 对于IE /复位滤波器
+//
+// When you need to remove a gradient background, do not forget to use this to reset the IE filter for IE9 and below.
+// 当你需要删除一个渐变背景，不要忘记使用这个重置IE9的IE过滤器及以下。
+
+.reset-filter() {
+  filter: e(%("progid:DXImageTransform.Microsoft.gradient(enabled = false)"));
+}
