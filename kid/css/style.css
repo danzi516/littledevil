@@ -210,3 +210,11 @@
 .keyselect dd a.active{ background:#2fae00; color:#FFF;}
 
 .tabbox .tab-pane{ margin-top: -1px; border: 1px solid #dedede}
+
+
+.panel-row .row{margin-left: -2px;margin-right: -2px;}
+.panel-row .col-lg-1,.panel-row .col-lg-2,.panel-row .col-lg-3,.panel-row .col-lg-4,.panel-row .col-lg-5,
+.panel-row .col-lg-4,.panel-row .col-lg-7,.panel-row .col-lg-8,.panel-row .col-lg-9,.panel-row .col-lg-10,
+.panel-row .col-lg-11,.panel-row .col-lg-12{
+    padding-left: 2px;padding-right: 2px;
+}
