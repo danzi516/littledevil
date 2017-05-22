@@ -33,26 +33,26 @@
                     <div class="panel-heading">增加个人用户</div>
                     <div class="panel-body">
                         <div class="form-group">
-                            <label for="" class="col-sm-2 control-label">用户名<span style="color:red">*</span>：</label>
+                            <label for="" class="col-sm-2 control-label">微信号<span style="color:red">*</span>：</label>
                             <div class="col-sm-4">
                                 <input type="text" id="userName" name="userName" class="form-control" placeholder="">
                             </div>
-                            <div class="col-sm-6">
+                            <!-- <div class="col-sm-6">
                                 <p class="form-control-static">（只能用4~20位'0-9'、'a-z'、'A-Z'、'_'以内范围的字符）</p>
-                            </div>
+                            </div> -->
                         </div>
                         <div class="form-group">
-                            <label for="" class="col-sm-2 control-label">真实姓名 ：</label>
+                            <label for="" class="col-sm-2 control-label">姓名 ：</label>
                             <div class="col-sm-4">
                                 <input type="text" id="ucName" name="ucName" class="form-control" maxlength="25">
                             </div>
                         </div>
-                        <div class="form-group">
+                       <!--  <div class="form-group">
                             <label for="" class="col-sm-2 control-label">密　码 <span style="color:red">*</span>：</label>
                             <div class="col-sm-4">
                                 <input type="password" id="password" name="password" class="form-control" placeholder="至少5个字符">
                             </div>
-                        </div>
+                        </div> -->
                         <div class="form-group">
                             <label for="" class="col-sm-2 control-label">手机 ：</label>
                             <div class="col-sm-4">

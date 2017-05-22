@@ -60,6 +60,49 @@ public class PersonController {
 	}
 	
 	/**
+	 * 功能描述：跳转到个人设置
+	 * 作者：lijiaxing
+	 * url：${webRoot}/person/index
+	 * 请求方式：GET
+	 * @param id int
+	 * @return ModelAndView
+	 **/
+	@RequestMapping("/memberSet")
+	public  ModelAndView memberSet(){
+		ModelAndView mv=new ModelAndView("person/member_set");
+		return mv;
+	}
+	
+	/**
+	 * 功能描述：跳转到我的商店
+	 * 作者：lijiaxing
+	 * url：${webRoot}/person/storeList
+	 * 请求方式：GET
+	 * @param id int
+	 * @return ModelAndView
+	 **/
+	@RequestMapping("/storeList")
+	public  ModelAndView storeList(){
+		ModelAndView mv=new ModelAndView("person/store_list");
+		return mv;
+	}
+	
+	
+	/**
+	 * 功能描述：跳转到个人资料
+	 * 作者：lijiaxing
+	 * url：${webRoot}/person/editPerson
+	 * 请求方式：GET
+	 * @param id int
+	 * @return ModelAndView
+	 **/
+	@RequestMapping("/editPerson")
+	public  ModelAndView editPerson(){
+		ModelAndView mv=new ModelAndView("person/person_user_edit");
+		return mv;
+	}
+	
+	/**
 	 * 功能描述：申请成为业务员
 	 * 作者：lijiaxing
 	 * url：${webRoot}/person/applyToSaleMan

@@ -43,4 +43,9 @@ public class CompanyInfoService {
 		page.setData(companyInfoMapper.selectCompanyByPage(page));
     	return page;
     }
+	
+	public List<CompanyInfo> selectCompanyAllList(){
+		List<CompanyInfo> List = companyInfoMapper.selectCompanyAllList();
+    	return List;
+    }
 }

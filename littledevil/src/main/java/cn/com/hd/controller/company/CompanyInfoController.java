@@ -1,6 +1,7 @@
 package cn.com.hd.controller.company;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import javax.annotation.Resource;
@@ -118,6 +119,33 @@ public class CompanyInfoController {
     }
     
     /**
+	 * 功能描述：查询所有企业
+	 * 作者：lijiaxing
+	 * url：${webRoot}/companyInfo/selectCompanyAllList
+	 * 请求方式：GET
+	 * @param  
+	 * @return Map<String,Object>
+	 *         key:code["0":"成功","1":"失败"]
+	 *         key:rows[查询结果list]
+	 *         key:total[记录总数]
+	 */
+    @RequestMapping(value="selectCompanyAllList",method=RequestMethod.GET)
+    public @ResponseBody Map<String, Object> selectCompanyAllList(){
+        Map<String,Object> map = new HashMap<String,Object>();
+        String code="";
+        try{
+        	List<CompanyInfo> List = companyInfoService.selectCompanyAllList();
+            code="0";
+            map.put("List",List);
+        }catch(Exception e){
+            code="1";
+            e.printStackTrace();
+        }
+        map.put("code", code);
+        return map;
+    }
+    
+    /**
 	 * 功能描述：添加企业
 	 * 作者：lijiaxing
 	 * url：${webRoot}/companyInfo/insert
@@ -176,7 +204,7 @@ public class CompanyInfoController {
     }
     
     /**
-	 * 功能描述：分页查询所有企业
+	 * 功能描述：删除企业
 	 * 作者：lijiaxing
 	 * url：${webRoot}/companyInfo/update
 	 * 请求方式：POST

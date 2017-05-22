@@ -89,6 +89,15 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
                                 <p class="form-control-static">请填写机构全称</p>
                             </div>
                         </div>
+                             <div class="form-group">
+                            <label for="" class="col-sm-2 control-label">商户行业：</label>
+                            <div class="col-sm-4">
+                                <input type="text" id="companyName" name="companyName" class="form-control" placeholder="">
+                            </div>
+                            <div class="col-sm-6">
+                                <p class="form-control-static">如：美甲、餐饮</p>
+                            </div>
+                        </div>
                          <div class="form-group">
                             <label for="" class="col-sm-2 control-label">联系人：</label>
                             <div class="col-sm-4">
@@ -285,6 +294,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
   	var url="${webRoot}/companyInfo/insert";
   	var data={
   			companyName:$("#companyName").val(),
+  			companyLogo:$("#defaultIcon").val(),
   			linkPerson:$("#linkPerson").val(),
   			linkPhone:$("#phone").val(),
   			user:{

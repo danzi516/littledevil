@@ -20,4 +20,6 @@ public interface CompanyInfoMapper {
     int updateByPrimaryKey(CompanyInfo record);
     
     List<CompanyInfo> selectCompanyByPage(Page page);
+    
+    List<CompanyInfo> selectCompanyAllList();
 }

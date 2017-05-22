@@ -26,6 +26,43 @@ public class IndexController {
 		return modelView;
 	}
 	
+	
+	/**
+	 *方法说明：后台登录页面
+	 *url:${webRoot}/
+	 *请求方式：get
+	 *@return ModelAndView
+	 **/
+	@RequestMapping("/admin/login")
+	public ModelAndView adminLogin(HttpServletRequest request) {
+		/**
+		 * 想要在页面展现数据,必须返回ModelAndView类型,返回String是不能获取数据的
+		 * */
+		ModelAndView modelView = new ModelAndView();
+		
+		modelView.setViewName("admin_login");// 設置視圖名稱
+
+		return modelView;
+	}
+	
+	/**
+	 *方法说明：前台登录页面
+	 *url:${webRoot}/
+	 *请求方式：get
+	 *@return ModelAndView
+	 **/
+	@RequestMapping("/login")
+	public ModelAndView personLogin(HttpServletRequest request) {
+		/**
+		 * 想要在页面展现数据,必须返回ModelAndView类型,返回String是不能获取数据的
+		 * */
+		ModelAndView modelView = new ModelAndView();
+		
+		modelView.setViewName("login");// 設置視圖名稱
+
+		return modelView;
+	}
+	
 	/**
 	 *方法说明：跳转到前台起始页面
 	 *url:${webRoot}/person/userList

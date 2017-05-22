@@ -6,142 +6,101 @@
 	<%@ include file="common/meta.jsp"%>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-    <title>小鬼头</title>
+    <title>小鬼头首页</title>
     <!--<link href="less/Nstrap.less" type="text/css" rel="stylesheet/less"/>
     <script src="js/less.js"></script>-->
-    <link href="${webRoot}/res/sys/css/Nstrap.css" rel="stylesheet">
+     <link href="${webRoot}/res/sys/css/Nstrap.css" rel="stylesheet">
     <link href="${webRoot}/res/sys/css/animated.css" rel="stylesheet" type="text/css">
     <!--[if lt IE 9]>
     <script src="http://apps.bdimg.com/libs/html5shiv/3.7/html5shiv.min.js"></script>
     <script src="http://apps.bdimg.com/libs/respond.js/1.4.2/respond.min.js"></script>
     <![endif]-->
+    <!--[if lte IE 8]>
+    <script type="text/javascript" src="https://www.wegene.com/static/js/respond.js"></script>
+    <![endif]-->
 </head>
-<body class="loginbg">
-<!--[if (gte IE 6)&(lte IE 9)]>
-
-<![endif]-->
-
-
-<nav class="navbar navbar-inverse">
-    <div class="container">
+<body >
+<nav class="navbar navbar-default">
+    <div class="container-fluid">
         <!-- Brand and toggle get grouped for better mobile display -->
         <div class="navbar-header">
-            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
-              <!--   <span class="sr-only">亿佳管理系统</span> -->
+            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
+                <span class="sr-only">Toggle navigation</span>
                 <span class="icon-bar"></span>
                 <span class="icon-bar"></span>
                 <span class="icon-bar"></span>
             </button>
-            <a class="navbar-brand" href="javascript:;">欢迎小鬼头服务</a>
+            <a class="navbar-brand" href="#">小鬼头</a>
         </div>
 
         <!-- Collect the nav links, forms, and other content for toggling -->
-        <div class="collapse navbar-collapse">
-            <ul class="nav navbar-nav navbar-right">
-                <li><a href="#">网站主页</a></li>
+        <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+            <ul class="nav navbar-nav nav-tabs">
+                <%-- <li class="active"><a href="${webRoot}/admin/main">首页<span class="sr-only">(current)</span></a></li>
+                <li><a href="#">美甲商店</a></li>
+                <li><a href="#">美甲商品</a></li>
+                <li><a href="#">促销活动</a></li>
+                <li><a href="#">美甲文章</a></li> --%>
+                <li class="active">
+				<a href="#home" data-toggle="tab">首页</a>
+				</li>
+				<li><a href="#storeList" data-toggle="tab">美甲商店</a></li>
+				<li><a href="#goodsList" data-toggle="tab">美甲商品</a></li>
+				<li><a href="#salesList" data-toggle="tab">促销活动</a></li>
+				<li><a href="#articleList" data-toggle="tab">美甲文章</a></li>
             </ul>
+            <form class="navbar-form navbar-right">
+                <div class="btn-group">
+                    <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        商店 <span class="caret"></span>
+                    </button>
+                    <ul class="dropdown-menu">
+                        <li><a href="#">商品</a></li>
+                        <li><a href="#">促销活动</a></li>
+                    </ul>
+                </div>
+                <div class="form-group">
+                    <input type="text" class="form-control" placeholder="商店/商品/促销活动">
+                </div>
+                <button type="submit" class="btn btn-default"><i class="fa fa-search"></i> </button>
+                <button type="button" class="btn btn-info" onclick="javascript:window.location.href='login'">登录</button>
+                <button type="button" class="btn btn-link">注册</button>
+            </form>
         </div><!-- /.navbar-collapse -->
+        <%--  <div class="main-content">
+        <iframe src="${webRoot}/admin/main" class="frame_class" name="mainFrame" frameborder="0"></iframe>
+    </div> --%>
+    <div id="myTabContent" class="tab-content">
+	<div class="tab-pane fade in active" id="home">
+	 首页
+	</div>
+	<div style="height:500px" class="tab-pane fade" id="storeList">
+		<iframe  src="${webRoot}/module/storeList" class="frame_class" name="mainFrame" frameborder="0"></iframe>
+	</div>
+	<div style="height:500px" class="tab-pane fade" id="goodsList">
+		<iframe  src="${webRoot}/module/goodsList" class="frame_class" name="mainFrame" frameborder="0"></iframe>
+	</div>
+	<div style="height:500px" class="tab-pane fade" id="salesList">
+		<iframe  src="${webRoot}/module/salesList" class="frame_class" name="mainFrame" frameborder="0"></iframe>
+	</div>
+	<div style="height:500px" class="tab-pane fade" id="articleList">
+		<iframe  src="${webRoot}/module/articleList" class="frame_class" name="mainFrame" frameborder="0"></iframe>
+	</div>
+</div>
+    
     </div><!-- /.container-fluid -->
 </nav>
 
-
-<div class="account-container animated fadeInDown">
-
-    <div class="content clearfix loginBox">
-        <h4><span class="text-primary">用户登录</span> <small>使用您的魔王账号登录</small></h4>
-
-        <hr/>
-        <form action="" method="post" />
-        <div class="form-group">
-            <label for="">用户名</label>
-            <div class="input-group">
-                <span class="input-group-addon"><i class="fa fa-user"></i></span>
-                <input type="text" name="userName" class="form-control" placeholder="用户名" aria-describedby="basic-addon1" onkeydown = "clickToLogin(event)">
-            </div>
+<div class="container-fluid">
+    <div class="container">
+        <div>
+            <a href="javascript:;">平台介绍</a> <a href="javascript:;">联系我们</a>
+            <a href="javascript:;">帮助中心</a> <a href="javascript:;">帮助中心</a>
+            <a href="javascript:;">不良信息举报</a><a href="javascript:;">申请成为业务员</a>
         </div>
-        <div class="form-group">
-            <label for="">密码</label>
-            <div class="input-group">
-                <span class="input-group-addon"><i class="fa fa-lock"></i></span>
-                <input type="password" name="password" class="form-control" placeholder="密码" aria-describedby="basic-addon1" onkeydown = "clickToLogin(event)">
-            </div>
-        </div>
-        <button type="button" class="btn btn-primary btn-block" onclick="login()">登录</button>
-        </form>
-    </div> 
-
+    </div>
 </div>
-<!--  /account-container -->
-
 </body>
-<!-- Bootstrap core JavaScript
-================================================== -->
-<!-- Placed at the end of the document so the pages load faster -->
-<script src="${webRoot}/res/common/js/jquery.min.js"></script>
-<script src="${webRoot}/res/common/js/bootstrap.min.js"></script>
-<!-- Just to make our placeholder images work. Don't actually copy the next line! -->
-<script src="${webRoot}/res/common/js/vendor/holder.js"></script>
-<!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
-<script src="${webRoot}/res/common/js/ie10-viewport-bug-workaround.js"></script>
-<script src="${webRoot}/res/common/js/browser.js" type="text/javascript"></script>
-<script type="text/javascript">
-//回车登录响应
- function clickToLogin(event){
-	 if(event.keyCode == 13){
-		 login();
-	 }
- }
- 
-function login(){
-	var userName=$("input[name='userName']").val();
-	var password=$("input[name='password']").val();
-	if(userName==null||$.trim(userName)==''){
-		alert("请输入用户名！");
-		return;
-	}
-	if(password==null||$.trim(password)==''){
-		alert("请输入密码！");
-		return;
-	}
-	var url="${webRoot}/user/login";
-	var data={
-		"userName":userName,
-		"password":password
-	}
-	ajaxAction("get", url, data, "json", "login");
-}
-	//ajax请求
-function ajaxAction(type, url, reqData, returnType, requestName) {
-	$.ajax({
-		type : type,
-		url : url,
-		data : reqData,
-		async : false,
-		dataType : returnType,
-		success : function(data) {
-			if (requestName == "login"){
-				var msg=data.msg;
-				var userType=data.userType;
-				if(msg=='ok'){
-					if(userType=='sys'){
-						window.location.href='${webRoot}/admin/index';
-					}
-					else if(userType=='company'){
-						window.location.href='${webRoot}/companyMember/index';
-					}
-					else if(userType=='person'){
-						window.location.href='${webRoot}/person/index';
-					}
-					else{
-						alert("暂不支持个人登录！！！！")
-					}
-				}else{
-					alert(msg);
-				}
-				
-			}
-		}
-	});
-}
-</script>
+<script src="http://cdn.bootcss.com/jquery/1.11.2/jquery.min.js"></script>
+<script src="http://cdn.bootcss.com/bootstrap/3.3.4/js/bootstrap.min.js"></script>
 </html>
