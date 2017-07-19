@@ -1,5 +1,7 @@
 package cn.com.hd.service.company;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -48,6 +50,10 @@ public class CompanyMemberService {
 	public Page selectCompanyMemberByPage(Page page){
 		page.setData(companyMemberMapper.selectCompanyMemberByPage(page));
     	return page;
+    }
+	
+	public List<CompanyMember> selectCompanyMemberByuserId(int userId){
+		return companyMemberMapper.selectCompanyMemberByuserId(userId);
     }
 	
     public CompanyMember selectByCondition(CompanyMember record){

@@ -43,27 +43,27 @@
             <div class="form-group">
                 <label for="" class="col-sm-2 control-label">用户名</label>
                 <div class="col-sm-10">
-                    <input type="email" class="form-control" id="" placeholder="Email">
+                    <input type="text" class="form-control" id="ucName" placeholder="Email">
                 </div>
             </div>
             <div class="form-group">
-                <label for="" class="col-sm-2 control-label">所在地址</label>
+                <label for="" class="col-sm-2 control-label">性别</label>
                 <div class="col-sm-4">
-                    <input type="email" class="form-control" id="" placeholder="Email">
+                    <input type="text" class="form-control" id="sex" placeholder="Email">
                 </div>
             </div>
             <div class="form-group">
-                <label for="" class="col-sm-2 control-label">联系电话</label>
+                <label for="" class="col-sm-2 control-label">头像</label>
                 <div class="col-sm-2">
-                    <input type="email" class="form-control" id="" placeholder="Email">
+                    <input type="text" class="form-control" id="logo" placeholder="Email">
                 </div>
             </div>
             <div class="form-group">
                 <label for="" class="col-sm-2 control-label">微信号</label>
                 <div class="col-sm-4">
                     <div class="input-group">
-                        <input type="text" class="form-control" placeholder="Recipient's username" aria-describedby="basic-addon2">
-                        <span class="input-group-addon" id="basic-addon2">选择</span>
+                        <input type="text" class="form-control" id="weixin" placeholder="Recipient's username" aria-describedby="basic-addon2">
+                        <span class="input-group-addon" id="">选择</span>
                     </div>
                 </div>
             </div>
@@ -71,12 +71,12 @@
             <div class="form-group">
                 <label for="" class="col-sm-2 control-label">个人描述</label>
                 <div class="col-sm-8">
-                    <textarea class="form-control" rows="3"></textarea>
+                    <textarea class="form-control" rows="3" id="sign"></textarea>
                 </div>
             </div>
             <div class="form-group">
                 <div class="col-sm-offset-2 col-sm-10">
-                    <button type="submit" class="btn btn-default">确定上传</button>
+                    <button type="submit" class="btn btn-default" onclick="updateUser();">确定上传</button>
                 </div>
             </div>
         </form>
@@ -85,4 +85,48 @@
 </body>
 <script src="http://cdn.bootcss.com/jquery/1.11.2/jquery.min.js"></script>
 <script src="http://cdn.bootcss.com/bootstrap/3.3.4/js/bootstrap.min.js"></script>
+<script src="${webRoot}/res/common/js/jquery.json-2.4.js"></script>
+<script>
+$(document).ready(function() {
+	//alert('${userInfo.ucName}');
+	$("#ucName").val("${userInfo.ucName}");
+	$("#logo").val("${userInfo.logo}");
+	$("#weixin").val("${userInfo.weixin}");
+	$("#sex").val("${userInfo.sex}");
+	$("#sign").val("${userInfo.sign}");
+});
+function updateUser(){
+	var url="${webRoot}/person/update";
+	var data={
+			id:'${userId}',
+			ucName:$("#ucName").val(),
+			logo:$("#logo").val(),
+			weixin:$("#weixin").val(),
+			sex:$("#sex").val(),
+			sign:$("#sign").val()
+	};
+	ajaxAction('post',url,$.toJSON(data),'json','updateUser');
+}
+//ajax请求
+function ajaxAction(type, url, reqData, returnType, requestName) {
+	$.ajax({
+		type : type,
+		url : url,
+		data : reqData,
+		async : false,
+		dataType : returnType,
+		contentType : 'application/json',
+		success : function(data) {
+			if (requestName == "updateUser"){
+				var code=data.code;
+				if(code=='0'){
+					alert('成功！');
+				}else if(code=='1'){
+					alert('服务器异常，请稍后重试！');
+				}	
+			}
+		}
+	});
+}
+</script>
 </html>

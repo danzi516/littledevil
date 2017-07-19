@@ -11,8 +11,8 @@
 <meta http-equiv="expires" content="0">    
 <meta http-equiv="Content-Type" content="text/html;charset=utf-8"/>
 <c:set var="webRoot" value="${pageContext.request.contextPath}" />
-<c:set var="userId" value="${user.id}" />
-<c:set var="companyId" value="${companyId}" />
+<c:set var="userId" value="${user.id}"/>
+<c:set var="companyId" value="${companyId}"/>
 <c:set var="userName" value="${user.userName}" />
 <c:set var="userType" value="${user.userType}" />
 <c:set var="user" value="${user}" />

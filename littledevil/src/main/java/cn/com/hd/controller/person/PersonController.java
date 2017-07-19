@@ -1,6 +1,7 @@
 package cn.com.hd.controller.person;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import javax.annotation.Resource;
@@ -16,10 +17,12 @@ import org.springframework.web.servlet.ModelAndView;
 
 import cn.com.hd.common.MD5Encrypt;
 import cn.com.hd.common.Page;
+import cn.com.hd.domain.company.CompanyMember;
 import cn.com.hd.domain.company.CompanyStaff;
 import cn.com.hd.domain.uc.SaleMan;
 import cn.com.hd.domain.uc.User;
 import cn.com.hd.domain.uc.UserInfo;
+import cn.com.hd.service.company.CompanyMemberService;
 import cn.com.hd.service.company.CompanyStaffService;
 import cn.com.hd.service.uc.SaleManService;
 import cn.com.hd.service.uc.UserInfoService;
@@ -44,6 +47,9 @@ public class PersonController {
 	
 	@Resource
 	private CompanyStaffService companyStaffService;
+	
+	@Resource
+	private CompanyMemberService companyMemberService;
 
 	/**
 	 * 功能描述：跳转到个人首页
@@ -62,14 +68,19 @@ public class PersonController {
 	/**
 	 * 功能描述：跳转到个人设置
 	 * 作者：lijiaxing
-	 * url：${webRoot}/person/index
+	 * url：${webRoot}/person/memberSet
 	 * 请求方式：GET
 	 * @param id int
 	 * @return ModelAndView
 	 **/
-	@RequestMapping("/memberSet")
-	public  ModelAndView memberSet(){
+	@RequestMapping("/memberSet/{id}")
+	public  ModelAndView memberSet(@PathVariable("id") int id){
 		ModelAndView mv=new ModelAndView("person/member_set");
+		UserInfo userInfo=userInfoService.selectByPrimaryKey(id);
+		if(userInfo==null){
+			userInfo=new UserInfo();
+		}
+		mv.addObject("userInfo", userInfo);
 		return mv;
 	}
 	
@@ -81,9 +92,10 @@ public class PersonController {
 	 * @param id int
 	 * @return ModelAndView
 	 **/
-	@RequestMapping("/storeList")
-	public  ModelAndView storeList(){
+	@RequestMapping("/storeList/{id}")
+	public  ModelAndView storeList(@PathVariable("id") int id){
 		ModelAndView mv=new ModelAndView("person/store_list");
+		List<CompanyMember> list = companyMemberService.selectCompanyMemberByuserId(id);
 		return mv;
 	}
 	
@@ -117,6 +129,33 @@ public class PersonController {
 		String code="";
 		map.put("code", code);
 	    return map;
+	}
+	
+	/**
+	 * 功能描述：更新用户
+	 * 作者：lijiaxing
+	 * url：${webRoot}/person/update
+	 * 请求方式：POST
+	 * @param  id
+	 * @return Map<String,Object>
+	 *         key:code["0":"成功","1":"失败"]
+	 */
+	@RequestMapping(value="update",method=RequestMethod.POST)
+	public @ResponseBody Map<String,Object> updatePerson(@RequestBody UserInfo user){
+		Map<String,Object> map=new HashMap<String,Object>();
+		String code="";
+		try{
+			/*User record=userInfoService.selectByPrimaryKey(user.getId()).getUser();
+			userService.updateByPrimaryKeySelective(record);*/
+			userInfoService.updateByPrimaryKeySelective(user);
+			
+			code="0";
+		}catch(Exception e){
+            code="1";
+            e.printStackTrace();
+        }
+        map.put("code", code);
+        return map;
 	}
 	
 }

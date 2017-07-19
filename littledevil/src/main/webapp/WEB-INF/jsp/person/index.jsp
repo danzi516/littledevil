@@ -58,10 +58,10 @@
         </div><!-- /.navbar-collapse -->
          <div id="myTabContent" class="tab-content">
 	<div style="height:500px" class="tab-pane fade in active" id="memberSet">
-	<iframe  src="${webRoot}/person/memberSet" class="frame_class" name="mainFrame" frameborder="0"></iframe>
+	<iframe  src="${webRoot}/person/memberSet/${userId}" class="frame_class" name="mainFrame" frameborder="0"></iframe>
 	</div>
 	<div style="height:500px" class="tab-pane fade" id="storeList">
-		<iframe  src="${webRoot}/person/storeList" class="frame_class" name="mainFrame" frameborder="0"></iframe>
+		<iframe  src="${webRoot}/person/storeList/${userId}" class="frame_class" name="mainFrame" frameborder="0"></iframe>
 	</div>
 	<div style="height:500px" class="tab-pane fade" id="goodsList">
 		<iframe  src="${webRoot}/module/goodsList" class="frame_class" name="mainFrame" frameborder="0"></iframe>

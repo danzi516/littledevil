@@ -7,11 +7,13 @@
     <result column="company_id" jdbcType="INTEGER" property="companyId" />
     <result column="member_type" jdbcType="INTEGER" property="memberType" />
     <result column="is_delete" jdbcType="VARCHAR" property="isDelete" />
+    <result column="creat_time" property="creatTime" jdbcType="TIMESTAMP" />
     <collection column="user_id" ofType="cn.com.hd.domain.uc.User" property="user" select="cn.com.hd.persistance.uc.UserMapper.selectByPrimaryKey" />
   	<collection column="user_id" ofType="cn.com.hd.domain.uc.UserInfo" property="userInfo" select="cn.com.hd.persistance.uc.UserInfoMapper.selectByPrimaryKey" />
+  	 <collection column="company_id" ofType="cn.com.hd.domain.company.CompanyInfo" property="companyInfo" select="cn.com.hd.persistance.company.CompanyInfoMapper.selectByPrimaryKey" />
   </resultMap>
   <sql id="Base_Column_List">
-    id, user_id, company_id, member_type, is_delete
+    id, user_id, company_id, member_type, is_delete, creat_time
   </sql>
   <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
     select 
@@ -25,9 +27,9 @@
   </delete>
   <insert id="insert" parameterType="cn.com.hd.domain.company.CompanyMember">
     insert into t_company_member (id, user_id, company_id,
-      member_type, is_delete)
+      member_type, is_delete,creat_time)
     values (#{id,jdbcType=INTEGER}, #{userId,jdbcType=INTEGER}, #{companyId,jdbcType=INTEGER},
-      #{memberType,jdbcType=INTEGER}, #{isDelete,jdbcType=VARCHAR})
+      #{memberType,jdbcType=INTEGER}, #{isDelete,jdbcType=VARCHAR},sysdate())
   </insert>
   <insert id="insertSelective" parameterType="cn.com.hd.domain.company.CompanyMember">
     insert into t_company_member
@@ -47,6 +49,7 @@
       <if test="isDelete != null">
         is_delete,
       </if>
+      creat_time
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
       <if test="id != null">
@@ -64,6 +67,7 @@
       <if test="isDelete != null">
         #{isDelete,jdbcType=VARCHAR},
       </if>
+       sysdate()
     </trim>
   </insert>
   <update id="updateByPrimaryKeySelective" parameterType="cn.com.hd.domain.company.CompanyMember">
@@ -99,7 +103,8 @@
 	t.user_id,
 	t.company_id,
 	t.member_type,
-	t.is_delete
+	t.is_delete,
+	t.creat_time
 	FROM
 	t_company_member  t
 	LEFT JOIN t_user_info  u ON t.user_id = u.id WHERE 1 = 1
@@ -121,7 +126,8 @@
 	t.user_id,
 	t.company_id,
 	t.member_type,
-	t.is_delete
+	t.is_delete,
+	t.creat_time
 	FROM
 	t_company_member  t
     where 1=1
@@ -129,4 +135,19 @@
         	and t.user_id=#{userId} and t.company_id=#{companyId}
     </if>
   </select>
+  
+      <!-- 根据用户id查找所属于的商户 -->
+  <select id="selectCompanyMemberByuserId" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    SELECT
+	t.id,
+	t.user_id,
+	t.company_id,
+	t.member_type,
+	t.is_delete
+	FROM
+	t_company_member  t
+    where 1=1
+        	and t.user_id= #{userId,jdbcType=INTEGER}
+  </select>
+  
 </mapper>

@@ -14,9 +14,13 @@ public class CompanyMember {
 
     private String isDelete;
     
+    private String  creatTime;
+    
     private User user;
     
     private UserInfo userInfo;
+    
+    private CompanyInfo companyInfo;
 
     public Integer getId() {
         return id;
@@ -73,4 +77,22 @@ public class CompanyMember {
 	public void setUserInfo(UserInfo userInfo) {
 		this.userInfo = userInfo;
 	}
+
+	public CompanyInfo getCompanyInfo() {
+		return companyInfo;
+	}
+
+	public void setCompanyInfo(CompanyInfo companyInfo) {
+		this.companyInfo = companyInfo;
+	}
+
+	public String getCreatTime() {
+		return creatTime;
+	}
+
+	public void setCreatTime(String creatTime) {
+		this.creatTime = creatTime;
+	}
+	
+	
 }

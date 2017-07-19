@@ -22,5 +22,7 @@ public interface CompanyMemberMapper {
     
     List<CompanyMember> selectCompanyMemberByPage(Page page);
     
+    List<CompanyMember> selectCompanyMemberByuserId(int userId);
+    
     CompanyMember selectByCondition(CompanyMember record);
 }
