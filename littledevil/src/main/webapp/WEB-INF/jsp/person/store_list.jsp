@@ -40,12 +40,12 @@
                 <ul class="list-group">
                     <li class="list-group-item">
                         <div class="row">
-                            <div class="col-lg-2">美甲皇后</div>
-                            <div class="col-lg-1">2017-10-08</div>
+                            <div class="col-lg-2">111</div>
+                            <div class="col-lg-1">2017-07-01</div>
                             <div class="col-lg-1">0</div>
-                            <div class="col-lg-3">美甲（10）、纹眉（1）</div>
-                            <div class="col-lg-3">美甲2017-10-08</div>
-                            <div class="col-lg-1">2000.00</div>
+                            <div class="col-lg-3">900套餐：全套（99）、300全套（661）</div>
+                            <div class="col-lg-3">900套餐：全套(2017-07-20 21:25:57)</div>
+                            <div class="col-lg-1">1200</div>
                             <div class="col-lg-1"><a href="#">查看</a> </div>
                         </div>
                     </li>

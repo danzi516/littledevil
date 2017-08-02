@@ -8,11 +8,15 @@ public class CompanyMember {
 
     private Integer userId;
 
+    private Integer number;
+    
     private Integer companyId;
 
     private Integer memberType;
 
     private String isDelete;
+    
+    private String cash;
     
     private String  creatTime;
     
@@ -92,6 +96,22 @@ public class CompanyMember {
 
 	public void setCreatTime(String creatTime) {
 		this.creatTime = creatTime;
+	}
+
+	public Integer getNumber() {
+		return number;
+	}
+
+	public void setNumber(Integer number) {
+		this.number = number;
+	}
+
+	public String getCash() {
+		return cash;
+	}
+
+	public void setCash(String cash) {
+		this.cash = cash;
 	}
 	
 	

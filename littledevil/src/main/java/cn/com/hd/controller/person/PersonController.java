@@ -96,6 +96,9 @@ public class PersonController {
 	public  ModelAndView storeList(@PathVariable("id") int id){
 		ModelAndView mv=new ModelAndView("person/store_list");
 		List<CompanyMember> list = companyMemberService.selectCompanyMemberByuserId(id);
+		for(int i=0;i<list.size();i++){
+			list.get(i).getCompanyId();
+		}
 		return mv;
 	}
 	
@@ -157,5 +160,30 @@ public class PersonController {
         map.put("code", code);
         return map;
 	}
+	
+	/**
+	 * 功能描述：更新用户
+	 * 作者：lijiaxing
+	 * url：${webRoot}/person/getCompanybyUserid
+	 * 请求方式：POST
+	 * @param  id
+	 * @return Map<String,Object>
+	 *         key:code["0":"成功","1":"失败"]
+	 */
+	@RequestMapping("/getCompanybyUserid/{id}")
+	public @ResponseBody Map<String,Object> getCompanybyUserid(@PathVariable("id") int id){
+		Map<String,Object> map=new HashMap<String,Object>();
+		String code="";
+		try{
+			
+			code="0";
+		}catch(Exception e){
+            code="1";
+            e.printStackTrace();
+        }
+        map.put("code", code);
+        return map;
+	}
+	
 	
 }
