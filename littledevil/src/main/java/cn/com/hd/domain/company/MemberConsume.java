@@ -9,19 +9,21 @@ public class MemberConsume {
 
 	    private String companyMemberId;
 
-	    private String companyId;
+	    private int companyId;
 
 	    private String consumeCash;
 
 	    private String payCash;
 
-	    private String commodityId;
+	    private int commodityId;
 
 	    private String isDelete;
 
-	    private String userId;
+	    private int userId;
 
 	    private String consumeTime;
+	    
+	    int number;
 
 	    private User user;	
 	    
@@ -55,11 +57,11 @@ public class MemberConsume {
 			this.companyMemberId = companyMemberId;
 		}
 
-		public String getCompanyId() {
+		public int getCompanyId() {
 			return companyId;
 		}
 
-		public void setCompanyId(String companyId) {
+		public void setCompanyId(int companyId) {
 			this.companyId = companyId;
 		}
 
@@ -79,11 +81,11 @@ public class MemberConsume {
 			this.payCash = payCash;
 		}
 
-		public String getCommodityId() {
+		public int getCommodityId() {
 			return commodityId;
 		}
 
-		public void setCommodityId(String commodityId) {
+		public void setCommodityId(int commodityId) {
 			this.commodityId = commodityId;
 		}
 
@@ -95,11 +97,11 @@ public class MemberConsume {
 			this.isDelete = isDelete;
 		}
 
-		public String getUserId() {
+		public int getUserId() {
 			return userId;
 		}
 
-		public void setUserId(String userId) {
+		public void setUserId(int userId) {
 			this.userId = userId;
 		}
 
@@ -134,4 +136,14 @@ public class MemberConsume {
 		public void setCompanyInfo(CompanyInfo companyInfo) {
 			this.companyInfo = companyInfo;
 		}
+
+		public int getNumber() {
+			return number;
+		}
+
+		public void setNumber(int number) {
+			this.number = number;
+		}
+		
+		
 }

@@ -39,14 +39,14 @@
                 </div>
                 <ul class="list-group">
                     <li class="list-group-item">
-                        <div class="row">
-                            <div class="col-lg-2">111</div>
-                            <div class="col-lg-1">2017-07-01</div>
-                            <div class="col-lg-1">0</div>
-                            <div class="col-lg-3">900套餐：全套（99）、300全套（661）</div>
-                            <div class="col-lg-3">900套餐：全套(2017-07-20 21:25:57)</div>
-                            <div class="col-lg-1">1200</div>
-                            <div class="col-lg-1"><a href="#">查看</a> </div>
+                        <div class="row" id="infoList">
+                            <div class="col-lg-2" id="companyName">111</div>
+                            <div class="col-lg-1" id="creatTime">2017-07-01</div>
+                            <div class="col-lg-1" id="cash">0</div>
+                            <div class="col-lg-3" id="item">900套餐：全套（99）、300全套（661）</div>
+                            <div class="col-lg-3" id="lastConsume">900套餐：全套(2017-07-20 21:25:57)</div>
+                            <div class="col-lg-1" id="sumNumber">1200</div>
+                            <div class="col-lg-1" id="operate"><a href="#">查看</a> </div>
                         </div>
                     </li>
                 </ul>
@@ -57,4 +57,42 @@
 </body>
 <script src="http://cdn.bootcss.com/jquery/1.11.2/jquery.min.js"></script>
 <script src="http://cdn.bootcss.com/bootstrap/3.3.4/js/bootstrap.min.js"></script>
+<script src="${webRoot}/res/common/js/jquery.json-2.4.js"></script>
+<script>
+$(document).ready(function() {
+	getCompanybyUserid('${userId}');
+});
+
+function getCompanybyUserid(id){
+	var url="${webRoot}/person/getCompanybyUserid/"+id;
+	var data={
+	};
+	ajaxAction('get',url,$.toJSON(data),'json','getCompanybyUserid');
+}
+//ajax请求
+function ajaxAction(type, url, reqData, returnType, requestName) {
+	$.ajax({
+		type : type,
+		url : url,
+		data : reqData,
+		async : false,
+		dataType : returnType,
+		contentType : 'application/json',
+		success : function(data) {
+			if (requestName == "getCompanybyUserid"){
+				var code=data.code;
+				if(code=='0'){
+					for(var i=0;i<data.userConsumelist.length;i++){
+						alert(data.userConsumelist[i].companyName);
+					}
+					
+					//alert('成功！');
+				}else if(code=='1'){
+					alert('服务器异常，请稍后重试！');
+				}	
+			}
+		}
+	});
+}
+</script>
 </html>

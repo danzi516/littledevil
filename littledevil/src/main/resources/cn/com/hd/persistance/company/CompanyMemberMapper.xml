@@ -157,7 +157,8 @@
 	t.company_id,
 	t.member_type,
 	t.is_delete,
-	t.cash
+	t.cash,
+	t.creat_time
 	FROM
 	t_company_member  t
     where 1=1

@@ -155,4 +155,13 @@
     order by consume_time desc
   </select>
   
+   <select id="sumNumberByuserIdAndcompanyId" resultType="Integer" parameterType="cn.com.hd.domain.company.MemberConsume" >
+   select 
+    COALESCE(sum(number),0)
+    from t_member_consume
+    where user_id = #{userId,jdbcType=INTEGER}  and company_id = #{companyId,jdbcType=INTEGER} 
+    order by consume_time desc
+  </select>
+  
+  
 </mapper>

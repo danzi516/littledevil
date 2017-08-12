@@ -1,5 +1,6 @@
 package cn.com.hd.controller.person;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -19,11 +20,14 @@ import cn.com.hd.common.MD5Encrypt;
 import cn.com.hd.common.Page;
 import cn.com.hd.domain.company.CompanyMember;
 import cn.com.hd.domain.company.CompanyStaff;
+import cn.com.hd.domain.company.MemberConsume;
+import cn.com.hd.domain.person.myCompany;
 import cn.com.hd.domain.uc.SaleMan;
 import cn.com.hd.domain.uc.User;
 import cn.com.hd.domain.uc.UserInfo;
 import cn.com.hd.service.company.CompanyMemberService;
 import cn.com.hd.service.company.CompanyStaffService;
+import cn.com.hd.service.company.MemberConsumeService;
 import cn.com.hd.service.uc.SaleManService;
 import cn.com.hd.service.uc.UserInfoService;
 import cn.com.hd.service.uc.UserService;
@@ -50,6 +54,9 @@ public class PersonController {
 	
 	@Resource
 	private CompanyMemberService companyMemberService;
+	
+	@Resource
+	private MemberConsumeService memberConsumeService;
 
 	/**
 	 * 功能描述：跳转到个人首页
@@ -162,7 +169,7 @@ public class PersonController {
 	}
 	
 	/**
-	 * 功能描述：更新用户
+	 * 功能描述：根据用户id获取公司-我的商户
 	 * 作者：lijiaxing
 	 * url：${webRoot}/person/getCompanybyUserid
 	 * 请求方式：POST
@@ -171,11 +178,47 @@ public class PersonController {
 	 *         key:code["0":"成功","1":"失败"]
 	 */
 	@RequestMapping("/getCompanybyUserid/{id}")
-	public @ResponseBody Map<String,Object> getCompanybyUserid(@PathVariable("id") int id){
+	public @ResponseBody Map<String,Object> getCompanybyUserid(@PathVariable("id") int userId){
 		Map<String,Object> map=new HashMap<String,Object>();
+		ArrayList<myCompany> userConsumelist=new ArrayList<myCompany>() ;
 		String code="";
 		try{
-			
+			List<CompanyMember> CompanyMemberlist =	companyMemberService.selectCompanyMemberByuserId(userId);
+			for(int i=0;i<CompanyMemberlist.size();i++){
+				myCompany myCompany = new myCompany();
+				String cash = CompanyMemberlist.get(i).getCash(); //剩余金额
+				int companyId=CompanyMemberlist.get(i).getCompanyId();
+				MemberConsume record = new MemberConsume();   
+				record.setCompanyId(companyId);
+				record.setUserId(userId);
+				List<MemberConsume>	MemberConsumelist = memberConsumeService.selectMemberConsumeByuserIdAndcompanyId(record);
+				String companyName = CompanyMemberlist.get(i).getCompanyInfo().getCompanyName(); //商店名称
+				String creatTime = CompanyMemberlist.get(i).getCreatTime();//创建时间
+				String lastConsume;//最后一次消费时间
+				String item="|";//剩余项目
+				if(MemberConsumelist.size()!=0){
+					lastConsume = MemberConsumelist.get(0).getCompanyCommodity().getCommodityName()+"("+MemberConsumelist.get(0).getConsumeTime()+")"; 
+					for(int j=0;j<MemberConsumelist.size();j++){
+						String itemOne= MemberConsumelist.get(j).getCompanyCommodity().getCommodityName()+"("+MemberConsumelist.get(j).getNumber()+")"+ "|";
+						item = item+ itemOne;
+					}
+				}else{
+					lastConsume = "没有消费";
+					item = "没有购买项目";
+				}
+				
+				int sumNumber = memberConsumeService.sumNumberByuserIdAndcompanyId(record);//总消费
+				
+				
+				myCompany.setCash(cash);
+				myCompany.setCompanyName(companyName);
+				myCompany.setCreatTime(creatTime);
+				myCompany.setItem(item);
+				myCompany.setLastConsume(lastConsume);
+				myCompany.setSumNumber(sumNumber);
+				userConsumelist.add(myCompany);
+			}
+			map.put("userConsumelist", userConsumelist);
 			code="0";
 		}catch(Exception e){
             code="1";

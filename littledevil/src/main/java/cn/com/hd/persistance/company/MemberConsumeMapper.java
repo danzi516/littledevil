@@ -22,4 +22,8 @@ public interface MemberConsumeMapper {
     int updateByPrimaryKey(MemberConsume record);
     
     List<MemberConsume> selectCompanyByPage(Page page);
+    
+    List<MemberConsume> selectMemberConsumeByuserIdAndcompanyId(MemberConsume record);
+    
+    int sumNumberByuserIdAndcompanyId(MemberConsume record);
 }

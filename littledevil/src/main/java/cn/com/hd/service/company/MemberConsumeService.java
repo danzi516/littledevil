@@ -46,4 +46,12 @@ public class MemberConsumeService {
 		page.setData(memberConsumeMapper.selectCompanyByPage(page));
     	return page;
     }
+	
+	public List<MemberConsume>  selectMemberConsumeByuserIdAndcompanyId(MemberConsume record){
+		return(memberConsumeMapper.selectMemberConsumeByuserIdAndcompanyId(record));
+    }
+	
+	public int sumNumberByuserIdAndcompanyId(MemberConsume record){
+		return(memberConsumeMapper.sumNumberByuserIdAndcompanyId(record));
+    }
 }
