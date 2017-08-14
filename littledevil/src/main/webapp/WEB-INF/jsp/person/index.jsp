@@ -40,7 +40,7 @@
                 <li><a href="#storeList" data-toggle="tab">我的商店</a></li>
                 <li><a href="#" data-toggle="tab">我的业绩（业务员）</a></li>
                 <li><a href="#" data-toggle="tab">我的工作（店员）</a></li>
-                <li><a href="#" data-toggle="tab">我的关注</a></li>
+                <li><a href="#followList" data-toggle="tab">我的关注</a></li>
                 <li><a href="#" data-toggle="tab">我的收藏</a></li>
                 <li><a href="#" data-toggle="tab">我的记录</a></li>
                 <li class="dropdown">
@@ -69,8 +69,8 @@
 	<div style="height:500px" class="tab-pane fade" id="salesList">
 		<iframe  src="${webRoot}/module/salesList" class="frame_class" name="mainFrame" frameborder="0"></iframe>
 	</div>
-	<div style="height:500px" class="tab-pane fade" id="articleList">
-		<iframe  src="${webRoot}/module/articleList" class="frame_class" name="mainFrame" frameborder="0"></iframe>
+	<div style="height:500px" class="tab-pane fade" id="followList">
+		<iframe  src="${webRoot}/person/followList/${userId}" class="frame_class" name="mainFrame" frameborder="0"></iframe>
 	</div>
 </div>
     </div><!-- /.container-fluid -->

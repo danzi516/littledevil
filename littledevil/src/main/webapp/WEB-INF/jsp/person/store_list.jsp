@@ -83,7 +83,8 @@ function ajaxAction(type, url, reqData, returnType, requestName) {
 				var code=data.code;
 				if(code=='0'){
 					for(var i=0;i<data.userConsumelist.length;i++){
-						alert(data.userConsumelist[i].companyName);
+						//alert(data.userConsumelist[i].companyName);
+						console.log("我的商店有"+data.userConsumelist[i].companyName);
 					}
 					
 					//alert('成功！');

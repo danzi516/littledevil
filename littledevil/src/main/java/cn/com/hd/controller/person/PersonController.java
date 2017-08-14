@@ -24,11 +24,13 @@ import cn.com.hd.domain.company.MemberConsume;
 import cn.com.hd.domain.person.myCompany;
 import cn.com.hd.domain.uc.SaleMan;
 import cn.com.hd.domain.uc.User;
+import cn.com.hd.domain.uc.UserFollow;
 import cn.com.hd.domain.uc.UserInfo;
 import cn.com.hd.service.company.CompanyMemberService;
 import cn.com.hd.service.company.CompanyStaffService;
 import cn.com.hd.service.company.MemberConsumeService;
 import cn.com.hd.service.uc.SaleManService;
+import cn.com.hd.service.uc.UserFollowService;
 import cn.com.hd.service.uc.UserInfoService;
 import cn.com.hd.service.uc.UserService;
 
@@ -57,6 +59,9 @@ public class PersonController {
 	
 	@Resource
 	private MemberConsumeService memberConsumeService;
+	
+	@Resource
+	private UserFollowService userFollowService;
 
 	/**
 	 * 功能描述：跳转到个人首页
@@ -109,6 +114,19 @@ public class PersonController {
 		return mv;
 	}
 	
+	/**
+	 * 功能描述：跳转到我的关注商店
+	 * 作者：lijiaxing
+	 * url：${webRoot}/person/followList
+	 * 请求方式：GET
+	 * @param id int
+	 * @return ModelAndView
+	 **/
+	@RequestMapping("/followList/{id}")
+	public  ModelAndView followList(@PathVariable("id") int id){
+		ModelAndView mv=new ModelAndView("person/follow_list");
+		return mv;
+	}
 	
 	/**
 	 * 功能描述：跳转到个人资料
@@ -228,5 +246,29 @@ public class PersonController {
         return map;
 	}
 	
+	/**
+	 * 功能描述：根据用户id获取公司-我关注的商户
+	 * 作者：lijiaxing
+	 * url：${webRoot}/person/getCompanyNumberbyUserid
+	 * 请求方式：POST
+	 * @param  id
+	 * @return Map<String,Object>
+	 *         key:code["0":"成功","1":"失败"]
+	 */
+	@RequestMapping("/getCompanyNumberbyUserid/{id}")
+	public @ResponseBody Map<String,Object> getCompanyNumberbyUserid(@PathVariable("id") int userId){
+		Map<String,Object> map=new HashMap<String,Object>();
+		String code="";
+		try{
+			List<UserFollow> userFollowlist=userFollowService.selectCompanyByuserId(userId);
+			map.put("userFollowlist", userFollowlist);
+			code="0";
+		}catch(Exception e){
+            code="1";
+            e.printStackTrace();
+        }
+        map.put("code", code);
+        return map;
+	}
 	
 }

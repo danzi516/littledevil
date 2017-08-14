@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="cn.com.hd.persistance.uc.UserFollowMapper" >
+  <resultMap id="BaseResultMap" type="cn.com.hd.domain.uc.UserFollow" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="user_id" jdbcType="INTEGER" property="userId" />
+ 	<result column="company_id" jdbcType="INTEGER" property="companyId" />
+    <result column="creat_time" property="creatTime" jdbcType="TIMESTAMP" />
+    <collection property="user" column="user_id" ofType="cn.com.hd.domain.uc.User" select="cn.com.hd.persistance.uc.UserMapper.selectByPrimaryKey"></collection>
+ 	 <collection column="company_id" ofType="cn.com.hd.domain.company.CompanyInfo" property="companyInfo" select="cn.com.hd.persistance.company.CompanyInfoMapper.selectByPrimaryKey" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, user_id, company_id,creat_time
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer">
+    select 
+    <include refid="Base_Column_List" />
+    from t_user_follow
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from t_user_follow
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="cn.com.hd.domain.uc.UserFollow" >
+    insert into t_user_follow (id, user_id, company_id, creat_time)
+    values (#{id,jdbcType=INTEGER}, #{user_id,jdbcType=INTEGER}, #{company_id,jdbcType=INTEGER}, sysdate())
+  </insert>
+  <insert id="insertSelective" parameterType="cn.com.hd.domain.uc.UserFollow" >
+    insert into t_user_follow
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="userId != null" >
+        user_id,
+      </if>
+      <if test="companyId != null" >
+        company_id,
+      </if>
+        register_time
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="userId != null" >
+        #{userId,jdbcType=INTEGER},
+      </if>
+      <if test="companyId != null" >
+        #{companyId,jdbcType=INTEGER},
+      </if>
+     sysdate()
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="cn.com.hd.domain.uc.UserFollow" >
+    update t_user_follow
+    <set >
+      <if test="userId != null" >
+        user_id = #{userId,jdbcType=INTEGER},
+      </if>
+      <if test="companyId != null" >
+        company_id = #{companyId,jdbcType=INTEGER}
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="cn.com.hd.domain.uc.UserFollow" >
+    update t_user_follow
+    set user_id = #{userId,jdbcType=INTEGER},
+      company_id = #{companyId,jdbcType=INTEGER}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  
+    <!-- 根据用户id查找商户 -->
+  <select id="selectCompanyByuserId" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    SELECT
+	t.id,
+	t.user_id,
+	t.company_id,
+	t.creat_time
+	FROM
+	t_user_follow  t
+    where 1=1
+        	and t.user_id= #{userId,jdbcType=INTEGER}
+  </select>
+</mapper>
