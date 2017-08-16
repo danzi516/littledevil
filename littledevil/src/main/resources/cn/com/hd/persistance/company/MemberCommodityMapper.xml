@@ -1,0 +1,167 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="cn.com.hd.persistance.company.MemberCommodityMapper" >
+  <resultMap id="BaseResultMap" type="cn.com.hd.domain.company.MemberCommodity" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="company_member_id" property="companyMemberId" jdbcType="INTEGER" />
+    <result column="company_id" property="companyId" jdbcType="INTEGER" />
+    <result column="consume_cash" property="consumeCash" jdbcType="VARCHAR" />
+    <result column="pay_cash" property="payCash" jdbcType="VARCHAR" />
+    <result column="commodity_id" property="commodityId" jdbcType="INTEGER" />
+    <result column="is_delete" property="isDelete" jdbcType="VARCHAR" />
+    <result column="user_id" property="userId" jdbcType="INTEGER" />
+    <result column="consume_time" property="consumeTime" jdbcType="TIMESTAMP" />
+    <result column="number" property="number" jdbcType="INTEGER" />
+    <collection property="user" column="user_id" ofType="cn.com.hd.domain.uc.User" select="cn.com.hd.persistance.uc.UserMapper.selectByPrimaryKey"></collection>
+  	<collection property="userInfo" column="user_id" ofType="cn.com.hd.domain.uc.UserInfo"  select="cn.com.hd.persistance.uc.UserInfoMapper.selectByPrimaryKey" />
+ 	<collection property="companyCommodity" column="commodity_id" ofType="cn.com.hd.domain.company.CompanyCommodity"  select="cn.com.hd.persistance.company.CompanyCommodityMapper.selectByPrimaryKey" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, company_member_id, company_id, consume_cash, pay_cash, commodity_id, is_delete, 
+    user_id, consume_time,number
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from t_member_commodity
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from t_member_commodity
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="cn.com.hd.domain.company.MemberCommodity" >
+    insert into t_member_commodity (company_member_id, company_id, consume_cash, pay_cash, commodity_id, is_delete, 
+    user_id, consume_time)
+    values (#{companyMemberId,jdbcType=INTEGER}, #{companyId,jdbcType=INTEGER}, 
+      #{consumeCash,jdbcType=VARCHAR}, #{payCash,jdbcType=VARCHAR}, #{commodityId,jdbcType=INTEGER}, 
+      #{isDelete,jdbcType=VARCHAR}, #{userId,jdbcType=INTEGER},sysdate(),#{number,jdbcType=INTEGER)
+  </insert>
+  <insert id="insertSelective" parameterType="cn.com.hd.domain.company.MemberCommodity" >
+    insert into t_member_commodity
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="companyMemberId != null" >
+        company_member_id,
+      </if>
+      <if test="companyId != null" >
+        company_id,
+      </if>
+      <if test="consumeCash != null" >
+        consume_cash,
+      </if>
+      <if test="payCash != null" >
+        pay_cash,
+      </if>
+      <if test="commodityId != null" >
+        commodity_id,
+      </if>
+      <if test="isDelete != null" >
+        is_delete,
+      </if>
+      <if test="userId != null" >
+        user_id,
+      </if>
+     consume_time
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="companyMemberId != null" >
+        #{companyMemberId,jdbcType=INTEGER},
+      </if>
+      <if test="companyId != null" >
+        #{companyId,jdbcType=INTEGER},
+      </if>
+      <if test="consumeCash != null" >
+        #{consumeCash,jdbcType=VARCHAR},
+      </if>
+      <if test="payCash != null" >
+        #{payCash,jdbcType=VARCHAR},
+      </if>
+      <if test="commodityId != null" >
+        #{commodityId,jdbcType=INTEGER},
+      </if>
+      <if test="isDelete != null" >
+        #{isDelete,jdbcType=VARCHAR},
+      </if>
+      <if test="userId != null" >
+        #{userId,jdbcType=INTEGER},
+      </if>
+      sysdate()
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="cn.com.hd.domain.company.MemberCommodity" >
+    update t_member_commodity
+    <set >
+      <if test="companyMemberId != null" >
+        company_member_id = #{companyMemberId,jdbcType=VARCHAR},
+      </if>
+      <if test="companyId != null" >
+        company_id = #{companyId,jdbcType=VARCHAR},
+      </if>
+      <if test="consumeCash != null" >
+        consume_cash = #{consumeCash,jdbcType=VARCHAR},
+      </if>
+      <if test="payCash != null" >
+        pay_cash = #{payCash,jdbcType=VARCHAR},
+      </if>
+      <if test="commodityId != null" >
+        commodity_id = #{commodityId,jdbcType=VARCHAR},
+      </if>
+      <if test="isDelete != null" >
+        is_delete = #{isDelete,jdbcType=VARCHAR},
+      </if>
+      <if test="userId != null" >
+        user_id = #{userId,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="cn.com.hd.domain.company.MemberCommodity" >
+    update t_member_commodity
+    set company_member_id = #{companyMemberId,jdbcType=VARCHAR},
+      company_id = #{companyId,jdbcType=VARCHAR},
+      consume_cash = #{consumeCash,jdbcType=VARCHAR},
+      pay_cash = #{payCash,jdbcType=VARCHAR},
+      commodity_id = #{commodityId,jdbcType=VARCHAR},
+      is_delete = #{isDelete,jdbcType=VARCHAR},
+      user_id = #{userId,jdbcType=VARCHAR},
+      number = #{number,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  
+  <select id="selectCompanyByPage" parameterType="cn.com.hd.common.Page" resultMap="BaseResultMap">
+  	select t.id, t.company_member_id, t.company_id, t.consume_cash, t.pay_cash, t.commodity_id, t.is_delete, 
+    t.user_id, t.consume_time,t.number from t_member_commodity t
+    LEFT JOIN t_user_info  u ON t.user_id = u.id
+    where 1=1
+    <if test="params['companyMemberId'] !=null"> 
+    and company_member_id=#{params.companyMemberId}
+    </if>
+    <if test="params['searchText'] != null and params['searchText'] != ''">  
+        	and (u.uc_name like '%${params.searchText}%')
+    </if>
+  </select>
+  <!-- 根据用户id、商户id，查找最后一次消费 -->
+  <select id="selectMemberCommodityByuserIdAndcompanyId" resultMap="BaseResultMap" parameterType="cn.com.hd.domain.company.MemberCommodity" >
+   select 
+    <include refid="Base_Column_List" />
+    from t_member_commodity
+    where user_id = #{userId,jdbcType=INTEGER}  and company_id = #{companyId,jdbcType=INTEGER} 
+    order by consume_time desc
+  </select>
+  
+   <select id="sumNumberByuserIdAndcompanyId" resultType="Integer" parameterType="cn.com.hd.domain.company.MemberCommodity" >
+   select 
+    COALESCE(sum(number),0)
+    from t_member_commodity
+    where user_id = #{userId,jdbcType=INTEGER}  and company_id = #{companyId,jdbcType=INTEGER} 
+    order by consume_time desc
+  </select>
+  
+  
+</mapper>

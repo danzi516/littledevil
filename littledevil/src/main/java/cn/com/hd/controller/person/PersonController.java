@@ -20,6 +20,7 @@ import cn.com.hd.common.MD5Encrypt;
 import cn.com.hd.common.Page;
 import cn.com.hd.domain.company.CompanyMember;
 import cn.com.hd.domain.company.CompanyStaff;
+import cn.com.hd.domain.company.MemberCommodity;
 import cn.com.hd.domain.company.MemberConsume;
 import cn.com.hd.domain.person.myCompany;
 import cn.com.hd.domain.uc.SaleMan;
@@ -28,6 +29,7 @@ import cn.com.hd.domain.uc.UserFollow;
 import cn.com.hd.domain.uc.UserInfo;
 import cn.com.hd.service.company.CompanyMemberService;
 import cn.com.hd.service.company.CompanyStaffService;
+import cn.com.hd.service.company.MemberCommodityService;
 import cn.com.hd.service.company.MemberConsumeService;
 import cn.com.hd.service.uc.SaleManService;
 import cn.com.hd.service.uc.UserFollowService;
@@ -59,6 +61,9 @@ public class PersonController {
 	
 	@Resource
 	private MemberConsumeService memberConsumeService;
+	
+	@Resource
+	private MemberCommodityService memberCommodityService;
 	
 	@Resource
 	private UserFollowService userFollowService;
@@ -206,10 +211,10 @@ public class PersonController {
 				myCompany myCompany = new myCompany();
 				String cash = CompanyMemberlist.get(i).getCash(); //剩余金额
 				int companyId=CompanyMemberlist.get(i).getCompanyId();
-				MemberConsume record = new MemberConsume();   
+				MemberCommodity record = new MemberCommodity();   
 				record.setCompanyId(companyId);
 				record.setUserId(userId);
-				List<MemberConsume>	MemberConsumelist = memberConsumeService.selectMemberConsumeByuserIdAndcompanyId(record);
+				List<MemberCommodity>	MemberConsumelist = memberCommodityService.selectMemberCommodityByuserIdAndcompanyId(record);
 				String companyName = CompanyMemberlist.get(i).getCompanyInfo().getCompanyName(); //商店名称
 				String creatTime = CompanyMemberlist.get(i).getCreatTime();//创建时间
 				String lastConsume;//最后一次消费时间
@@ -225,7 +230,7 @@ public class PersonController {
 					item = "没有购买项目";
 				}
 				
-				int sumNumber = memberConsumeService.sumNumberByuserIdAndcompanyId(record);//总消费
+				int sumNumber = memberCommodityService.sumNumberByuserIdAndcompanyId(record);//总消费
 				
 				
 				myCompany.setCash(cash);
