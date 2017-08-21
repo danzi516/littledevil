@@ -10,7 +10,7 @@ Target Server Type    : MYSQL
 Target Server Version : 50715
 File Encoding         : 65001
 
-Date: 2017-08-12 20:25:27
+Date: 2017-08-21 21:34:10
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -154,9 +154,9 @@ CREATE TABLE `t_company_info` (
 -- ----------------------------
 -- Records of t_company_info
 -- ----------------------------
-INSERT INTO `t_company_info` VALUES ('6', '111', null, '1', '222', '15111111111', null, null, null, null, null, '2016-12-12 10:45:30');
-INSERT INTO `t_company_info` VALUES ('7', '2222', null, '2', '222', '15111111112', null, null, null, null, null, '2017-06-13 16:22:44');
-INSERT INTO `t_company_info` VALUES ('8', '3333', null, '3', '222', '15111111113', null, null, null, null, null, '2017-06-13 16:22:45');
+INSERT INTO `t_company_info` VALUES ('6', '大唐会所', null, '1', '222', '15111111111', null, null, null, null, null, '2017-08-14 21:11:17');
+INSERT INTO `t_company_info` VALUES ('7', '大浪淘沙', null, '2', '222', '15111111112', null, null, null, null, null, '2017-08-14 21:11:06');
+INSERT INTO `t_company_info` VALUES ('8', '天健会所', null, '3', '222', '15111111113', null, null, null, null, null, '2017-08-14 22:02:25');
 INSERT INTO `t_company_info` VALUES ('9', '4444', null, '4', '222', '15111111114', null, null, null, null, null, '2017-06-13 16:22:46');
 INSERT INTO `t_company_info` VALUES ('10', '7777', null, '5', '222', '15111111115', null, null, null, null, null, '2017-06-15 11:14:23');
 
@@ -4013,6 +4013,32 @@ INSERT INTO `t_district` VALUES ('4083', '691403', '一牧场', '691400', '39140
 INSERT INTO `t_district` VALUES ('4084', '691404', '224团', '691400', '391404', '1');
 
 -- ----------------------------
+-- Table structure for t_member_commodity
+-- ----------------------------
+DROP TABLE IF EXISTS `t_member_commodity`;
+CREATE TABLE `t_member_commodity` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `company_member_id` int(11) DEFAULT NULL COMMENT '关联id',
+  `company_id` int(11) DEFAULT NULL COMMENT '商户ID',
+  `consume_cash` int(255) DEFAULT NULL COMMENT '消费金额',
+  `pay_cash` int(255) DEFAULT NULL COMMENT '实收金额',
+  `consume_time` timestamp NULL DEFAULT NULL COMMENT '消费时间',
+  `is_delete` varchar(2) COLLATE utf8_unicode_ci DEFAULT NULL COMMENT '是否删除 1(删除)0(不删除)',
+  `user_id` int(11) DEFAULT NULL COMMENT '会员id',
+  `commodity_id` int(11) DEFAULT NULL COMMENT '商品id',
+  `number` int(11) DEFAULT NULL COMMENT '剩余次数',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci COMMENT='消费记录';
+
+-- ----------------------------
+-- Records of t_member_commodity
+-- ----------------------------
+INSERT INTO `t_member_commodity` VALUES ('1', '3', '6', '300', '0', '2017-07-20 21:25:54', '0', '17', '2', '66');
+INSERT INTO `t_member_commodity` VALUES ('2', '3', '6', '900', '0', '2017-07-20 21:25:55', '0', '17', '3', '99');
+INSERT INTO `t_member_commodity` VALUES ('3', '3', '6', '100', '0', '2017-07-20 21:25:57', '0', '17', '4', '22');
+INSERT INTO `t_member_commodity` VALUES ('4', '3', '6', '5', '0', '2017-07-20 21:25:59', '0', '17', '1', '11');
+
+-- ----------------------------
 -- Table structure for t_member_consume
 -- ----------------------------
 DROP TABLE IF EXISTS `t_member_consume`;
@@ -4026,7 +4052,7 @@ CREATE TABLE `t_member_consume` (
   `is_delete` varchar(2) COLLATE utf8_unicode_ci DEFAULT NULL COMMENT '是否删除 1(删除)0(不删除)',
   `user_id` int(11) DEFAULT NULL COMMENT '会员id',
   `commodity_id` int(11) DEFAULT NULL COMMENT '商品id',
-  `number` int(11) DEFAULT NULL,
+  `consume_number` int(11) DEFAULT NULL COMMENT '消费次数',
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci COMMENT='消费记录';
 
@@ -4144,7 +4170,7 @@ INSERT INTO `t_user` VALUES ('9', 'asdd3', '15111111114', 'e10adc3949ba59abbe56e
 INSERT INTO `t_user` VALUES ('10', 'asdd4', '15111111115', 'e10adc3949ba59abbe56e057f20f883e', 'company', '0', '2016-11-22 16:42:34', null);
 INSERT INTO `t_user` VALUES ('14', '13456789098', '13456789098', 'e10adc3949ba59abbe56e057f20f883e', 'person', '1', '2017-03-29 13:28:17', null);
 INSERT INTO `t_user` VALUES ('16', 'admin', '13456789092', 'e10adc3949ba59abbe56e057f20f883e', 'sys', '1', '2017-03-16 09:50:15', null);
-INSERT INTO `t_user` VALUES ('17', 'test111', '13456789096', 'e10adc3949ba59abbe56e057f20f883e', 'person', '1', '2017-08-12 20:23:03', null);
+INSERT INTO `t_user` VALUES ('17', 'test111', '13456789096', 'e10adc3949ba59abbe56e057f20f883e', 'person', '1', '2017-08-21 21:28:13', null);
 INSERT INTO `t_user` VALUES ('19', 'test1112', '13456789333', 'e10adc3949ba59abbe56e057f20f883e', 'sys', '0', '2016-12-26 14:03:05', null);
 INSERT INTO `t_user` VALUES ('22', '13456789095', '13456789095', 'e10adc3949ba59abbe56e057f20f883e', 'person', '1', null, null);
 INSERT INTO `t_user` VALUES ('23', null, '13456789095', 'e10adc3949ba59abbe56e057f20f883e', 'person', '1', '2017-01-11 16:34:54', '111');
@@ -4157,6 +4183,25 @@ INSERT INTO `t_user` VALUES ('30', 'aa224', '13456789324', 'e10adc3949ba59abbe56
 INSERT INTO `t_user` VALUES ('31', 'ad224', '13456789056', 'e10adc3949ba59abbe56e057f20f883e', 'person', '1', null, null);
 INSERT INTO `t_user` VALUES ('32', 'aa46', '13456789322', 'e10adc3949ba59abbe56e057f20f883e', 'person', '1', '2017-03-16 09:57:45', null);
 INSERT INTO `t_user` VALUES ('33', 'asda2223', '13456789098', 'e10adc3949ba59abbe56e057f20f883e', 'person', '1', null, null);
+
+-- ----------------------------
+-- Table structure for t_user_follow
+-- ----------------------------
+DROP TABLE IF EXISTS `t_user_follow`;
+CREATE TABLE `t_user_follow` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `user_id` int(11) DEFAULT NULL COMMENT '用户id',
+  `company_id` int(11) DEFAULT NULL COMMENT '商户id',
+  `creat_time` timestamp NULL DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP COMMENT '关注时间',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8;
+
+-- ----------------------------
+-- Records of t_user_follow
+-- ----------------------------
+INSERT INTO `t_user_follow` VALUES ('1', '17', '6', '2017-08-07 21:10:29');
+INSERT INTO `t_user_follow` VALUES ('2', '17', '7', '2017-08-08 21:11:31');
+INSERT INTO `t_user_follow` VALUES ('3', '17', '8', '2017-08-01 22:02:36');
 
 -- ----------------------------
 -- Table structure for t_user_info
