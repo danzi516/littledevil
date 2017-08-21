@@ -23,7 +23,7 @@ public class MemberConsume {
 
 	    private String consumeTime;
 	    
-	    int number;
+	    int consumeNumber;
 
 	    private User user;	
 	    
@@ -137,13 +137,14 @@ public class MemberConsume {
 			this.companyInfo = companyInfo;
 		}
 
-		public int getNumber() {
-			return number;
+		public int getConsumeNumber() {
+			return consumeNumber;
 		}
 
-		public void setNumber(int number) {
-			this.number = number;
+		public void setConsumeNumber(int consumeNumber) {
+			this.consumeNumber = consumeNumber;
 		}
+
 		
 		
 }

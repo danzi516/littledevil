@@ -6,10 +6,10 @@
 <%@ include file="../common/meta.jsp"%>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-    <title>我关注的商店</title>
+    <title>***商店消费记录</title>
     <!--<link href="less/Nstrap.less" type="text/css" rel="stylesheet/less"/>
     <script src="js/less.js"></script>-->
-    <link href="${webRoot}/res/sys/css/Nstrap.css" rel="stylesheet">
+     <link href="${webRoot}/res/sys/css/Nstrap.css" rel="stylesheet">
     <link href="${webRoot}/res/sys/css/animated.css" rel="stylesheet" type="text/css">
     <!--[if lt IE 9]>
     <script src="http://apps.bdimg.com/libs/html5shiv/3.7/html5shiv.min.js"></script>
@@ -63,42 +63,23 @@
 <div class="container">
     <div class="row">
         <div class="col-lg-12">
-            <ul class="nav nav-tabs">
-                <li role="presentation" class="active"><a href="#">关注的商店</a></li>
-                <li role="presentation"><a href="#">关注的商品</a></li>
-            </ul>
-            <p></p>
             <div class="panel panel-default panel-row">
                 <div class="panel-heading">
-                    <div class="row">
-                        <div class="col-lg-4">商店名称</div>
-                        <div class="col-lg-4">关注时间</div>
-                        <div class="col-lg-4">商品总数</div>
-                    </div>
+                    美甲皇后
                 </div>
                 <ul class="list-group">
                     <li class="list-group-item">
                         <div class="row">
-                            <div class="col-lg-4">美甲皇后</div>
                             <div class="col-lg-4">2017-10-08</div>
-                            <div class="col-lg-4">80</div>
+                            <div class="col-lg-4">美甲 -1 </div>
+                            <div class="col-lg-2">美甲礼包</div>
                         </div>
                     </li>
-                </ul>
-            </div>
-
-            <div class="panel panel-default panel-row">
-                <div class="panel-heading">
-                    <div class="row">
-                        <div class="col-lg-6">商品名称</div>
-                        <div class="col-lg-6">关注时间</div>
-                    </div>
-                </div>
-                <ul class="list-group">
                     <li class="list-group-item">
                         <div class="row">
-                            <div class="col-lg-6">美甲皇后</div>
-                            <div class="col-lg-6">2017-10-08</div>
+                            <div class="col-lg-4">2017-10-08</div>
+                            <div class="col-lg-4">美甲</div>
+                            <div class="col-lg-4">会员价20元</div>
                         </div>
                     </li>
                 </ul>
@@ -112,14 +93,14 @@
 <script src="${webRoot}/res/common/js/jquery.json-2.4.js"></script>
 <script>
 $(document).ready(function() {
-	getCompanyNumberbyUserid('${userId}');
+	selectMemberConsumeByuserId('${userId}');
 });
 
-function getCompanyNumberbyUserid(id){
-	var url="${webRoot}/person/getCompanyNumberbyUserid/"+id;
+function selectMemberConsumeByuserId(id){
+	var url="${webRoot}/person/selectMemberConsumeByuserId/"+id;
 	var data={
 	};
-	ajaxAction('get',url,$.toJSON(data),'json','getCompanyNumberbyUserid');
+	ajaxAction('get',url,$.toJSON(data),'json','selectMemberConsumeByuserId');
 }
 //ajax请求
 function ajaxAction(type, url, reqData, returnType, requestName) {
@@ -131,11 +112,12 @@ function ajaxAction(type, url, reqData, returnType, requestName) {
 		dataType : returnType,
 		contentType : 'application/json',
 		success : function(data) {
-			if (requestName == "getCompanyNumberbyUserid"){
+			if (requestName == "selectMemberConsumeByuserId"){
 				var code=data.code;
 				if(code=='0'){
-					for(var i=0;i<data.userFollowlist.length;i++){
-						alert("我关注的店有"+data.userFollowlist[i].companyInfo.companyName);
+					for(var i=0;i<data.memberConsumelist.length;i++){
+						//alert(data.userConsumelist[i].companyName);
+						console.log("我的商店记录有"+data.memberConsumelist[i].companyInfo.companyName);
 					}
 					
 					//alert('成功！');

@@ -42,7 +42,7 @@
                 <li><a href="#" data-toggle="tab">我的工作（店员）</a></li>
                 <li><a href="#followList" data-toggle="tab">我的关注</a></li>
                 <li><a href="#" data-toggle="tab">我的收藏</a></li>
-                <li><a href="#" data-toggle="tab">我的记录</a></li>
+                <li><a href="#recordList" data-toggle="tab">我的记录</a></li>
                 <li class="dropdown">
                     <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">帐号设置 <span class="caret"></span></a>
                     <ul class="dropdown-menu">
@@ -71,6 +71,9 @@
 	</div>
 	<div style="height:500px" class="tab-pane fade" id="followList">
 		<iframe  src="${webRoot}/person/followList/${userId}" class="frame_class" name="mainFrame" frameborder="0"></iframe>
+	</div>
+	<div style="height:500px" class="tab-pane fade" id="recordList">
+		<iframe  src="${webRoot}/person/recordList/${userId}" class="frame_class" name="mainFrame" frameborder="0"></iframe>
 	</div>
 </div>
     </div><!-- /.container-fluid -->

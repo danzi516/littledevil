@@ -11,14 +11,15 @@
     <result column="is_delete" property="isDelete" jdbcType="VARCHAR" />
     <result column="user_id" property="userId" jdbcType="INTEGER" />
     <result column="consume_time" property="consumeTime" jdbcType="TIMESTAMP" />
-    <result column="number" property="number" jdbcType="INTEGER" />
+    <result column="consume_number" property="consumeNumber" jdbcType="INTEGER" />
     <collection property="user" column="user_id" ofType="cn.com.hd.domain.uc.User" select="cn.com.hd.persistance.uc.UserMapper.selectByPrimaryKey"></collection>
   	<collection property="userInfo" column="user_id" ofType="cn.com.hd.domain.uc.UserInfo"  select="cn.com.hd.persistance.uc.UserInfoMapper.selectByPrimaryKey" />
+  	<collection column="company_id" ofType="cn.com.hd.domain.company.CompanyInfo" property="companyInfo" select="cn.com.hd.persistance.company.CompanyInfoMapper.selectByPrimaryKey" />
  	<collection property="companyCommodity" column="commodity_id" ofType="cn.com.hd.domain.company.CompanyCommodity"  select="cn.com.hd.persistance.company.CompanyCommodityMapper.selectByPrimaryKey" />
   </resultMap>
   <sql id="Base_Column_List" >
     id, company_member_id, company_id, consume_cash, pay_cash, commodity_id, is_delete, 
-    user_id, consume_time,number
+    user_id, consume_time,consume_number
   </sql>
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
     select 
@@ -32,10 +33,10 @@
   </delete>
   <insert id="insert" parameterType="cn.com.hd.domain.company.MemberConsume" >
     insert into t_member_consume (company_member_id, company_id, consume_cash, pay_cash, commodity_id, is_delete, 
-    user_id, consume_time)
+    user_id, consume_time,consume_number)
     values (#{companyMemberId,jdbcType=INTEGER}, #{companyId,jdbcType=INTEGER}, 
       #{consumeCash,jdbcType=VARCHAR}, #{payCash,jdbcType=VARCHAR}, #{commodityId,jdbcType=INTEGER}, 
-      #{isDelete,jdbcType=VARCHAR}, #{userId,jdbcType=INTEGER},sysdate(),#{number,jdbcType=INTEGER)
+      #{isDelete,jdbcType=VARCHAR}, #{userId,jdbcType=INTEGER},sysdate(),#{consumeNumber,jdbcType=INTEGER)
   </insert>
   <insert id="insertSelective" parameterType="cn.com.hd.domain.company.MemberConsume" >
     insert into t_member_consume
@@ -64,6 +65,9 @@
       <if test="userId != null" >
         user_id,
       </if>
+       <if test="consumeNumber != null" >
+        consume_number,
+      </if>
      consume_time
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides="," >
@@ -90,6 +94,9 @@
       </if>
       <if test="userId != null" >
         #{userId,jdbcType=INTEGER},
+      </if>
+        <if test="consumeNumber != null" >
+        #{consumeNumber,jdbcType=INTEGER},
       </if>
       sysdate()
     </trim>
@@ -118,6 +125,9 @@
       <if test="userId != null" >
         user_id = #{userId,jdbcType=VARCHAR},
       </if>
+       <if test="consumeNumber != null" >
+        consume_number = #{consumeNumber,jdbcType=VARCHAR},
+      </if>
     </set>
     where id = #{id,jdbcType=INTEGER}
   </update>
@@ -130,13 +140,13 @@
       commodity_id = #{commodityId,jdbcType=VARCHAR},
       is_delete = #{isDelete,jdbcType=VARCHAR},
       user_id = #{userId,jdbcType=VARCHAR},
-      number = #{number,jdbcType=VARCHAR}
+      consume_number = #{consumeNumber,jdbcType=VARCHAR}
     where id = #{id,jdbcType=INTEGER}
   </update>
   
   <select id="selectCompanyByPage" parameterType="cn.com.hd.common.Page" resultMap="BaseResultMap">
   	select t.id, t.company_member_id, t.company_id, t.consume_cash, t.pay_cash, t.commodity_id, t.is_delete, 
-    t.user_id, t.consume_time,t.number from t_member_consume t
+    t.user_id, t.consume_time,t.consume_number from t_member_consume t
     LEFT JOIN t_user_info  u ON t.user_id = u.id
     where 1=1
     <if test="params['companyMemberId'] !=null"> 
@@ -155,9 +165,18 @@
     order by consume_time desc
   </select>
   
+  <!-- 根据用户id查询记录 -->
+  <select id="selectMemberConsumeByuserId" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+   select 
+    <include refid="Base_Column_List" />
+    from t_member_consume
+    where user_id = #{userId,jdbcType=INTEGER}  
+    order by consume_time desc
+  </select>
+  
    <select id="sumNumberByuserIdAndcompanyId" resultType="Integer" parameterType="cn.com.hd.domain.company.MemberConsume" >
    select 
-    COALESCE(sum(number),0)
+    COALESCE(sum(consume_number),0)
     from t_member_consume
     where user_id = #{userId,jdbcType=INTEGER}  and company_id = #{companyId,jdbcType=INTEGER} 
     order by consume_time desc

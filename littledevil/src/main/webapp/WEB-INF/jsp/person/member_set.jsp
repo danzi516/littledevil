@@ -83,8 +83,8 @@
     </div>
 </div>
 </body>
-<script src="http://cdn.bootcss.com/jquery/1.11.2/jquery.min.js"></script>
-<script src="http://cdn.bootcss.com/bootstrap/3.3.4/js/bootstrap.min.js"></script>
+<script src="${webRoot}/res/common/js/jquery.min.js"></script>
+<script src="${webRoot}/res/common/js/bootstrap.min.js"></script>
 <script src="${webRoot}/res/common/js/jquery.json-2.4.js"></script>
 <script>
 $(document).ready(function() {

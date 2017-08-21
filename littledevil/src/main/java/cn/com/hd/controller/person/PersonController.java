@@ -134,6 +134,20 @@ public class PersonController {
 	}
 	
 	/**
+	 * 功能描述：跳转到我的记录
+	 * 作者：lijiaxing
+	 * url：${webRoot}/person/recordList
+	 * 请求方式：GET
+	 * @param id int
+	 * @return ModelAndView
+	 **/
+	@RequestMapping("/recordList/{id}")
+	public  ModelAndView recordList(@PathVariable("id") int id){
+		ModelAndView mv=new ModelAndView("person/record_list");
+		return mv;
+	}
+	
+	/**
 	 * 功能描述：跳转到个人资料
 	 * 作者：lijiaxing
 	 * url：${webRoot}/person/editPerson
@@ -261,12 +275,37 @@ public class PersonController {
 	 *         key:code["0":"成功","1":"失败"]
 	 */
 	@RequestMapping("/getCompanyNumberbyUserid/{id}")
-	public @ResponseBody Map<String,Object> getCompanyNumberbyUserid(@PathVariable("id") int userId){
+	public @ResponseBody Map<String,Object> selectCompanyByuserId(@PathVariable("id") int userId){
 		Map<String,Object> map=new HashMap<String,Object>();
 		String code="";
 		try{
 			List<UserFollow> userFollowlist=userFollowService.selectCompanyByuserId(userId);
 			map.put("userFollowlist", userFollowlist);
+			code="0";
+		}catch(Exception e){
+            code="1";
+            e.printStackTrace();
+        }
+        map.put("code", code);
+        return map;
+	}
+	
+	/**
+	 * 功能描述：根据用户id获取公司-我关注的商户
+	 * 作者：lijiaxing
+	 * url：${webRoot}/person/selectMemberConsumeByuserId
+	 * 请求方式：POST
+	 * @param  id
+	 * @return Map<String,Object>
+	 *         key:code["0":"成功","1":"失败"]
+	 */
+	@RequestMapping("/selectMemberConsumeByuserId/{id}")
+	public @ResponseBody Map<String,Object> selectMemberConsumeByuserId(@PathVariable("id") int userId){
+		Map<String,Object> map=new HashMap<String,Object>();
+		String code="";
+		try{
+			List<MemberConsume> memberConsumelist=memberConsumeService.selectMemberConsumeByuserId(userId);
+			map.put("memberConsumelist", memberConsumelist);
 			code="0";
 		}catch(Exception e){
             code="1";
