@@ -27,5 +27,5 @@ public interface MemberConsumeMapper {
     
     List<MemberConsume> selectMemberConsumeByuserId(int userId);
     
-    int sumNumberByuserIdAndcompanyId(MemberConsume record);
+    int sumconsumeCashByuserIdAndcompanyId(MemberConsume record);
 }

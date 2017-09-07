@@ -55,7 +55,7 @@ public class MemberConsumeService {
 		return(memberConsumeMapper.selectMemberConsumeByuserId(userId));
     }
 	
-	public int sumNumberByuserIdAndcompanyId(MemberConsume record){
-		return(memberConsumeMapper.sumNumberByuserIdAndcompanyId(record));
+	public int sumconsumeCashByuserIdAndcompanyId(MemberConsume record){
+		return(memberConsumeMapper.sumconsumeCashByuserIdAndcompanyId(record));
     }
 }

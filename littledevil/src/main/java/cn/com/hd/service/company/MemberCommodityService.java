@@ -33,6 +33,11 @@ public class MemberCommodityService {
 	public MemberCommodity selectByPrimaryKey(Integer id){
     	return MemberCommodityMapper.selectByPrimaryKey(id);
     }
+	
+	public MemberCommodity selectMemberCommodityByuserIdAndcommodityId(MemberCommodity record){
+    	return MemberCommodityMapper.selectMemberCommodityByuserIdAndcommodityId(record);
+    }
+	
 	@Transactional
 	public int updateByPrimaryKeySelective(MemberCommodity record){
     	return MemberCommodityMapper.updateByPrimaryKeySelective(record);

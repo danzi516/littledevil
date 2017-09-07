@@ -6,10 +6,10 @@
 <%@ include file="../common/meta.jsp"%>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-    <title>***商店消费记录</title>
+    <title>用户设置</title>
     <!--<link href="less/Nstrap.less" type="text/css" rel="stylesheet/less"/>
     <script src="js/less.js"></script>-->
-     <link href="${webRoot}/res/sys/css/Nstrap.css" rel="stylesheet">
+    <link href="${webRoot}/res/sys/css/Nstrap.css" rel="stylesheet">
     <link href="${webRoot}/res/sys/css/animated.css" rel="stylesheet" type="text/css">
     <!--[if lt IE 9]>
     <script src="http://apps.bdimg.com/libs/html5shiv/3.7/html5shiv.min.js"></script>
@@ -20,20 +20,6 @@
     <![endif]-->
 </head>
 <body>
-<nav class="navbar navbar-default">
-    <div class="container-fluid">
-        <!-- Brand and toggle get grouped for better mobile display -->
-        <div class="navbar-header">
-            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
-                <span class="sr-only">Toggle navigation</span>
-                <span class="icon-bar"></span>
-                <span class="icon-bar"></span>
-                <span class="icon-bar"></span>
-            </button>
-            <a class="navbar-brand" href="#">小鬼头</a>
-        </div>
-
-       
 
 
 <div class="container">
@@ -41,21 +27,26 @@
         <div class="col-lg-12">
             <div class="panel panel-default panel-row">
                 <div class="panel-heading">
-                    美甲皇后
+                    <div class="row">
+                        <div class="col-lg-2">商店名称</div>
+                        <div class="col-lg-1">创建会员时间</div>
+                        <div class="col-lg-1">剩余金额</div>
+                        <div class="col-lg-3">剩余项目</div>
+                        <div class="col-lg-3">最后一次消费</div>
+                        <div class="col-lg-1">总消费</div>
+                        <div class="col-lg-1">操作</div>
+                    </div>
                 </div>
                 <ul class="list-group">
                     <li class="list-group-item">
-                        <div class="row">
-                            <div class="col-lg-4">2017-10-08</div>
-                            <div class="col-lg-4">美甲 -1 </div>
-                            <div class="col-lg-2">美甲礼包</div>
-                        </div>
-                    </li>
-                    <li class="list-group-item">
-                        <div class="row">
-                            <div class="col-lg-4">2017-10-08</div>
-                            <div class="col-lg-4">美甲</div>
-                            <div class="col-lg-4">会员价20元</div>
+                        <div class="row" id="infoList">
+                            <div class="col-lg-2" id="companyName">111</div>
+                            <div class="col-lg-1" id="creatTime">2017-07-01</div>
+                            <div class="col-lg-1" id="cash">0</div>
+                            <div class="col-lg-3" id="item">900套餐：全套（99）、300全套（661）</div>
+                            <div class="col-lg-3" id="lastConsume">900套餐：全套(2017-07-20 21:25:57)</div>
+                            <div class="col-lg-1" id="sumNumber">1200</div>
+                            <div class="col-lg-1" id="operate"><a href="#">查看</a> </div>
                         </div>
                     </li>
                 </ul>
@@ -69,14 +60,14 @@
 <script src="${webRoot}/res/common/js/jquery.json-2.4.js"></script>
 <script>
 $(document).ready(function() {
-	selectMemberConsumeByuserId('${userId}');
+	getCompanybyUserid('${userId}');
 });
 
-function selectMemberConsumeByuserId(id){
-	var url="${webRoot}/person/selectMemberConsumeByuserId/"+id;
+function getCompanybyUserid(id){
+	var url="${webRoot}/person/getCompanybyUserid/"+id;
 	var data={
 	};
-	ajaxAction('get',url,$.toJSON(data),'json','selectMemberConsumeByuserId');
+	ajaxAction('get',url,$.toJSON(data),'json','getCompanybyUserid');
 }
 //ajax请求
 function ajaxAction(type, url, reqData, returnType, requestName) {
@@ -88,12 +79,12 @@ function ajaxAction(type, url, reqData, returnType, requestName) {
 		dataType : returnType,
 		contentType : 'application/json',
 		success : function(data) {
-			if (requestName == "selectMemberConsumeByuserId"){
+			if (requestName == "getCompanybyUserid"){
 				var code=data.code;
 				if(code=='0'){
-					for(var i=0;i<data.memberConsumelist.length;i++){
+					for(var i=0;i<data.userConsumelist.length;i++){
 						//alert(data.userConsumelist[i].companyName);
-						console.log("我的商店记录有"+data.memberConsumelist[i].companyInfo.companyName+i);
+						console.log("我的商店有"+data.userConsumelist[i].companyName);
 					}
 					
 					//alert('成功！');

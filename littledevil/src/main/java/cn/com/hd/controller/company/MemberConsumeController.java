@@ -22,12 +22,14 @@ import cn.com.hd.common.Page;
 import cn.com.hd.domain.company.CompanyCommodity;
 import cn.com.hd.domain.company.CompanyInfo;
 import cn.com.hd.domain.company.CompanyMember;
+import cn.com.hd.domain.company.MemberCommodity;
 import cn.com.hd.domain.company.MemberConsume;
 import cn.com.hd.domain.uc.User;
 import cn.com.hd.domain.uc.UserInfo;
 import cn.com.hd.service.company.CompanyCommodityService;
 import cn.com.hd.service.company.CompanyInfoService;
 import cn.com.hd.service.company.CompanyMemberService;
+import cn.com.hd.service.company.MemberCommodityService;
 import cn.com.hd.service.company.MemberConsumeService;
 import cn.com.hd.service.uc.UserInfoService;
 import cn.com.hd.service.uc.UserService;
@@ -46,6 +48,8 @@ public class MemberConsumeController {
 	private CompanyCommodityService companyCommodityService;
 	@Resource
 	private CompanyMemberService companyMemberService;
+	@Resource
+	private MemberCommodityService memberCommodityService;
 	@Autowired
 	HttpSession session;
 	/**
@@ -151,13 +155,45 @@ public class MemberConsumeController {
     public @ResponseBody Map<String, Object> insert(@RequestBody MemberConsume record){
         Map<String,Object> map = new HashMap<String,Object>();
         String code="";
-        try{
-        	memberConsumeService.insert(record);
-            code="0";
-        }catch(Exception e){
-            code="1";
-            e.printStackTrace();
-        }
+        try {
+        	CompanyMember companyMember = new CompanyMember();
+        	companyMember.setCompanyId(record.getCompanyId());
+    	    companyMember.setUserId(record.getUserId());
+    		int oldCash = companyMemberService.selectCompanyMemberByuserIdAndcompanyId(companyMember).getCash();
+    		int cash = oldCash - record.getConsumeCash();
+    		  if(record.getCommodityId()==0){  //现金
+    	        	if(cash<0){
+    	        		 code="2";//余额不足
+    	        	}
+    	        	else{
+    	        		memberConsumeService.insert(record);
+    	        		companyMember.setCash(cash);
+    	        		companyMember.setId(companyMemberService.selectCompanyMemberByuserIdAndcompanyId(companyMember).getId());
+    	        		companyMemberService.updateByPrimaryKeySelective(companyMember);
+    	        		 code="0";
+    	        	}
+    	        }
+    		  else{  //非现金
+    			  MemberCommodity memberCommodity = new MemberCommodity();
+    			  memberCommodity.setCommodityId(record.getCommodityId());
+    			  memberCommodity.setCompanyId(record.getCompanyId());
+    			  memberCommodity.setUserId(record.getUserId());
+				  memberCommodity = memberCommodityService.selectMemberCommodityByuserIdAndcommodityId(memberCommodity);
+    			  int number = memberCommodity.getNumber()-record.getConsumeNumber();
+    			  if(number<0){
+    				  code="3";//次数不足
+    			  }
+    			  else{
+    				  memberConsumeService.insert(record);
+    				  memberCommodity.setNumber(number);
+    				  memberCommodityService.updateByPrimaryKey(memberCommodity);
+    				  code="0";
+    			  }
+    		  }
+    	} catch (NumberFormatException e) {
+    	    e.printStackTrace();
+    	    code="1";
+    	}
         map.put("code", code);
         return map;
     }
@@ -167,7 +203,7 @@ public class MemberConsumeController {
 	 * 作者：lijiaxing
 	 * url：${webRoot}/companyInfo/update
 	 * 请求方式：POST
-	 * @param  Page page
+	 * @param  Page pages
 	 * @return Map<String,Object>
 	 *         key:code["0":"成功","1":"失败"]
 	 *         key:rows[查询结果ist]

@@ -25,4 +25,6 @@ public interface CompanyMemberMapper {
     List<CompanyMember> selectCompanyMemberByuserId(int userId);
     
     CompanyMember selectByCondition(CompanyMember record);
+    
+    CompanyMember selectCompanyMemberByuserIdAndcompanyId(CompanyMember record);
 }

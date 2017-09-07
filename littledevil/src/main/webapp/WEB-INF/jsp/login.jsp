@@ -139,7 +139,7 @@ function ajaxAction(type, url, reqData, returnType, requestName) {
 				var userType=data.userType;
 				if(msg=='ok'){
 					if(userType=='company'){
-						window.location.href='${webRoot}/companyMember/index';
+						window.location.href='${webRoot}/store/index';
 					}
 					else if(userType=='person'){
 						window.location.href='${webRoot}/person/index';

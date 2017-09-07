@@ -7,13 +7,13 @@ public class MemberCommodity {
 
 	 private Integer id;
 
-	    private String companyMemberId;
+	    private int companyMemberId;
 
 	    private int companyId;
 
-	    private String consumeCash;
+	    private int consumeCash;
 
-	    private String payCash;
+	    private int payCash;
 
 	    private int commodityId;
 
@@ -49,11 +49,11 @@ public class MemberCommodity {
 			this.id = id;
 		}
 
-		public String getCompanyMemberId() {
+		public int getCompanyMemberId() {
 			return companyMemberId;
 		}
 
-		public void setCompanyMemberId(String companyMemberId) {
+		public void setCompanyMemberId(int companyMemberId) {
 			this.companyMemberId = companyMemberId;
 		}
 
@@ -65,19 +65,19 @@ public class MemberCommodity {
 			this.companyId = companyId;
 		}
 
-		public String getConsumeCash() {
+		public int getConsumeCash() {
 			return consumeCash;
 		}
 
-		public void setConsumeCash(String consumeCash) {
+		public void setConsumeCash(int consumeCash) {
 			this.consumeCash = consumeCash;
 		}
 
-		public String getPayCash() {
+		public int getPayCash() {
 			return payCash;
 		}
 
-		public void setPayCash(String payCash) {
+		public void setPayCash(int payCash) {
 			this.payCash = payCash;
 		}
 

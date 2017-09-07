@@ -6,7 +6,7 @@
 	<%@ include file="../common/meta.jsp"%>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-    <title>商户会员管理</title>
+    <title>商户商品管理</title>
     <link href="${webRoot}/res/sys/less/Nstrap.less" type="text/css" rel="stylesheet/less"/>
     <script src="${webRoot}/res/common/js/less.js"></script><!-- 
     <link href="css/Nstrap.css" rel="stylesheet">
@@ -23,19 +23,19 @@
 		<div class="row">
         <div class="col-sm-12">
             <div class="console-title clearfix">
-                <div class="pull-left"><a href="javascript:" class="btn btn-default">商户会员管理</a> </div>
+                <div class="pull-left"><a href="javascript:" class="btn btn-default">商户商品管理</a> </div>
             </div>
             <hr/>
 	 <div id="toolbar">
-        <div class="pull-left"><a href="${webRoot}/companyMember/toAddCompanyMember" role="button" class="btn btn-primary add" target="mainFrame" >添加会员</a></div>&nbsp;&nbsp;&nbsp;&nbsp; 
+        <div class="pull-left"><a href="${webRoot}/companyCommodity/toAddCompanyCommodity" role="button" class="btn btn-primary add" target="mainFrame" >添加商品</a></div>&nbsp;&nbsp;&nbsp;&nbsp; 
         <div style="display: inline-table; width: 50px;">
         	<label>状态:</label>
         </div>
         <div style="display: inline-table; width: 100px;">
         	<select class="form-control" id="state" onchange="refalshData()">
         		<option value="" selected>全部</option>
-        		<option value="0">禁用</option>
-                <option value="1">正常使用</option>
+        		<option value="1">上线商品</option>
+                <option value="0">下线商品</option>
         	</select>
         </div></div>
         <table id="table"
@@ -46,7 +46,7 @@
 		       data-id-field="id"
 		       data-page-list="[10, 25, 50, 100, ALL]"
 		       data-side-pagination="server"
-		       data-ajax="getCompanyMemberList"
+		       data-ajax="getCompanyCommodityList"
 		       data-query-params-type=""
 		       >
 		</table>
@@ -79,11 +79,12 @@ $(document).ready(function() {
     $table.bootstrapTable({
         columns: [
             [
-             {field: 'userInfo.ucName',title: '会员名称',sortable: false, align: 'center'},
-             {field: 'user.phone',title: '联系方式',sortable: false, align: 'center'},
-             {field: 'isDelete',title: '状态',sortable: false, align: 'center'},
-             {field: 'cash',title: '剩余金额',sortable: false, align: 'center'},
-             {field: 'userInfo.registerTime',title: '注册时间',sortable: false, align: 'center'},
+             {field: 'id',title: 'id',sortable: false, align: 'center'},
+             {field: 'commodityName',title: '商品名称',sortable: false, align: 'center'},
+             {field: 'commodityPrice',title: '商品价格',sortable: false, align: 'center'},
+             {field: 'commodityLogo',title: '商品图标',sortable: false, align: 'center'},
+             {field: 'commodityNote',title: '商品简介',sortable: false, align: 'center'},
+             {field: 'state',title: '商品状态',sortable: false, align: 'center'},
              {title: '操作',align: 'center',events: operateEvents,formatter: operateFormatter}
             ]
         ]
@@ -102,12 +103,13 @@ function operateFormatter(value, row, index) {
 	var html=[];
     var state=row.state;
     var userName=row.userName;
+    if(state=='0'){
+    	html.push('<a class="enable btn" style="margin-left: 5px;font-size:1em" href="javascript:void(0)" target="mainFrame">上线</a>');
+    }else{
+    	html.push('<a class="disable btn" style="margin-left: 5px;font-size:1em" href="javascript:void(0)" target="mainFrame">下线</a>');
+    }
     html.push('<a class="delete btn" style="margin-left: 5px;font-size:1em" href="javascript:;" target="mainFrame">删除</a>');
-    html.push('<a class="detail btn" style="margin-left: 5px;font-size:1em" href="javascript:;" target="mainFrame">详情</a>');
-    html.push('<a class="consume btn" style="margin-left: 5px;font-size:1em" href="javascript:;" target="mainFrame">扣款</a>');
-    html.push('<a class="recharge btn" style="margin-left: 5px;font-size:1em" href="javascript:;" target="mainFrame">充值</a>');
-    html.push('<a class="consumeList btn" style="margin-left: 5px;font-size:1em" href="javascript:;" target="mainFrame">扣款记录</a>');
-    html.push('<a class="rechargeList btn" style="margin-left: 5px;font-size:1em" href="javascript:;" target="mainFrame">充值记录</a>');
+    html.push('<a class="detail btn" style="margin-left: 5px;font-size:1em" href="javascript:;" target="mainFrame">详情(没做)</a>');
     return html.join('');
 }
 
@@ -120,37 +122,22 @@ window.operateEvents = {
                 });
             }
         },
+        'click .enable': function (e, value, row, index) {
+           if(enableUser(row)){
+           	$table.bootstrapTable('refresh', {
+           		silent: true
+               });
+           }
+       },
+       'click .disable': function (e, value, row, index) {
+           if(disableUser(row)){
+           	$table.bootstrapTable('refresh', {
+           		silent: true
+               });
+           }
+       },
        'click .detail': function (e, value, row, index) {
            if(detailUser(row)){
-           	$table.bootstrapTable('refresh', {
-           		silent: true
-               });
-           }
-       },
-       'click .consume': function (e, value, row, index) {
-           if(consumeUser(row)){
-           	$table.bootstrapTable('refresh', {
-           		silent: true
-               });
-           }
-       },
-       'click .recharge': function (e, value, row, index) {
-           if(rechargeUser(row)){
-           	$table.bootstrapTable('refresh', {
-           		silent: true
-               });
-           }
-       }
-       ,
-       'click .consumeList': function (e, value, row, index) {
-           if(consumeListUser(row)){
-           	$table.bootstrapTable('refresh', {
-           		silent: true
-               });
-           }
-       },
-       'click .rechargeList': function (e, value, row, index) {
-           if(rechargeListUser(row)){
            	$table.bootstrapTable('refresh', {
            		silent: true
                });
@@ -164,28 +151,8 @@ function refalshData(){
 	});
 }
 
-function consumeUser(row){
-	window.open("${webRoot}/memberConsume/toAddMemberConsume/"+row.id, "mainFrame");
-	 
-}
-
-function rechargeUser(row){
-	window.open("${webRoot}/memberRecharge/toAddMemberRecharge/"+row.id, "mainFrame");
-	 
-}
-
-function consumeListUser(row){
-	window.open("${webRoot}/memberConsume/toMemberConsumeList/"+row.id, "mainFrame");
-	 
-}
-
-function rechargeListUser(row){
-	window.open("${webRoot}/memberRecharge/toMemberRechargeList/"+row.id, "mainFrame");
-	 
-}
-
- function getCompanyMemberList(params){
-    	var url="${webRoot}/companyMember/selectByPage";
+ function getCompanyCommodityList(params){
+    	var url="${webRoot}/companyCommodity/selectByPage";
     	var searchText=params.data.searchText;
     	if(searchText==null){
     		searchText="";
@@ -196,7 +163,7 @@ function rechargeListUser(row){
     			'params':{
     				"companyId":userId,
     				"searchText":searchText,
-    				"isDelete":$("#state").val()
+    				"state":$("#state").val()
     			}
     	}
     	var code="";
@@ -228,7 +195,7 @@ function rechargeListUser(row){
     }
  
  function deleteUser(row){
- 	if(confirm("您确定要删除用户:"+row.userInfo.ucName+" 吗?"))
+ 	if(confirm("您确定要删除商品:"+row.commodityName+" 吗?"))
 		{
 	    	var url="${webRoot}/companyMember/delete/"+row.id;
 	    	var code="";
@@ -267,6 +234,67 @@ function rechargeListUser(row){
 			}
 		});
  }
- 
+ function enableUser(row){
+ 	if(confirm("您确定要上线:"+row.commodityName+" 吗?"))
+		{
+	    	var url="${webRoot}/companyCommodity/update";
+	    	var code="";
+	    	var data={
+	    		"id":row.id,
+	    		"state":'1'
+	    	}
+	    	$.ajax({
+				type : "post",
+				url : url,
+				data :  $.toJSON(data),
+				async : false,
+				dataType : 'json',
+				contentType : 'application/json',
+				success : function(data) {
+					code=data.code;
+				}
+			});
+	    	if(code=='1'){
+				alert("服务器异常，请稍后重试！");	
+				return false;
+			}else{
+				alert("设置成功！");
+				return true;
+			}
+		}
+ 	else{
+ 		}
+ }
+ function disableUser(row){
+ 	if(confirm("您确定要下线:"+row.commodityName+" 吗?"))
+		{
+	    	var url="${webRoot}/companyCommodity/update";
+	    	var data={
+	    		"id":row.id,
+	    		"state":'0'
+	    	}
+	    	var code="";
+	    	$.ajax({
+				type : "post",
+				url : url,
+				data :  $.toJSON(data),
+				async : false,
+				dataType : 'json',
+				contentType : 'application/json',
+				success : function(data) {
+					code=data.code;
+				}
+			});
+	    	if(code=='2'){
+				alert("服务器异常，请稍后重试！");	
+				return false;
+			}else{
+				alert("设置成功！");
+				return true;
+			}
+		}
+ 	else{
+ 		}
+ }
     </script>
 </html>

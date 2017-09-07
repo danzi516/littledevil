@@ -25,4 +25,7 @@ public interface MemberCommodityMapper {
     List<MemberCommodity> selectMemberCommodityByuserIdAndcompanyId(MemberCommodity record);
     
     int sumNumberByuserIdAndcompanyId(MemberCommodity record);
+    
+    MemberCommodity selectMemberCommodityByuserIdAndcommodityId(MemberCommodity record);
+    
 }

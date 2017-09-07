@@ -16,7 +16,7 @@ public class CompanyMember {
 
     private String isDelete;
     
-    private String cash;
+    private int cash;
     
     private String  creatTime;
     
@@ -106,11 +106,11 @@ public class CompanyMember {
 		this.number = number;
 	}
 
-	public String getCash() {
+	public int getCash() {
 		return cash;
 	}
 
-	public void setCash(String cash) {
+	public void setCash(int cash) {
 		this.cash = cash;
 	}
 	

@@ -138,7 +138,7 @@ public class MemberRechargeController {
     }
     
     /**
-	 * 功能描述：添加消费记录
+	 * 功能描述：添加充值记录
 	 * 作者：lijiaxing
 	 * url：${webRoot}/memberRecharge/insert
 	 * 请求方式：POST
@@ -153,7 +153,19 @@ public class MemberRechargeController {
         Map<String,Object> map = new HashMap<String,Object>();
         String code="";
         try{
+        	CompanyMember companyMember = new CompanyMember();
+        	companyMember.setCompanyId(record.getCompanyId());
+        	companyMember.setUserId(record.getUserId());
         	memberRechargeService.insert(record);
+        	try {
+        		int oldCash = companyMemberService.selectCompanyMemberByuserIdAndcompanyId(companyMember).getCash();
+        		int cash = oldCash+ record.getRechargeCash();
+        		companyMember.setCash(cash);
+        		companyMember.setId(companyMemberService.selectCompanyMemberByuserIdAndcompanyId(companyMember).getId());
+        		companyMemberService.updateByPrimaryKeySelective(companyMember);
+        	} catch (NumberFormatException e) {
+        	    e.printStackTrace();
+        	}
             code="0";
         }catch(Exception e){
             code="1";

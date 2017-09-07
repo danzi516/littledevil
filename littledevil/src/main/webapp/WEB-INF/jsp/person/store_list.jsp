@@ -22,35 +22,27 @@
 <body>
 
 
-<div class="container">
-    <div class="row">
-        <div class="col-lg-12">
-            <div class="panel panel-default panel-row">
-                <div class="panel-heading">
-                    <div class="row">
-                        <div class="col-lg-2">商店名称</div>
-                        <div class="col-lg-1">创建会员时间</div>
-                        <div class="col-lg-1">剩余金额</div>
-                        <div class="col-lg-3">剩余项目</div>
-                        <div class="col-lg-3">最后一次消费</div>
-                        <div class="col-lg-1">总消费</div>
-                        <div class="col-lg-1">操作</div>
-                    </div>
-                </div>
-                <ul class="list-group">
-                    <li class="list-group-item">
-                        <div class="row" id="infoList">
-                            <div class="col-lg-2" id="companyName">111</div>
-                            <div class="col-lg-1" id="creatTime">2017-07-01</div>
-                            <div class="col-lg-1" id="cash">0</div>
-                            <div class="col-lg-3" id="item">900套餐：全套（99）、300全套（661）</div>
-                            <div class="col-lg-3" id="lastConsume">900套餐：全套(2017-07-20 21:25:57)</div>
-                            <div class="col-lg-1" id="sumNumber">1200</div>
-                            <div class="col-lg-1" id="operate"><a href="#">查看</a> </div>
-                        </div>
-                    </li>
-                </ul>
+<div class="console-container">
+		<div class="row">
+        <div class="col-sm-12">
+            <div class="console-title clearfix">
+                <div class="pull-left"><a href="javascript:" class="btn btn-default">我的商店</a> </div>
             </div>
+            <hr/>
+	 <div id="toolbar">
+     </div>
+        <table id="table"
+		       data-toolbar="#toolbar"
+		       data-search="true"
+		       data-minimum-count-columns="2"
+		       data-pagination="true"
+		       data-id-field="id"
+		       data-page-list="[10, 25, 50, 100, ALL]"
+		       data-side-pagination="server"
+		       data-ajax="getCompanyList"
+		       data-query-params-type=""
+		       >
+		</table>
         </div>
     </div>
 </div>
@@ -58,11 +50,64 @@
 <script src="${webRoot}/res/common/js/jquery.min.js"></script>
 <script src="${webRoot}/res/common/js/bootstrap.min.js"></script>
 <script src="${webRoot}/res/common/js/jquery.json-2.4.js"></script>
+<!-- Flot -->
+<script src="${webRoot}/res/common/js/bootstrap_table/bootstrap-table.js"></script>
+<script src="${webRoot}/res/common/js/bootstrap_table/bootstrap-table-export.js"></script>
+<script src="${webRoot}/res/common/js/tableExport.js"></script>
+<script src="${webRoot}/res/common/js/bootstrap_table/bootstrap-table-editable.js"></script>
+<script src="${webRoot}/res/common/js/bootstrap-editable.js"></script>
+<script type="text/javascript" src="${webRoot}/res/common/js/bootstrap_table/locale/bootstrap-table-zh-CN.js"></script>
+<script src="${webRoot}/res/common/js/layer/layer/layer.js"></script>
 <script>
-$(document).ready(function() {
-	getCompanybyUserid('${userId}');
+var userId='${userId}';
+var basePath='${webRoot}';
+var $table = $('#table');
+
+$(document).ready(function() { 
+    $table.bootstrapTable({
+        columns: [
+            [
+             {field: 'companyName',title: '商店名称',sortable: false, align: 'center'},
+             {field: 'creatTime',title: '创建会员时间',sortable: false, align: 'center'},
+             {field: 'cash',title: '剩余金额',sortable: false, align: 'center'},
+             {field: 'item',title: '剩余项目',sortable: false, align: 'center'},
+             {field: 'lastConsume',title: '最后一次消费',sortable: false, align: 'center'},
+             {field: 'sumNumber',title: '总消费',sortable: false, align: 'center'},
+             {title: '操作',align: 'center',formatter: operateFormatter}
+            ]
+        ]
+    });
 });
 
+function detailFormatter(index, row) {
+    var html = [];
+    $.each(row, function (key, value) {
+        html.push('<p><b>' + key + ':</b> ' + value + '</p>');
+    });
+    return html.join('');
+}
+
+function operateFormatter(value, row, index) {
+	var html=[];
+    var state=row.state;
+    var userName=row.userName;
+    html.push('<a class="check btn" style="margin-left: 5px;font-size:1em" href="javascript:;" target="mainFrame">查看</a>');
+    return html.join('');
+}
+
+
+
+function refalshData(){
+	$table.bootstrapTable('refresh',{
+		query: {pageNumber: 1}
+	});
+}
+
+
+/* $(document).ready(function() {
+	getCompanybyUserid('${userId}');
+});
+ */
 function getCompanybyUserid(id){
 	var url="${webRoot}/person/getCompanybyUserid/"+id;
 	var data={
@@ -94,6 +139,45 @@ function ajaxAction(type, url, reqData, returnType, requestName) {
 			}
 		}
 	});
+}
+function getCompanyList(params){
+	var url="${webRoot}/person/getCompanybyUserid/"+userId;
+	var searchText=params.data.searchText;
+	if(searchText==null){
+		searchText="";
+	}
+	var data={
+			'page':params.data.pageNumber,
+			'rows':params.data.pageSize,
+			'params':{
+			}
+	}
+	var code="";
+	var list;
+	var total=0;
+	$.ajax({
+		type : "get",
+		url : url,
+		data :  data,
+		async : false,
+		dataType : 'json',
+		success : function(data) {
+			code=data.code;
+			list=data.userConsumelist;
+			total=data.total;
+		}
+	});
+	if(code=='1'){
+		alert("数据库异常，请稍后重试！");	
+		params.complete();
+		return false;
+	}
+         params.success({
+             total: total,
+             rows: list
+         }); 
+         // hide loading
+         params.complete();
 }
 </script>
 </html>

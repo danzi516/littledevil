@@ -7,17 +7,17 @@ public class MemberRecharge {
 
 	 private Integer id;
 
-	    private String companyMemberId;
+	    private int companyMemberId;
 
-	    private String companyId;
+	    private int companyId;
 
-	    private String rechargeCash;
+	    private int rechargeCash;
 
-	    private String payCash;
+	    private int payCash;
 
 	    private String isDelete;
 
-	    private String userId;
+	    private int userId;
 
 	    private String rechargeTime;
 
@@ -26,22 +26,6 @@ public class MemberRecharge {
 	    private UserInfo userInfo;
 	    
 	    private CompanyInfo companyInfo;
-	    
-		public String getRechargeCash() {
-			return rechargeCash;
-		}
-
-		public void setRechargeCash(String rechargeCash) {
-			this.rechargeCash = rechargeCash;
-		}
-
-		public String getRechargeTime() {
-			return rechargeTime;
-		}
-
-		public void setRechargeTime(String rechargeTime) {
-			this.rechargeTime = rechargeTime;
-		}
 
 		public Integer getId() {
 			return id;
@@ -51,28 +35,35 @@ public class MemberRecharge {
 			this.id = id;
 		}
 
-		public String getCompanyMemberId() {
+		public int getCompanyMemberId() {
 			return companyMemberId;
 		}
 
-		public void setCompanyMemberId(String companyMemberId) {
+		public void setCompanyMemberId(int companyMemberId) {
 			this.companyMemberId = companyMemberId;
 		}
 
-		public String getCompanyId() {
+		public int getCompanyId() {
 			return companyId;
 		}
 
-		public void setCompanyId(String companyId) {
+		public void setCompanyId(int companyId) {
 			this.companyId = companyId;
 		}
 
+		public int getRechargeCash() {
+			return rechargeCash;
+		}
 
-		public String getPayCash() {
+		public void setRechargeCash(int rechargeCash) {
+			this.rechargeCash = rechargeCash;
+		}
+
+		public int getPayCash() {
 			return payCash;
 		}
 
-		public void setPayCash(String payCash) {
+		public void setPayCash(int payCash) {
 			this.payCash = payCash;
 		}
 
@@ -84,14 +75,21 @@ public class MemberRecharge {
 			this.isDelete = isDelete;
 		}
 
-		public String getUserId() {
+		public int getUserId() {
 			return userId;
 		}
 
-		public void setUserId(String userId) {
+		public void setUserId(int userId) {
 			this.userId = userId;
 		}
 
+		public String getRechargeTime() {
+			return rechargeTime;
+		}
+
+		public void setRechargeTime(String rechargeTime) {
+			this.rechargeTime = rechargeTime;
+		}
 
 		public User getUser() {
 			return user;
@@ -116,4 +114,5 @@ public class MemberRecharge {
 		public void setCompanyInfo(CompanyInfo companyInfo) {
 			this.companyInfo = companyInfo;
 		}
+	    
 }

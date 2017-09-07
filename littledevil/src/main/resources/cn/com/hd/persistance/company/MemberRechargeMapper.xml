@@ -5,8 +5,8 @@
     <id column="id" property="id" jdbcType="INTEGER" />
     <result column="company_member_id" property="companyMemberId" jdbcType="INTEGER" />
     <result column="company_id" property="companyId" jdbcType="INTEGER" />
-    <result column="recharge_cash" property="rechargeCash" jdbcType="VARCHAR" />
-    <result column="pay_cash" property="payCash" jdbcType="VARCHAR" />
+    <result column="recharge_cash" property="rechargeCash" jdbcType="INTEGER" />
+    <result column="pay_cash" property="payCash" jdbcType="INTEGER" />
     <result column="is_delete" property="isDelete" jdbcType="VARCHAR" />
     <result column="user_id" property="userId" jdbcType="INTEGER" />
     <result column="recharge_time" property="rechargeTime" jdbcType="TIMESTAMP" />
@@ -31,7 +31,7 @@
     insert into t_member_recharge (company_member_id, company_id, recharge_cash, pay_cash,  is_delete, 
     user_id, recharge_time)
     values (#{companyMemberId,jdbcType=INTEGER}, #{companyId,jdbcType=INTEGER}, 
-      #{rechargeCash,jdbcType=VARCHAR}, #{payCash,jdbcType=VARCHAR}, 
+      #{rechargeCash,jdbcType=INTEGER}, #{payCash,jdbcType=INTEGER}, 
       #{isDelete,jdbcType=VARCHAR}, #{userId,jdbcType=INTEGER},sysdate())
   </insert>
   <insert id="insertSelective" parameterType="cn.com.hd.domain.company.MemberConsume" >
@@ -46,7 +46,7 @@
       <if test="companyId != null" >
         company_id,
       </if>
-      <if test="consumeCash != null" >
+      <if test="rechargeCash != null" >
         recharge_cash,
       </if>
       <if test="payCash != null" >
@@ -70,11 +70,11 @@
       <if test="companyId != null" >
         #{companyId,jdbcType=INTEGER},
       </if>
-      <if test="consumeCash != null" >
-        #{consumeCash,jdbcType=VARCHAR},
+      <if test="rechargeCash != null" >
+        #{rechargeCash,jdbcType=INTEGER},
       </if>
       <if test="payCash != null" >
-        #{payCash,jdbcType=VARCHAR},
+        #{payCash,jdbcType=INTEGER},
       </if>
       <if test="commodityId != null" >
         #{commodityId,jdbcType=INTEGER},
@@ -97,11 +97,11 @@
       <if test="companyId != null" >
         company_id = #{companyId,jdbcType=VARCHAR},
       </if>
-      <if test="consumeCash != null" >
-        recharge_cash = #{consumeCash,jdbcType=VARCHAR},
+      <if test="rechargeCash != null" >
+        recharge_cash = #{rechargeCash,jdbcType=INTEGER},
       </if>
       <if test="payCash != null" >
-        pay_cash = #{payCash,jdbcType=VARCHAR},
+        pay_cash = #{payCash,jdbcType=INTEGER},
       </if>
       <if test="isDelete != null" >
         is_delete = #{isDelete,jdbcType=VARCHAR},
@@ -116,8 +116,8 @@
     update t_member_recharge
     set company_member_id = #{companyMemberId,jdbcType=VARCHAR},
       company_id = #{companyId,jdbcType=VARCHAR},
-      recharge_cash = #{consumeCash,jdbcType=VARCHAR},
-      pay_cash = #{payCash,jdbcType=VARCHAR},
+      recharge_cash = #{rechargeCash,jdbcType=INTEGER},
+      pay_cash = #{payCash,jdbcType=INTEGER},
       is_delete = #{isDelete,jdbcType=VARCHAR},
       user_id = #{userId,jdbcType=VARCHAR}
     where id = #{id,jdbcType=INTEGER}

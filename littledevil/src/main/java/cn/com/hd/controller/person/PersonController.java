@@ -223,7 +223,7 @@ public class PersonController {
 			List<CompanyMember> CompanyMemberlist =	companyMemberService.selectCompanyMemberByuserId(userId);
 			for(int i=0;i<CompanyMemberlist.size();i++){
 				myCompany myCompany = new myCompany();
-				String cash = CompanyMemberlist.get(i).getCash(); //剩余金额
+				int cash = CompanyMemberlist.get(i).getCash(); //剩余金额
 				int companyId=CompanyMemberlist.get(i).getCompanyId();
 				MemberCommodity record = new MemberCommodity();   
 				record.setCompanyId(companyId);
@@ -243,9 +243,10 @@ public class PersonController {
 					lastConsume = "没有消费";
 					item = "没有购买项目";
 				}
-				
-				int sumNumber = memberCommodityService.sumNumberByuserIdAndcompanyId(record);//总消费
-				
+				MemberConsume memberConsume = new MemberConsume();
+				memberConsume.setCompanyId(companyId);
+				memberConsume.setUserId(userId);
+				int sumNumber = memberConsumeService.sumconsumeCashByuserIdAndcompanyId(memberConsume);//总消费
 				
 				myCompany.setCash(cash);
 				myCompany.setCompanyName(companyName);

@@ -59,4 +59,9 @@ public class CompanyMemberService {
     public CompanyMember selectByCondition(CompanyMember record){
     	return companyMemberMapper.selectByCondition(record);
     }
+    
+
+	public CompanyMember selectCompanyMemberByuserIdAndcompanyId(CompanyMember record){
+    	return companyMemberMapper.selectCompanyMemberByuserIdAndcompanyId(record);
+    }
 }

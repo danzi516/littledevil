@@ -56,7 +56,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
                             <div style="float:left">
                             <input type="radio" name="price" value="" checked="checked" id=0 />  
                             </div> 
-                            <div style="float:left">其他：</div>
+                            <div style="float:left">现金：</div>
                             <div style="float:left">
                             <input type="text" name="priceOther" id="priceOther" value="" />
                             </div>
@@ -123,6 +123,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
   			consumeCash:consumeCash,
   			payCash:0,
   			commodityId:$("input[name='price']:checked").attr("id"),
+  			consumeNumber:1,
   			isDelete:'0',
   			userId:"${companyMember.userId}"
   				}
@@ -151,7 +152,13 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
   					window.open("${webRoot}/companyMember/toCompanyMemberList", "mainFrame");
   				}else if(code=='1'){
   					alert('服务器异常，请稍后重试！');
+  				}
+  				else if(code=='2'){
+  					alert('余额不足');
+  				}else if(code=='3'){
+  					alert('次数不足');
   				}	
+  				
   			}
   			if (requestName == "getCompanyCommodityList"){
   				

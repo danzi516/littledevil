@@ -82,7 +82,7 @@ $(document).ready(function() {
              {field: 'userInfo.ucName',title: '会员名称',sortable: false, align: 'center'},
              {field: 'user.phone',title: '联系方式',sortable: false, align: 'center'},
              {field: 'isDelete',title: '状态',sortable: false, align: 'center'},
-             {field: 'cash',title: '剩余金额',sortable: false, align: 'center'},
+             {field: 'cash',title: '剩余金额(元)',sortable: false, align: 'center'},
              {field: 'userInfo.registerTime',title: '注册时间',sortable: false, align: 'center'},
              {title: '操作',align: 'center',events: operateEvents,formatter: operateFormatter}
             ]
