@@ -10,7 +10,7 @@ Target Server Type    : MYSQL
 Target Server Version : 50715
 File Encoding         : 65001
 
-Date: 2017-08-21 21:34:10
+Date: 2017-09-07 22:18:39
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -126,10 +126,10 @@ CREATE TABLE `t_company_commodity` (
 -- ----------------------------
 -- Records of t_company_commodity
 -- ----------------------------
-INSERT INTO `t_company_commodity` VALUES ('1', '6', '900套餐：买一送一', '900.00', '900套餐：全套', '11111', '0', null, '0', null, null, null, null, null, null, null, null, '2017-08-12 19:29:05');
+INSERT INTO `t_company_commodity` VALUES ('1', '6', '900套餐：买一送一', '900.00', '900套餐：全套', '11111', '1', null, '0', null, null, null, null, null, null, null, null, '2017-08-22 21:00:55');
 INSERT INTO `t_company_commodity` VALUES ('2', '6', '300全套：特价优惠', '300.00', '300全套', '11111', '0', null, '0', null, null, null, null, null, null, null, null, '2017-08-12 19:29:12');
-INSERT INTO `t_company_commodity` VALUES ('3', '0', '自定义', '0.00', '自定义', null, '1', null, '0', null, null, null, null, null, null, null, null, '2017-07-31 21:04:40');
-INSERT INTO `t_company_commodity` VALUES ('4', '6', '11111', '111.00', '11111', '111', '1', null, null, null, null, null, null, null, null, null, null, null);
+INSERT INTO `t_company_commodity` VALUES ('3', '0', '现金', '0.00', '现金', null, '1', null, '0', null, null, null, null, null, null, null, null, '2017-09-04 20:58:12');
+INSERT INTO `t_company_commodity` VALUES ('4', '6', '限时优惠', '111.00', '11111', '111', '1', null, null, null, null, null, null, null, null, null, null, '2017-09-07 22:06:41');
 
 -- ----------------------------
 -- Table structure for t_company_info
@@ -170,7 +170,7 @@ CREATE TABLE `t_company_member` (
   `company_id` int(11) NOT NULL COMMENT '企业ID',
   `member_type` int(11) DEFAULT NULL COMMENT '会员类型',
   `is_delete` varchar(2) NOT NULL DEFAULT '1' COMMENT '是否删除：0是1否',
-  `cash` varchar(8) DEFAULT NULL COMMENT '剩余金额',
+  `cash` int(8) DEFAULT NULL COMMENT '剩余金额',
   `creat_time` timestamp NULL DEFAULT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=13 DEFAULT CHARSET=utf8 COMMENT='商户会员表';
@@ -178,12 +178,12 @@ CREATE TABLE `t_company_member` (
 -- ----------------------------
 -- Records of t_company_member
 -- ----------------------------
-INSERT INTO `t_company_member` VALUES ('3', '14', '6', null, '1', '1', '2017-07-11 21:22:19');
-INSERT INTO `t_company_member` VALUES ('4', '14', '0', null, '1', '2', '2017-07-03 21:22:24');
-INSERT INTO `t_company_member` VALUES ('8', '22', '0', null, '1', '3', '2017-07-05 21:22:27');
-INSERT INTO `t_company_member` VALUES ('9', '17', '6', null, '1', '1000', '2017-07-01 21:22:31');
-INSERT INTO `t_company_member` VALUES ('10', '19', '6', null, '1', '4', '2017-07-13 21:22:34');
-INSERT INTO `t_company_member` VALUES ('11', '19', '0', null, '1', '5', '2017-07-06 21:22:37');
+INSERT INTO `t_company_member` VALUES ('3', '14', '6', null, '1', '20000', '2017-07-11 21:22:19');
+INSERT INTO `t_company_member` VALUES ('4', '14', '0', null, '1', '24555', '2017-07-03 21:22:24');
+INSERT INTO `t_company_member` VALUES ('8', '22', '0', null, '1', '1000', '2017-07-05 21:22:27');
+INSERT INTO `t_company_member` VALUES ('9', '17', '6', null, '1', '8999', '2017-07-01 21:22:31');
+INSERT INTO `t_company_member` VALUES ('10', '19', '6', null, '1', '600', '2017-07-13 21:22:34');
+INSERT INTO `t_company_member` VALUES ('11', '19', '0', null, '1', '7999', '2017-07-06 21:22:37');
 INSERT INTO `t_company_member` VALUES ('12', '17', '7', null, '1', '6', '2017-07-05 21:22:40');
 
 -- ----------------------------
@@ -4033,10 +4033,9 @@ CREATE TABLE `t_member_commodity` (
 -- ----------------------------
 -- Records of t_member_commodity
 -- ----------------------------
-INSERT INTO `t_member_commodity` VALUES ('1', '3', '6', '300', '0', '2017-07-20 21:25:54', '0', '17', '2', '66');
-INSERT INTO `t_member_commodity` VALUES ('2', '3', '6', '900', '0', '2017-07-20 21:25:55', '0', '17', '3', '99');
-INSERT INTO `t_member_commodity` VALUES ('3', '3', '6', '100', '0', '2017-07-20 21:25:57', '0', '17', '4', '22');
-INSERT INTO `t_member_commodity` VALUES ('4', '3', '6', '5', '0', '2017-07-20 21:25:59', '0', '17', '1', '11');
+INSERT INTO `t_member_commodity` VALUES ('1', '3', '6', '300', '0', '2017-07-20 21:25:54', '0', '17', '2', '63');
+INSERT INTO `t_member_commodity` VALUES ('2', '3', '6', '900', '0', '2017-07-20 21:25:55', '0', '17', '1', '98');
+INSERT INTO `t_member_commodity` VALUES ('3', '3', '6', '111', '0', '2017-07-20 21:25:57', '0', '17', '4', '22');
 
 -- ----------------------------
 -- Table structure for t_member_consume
@@ -4054,15 +4053,23 @@ CREATE TABLE `t_member_consume` (
   `commodity_id` int(11) DEFAULT NULL COMMENT '商品id',
   `consume_number` int(11) DEFAULT NULL COMMENT '消费次数',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci COMMENT='消费记录';
+) ENGINE=InnoDB AUTO_INCREMENT=13 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci COMMENT='消费记录';
 
 -- ----------------------------
 -- Records of t_member_consume
 -- ----------------------------
-INSERT INTO `t_member_consume` VALUES ('1', '3', '6', '300', '0', '2017-07-20 21:25:54', '0', '17', '2', '66');
-INSERT INTO `t_member_consume` VALUES ('2', '3', '6', '900', '0', '2017-07-20 21:25:55', '0', '17', '3', '99');
-INSERT INTO `t_member_consume` VALUES ('3', '3', '6', '100', '0', '2017-07-20 21:25:57', '0', '17', '4', '22');
-INSERT INTO `t_member_consume` VALUES ('4', '3', '6', '5', '0', '2017-07-20 21:25:59', '0', '17', '1', '11');
+INSERT INTO `t_member_consume` VALUES ('1', '3', '6', '300', '0', '2017-07-20 21:25:54', '0', '14', '2', '66');
+INSERT INTO `t_member_consume` VALUES ('2', '3', '6', '900', '0', '2017-07-20 21:25:55', '0', '14', '3', '99');
+INSERT INTO `t_member_consume` VALUES ('3', '3', '6', '100', '0', '2017-07-20 21:25:57', '0', '14', '4', '22');
+INSERT INTO `t_member_consume` VALUES ('4', '3', '6', '5', '0', '2017-07-20 21:25:59', '0', '14', '1', '11');
+INSERT INTO `t_member_consume` VALUES ('5', '9', '6', '1', '0', '2017-09-02 21:34:22', '0', '17', '3', '0');
+INSERT INTO `t_member_consume` VALUES ('6', '9', '6', '900', '0', '2017-09-02 21:35:33', '0', '17', '1', '0');
+INSERT INTO `t_member_consume` VALUES ('7', '9', '6', '11', '0', '2017-09-04 20:31:13', '0', '17', '3', '0');
+INSERT INTO `t_member_consume` VALUES ('8', '9', '6', '1', '0', '2017-09-04 20:57:40', '0', '17', '3', '1');
+INSERT INTO `t_member_consume` VALUES ('9', '9', '6', '900', '0', '2017-09-04 20:58:26', '0', '17', '1', '1');
+INSERT INTO `t_member_consume` VALUES ('10', '9', '6', '900', '0', '2017-09-04 20:58:52', '0', '17', '1', '1');
+INSERT INTO `t_member_consume` VALUES ('11', '9', '6', '900', '0', '2017-09-04 21:04:04', '0', '17', '1', '1');
+INSERT INTO `t_member_consume` VALUES ('12', '9', '6', '900', '0', '2017-09-05 21:34:16', '0', '17', '1', '1');
 
 -- ----------------------------
 -- Table structure for t_member_recharge
@@ -4072,21 +4079,25 @@ CREATE TABLE `t_member_recharge` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `company_member_id` int(11) DEFAULT NULL COMMENT '��ԱID',
   `company_id` int(11) DEFAULT NULL COMMENT '�̻�ID',
-  `recharge_cash` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL COMMENT '��ֵ���',
-  `pay_cash` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL COMMENT 'ʵ�ս��',
+  `recharge_cash` int(255) DEFAULT NULL COMMENT '��ֵ���',
+  `pay_cash` int(255) DEFAULT NULL COMMENT 'ʵ�ս��',
   `recharge_time` timestamp NULL DEFAULT NULL COMMENT '��ֵʱ��',
   `is_delete` varchar(2) COLLATE utf8_unicode_ci DEFAULT NULL COMMENT '�Ƿ�ɾ��',
   `user_id` int(11) DEFAULT NULL COMMENT '������',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci COMMENT='充值记录';
+) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci COMMENT='充值记录';
 
 -- ----------------------------
 -- Records of t_member_recharge
 -- ----------------------------
-INSERT INTO `t_member_recharge` VALUES ('1', '3', '6', '100', '0', '2017-07-20 21:24:27', '0', '17');
-INSERT INTO `t_member_recharge` VALUES ('2', '3', '6', '200', '0', '2017-07-20 21:24:30', '0', '17');
-INSERT INTO `t_member_recharge` VALUES ('3', '3', '6', '100', '0', '2017-07-20 21:24:31', '0', '17');
-INSERT INTO `t_member_recharge` VALUES ('4', '3', '6', '11', '0', '2017-07-20 21:24:35', '0', '17');
+INSERT INTO `t_member_recharge` VALUES ('1', '3', '6', '100', '0', '2017-07-20 21:24:27', '0', '14');
+INSERT INTO `t_member_recharge` VALUES ('2', '3', '6', '200', '0', '2017-07-20 21:24:30', '0', '14');
+INSERT INTO `t_member_recharge` VALUES ('3', '3', '6', '100', '0', '2017-07-20 21:24:31', '0', '14');
+INSERT INTO `t_member_recharge` VALUES ('4', '3', '6', '11', '0', '2017-07-20 21:24:35', '0', '14');
+INSERT INTO `t_member_recharge` VALUES ('5', '9', '6', '1', '0', '2017-09-02 20:54:54', '0', '17');
+INSERT INTO `t_member_recharge` VALUES ('6', '9', '6', '1', '0', '2017-09-02 20:57:42', '0', '17');
+INSERT INTO `t_member_recharge` VALUES ('7', '9', '6', '1', '0', '2017-09-02 20:58:56', '0', '17');
+INSERT INTO `t_member_recharge` VALUES ('8', '9', '6', '1', '0', '2017-09-02 21:02:28', '0', '17');
 
 -- ----------------------------
 -- Table structure for t_saleman
@@ -4163,14 +4174,14 @@ CREATE TABLE `t_user` (
 -- ----------------------------
 -- Records of t_user
 -- ----------------------------
-INSERT INTO `t_user` VALUES ('6', 'test', '15111111111', 'e10adc3949ba59abbe56e057f20f883e', 'company', '1', '2017-03-29 13:25:49', null);
+INSERT INTO `t_user` VALUES ('6', 'test', '15111111111', 'e10adc3949ba59abbe56e057f20f883e', 'company', '1', '2017-09-07 21:39:33', null);
 INSERT INTO `t_user` VALUES ('7', 'asdd1', '15111111112', 'e10adc3949ba59abbe56e057f20f883e', 'company', '0', '2016-12-13 15:20:40', null);
 INSERT INTO `t_user` VALUES ('8', 'asdd2', '15111111113', 'e10adc3949ba59abbe56e057f20f883e', 'company', '1', '2016-11-28 11:16:13', null);
 INSERT INTO `t_user` VALUES ('9', 'asdd3', '15111111114', 'e10adc3949ba59abbe56e057f20f883e', 'company', '1', '2016-11-28 11:16:14', null);
 INSERT INTO `t_user` VALUES ('10', 'asdd4', '15111111115', 'e10adc3949ba59abbe56e057f20f883e', 'company', '0', '2016-11-22 16:42:34', null);
 INSERT INTO `t_user` VALUES ('14', '13456789098', '13456789098', 'e10adc3949ba59abbe56e057f20f883e', 'person', '1', '2017-03-29 13:28:17', null);
 INSERT INTO `t_user` VALUES ('16', 'admin', '13456789092', 'e10adc3949ba59abbe56e057f20f883e', 'sys', '1', '2017-03-16 09:50:15', null);
-INSERT INTO `t_user` VALUES ('17', 'test111', '13456789096', 'e10adc3949ba59abbe56e057f20f883e', 'person', '1', '2017-08-21 21:28:13', null);
+INSERT INTO `t_user` VALUES ('17', 'test111', '13456789096', 'e10adc3949ba59abbe56e057f20f883e', 'person', '1', '2017-09-07 21:58:13', null);
 INSERT INTO `t_user` VALUES ('19', 'test1112', '13456789333', 'e10adc3949ba59abbe56e057f20f883e', 'sys', '0', '2016-12-26 14:03:05', null);
 INSERT INTO `t_user` VALUES ('22', '13456789095', '13456789095', 'e10adc3949ba59abbe56e057f20f883e', 'person', '1', null, null);
 INSERT INTO `t_user` VALUES ('23', null, '13456789095', 'e10adc3949ba59abbe56e057f20f883e', 'person', '1', '2017-01-11 16:34:54', '111');
