@@ -135,7 +135,7 @@
     where id = #{id,jdbcType=INTEGER}
   </update>
   
-  <select id="selectCompanyByPage" parameterType="cn.com.hd.common.Page" resultMap="BaseResultMap">
+  <select id="selectByPage" parameterType="cn.com.hd.common.Page" resultMap="BaseResultMap">
   	select t.id, t.company_member_id, t.company_id, t.consume_cash, t.pay_cash, t.commodity_id, t.is_delete, 
     t.user_id, t.consume_time,t.number from t_member_commodity t
     LEFT JOIN t_user_info  u ON t.user_id = u.id
@@ -147,6 +147,27 @@
         	and (u.uc_name like '%${params.searchText}%')
     </if>
   </select>
+  
+  <select id="selectPageByCompanyId" parameterType="cn.com.hd.common.Page" resultMap="BaseResultMap">
+  	select t.id, t.company_member_id, t.company_id, t.consume_cash, t.pay_cash, t.commodity_id, t.is_delete, 
+    t.user_id, t.consume_time,t.number from t_member_commodity t
+    LEFT JOIN t_user_info  u ON t.user_id = u.id
+    where 1=1
+    <if test="params['companyId'] !=null"> 
+    and company_id=#{params.companyId}
+    </if>
+    <if test="params['searchText'] != null and params['searchText'] != ''">  
+        	and (u.uc_name like '%${params.searchText}%')
+    </if>
+  </select>
+  
+  <select id="selectByCompanyId" parameterType="cn.com.hd.domain.company.MemberCommodity" resultMap="BaseResultMap">
+  	select t.id, t.company_member_id, t.company_id, t.consume_cash, t.pay_cash, t.commodity_id, t.is_delete, 
+    t.user_id, t.consume_time,t.number from t_member_commodity t
+    LEFT JOIN t_user_info  u ON t.user_id = u.id
+    where company_id = #{companyId,jdbcType=INTEGER} 
+  </select>
+  
   <!-- 根据用户id、商户id，查找最后一次消费 -->
   <select id="selectMemberCommodityByuserIdAndcompanyId" resultMap="BaseResultMap" parameterType="cn.com.hd.domain.company.MemberCommodity" >
    select 

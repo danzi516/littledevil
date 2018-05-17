@@ -20,7 +20,11 @@ public interface MemberCommodityMapper {
 
     int updateByPrimaryKey(MemberCommodity record);
     
-    List<MemberCommodity> selectCompanyByPage(Page page);
+    List<MemberCommodity> selectByPage(Page page);
+    
+    List<MemberCommodity> selectPageByCompanyId(Page page);
+    
+    List<MemberCommodity> selectByCompanyId(int CompanyId);
     
     List<MemberCommodity> selectMemberCommodityByuserIdAndcompanyId(MemberCommodity record);
     

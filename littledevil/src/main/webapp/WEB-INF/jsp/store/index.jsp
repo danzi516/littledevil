@@ -42,9 +42,10 @@
                     <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">店铺管理 <span class="caret"></span></a>
                     <ul class="dropdown-menu">
                         <li><a href="#companyCommodityList" data-toggle="tab">我的商品</a></li>
-                        <li><a href="#">商品分类</a></li>
-                        <li><a href="#">促销活动管理</a></li>
+                        <li><a href="#commodityCategoryList" data-toggle="tab">商品分类</a></li>
+                        <li><a href="#companyPromotionList" data-toggle="tab">促销活动管理</a></li>
                         <li><a href="#">店铺设置</a></li>
+                        <li><a href="#companyContract" data-toggle="tab">合同</a></li>
                     </ul>
                 </li>
                 <li><a href="#companyMemberList" data-toggle="tab">我的会员 ／ 会员类型管理</a></li>
@@ -53,7 +54,7 @@
                 <li class="dropdown">
                     <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">帐号设置 <span class="caret"></span></a>
                     <ul class="dropdown-menu">
-                        <li><a href="#">基本信息</a></li>
+                        <li><a href="#basicInfo" data-toggle="tab">基本信息</a></li>
                         <li><a href="#">帐户安全设置</a></li>
                         <li><a href="#">修改密码</a></li>
                         <li><a href="#">申请成为业务员</a></li>
@@ -69,6 +70,18 @@
 	</div>
 	<div style="height:500px" class="tab-pane fade" id="companyMemberList">
 	<iframe  src="${webRoot}/store/companyMemberList/${userId}" class="frame_class" name="mainFrame" frameborder="0"></iframe>
+	</div>
+	<div style="height:500px" class="tab-pane fade" id="commodityCategoryList">
+	<iframe  src="${webRoot}/store/commodityCategoryList/${userId}" class="frame_class" name="mainFrame" frameborder="0"></iframe>
+	</div>
+	<div style="height:500px" class="tab-pane fade" id="companyContract">
+	<iframe  src="${webRoot}/store/companyContract/${userId}" class="frame_class" name="mainFrame" frameborder="0"></iframe>
+	</div>
+	<div style="height:800px" class="tab-pane fade" id="basicInfo">
+	<iframe  src="${webRoot}/store/basicInfo/${userId}" class="frame_class" name="mainFrame" frameborder="0"></iframe>
+	</div>
+	<div style="height:800px" class="tab-pane fade" id="companyPromotionList">
+	<iframe  src="${webRoot}/store/companyPromotionList/${userId}" class="frame_class" name="mainFrame" frameborder="0"></iframe>
 	</div>
 </div>
     </div><!-- /.container-fluid -->

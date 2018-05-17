@@ -111,11 +111,35 @@ public class MemberConsumeController {
 		return mv;
 	}
 
-	
+	/**
+   	 * 功能描述：查询单个
+   	 * 作者：lijiaxing
+   	 * url：${webRoot}/memberCommodity/selectRecordById
+   	 * 请求方式：POST
+   	 * @param  id
+   	 * @return Map<String,Object>
+   	 *         key:code["0":"成功","1":"失败"]
+   	 *         key:CompanyInfo[CompanyInfo]
+   	 */
+       @RequestMapping(value="selectRecordById",method=RequestMethod.POST)
+       public @ResponseBody Map<String, Object> selectRecordById(@RequestBody int id){
+           Map<String,Object> map = new HashMap<String,Object>();
+           String code="";
+           try{
+        	   MemberConsume record=memberConsumeService.selectByPrimaryKey(id);
+               code="0";
+               map.put("MemberConsume",record);
+           }catch(Exception e){
+               code="1";
+               e.printStackTrace();
+           }
+           map.put("code", code);
+           return map;
+       }
 	/**
 	 * 功能描述：分页查询所有消费记录
 	 * 作者：lijiaxing
-	 * url：${webRoot}/memberConsume/selectByPage
+	 * url：${webRoot}/memberConsume/selectListByPage
 	 * 请求方式：POST
 	 * @param  Page page
 	 * @return Map<String,Object>
@@ -123,8 +147,8 @@ public class MemberConsumeController {
 	 *         key:rows[查询结果ist]
 	 *         key:total[记录总数]
 	 */
-    @RequestMapping(value="selectByPage",method=RequestMethod.POST)
-    public @ResponseBody Map<String, Object> selectByPage(Page page){
+    @RequestMapping(value="selectListByPage",method=RequestMethod.POST)
+    public @ResponseBody Map<String, Object> selectListByPage(Page page){
         Map<String,Object> map = new HashMap<String,Object>();
         String code="";
         try{
@@ -141,9 +165,38 @@ public class MemberConsumeController {
     }
     
     /**
+	 * 功能描述：通过会员id查找消费记录
+	 * 作者：lijiaxing
+	 * url：${webRoot}/companyCommodity/selectByUserId
+	 * 请求方式：POST
+	 * @param   userId
+	 * @return Map<String,Object>
+	 *         key:code["0":"成功","1":"失败"]
+	 *         key:memberConsumeList[查询结果memberConsumeList]
+	 */
+  @RequestMapping(value="selectByUserId",method=RequestMethod.POST)
+    public @ResponseBody Map<String, Object> selectByUserId(@RequestBody int userId){
+        Map<String,Object> map = new HashMap<String,Object>();
+        String code="";
+        try{
+        	List<MemberConsume> memberConsumeList = memberConsumeService.selectMemberConsumeByuserId(userId);
+            code="0";
+            map.put("companyCommodityList",memberConsumeList);
+        }catch(Exception e){
+            code="1";
+            e.printStackTrace();
+        }
+        map.put("code", code);
+        
+        return map;
+    } 
+    
+    
+    
+    /**
 	 * 功能描述：添加消费记录
 	 * 作者：lijiaxing
-	 * url：${webRoot}/memberConsume/insert
+	 * url：${webRoot}/memberConsume/memberConsume
 	 * 请求方式：POST
 	 * @param  Page page
 	 * @return Map<String,Object>
@@ -151,8 +204,8 @@ public class MemberConsumeController {
 	 *         key:rows[查询结果ist]
 	 *         key:total[记录总数]
 	 */
-    @RequestMapping(value="insert",method=RequestMethod.POST)
-    public @ResponseBody Map<String, Object> insert(@RequestBody MemberConsume record){
+    @RequestMapping(value="memberConsume",method=RequestMethod.POST)
+    public @ResponseBody Map<String, Object> memberConsume(@RequestBody MemberConsume record){
         Map<String,Object> map = new HashMap<String,Object>();
         String code="";
         try {
@@ -199,23 +252,19 @@ public class MemberConsumeController {
     }
     
     /**
-	 * 功能描述：分页查询所有企业
+	 * 功能描述：更新
 	 * 作者：lijiaxing
-	 * url：${webRoot}/companyInfo/update
+	 * url：${webRoot}/memberConsume/updateRecord
 	 * 请求方式：POST
-	 * @param  Page pages
+	 * @param  MemberConsume
 	 * @return Map<String,Object>
 	 *         key:code["0":"成功","1":"失败"]
-	 *         key:rows[查询结果ist]
-	 *         key:total[记录总数]
 	 */
-    @RequestMapping(value="update",method=RequestMethod.POST)
+    @RequestMapping(value="updateRecord",method=RequestMethod.POST)
     public @ResponseBody Map<String, Object> update(@RequestBody MemberConsume record){
         Map<String,Object> map = new HashMap<String,Object>();
         String code="";
         try{
-        	User user=record.getUser();
-        	userService.updateByPrimaryKeySelective(user);
         	memberConsumeService.updateByPrimaryKeySelective(record);
             code="0";
         }catch(Exception e){
@@ -227,22 +276,19 @@ public class MemberConsumeController {
     }
     
     /**
-	 * 功能描述：分页查询所有企业
+	 * 功能描述：删除
 	 * 作者：lijiaxing
-	 * url：${webRoot}/companyInfo/update
+	 * url：${webRoot}/memberConsume/deleteRecord
 	 * 请求方式：POST
-	 * @param  Page page
+	 * @param  id
 	 * @return Map<String,Object>
 	 *         key:code["0":"成功","1":"失败"]
-	 *         key:rows[查询结果ist]
-	 *         key:total[记录总数]
 	 */
-    @RequestMapping(value="delete/{id}",method=RequestMethod.POST)
-    public @ResponseBody Map<String, Object> delete(@PathVariable("id") int id){
+    @RequestMapping(value="deleteRecord",method=RequestMethod.POST)
+    public @ResponseBody Map<String, Object> deleteRecord(@RequestBody int id){
         Map<String,Object> map = new HashMap<String,Object>();
         String code="";
         try{
-        	userService.deleteByPrimaryKey(id);
         	memberConsumeService.deleteByPrimaryKey(id);
             code="0";
         }catch(Exception e){
@@ -252,4 +298,28 @@ public class MemberConsumeController {
         map.put("code", code);
         return map;
     }
+    
+    /**
+   	 * 功能描述：添加
+   	 * 作者：lijiaxing
+   	 * url：${webRoot}/memberConsume/insertRecord
+   	 * 请求方式：POST
+   	 * @param  CompanyInfo
+   	 * @return Map<String,Object>
+   	 *         key:code["0":"成功","1":"失败"]
+   	 */
+       @RequestMapping(value="insertRecord",method=RequestMethod.POST)
+       public @ResponseBody Map<String, Object> insertRecord(@RequestBody MemberCommodity record){
+           Map<String,Object> map = new HashMap<String,Object>();
+           String code="";
+           try{
+           	memberCommodityService.insertSelective(record);
+               code="0";
+           }catch(Exception e){
+               code="1";
+               e.printStackTrace();
+           }
+           map.put("code", code);
+           return map;
+       }
 }

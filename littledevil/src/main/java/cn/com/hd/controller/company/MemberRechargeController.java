@@ -108,11 +108,35 @@ public class MemberRechargeController {
 		return mv;
 	}
 
-	
 	/**
-	 * 功能描述：分页查询所有消费记录
+   	 * 功能描述：查询单个
+   	 * 作者：lijiaxing
+   	 * url：${webRoot}/memberCommodity/selectRecordById
+   	 * 请求方式：POST
+   	 * @param  id
+   	 * @return Map<String,Object>
+   	 *         key:code["0":"成功","1":"失败"]
+   	 *         key:CompanyInfo[CompanyInfo]
+   	 */
+       @RequestMapping(value="selectRecordById",method=RequestMethod.POST)
+       public @ResponseBody Map<String, Object> selectRecordById(@RequestBody int id){
+           Map<String,Object> map = new HashMap<String,Object>();
+           String code="";
+           try{
+        	   MemberRecharge record=memberRechargeService.selectByPrimaryKey(id);
+               code="0";
+               map.put("MemberConsume",record);
+           }catch(Exception e){
+               code="1";
+               e.printStackTrace();
+           }
+           map.put("code", code);
+           return map;
+       }
+	/**
+	 * 功能描述：分页查询所有充值记录
 	 * 作者：lijiaxing
-	 * url：${webRoot}/memberRecharge/selectByPage
+	 * url：${webRoot}/memberRecharge/selectListByPage
 	 * 请求方式：POST
 	 * @param  Page page
 	 * @return Map<String,Object>
@@ -120,8 +144,8 @@ public class MemberRechargeController {
 	 *         key:rows[查询结果ist]
 	 *         key:total[记录总数]
 	 */
-    @RequestMapping(value="selectByPage",method=RequestMethod.POST)
-    public @ResponseBody Map<String, Object> selectByPage(Page page){
+    @RequestMapping(value="selectListByPage",method=RequestMethod.POST)
+    public @ResponseBody Map<String, Object> selectListByPage(Page page){
         Map<String,Object> map = new HashMap<String,Object>();
         String code="";
         try{
@@ -140,16 +164,14 @@ public class MemberRechargeController {
     /**
 	 * 功能描述：添加充值记录
 	 * 作者：lijiaxing
-	 * url：${webRoot}/memberRecharge/insert
+	 * url：${webRoot}/memberRecharge/insertRecord
 	 * 请求方式：POST
-	 * @param  Page page
+	 * @param  MemberRecharge
 	 * @return Map<String,Object>
 	 *         key:code["0":"成功","1":"失败"]
-	 *         key:rows[查询结果ist]
-	 *         key:total[记录总数]
 	 */
-    @RequestMapping(value="insert",method=RequestMethod.POST)
-    public @ResponseBody Map<String, Object> insert(@RequestBody MemberRecharge record){
+    @RequestMapping(value="insertRecord",method=RequestMethod.POST)
+    public @ResponseBody Map<String, Object> insertRecord(@RequestBody MemberRecharge record){
         Map<String,Object> map = new HashMap<String,Object>();
         String code="";
         try{
@@ -176,18 +198,16 @@ public class MemberRechargeController {
     }
     
     /**
-	 * 功能描述：分页查询所有记录
+	 * 功能描述：更新
 	 * 作者：lijiaxing
-	 * url：${webRoot}/memberRecharge/update
+	 * url：${webRoot}/memberRecharge/updateRecord
 	 * 请求方式：POST
-	 * @param  Page page
+	 * @param  MemberRecharge
 	 * @return Map<String,Object>
 	 *         key:code["0":"成功","1":"失败"]
-	 *         key:rows[查询结果ist]
-	 *         key:total[记录总数]
 	 */
-    @RequestMapping(value="update",method=RequestMethod.POST)
-    public @ResponseBody Map<String, Object> update(@RequestBody MemberRecharge record){
+    @RequestMapping(value="updateRecord",method=RequestMethod.POST)
+    public @ResponseBody Map<String, Object> updateRecord(@RequestBody MemberRecharge record){
         Map<String,Object> map = new HashMap<String,Object>();
         String code="";
         try{
@@ -204,22 +224,21 @@ public class MemberRechargeController {
     }
     
     /**
-	 * 功能描述：分页查询所有企业
+	 * 功能描述：删除
 	 * 作者：lijiaxing
-	 * url：${webRoot}/memberRecharge/update
+	 * url：${webRoot}/memberRecharge/deleteRecord
 	 * 请求方式：POST
-	 * @param  Page page
+	 * @param  id
 	 * @return Map<String,Object>
 	 *         key:code["0":"成功","1":"失败"]
 	 *         key:rows[查询结果ist]
 	 *         key:total[记录总数]
 	 */
-    @RequestMapping(value="delete/{id}",method=RequestMethod.POST)
-    public @ResponseBody Map<String, Object> delete(@PathVariable("id") int id){
+    @RequestMapping(value="deleteRecord",method=RequestMethod.POST)
+    public @ResponseBody Map<String, Object> deleteRecord(@RequestBody int id){
         Map<String,Object> map = new HashMap<String,Object>();
         String code="";
         try{
-        	userService.deleteByPrimaryKey(id);
         	memberRechargeService.deleteByPrimaryKey(id);
             code="0";
         }catch(Exception e){

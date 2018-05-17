@@ -47,9 +47,18 @@ public class MemberCommodityService {
     	return MemberCommodityMapper.updateByPrimaryKey(record);
     }
     
-	public Page selectCompanyByPage(Page page){
-		page.setData(MemberCommodityMapper.selectCompanyByPage(page));
+	public Page selectByPage(Page page){
+		page.setData(MemberCommodityMapper.selectByPage(page));
     	return page;
+    }
+	
+	public Page selectPageByCompanyId(Page page){
+		page.setData(MemberCommodityMapper.selectPageByCompanyId(page));
+    	return page;
+    }
+	
+	public List<MemberCommodity>  selectByCompanyId(int CompanyId){
+		return(MemberCommodityMapper.selectByCompanyId(CompanyId));
     }
 	
 	public List<MemberCommodity>  selectMemberCommodityByuserIdAndcompanyId(MemberCommodity record){

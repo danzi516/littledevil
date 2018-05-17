@@ -1,0 +1,157 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.com.hd.persistance.company.CompanyPromotionMapper">
+  <resultMap id="BaseResultMap" type="cn.com.hd.domain.company.CompanyPromotion">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="company_id" jdbcType="INTEGER" property="companyId" />
+    <result column="promotion_name" jdbcType="VARCHAR" property="promotionName" />
+    <result column="promotion_price" jdbcType="DOUBLE" property="promotionPrice" />
+    <result column="promotion_logo" jdbcType="VARCHAR" property="promotionLogo" />
+    <result column="promotion_note" jdbcType="VARCHAR" property="promotionNote" />
+    <result column="state" jdbcType="VARCHAR" property="state" />
+    <result column="state" jdbcType="VARCHAR" property="state" />
+  </resultMap>
+  <resultMap extends="BaseResultMap" id="ResultMapWithBLOBs" type="cn.com.hd.domain.company.CompanyPromotion">
+    <result column="promotion_note" jdbcType="LONGVARCHAR" property="promotionNote" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    id, company_id, promotion_name, promotion_price, promotion_logo,promotion_note, state
+  </sql>
+  <sql id="Blob_Column_List">
+    promotion_note
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from t_company_promotion
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+   <select id="selectByCompanyId" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    id, company_id, promotion_name, promotion_price, promotion_logo,promotion_note, state
+    from t_company_promotion
+    where company_id = #{companyId,jdbcType=INTEGER} and state=1
+  </select>
+   <select id="selectCompanyPromotionByPage" parameterType="cn.com.hd.common.Page" resultMap="BaseResultMap">
+  SELECT
+	id, company_id, promotion_name, promotion_price, promotion_logo,promotion_note, state
+	FROM
+	t_company_promotion  t
+	 WHERE 1 = 1
+    <if test="params['companyId'] !=null"> 
+    and company_id=#{params.companyId}
+    </if>
+    <if test="params['searchText'] != null and params['searchText'] != ''">  
+        	and (promotion_name like '%${params.searchText}%' ) 
+    </if>
+    <if test="params['state'] != null and params['state'] != ''">  
+        	and state=#{params.state}
+    </if>
+  </select>
+  
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from t_company_promotion
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="cn.com.hd.domain.company.CompanyPromotion">
+    insert into t_company_promotion (id, company_id, promotion_name, 
+      promotion_price, promotion_logo, state, 
+      promotion_note)
+    values (#{id,jdbcType=INTEGER}, #{companyId,jdbcType=INTEGER}, #{promotionName,jdbcType=VARCHAR}, 
+      #{promotionPrice,jdbcType=DOUBLE}, #{promotionLogo,jdbcType=VARCHAR}, #{state,jdbcType=VARCHAR}, 
+      #{promotionNote,jdbcType=LONGVARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="cn.com.hd.domain.company.CompanyPromotion">
+    insert into t_company_promotion
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="companyId != null">
+        company_id,
+      </if>
+      <if test="promotionName != null">
+        promotion_name,
+      </if>
+      <if test="promotionPrice != null">
+        promotion_price,
+      </if>
+      <if test="promotionLogo != null">
+        promotion_logo,
+      </if>
+      <if test="state != null">
+        state,
+      </if>
+      <if test="promotionNote != null">
+        promotion_note,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="companyId != null">
+        #{companyId,jdbcType=INTEGER},
+      </if>
+      <if test="promotionName != null">
+        #{promotionName,jdbcType=VARCHAR},
+      </if>
+      <if test="promotionPrice != null">
+        #{promotionPrice,jdbcType=DOUBLE},
+      </if>
+      <if test="promotionLogo != null">
+        #{promotionLogo,jdbcType=VARCHAR},
+      </if>
+      <if test="state != null">
+        #{state,jdbcType=VARCHAR},
+      </if>
+      <if test="promotionNote != null">
+        #{promotionNote,jdbcType=LONGVARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="cn.com.hd.domain.company.CompanyPromotion">
+    update t_company_promotion
+    <set>
+      <if test="companyId != null">
+        company_id = #{companyId,jdbcType=INTEGER},
+      </if>
+      <if test="promotionName != null">
+        promotion_name = #{promotionName,jdbcType=VARCHAR},
+      </if>
+      <if test="promotionPrice != null">
+        promotion_price = #{promotionPrice,jdbcType=DOUBLE},
+      </if>
+      <if test="promotionLogo != null">
+        promotion_logo = #{promotionLogo,jdbcType=VARCHAR},
+      </if>
+      <if test="state != null">
+        state = #{state,jdbcType=VARCHAR},
+      </if>
+      <if test="promotionNote != null">
+        promotion_note = #{promotionNote,jdbcType=LONGVARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKeyWithBLOBs" parameterType="cn.com.hd.domain.company.CompanyPromotion">
+    update t_company_promotion
+    set company_id = #{companyId,jdbcType=INTEGER},
+      promotion_name = #{promotionName,jdbcType=VARCHAR},
+      promotion_price = #{promotionPrice,jdbcType=DOUBLE},
+      promotion_logo = #{promotionLogo,jdbcType=VARCHAR},
+      state = #{state,jdbcType=VARCHAR},
+      promotion_note = #{promotionNote,jdbcType=LONGVARCHAR}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="cn.com.hd.domain.company.CompanyPromotion">
+    update t_company_promotion
+    set company_id = #{companyId,jdbcType=INTEGER},
+      promotion_name = #{promotionName,jdbcType=VARCHAR},
+      promotion_price = #{promotionPrice,jdbcType=DOUBLE},
+      promotion_logo = #{promotionLogo,jdbcType=VARCHAR},
+      state = #{state,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+ 
+</mapper>

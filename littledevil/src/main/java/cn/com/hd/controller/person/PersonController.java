@@ -181,20 +181,20 @@ public class PersonController {
 	/**
 	 * 功能描述：更新用户
 	 * 作者：lijiaxing
-	 * url：${webRoot}/person/update
+	 * url：${webRoot}/person/updateRecord
 	 * 请求方式：POST
 	 * @param  id
 	 * @return Map<String,Object>
 	 *         key:code["0":"成功","1":"失败"]
 	 */
-	@RequestMapping(value="update",method=RequestMethod.POST)
-	public @ResponseBody Map<String,Object> updatePerson(@RequestBody UserInfo user){
+	@RequestMapping(value="updateRecord",method=RequestMethod.POST)
+	public @ResponseBody Map<String,Object> updateRecord(@RequestBody UserInfo userInfo){
 		Map<String,Object> map=new HashMap<String,Object>();
 		String code="";
 		try{
 			/*User record=userInfoService.selectByPrimaryKey(user.getId()).getUser();
 			userService.updateByPrimaryKeySelective(record);*/
-			userInfoService.updateByPrimaryKeySelective(user);
+			userInfoService.updateByPrimaryKeySelective(userInfo);
 			
 			code="0";
 		}catch(Exception e){
@@ -213,9 +213,10 @@ public class PersonController {
 	 * @param  id
 	 * @return Map<String,Object>
 	 *         key:code["0":"成功","1":"失败"]
-	 */
-	@RequestMapping("/getCompanybyUserid/{id}")
-	public @ResponseBody Map<String,Object> getCompanybyUserid(@PathVariable("id") int userId){
+	 *         key:myCompany[myCompany]
+	 */		   
+	@RequestMapping("/getCompanybyUserid")
+	public @ResponseBody Map<String,Object> getCompanybyUserid(@RequestBody int userId){
 		Map<String,Object> map=new HashMap<String,Object>();
 		ArrayList<myCompany> userConsumelist=new ArrayList<myCompany>() ;
 		String code="";
@@ -274,9 +275,10 @@ public class PersonController {
 	 * @param  id
 	 * @return Map<String,Object>
 	 *         key:code["0":"成功","1":"失败"]
+	 *         key:userFollowlist[userFollowlist]
 	 */
-	@RequestMapping("/getCompanyNumberbyUserid/{id}")
-	public @ResponseBody Map<String,Object> selectCompanyByuserId(@PathVariable("id") int userId){
+	@RequestMapping("/getCompanyNumberbyUserid")
+	public @ResponseBody Map<String,Object> selectCompanyByuserId(@RequestBody int userId){
 		Map<String,Object> map=new HashMap<String,Object>();
 		String code="";
 		try{
@@ -292,16 +294,17 @@ public class PersonController {
 	}
 	
 	/**
-	 * 功能描述：根据用户id获取公司-我关注的商户
+	 * 功能描述：根据用户id获取消费信息
 	 * 作者：lijiaxing
 	 * url：${webRoot}/person/selectMemberConsumeByuserId
 	 * 请求方式：POST
 	 * @param  id
 	 * @return Map<String,Object>
 	 *         key:code["0":"成功","1":"失败"]
+	 *         key:memberConsumelist[memberConsumelist]
 	 */
-	@RequestMapping("/selectMemberConsumeByuserId/{id}")
-	public @ResponseBody Map<String,Object> selectMemberConsumeByuserId(@PathVariable("id") int userId){
+	@RequestMapping("/selectMemberConsumeByuserId")
+	public @ResponseBody Map<String,Object> selectMemberConsumeByuserId(@RequestBody int userId){
 		Map<String,Object> map=new HashMap<String,Object>();
 		String code="";
 		try{
