@@ -90,7 +90,7 @@ public class CompanyPromotionController {
 	 /**
 	 * 功能描述：分页查询所有企业促销
 	 * 作者：lijiaxing
-	 * url：${webRoot}/companyPromotion/selectByPage
+	 * url：${webRoot}/companyPromotion/selectListByPage
 	 * 请求方式：POST
 	 * @param  Page page
 	 * @return Map<String,Object>
@@ -98,8 +98,8 @@ public class CompanyPromotionController {
 	 *         key:rows[查询结果list]
 	 *         key:total[记录总数]
 	 */
-    @RequestMapping(value="selectByPage",method=RequestMethod.POST)
-    public @ResponseBody Map<String, Object> selectByPage(Page page){
+    @RequestMapping(value="selectListByPage",method=RequestMethod.POST)
+    public @ResponseBody Map<String, Object> selectListByPage(Page page){
         Map<String,Object> map = new HashMap<String,Object>();
         String code="";
         try{

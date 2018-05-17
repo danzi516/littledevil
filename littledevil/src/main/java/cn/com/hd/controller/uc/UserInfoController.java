@@ -16,6 +16,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 import cn.com.hd.common.MD5Encrypt;
 import cn.com.hd.common.Page;
+import cn.com.hd.domain.company.CompanyInfo;
 import cn.com.hd.domain.company.CompanyStaff;
 import cn.com.hd.domain.uc.SaleMan;
 import cn.com.hd.domain.uc.User;
@@ -158,14 +159,14 @@ public class UserInfoController {
 	/**
 	 * 功能描述：删除用户
 	 * 作者：lijiaxing
-	 * url：${webRoot}/userInfo/deleteUser
+	 * url：${webRoot}/userInfo/deleteRecord
 	 * 请求方式：GET
 	 * @param  id
 	 * @return Map<String,Object>
 	 *         key:code["0":"成功","1":"失败"]
 	 */
-	@RequestMapping("deleteUser/{id}")
-	public @ResponseBody Map<String,Object> deleteUser(@PathVariable("id") int id){
+	@RequestMapping(value="deleteRecord",method=RequestMethod.POST)
+	public @ResponseBody Map<String,Object> deleteRecord(@RequestBody int id){
 		Map<String,Object> map=new HashMap<String,Object>();
 		String code="";
 		try{
@@ -212,14 +213,14 @@ public class UserInfoController {
 	/**
 	 * 功能描述：添加用户
 	 * 作者：lijiaxing
-	 * url：${webRoot}/userInfo/insert
+	 * url：${webRoot}/userInfo/insertRecord
 	 * 请求方式：POST
 	 * @param  id
 	 * @return Map<String,Object>
 	 *         key:code["0":"成功","1":"失败"]
 	 */
-	@RequestMapping(value="insert",method=RequestMethod.POST)
-	public @ResponseBody Map<String,Object> insertAdmin(@RequestBody UserInfo user){
+	@RequestMapping(value="insertRecord",method=RequestMethod.POST)
+	public @ResponseBody Map<String,Object> insertRecord(@RequestBody UserInfo user){
 		Map<String,Object> map=new HashMap<String,Object>();
 		String code="";
 		try{
@@ -254,14 +255,14 @@ public class UserInfoController {
 	/**
 	 * 功能描述：更新用户
 	 * 作者：lijiaxing
-	 * url：${webRoot}/userInfo/update
+	 * url：${webRoot}/userInfo/updateRecord
 	 * 请求方式：POST
 	 * @param  id
 	 * @return Map<String,Object>
 	 *         key:code["0":"成功","1":"失败"]
 	 */
-	@RequestMapping(value="update",method=RequestMethod.POST)
-	public @ResponseBody Map<String,Object> updatePerson(@RequestBody UserInfo user){
+	@RequestMapping(value="updateRecord",method=RequestMethod.POST)
+	public @ResponseBody Map<String,Object> updateRecord(@RequestBody UserInfo user){
 		Map<String,Object> map=new HashMap<String,Object>();
 		String code="";
 		try{
@@ -288,6 +289,30 @@ public class UserInfoController {
         return map;
 	}
 	
-	
+	 /**
+   	 * 功能描述：查询单个
+   	 * 作者：lijiaxing
+   	 * url：${webRoot}/userInfo/selectRecordById
+   	 * 请求方式：POST
+   	 * @param  id
+   	 * @return Map<String,Object>
+   	 *         key:code["0":"成功","1":"失败"]
+   	 *         key:CompanyInfo[CompanyInfo]
+   	 */
+       @RequestMapping(value="selectRecordById",method=RequestMethod.POST)
+       public @ResponseBody Map<String, Object> selectRecordById(@RequestBody int id){
+           Map<String,Object> map = new HashMap<String,Object>();
+           String code="";
+           try{
+        	   UserInfo record=userInfoService.selectByPrimaryKey(id);
+               code="0";
+               map.put("MemberConsume",record);
+           }catch(Exception e){
+               code="1";
+               e.printStackTrace();
+           }
+           map.put("code", code);
+           return map;
+       }
 	
 }

@@ -1,6 +1,7 @@
 package cn.com.hd.controller.company;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import javax.annotation.Resource;
@@ -103,7 +104,7 @@ public class CompanyMemberController {
 		/**
 		 * 功能描述：添加会员
 		 * 作者：wanglin
-		 * url：${webRoot}/companyMember/insert
+		 * url：${webRoot}/companyMember/insertRecord
 		 * 请求方式：POST
 		 * @param  Page page
 		 * @return Map<String,Object>
@@ -111,8 +112,8 @@ public class CompanyMemberController {
 		 *         key:rows[查询结果ist]
 		 *         key:total[记录总数]
 		 */
-	    @RequestMapping(value="insert",method=RequestMethod.POST)
-	    public @ResponseBody Map<String, Object> insert(@RequestBody CompanyMember record){
+	    @RequestMapping(value="insertRecord",method=RequestMethod.POST)
+	    public @ResponseBody Map<String, Object> insertRecord(@RequestBody CompanyMember record){
 	        Map<String,Object> map = new HashMap<String,Object>();
 	        String code="";
 	        try{
@@ -149,7 +150,7 @@ public class CompanyMemberController {
 	    /**
 		 * 功能描述：分页查询所有企业会员
 		 * 作者：lijiaxing
-		 * url：${webRoot}/companyMember/selectByPage
+		 * url：${webRoot}/companyMember/selectListByPage
 		 * 请求方式：POST
 		 * @param  Page page
 		 * @return Map<String,Object>
@@ -157,8 +158,8 @@ public class CompanyMemberController {
 		 *         key:rows[查询结果ist]
 		 *         key:total[记录总数]
 		 */
-	    @RequestMapping(value="selectByPage",method=RequestMethod.POST)
-	    public @ResponseBody Map<String, Object> selectByPage(Page page){
+	    @RequestMapping(value="selectListByPage",method=RequestMethod.POST)
+	    public @ResponseBody Map<String, Object> selectListByPage(Page page){
 	        Map<String,Object> map = new HashMap<String,Object>();
 	        String code="";
 	        try{
@@ -177,7 +178,7 @@ public class CompanyMemberController {
 	    /**
 		 * 功能描述：删除会员
 		 * 作者：lijiaxing
-		 * url：${webRoot}/companyMember/delete
+		 * url：${webRoot}/companyMember/deleteRecord
 		 * 请求方式：POST
 		 * @param  Page page
 		 * @return Map<String,Object>
@@ -185,8 +186,8 @@ public class CompanyMemberController {
 		 *         key:rows[查询结果ist]
 		 *         key:total[记录总数]
 		 */
-	    @RequestMapping(value="delete/{id}",method=RequestMethod.POST)
-	    public @ResponseBody Map<String, Object> delete(@PathVariable("id") int id){
+	    @RequestMapping(value="deleteRecord",method=RequestMethod.POST)
+	    public @ResponseBody Map<String, Object> deleteRecord(@RequestBody int id){
 	        Map<String,Object> map = new HashMap<String,Object>();
 	        String code="";
 	        try{
@@ -203,7 +204,7 @@ public class CompanyMemberController {
 	    /**
 		 * 功能描述：更新
 		 * 作者：lijiaxing
-		 * url：${webRoot}/companyMember/update
+		 * url：${webRoot}/companyMember/updateRecord
 		 * 请求方式：POST
 		 * @param  Page page
 		 * @return Map<String,Object>
@@ -211,8 +212,8 @@ public class CompanyMemberController {
 		 *         key:rows[查询结果ist]
 		 *         key:total[记录总数]
 		 */
-	    @RequestMapping(value="update",method=RequestMethod.POST)
-	    public @ResponseBody Map<String, Object> update(@RequestBody CompanyMember record){
+	    @RequestMapping(value="updateRecord",method=RequestMethod.POST)
+	    public @ResponseBody Map<String, Object> updateRecord(@RequestBody CompanyMember record){
 	        Map<String,Object> map = new HashMap<String,Object>();
 	        String code="";
 	        try{
@@ -227,4 +228,55 @@ public class CompanyMemberController {
 	        map.put("code", code);
 	        return map;
 	    }
+	    /**
+	   	 * 功能描述：查询单个
+	   	 * 作者：lijiaxing
+	   	 * url：${webRoot}/companyMember/selectRecordById
+	   	 * 请求方式：POST
+	   	 * @param  id
+	   	 * @return Map<String,Object>
+	   	 *         key:code["0":"成功","1":"失败"]
+	   	 *         key:CompanyInfo[CompanyInfo]
+	   	 */
+	       @RequestMapping(value="selectRecordById",method=RequestMethod.POST)
+	       public @ResponseBody Map<String, Object> selectRecordById(@RequestBody int id){
+	           Map<String,Object> map = new HashMap<String,Object>();
+	           String code="";
+	           try{
+	        	   CompanyMember record=companyMemberService.selectByPrimaryKey(id);
+	               code="0";
+	               map.put("MemberConsume",record);
+	           }catch(Exception e){
+	               code="1";
+	               e.printStackTrace();
+	           }
+	           map.put("code", code);
+	           return map;
+	       }
+	       
+	       /**
+		   	 * 功能描述：通过会员id查找商户
+		   	 * 作者：lijiaxing
+		   	 * url：${webRoot}/companyMember/selectByUserId
+		   	 * 请求方式：POST
+		   	 * @param  id
+		   	 * @return Map<String,Object>
+		   	 *         key:code["0":"成功","1":"失败"]
+		   	 *         key:CompanyInfo[CompanyInfo]
+		   	 */
+		       @RequestMapping(value="selectByUserId",method=RequestMethod.POST)
+		       public @ResponseBody Map<String, Object> selectByUserId(@RequestBody int id){
+		           Map<String,Object> map = new HashMap<String,Object>();
+		           String code="";
+		           try{
+		        	   List<CompanyMember> record=companyMemberService.selectCompanyMemberByuserId(id);
+		               code="0";
+		               map.put("CompanyMemberList",record);
+		           }catch(Exception e){
+		               code="1";
+		               e.printStackTrace();
+		           }
+		           map.put("code", code);
+		           return map;
+		       }
 }

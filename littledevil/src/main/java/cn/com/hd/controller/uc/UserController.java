@@ -204,14 +204,14 @@ public class UserController {
 	/**
 	 * 功能描述：删除用户
 	 * 作者：fengcaizhi
-	 * url：${webRoot}/user/deleteUser
+	 * url：${webRoot}/user/deleteRecord
 	 * 请求方式：GET
 	 * @param  id
 	 * @return Map<String,Object>
 	 *         key:code["0":"成功","1":"失败"]
 	 */
-	@RequestMapping("deleteUser/{id}")
-	public @ResponseBody Map<String,Object> deleteUser(@PathVariable("id") int id){
+	@RequestMapping("deleteRecord")
+	public @ResponseBody Map<String,Object> deleteRecord(@RequestBody int id){
 		Map<String,Object> map=new HashMap<String,Object>();
 		String code="";
 		try{
@@ -228,14 +228,14 @@ public class UserController {
 	/**
 	 * 功能描述：添加后台用户
 	 * 作者：fengcaizhi
-	 * url：${webRoot}/user/insert
+	 * url：${webRoot}/user/insertRecord
 	 * 请求方式：POST
 	 * @param  id
 	 * @return Map<String,Object>
 	 *         key:code["0":"成功","1":"失败"]
 	 */
-	@RequestMapping(value="insert",method=RequestMethod.POST)
-	public @ResponseBody Map<String,Object> insertAdmin(@RequestBody User user){
+	@RequestMapping(value="insertRecord",method=RequestMethod.POST)
+	public @ResponseBody Map<String,Object> insertRecord(@RequestBody User user){
 		Map<String,Object> map=new HashMap<String,Object>();
 		String code="";
 		try{
@@ -252,14 +252,14 @@ public class UserController {
 	/**
 	 * 功能描述：更新用户
 	 * 作者：fengcaizhi
-	 * url：${webRoot}/user/update
+	 * url：${webRoot}/user/updateRecord
 	 * 请求方式：POST
 	 * @param  id
 	 * @return Map<String,Object>
 	 *         key:code["0":"成功","1":"失败"]
 	 */
-	@RequestMapping(value="update",method=RequestMethod.POST)
-	public @ResponseBody Map<String,Object> updatePerson(@RequestBody User user){
+	@RequestMapping(value="updateRecord",method=RequestMethod.POST)
+	public @ResponseBody Map<String,Object> updateRecord(@RequestBody User user){
 		Map<String,Object> map=new HashMap<String,Object>();
 		String code="";
 		try{

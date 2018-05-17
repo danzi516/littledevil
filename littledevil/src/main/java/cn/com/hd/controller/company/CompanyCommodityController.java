@@ -62,7 +62,7 @@ public class CompanyCommodityController {
 	/**
 	 * 功能描述：添加会员
 	 * 作者：wanglin
-	 * url：${webRoot}/companyCommodity/insert
+	 * url：${webRoot}/companyCommodity/insertRecord
 	 * 请求方式：POST
 	 * @param  Page page
 	 * @return Map<String,Object>
@@ -70,8 +70,8 @@ public class CompanyCommodityController {
 	 *         key:rows[查询结果ist]
 	 *         key:total[记录总数]
 	 */
-    @RequestMapping(value="insert",method=RequestMethod.POST)
-    public @ResponseBody Map<String, Object> insert(@RequestBody CompanyCommodity record){
+    @RequestMapping(value="insertRecord",method=RequestMethod.POST)
+    public @ResponseBody Map<String, Object> insertRecord(@RequestBody CompanyCommodity record){
         Map<String,Object> map = new HashMap<String,Object>();
         String code="";
         try{
@@ -88,7 +88,7 @@ public class CompanyCommodityController {
 	 /**
 	 * 功能描述：分页查询所有企业商品
 	 * 作者：lijiaxing
-	 * url：${webRoot}/companyCommodity/selectByPage
+	 * url：${webRoot}/companyCommodity/selectListByPage
 	 * 请求方式：POST
 	 * @param  Page page
 	 * @return Map<String,Object>
@@ -96,8 +96,8 @@ public class CompanyCommodityController {
 	 *         key:rows[查询结果ist]
 	 *         key:total[记录总数]
 	 */
-    @RequestMapping(value="selectByPage",method=RequestMethod.POST)
-    public @ResponseBody Map<String, Object> selectByPage(Page page){
+    @RequestMapping(value="selectListByPage",method=RequestMethod.POST)
+    public @ResponseBody Map<String, Object> selectListByPage(Page page){
         Map<String,Object> map = new HashMap<String,Object>();
         String code="";
         try{
@@ -116,7 +116,7 @@ public class CompanyCommodityController {
     /**
   	 * 功能描述：更新
   	 * 作者：lijiaxing
-  	 * url：${webRoot}/companyCommodity/update
+  	 * url：${webRoot}/companyCommodity/updateRecord
   	 * 请求方式：POST
   	 * @param   CompanyInfo
   	 * @return Map<String,Object>
@@ -124,8 +124,8 @@ public class CompanyCommodityController {
   	 *         key:rows[查询结果ist]
   	 *         key:total[记录总数]
   	 */
-      @RequestMapping(value="update",method=RequestMethod.POST)
-      public @ResponseBody Map<String, Object> update(@RequestBody CompanyCommodity record){
+      @RequestMapping(value="updateRecord",method=RequestMethod.POST)
+      public @ResponseBody Map<String, Object> updateRecord(@RequestBody CompanyCommodity record){
           Map<String,Object> map = new HashMap<String,Object>();
           String code="";
           try{
@@ -142,7 +142,7 @@ public class CompanyCommodityController {
       /**
     	 * 功能描述：通过商户id查找商品
     	 * 作者：lijiaxing
-    	 * url：${webRoot}/companyCommodity/update
+    	 * url：${webRoot}/companyCommodity/selectByCompanyId
     	 * 请求方式：POST
     	 * @param   CompanyInfo
     	 * @return Map<String,Object>
@@ -150,8 +150,8 @@ public class CompanyCommodityController {
     	 *         key:rows[查询结果ist]
     	 *         key:total[记录总数]
     	 */
-      @RequestMapping(value="selectByCompanyId/{id}",method=RequestMethod.POST)
-        public @ResponseBody Map<String, Object> selectByCompanyId(@PathVariable("id") int id){
+      @RequestMapping(value="selectByCompanyId",method=RequestMethod.POST)
+        public @ResponseBody Map<String, Object> selectByCompanyId(@RequestBody int id){
             Map<String,Object> map = new HashMap<String,Object>();
             String code="";
             try{
@@ -166,5 +166,31 @@ public class CompanyCommodityController {
             
             return map;
         }      
+      
+      /**
+		 * 功能描述：删除
+		 * 作者：lijiaxing
+		 * url：${webRoot}/companyCommodity/deleteRecord
+		 * 请求方式：POST
+		 * @param  Page page
+		 * @return Map<String,Object>
+		 *         key:code["0":"成功","1":"失败"]
+		 *         key:rows[查询结果ist]
+		 *         key:total[记录总数]
+		 */
+	    @RequestMapping(value="deleteRecord",method=RequestMethod.POST)
+	    public @ResponseBody Map<String, Object> deleteRecord(@RequestBody int id){
+	        Map<String,Object> map = new HashMap<String,Object>();
+	        String code="";
+	        try{
+	        	companyCommodityService.deleteByPrimaryKey(id);
+	            code="0";
+	        }catch(Exception e){
+	            code="1";
+	            e.printStackTrace();
+	        }
+	        map.put("code", code);
+	        return map;
+	    }
       
 }

@@ -10,7 +10,7 @@ Target Server Type    : MYSQL
 Target Server Version : 50715
 File Encoding         : 65001
 
-Date: 2017-09-07 22:18:39
+Date: 2018-05-18 01:07:01
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -98,6 +98,47 @@ INSERT INTO `t_app_operation` VALUES ('13', '删除', '1', 'delete');
 INSERT INTO `t_app_operation` VALUES ('14', '删除', '6', 'delete');
 
 -- ----------------------------
+-- Table structure for t_commodity_category
+-- ----------------------------
+DROP TABLE IF EXISTS `t_commodity_category`;
+CREATE TABLE `t_commodity_category` (
+  `id` int(11) NOT NULL AUTO_INCREMENT COMMENT '分类id',
+  `company_id` int(11) DEFAULT NULL COMMENT '公司id',
+  `commodity_ids` varchar(11) DEFAULT NULL COMMENT '商品id(多个,以逗号隔开)',
+  `category_name` varchar(255) DEFAULT NULL,
+  `creat_time` timestamp NULL DEFAULT NULL COMMENT '创建时间',
+  `update_time` timestamp NULL DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP COMMENT '修改时间',
+  `state` varchar(2) DEFAULT NULL COMMENT '状态  0：下线 1：上线',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8 COMMENT='商品种类';
+
+-- ----------------------------
+-- Records of t_commodity_category
+-- ----------------------------
+INSERT INTO `t_commodity_category` VALUES ('2', '6', '1,2', '你懂得', '2017-09-11 20:21:52', '2017-09-17 20:28:52', '1');
+INSERT INTO `t_commodity_category` VALUES ('3', '6', '1', '高端', '2017-09-12 20:22:46', '2017-09-17 20:29:03', '0');
+
+-- ----------------------------
+-- Table structure for t_commodity_promotion
+-- ----------------------------
+DROP TABLE IF EXISTS `t_commodity_promotion`;
+CREATE TABLE `t_commodity_promotion` (
+  `id` int(11) NOT NULL AUTO_INCREMENT COMMENT '分类id',
+  `company_id` int(11) DEFAULT NULL COMMENT '公司id',
+  `commodity_id` int(11) DEFAULT NULL COMMENT '商品id',
+  `promotion_id` int(11) DEFAULT NULL COMMENT '活动id ',
+  `creat_time` timestamp NULL DEFAULT NULL COMMENT '创建时间',
+  `update_time` timestamp NULL DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP COMMENT '修改时间',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8 COMMENT='商品种类';
+
+-- ----------------------------
+-- Records of t_commodity_promotion
+-- ----------------------------
+INSERT INTO `t_commodity_promotion` VALUES ('2', '6', null, null, '2017-09-11 20:21:52', '2017-09-17 20:28:52');
+INSERT INTO `t_commodity_promotion` VALUES ('3', '6', '1', null, '2017-09-12 20:22:46', '2018-05-08 21:40:42');
+
+-- ----------------------------
 -- Table structure for t_company_commodity
 -- ----------------------------
 DROP TABLE IF EXISTS `t_company_commodity`;
@@ -111,7 +152,7 @@ CREATE TABLE `t_company_commodity` (
   `state` varchar(2) DEFAULT '1' COMMENT '状态：0下线；1上线',
   `sort` varchar(255) DEFAULT NULL COMMENT '排序',
   `unit` int(2) DEFAULT NULL COMMENT '单位',
-  `is_delete` varchar(2) DEFAULT NULL COMMENT '删除状态',
+  `is_delete` varchar(2) DEFAULT NULL COMMENT '是否删除：0是1否',
   `collection_number` int(11) DEFAULT NULL COMMENT '收藏次数',
   `follow_number` int(11) DEFAULT NULL COMMENT '关注次数',
   `browse_number` int(11) DEFAULT NULL COMMENT '浏览次数',
@@ -202,6 +243,41 @@ CREATE TABLE `t_company_paytype` (
 -- ----------------------------
 -- Records of t_company_paytype
 -- ----------------------------
+
+-- ----------------------------
+-- Table structure for t_company_promotion
+-- ----------------------------
+DROP TABLE IF EXISTS `t_company_promotion`;
+CREATE TABLE `t_company_promotion` (
+  `id` int(11) NOT NULL AUTO_INCREMENT COMMENT '主键',
+  `company_id` int(11) NOT NULL COMMENT '企业ID',
+  `promotion_name` varchar(11) DEFAULT NULL COMMENT '活动名称',
+  `promotion_price` double(20,2) DEFAULT NULL COMMENT '活动价格',
+  `promotion_note` text COMMENT '活动简介',
+  `promotion_logo` varchar(500) DEFAULT NULL COMMENT '活动图标',
+  `state` varchar(2) DEFAULT '1' COMMENT '状态：0通过，1未通过，2未审核',
+  `sort` varchar(255) DEFAULT NULL COMMENT '排序',
+  `unit` int(2) DEFAULT NULL COMMENT '单位',
+  `is_delete` varchar(2) DEFAULT NULL COMMENT '是否删除：0是1否',
+  `collection_number` int(11) DEFAULT NULL COMMENT '收藏次数',
+  `follow_number` int(11) DEFAULT NULL COMMENT '关注次数',
+  `browse_number` int(11) DEFAULT NULL COMMENT '浏览次数',
+  `buy_number` int(11) DEFAULT NULL COMMENT '购买次数',
+  `binding_number` int(11) DEFAULT NULL COMMENT '捆绑次数',
+  `top` int(2) DEFAULT NULL COMMENT '置顶',
+  `recommend` int(2) DEFAULT NULL COMMENT '推荐',
+  `creat_time` timestamp NULL DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP COMMENT '发布时间',
+  `active_time` timestamp NULL DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP COMMENT '有效时间',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8 COMMENT='商户商品表';
+
+-- ----------------------------
+-- Records of t_company_promotion
+-- ----------------------------
+INSERT INTO `t_company_promotion` VALUES ('1', '6', '900套餐：买一送一', '899.00', '900套餐：全套', '11111', '1', null, '0', null, null, null, null, null, null, null, null, '2018-03-19 20:57:34', null);
+INSERT INTO `t_company_promotion` VALUES ('2', '6', '300全套：特价优惠', '300.00', '300全套', '11111', '0', null, '0', null, null, null, null, null, null, null, null, '2017-08-12 19:29:12', null);
+INSERT INTO `t_company_promotion` VALUES ('3', '0', '现金', '0.00', '现金', null, '1', null, '0', null, null, null, null, null, null, null, null, '2017-09-04 20:58:12', null);
+INSERT INTO `t_company_promotion` VALUES ('4', '6', '限时优惠', '111.00', '11111', '111', '1', null, null, null, null, null, null, null, null, null, null, '2017-09-07 22:06:41', null);
 
 -- ----------------------------
 -- Table structure for t_company_role
@@ -4028,7 +4104,7 @@ CREATE TABLE `t_member_commodity` (
   `commodity_id` int(11) DEFAULT NULL COMMENT '商品id',
   `number` int(11) DEFAULT NULL COMMENT '剩余次数',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci COMMENT='消费记录';
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci COMMENT='消费记录';
 
 -- ----------------------------
 -- Records of t_member_commodity
@@ -4174,14 +4250,14 @@ CREATE TABLE `t_user` (
 -- ----------------------------
 -- Records of t_user
 -- ----------------------------
-INSERT INTO `t_user` VALUES ('6', 'test', '15111111111', 'e10adc3949ba59abbe56e057f20f883e', 'company', '1', '2017-09-07 21:39:33', null);
+INSERT INTO `t_user` VALUES ('6', 'test', '15111111111', 'e10adc3949ba59abbe56e057f20f883e', 'company', '1', '2018-05-03 22:11:23', null);
 INSERT INTO `t_user` VALUES ('7', 'asdd1', '15111111112', 'e10adc3949ba59abbe56e057f20f883e', 'company', '0', '2016-12-13 15:20:40', null);
 INSERT INTO `t_user` VALUES ('8', 'asdd2', '15111111113', 'e10adc3949ba59abbe56e057f20f883e', 'company', '1', '2016-11-28 11:16:13', null);
 INSERT INTO `t_user` VALUES ('9', 'asdd3', '15111111114', 'e10adc3949ba59abbe56e057f20f883e', 'company', '1', '2016-11-28 11:16:14', null);
 INSERT INTO `t_user` VALUES ('10', 'asdd4', '15111111115', 'e10adc3949ba59abbe56e057f20f883e', 'company', '0', '2016-11-22 16:42:34', null);
 INSERT INTO `t_user` VALUES ('14', '13456789098', '13456789098', 'e10adc3949ba59abbe56e057f20f883e', 'person', '1', '2017-03-29 13:28:17', null);
-INSERT INTO `t_user` VALUES ('16', 'admin', '13456789092', 'e10adc3949ba59abbe56e057f20f883e', 'sys', '1', '2017-03-16 09:50:15', null);
-INSERT INTO `t_user` VALUES ('17', 'test111', '13456789096', 'e10adc3949ba59abbe56e057f20f883e', 'person', '1', '2017-09-07 21:58:13', null);
+INSERT INTO `t_user` VALUES ('16', 'admin', '13456789092', 'e10adc3949ba59abbe56e057f20f883e', 'sys', '1', '2018-05-03 21:57:07', null);
+INSERT INTO `t_user` VALUES ('17', 'test111', '13456789096', 'e10adc3949ba59abbe56e057f20f883e', 'person', '1', '2018-05-18 01:06:02', null);
 INSERT INTO `t_user` VALUES ('19', 'test1112', '13456789333', 'e10adc3949ba59abbe56e057f20f883e', 'sys', '0', '2016-12-26 14:03:05', null);
 INSERT INTO `t_user` VALUES ('22', '13456789095', '13456789095', 'e10adc3949ba59abbe56e057f20f883e', 'person', '1', null, null);
 INSERT INTO `t_user` VALUES ('23', null, '13456789095', 'e10adc3949ba59abbe56e057f20f883e', 'person', '1', '2017-01-11 16:34:54', '111');
