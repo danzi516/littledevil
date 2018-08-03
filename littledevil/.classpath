@@ -43,7 +43,6 @@
 	<classpathentry kind="lib" path="src/main/webapp/WEB-INF/lib/jackson-core-asl-1.9.13.jar"/>
 	<classpathentry kind="lib" path="src/main/webapp/WEB-INF/lib/jackson-mapper-asl-1.9.13.jar"/>
 	<classpathentry kind="lib" path="src/main/webapp/WEB-INF/lib/javax.inject-1.jar"/>
-	<classpathentry kind="lib" path="src/main/webapp/WEB-INF/lib/javax.servlet-api-3.0.1.jar"/>
 	<classpathentry kind="lib" path="src/main/webapp/WEB-INF/lib/jaxrs-api-2.3.4.Final.jar"/>
 	<classpathentry kind="lib" path="src/main/webapp/WEB-INF/lib/jettison-1.1.jar"/>
 	<classpathentry kind="lib" path="src/main/webapp/WEB-INF/lib/json-20090211.jar"/>
@@ -100,5 +99,7 @@
 			<attribute name="owner.project.facets" value="java"/>
 		</attributes>
 	</classpathentry>
+	<classpathentry kind="lib" path="src/main/webapp/WEB-INF/lib/javax.servlet-api-3.0.1.jar"/>
+	<classpathentry kind="lib" path="src/main/webapp/WEB-INF/lib/bcprov-jdk15on-1.60.jar"/>
 	<classpathentry kind="output" path="target/classes"/>
 </classpath>

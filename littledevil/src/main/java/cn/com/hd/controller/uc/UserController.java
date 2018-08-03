@@ -18,8 +18,11 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 import cn.com.hd.common.MD5Encrypt;
+import cn.com.hd.common.http.HttpRequest;
+import cn.com.hd.common.security.AESUtils;
 import cn.com.hd.domain.uc.User;
 import cn.com.hd.service.uc.UserService;
+import net.sf.json.JSONObject;
 
 /**
  *类说明：系统初始化页面控制器
@@ -99,32 +102,40 @@ public class UserController {
 		Map<String,Object> map=new HashMap<String,Object>();
 		try{
 			User record=userService.userLogin(user);
-			userService.updateByPrimaryKey(record);
-			if(null==record){
-				map.put("msg", "登录失败！");
-				return map;
+			if(record ==null){
+				try{
+					user.setState("0");
+					userService.insert(user);
+				}
+				catch(Exception e){
+					map.put("msg", "注册失败!!请重新打开");
+				}
+				
+			}else{
+				userService.updateByPrimaryKey(record);
+				String state=record.getState();
+				if("0".equals(state)){
+					map.put("msg", "登录失败：帐号禁止登录，请联系管理员！");
+					return map;
+				}
+				session.setAttribute("user", record);
+				//查找companyId
+				
+				if(record.getUserType().equals("sys")){
+					map.put("userType", "sys");
+					map.put("companyId", 0);
+					session.setAttribute("companyId", 0);
+				}
+				else if(record.getUserType().equals("company")){
+					map.put("userType", "company");
+					map.put("companyId", record.getId());
+					session.setAttribute("companyId", record.getId());
+				}
+				else {
+					map.put("userType", "person");
+				}
 			}
-			String state=record.getState();
-			if("0".equals(state)){
-				map.put("msg", "登录失败：帐号禁止登录，请联系管理员！");
-				return map;
-			}
-			session.setAttribute("user", record);
-			//查找companyId
 			
-			if(record.getUserType().equals("sys")){
-				map.put("userType", "sys");
-				map.put("companyId", 0);
-				session.setAttribute("companyId", 0);
-			}
-			else if(record.getUserType().equals("company")){
-				map.put("userType", "company");
-				map.put("companyId", record.getId());
-				session.setAttribute("companyId", record.getId());
-			}
-			else {
-				map.put("userType", "person");
-			}
 			map.put("msg", "ok");
 		}catch(Exception e){
 			map.put("msg", "服务器异常，请稍后重试！");
@@ -272,5 +283,79 @@ public class UserController {
         map.put("code", code);
         return map;
 	}
+	
+	
+	/**
+     * 解密用户敏感数据
+     *
+     * @param encryptedData 明文,加密数据
+     * @param iv            加密算法的初始向量
+     * @param code          用户允许登录后，回调内容会带上 code（有效期五分钟），开发者需要将 code 发送到开发者服务器后台，使用code 换取 session_key api，将 code 换成 openid 和 session_key
+     * @return
+     */
+    @RequestMapping(value = "/decodeUserInfo", method = RequestMethod.POST)
+    public @ResponseBody Map<String,Object> decodeUserInfo(String encryptedData, String iv, String code)  throws IOException{
+ 
+        Map map = new HashMap();
+ 
+        //登录凭证不能为空
+        if (code == null || code.length() == 0) {
+            map.put("status", 0);
+            map.put("msg", "code 不能为空");
+            return map;
+        }
+ 
+        //小程序唯一标识   (在微信小程序管理后台获取)
+        String wxspAppid = "wx32c11755b820c737";
+        //小程序的 app secret (在微信小程序管理后台获取)
+        String wxspSecret = "a9832e8ca5ceeadb548eb00fdbdbbf09";
+        //授权（必填）
+        String grant_type = "authorization_code";
+ 
+ 
+        //////////////// 1、向微信服务器 使用登录凭证 code 获取 session_key 和 openid ////////////////
+        //请求参数
+        String params = "appid=" + wxspAppid + "&secret=" + wxspSecret + "&js_code=" + code + "&grant_type=" + grant_type;
+        //发送请求
+        String sr = HttpRequest.sendGet("https://api.weixin.qq.com/sns/jscode2session", params);
+        //解析相应内容（转换成json对象）
+        JSONObject json = JSONObject.fromObject(sr);
+        //获取会话密钥（session_key）
+        String session_key = json.get("session_key").toString();
+        //用户的唯一标识（openid）
+        String openid = (String) json.get("openid");
+ 
+        //////////////// 2、对encryptedData加密数据进行AES解密 ////////////////
+        try {
+            String result = AESUtils.decrypt(encryptedData, session_key, iv, "UTF-8");
+            if (null != result && result.length() > 0) {
+                map.put("status", 1);
+                map.put("msg", "解密成功");
+ 
+                JSONObject userInfoJSON = JSONObject.fromObject(result);
+                Map userInfo = new HashMap();
+                userInfo.put("openId", userInfoJSON.get("openId"));
+                userInfo.put("nickName", userInfoJSON.get("nickName"));
+                userInfo.put("gender", userInfoJSON.get("gender"));
+                userInfo.put("city", userInfoJSON.get("city"));
+                userInfo.put("province", userInfoJSON.get("province"));
+                userInfo.put("country", userInfoJSON.get("country"));
+                userInfo.put("avatarUrl", userInfoJSON.get("avatarUrl"));
+                userInfo.put("unionId", userInfoJSON.get("unionId"));
+                map.put("userInfo", userInfo);
+                return map;
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        map.put("status", 0);
+        map.put("msg", "解密失败");
+        return map;
+    }
+
+	
+	
+	
+	
 	
 }

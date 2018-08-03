@@ -32,7 +32,7 @@
       <if test="id != null" >
         id,
       </if>
-      <if test="userId != null" >
+      <if test="userId != null" >	
         user_id,
       </if>
       <if test="companyId != null" >

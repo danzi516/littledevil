@@ -10,9 +10,10 @@
     <result column="state" property="state" jdbcType="VARCHAR" />
     <result column="lastlogin_time" property="lastLoginTime" jdbcType="TIMESTAMP" />
     <result column="open_id" property="openId" jdbcType="VARCHAR" />
+    <result column="union_id" property="unionId" jdbcType="VARCHAR" />
   </resultMap>
   <sql id="Base_Column_List" >
-    id, user_name, phone, password, user_type, state,lastlogin_time
+    id, user_name, phone, password, user_type, state,lastlogin_time,open_id,union_id
   </sql>
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
     select 
@@ -31,7 +32,12 @@
       <if test="openId != null" >
        and open_id = #{openId,jdbcType=VARCHAR}
       </if>
-     and password=#{password,jdbcType=VARCHAR}
+      <if test="password != null" >
+       and password = #{password,jdbcType=VARCHAR}
+      </if>
+      <if test="unionId != null" >
+       and union_id = #{unionId,jdbcType=VARCHAR}
+      </if>
   </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
     delete from t_user
@@ -39,11 +45,11 @@
   </delete>
   <insert id="insert" parameterType="cn.com.hd.domain.uc.User" useGeneratedKeys="true" keyProperty="id">
     insert into t_user (id, user_name, phone, 
-      password, user_type, open_id,state
+      password, user_type, open_id,state,union_id,lastlogin_time
       )
     values (#{id,jdbcType=INTEGER}, #{userName,jdbcType=VARCHAR}, #{phone,jdbcType=VARCHAR}, 
       #{password,jdbcType=VARCHAR}, #{userType,jdbcType=VARCHAR}, 
-      #{openId,jdbcType=VARCHAR}, #{state,jdbcType=VARCHAR}
+      #{openId,jdbcType=VARCHAR}, #{state,jdbcType=VARCHAR},#{unionId,jdbcType=VARCHAR},sysdate()
       )
   </insert>
   <insert id="insertSelective" parameterType="cn.com.hd.domain.uc.User"  useGeneratedKeys="true" keyProperty="id">
@@ -70,6 +76,9 @@
       <if test="openId != null" >
         open_id
       </if>
+      <if test="unionId != null" >
+        union_id
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides="," >
       <if test="id != null" >
@@ -88,10 +97,13 @@
         #{userType,jdbcType=VARCHAR},
       </if>
       <if test="state != null" >
-        #{state,jdbcType=VARCHAR}
+        #{state,jdbcType=VARCHAR},
       </if>
        <if test="openId != null" >
-        #{openId,jdbcType=VARCHAR}
+        #{openId,jdbcType=VARCHAR},
+      </if>
+       <if test="unionId != null" >
+        #{unionId,jdbcType=VARCHAR}
       </if>
     </trim>
   </insert>
@@ -136,8 +148,14 @@
     <if test="userName != null">  
         	and a.user_name=#{userName}
     </if>
+    <if test="openId != null">  
+        	and a.open_id=#{openId}
+    </if>
     <if test="phone != null">  
         	and a.phone=#{phone}
+    </if>
+    <if test="unionId != null">  
+        	and a.union_id=#{unionId}
     </if>
     <if test="id != null">  
         	and not exists (select t.id from t_user t where t.id=a.id and t.id=#{id})
