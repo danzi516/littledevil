@@ -66,7 +66,12 @@ public class Constants {
  	
  	public static final String GRADETYPECODE="50002";//字典表 取年级的CODE
  	
- 	
+ 	 //小程序唯一标识   (在微信小程序管理后台获取)
+ 	public static final  String wxspAppid = "wx32c11755b820c737";
+    //小程序的 app secret (在微信小程序管理后台获取)
+ 	public static final  String wxspSecret = "a9832e8ca5ceeadb548eb00fdbdbbf09";
+    //授权（必填）
+ 	public static final  String grant_type = "authorization_code";
  	
  	public static String HtmlText(String inputString) { 
 	      String htmlStr = inputString; //含html标签的字符串 
