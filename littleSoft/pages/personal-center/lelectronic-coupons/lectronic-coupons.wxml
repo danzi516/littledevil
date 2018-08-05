@@ -1,0 +1,122 @@
+<view>
+
+   <view class='lectronic-wrap'  wx:if="{{!ticketInfo.shopName}}">
+    <view class='lectronic-top'>
+      <view class='lectronic-left'>
+        <view class='lectronic-wrap-im'>
+          <image class='lectronic-images' src='/images/icon/xiangqiLGBL.gif'></image>
+        </view>
+        <view class='lectronic-text'>
+          <text class='lectronic-reel'>{{ticket[0].skuName?ticket[0].skuName:ticketInfo.skuName}}</text>
+        </view>
+      </view>
+      <view class='lectronic-right' wx:if="{{isticket}}">
+        <text wx:if="{{ticket[0]}}">
+          <text wx:if="{{ticket[0].isUsed == 0}}">待使用</text>
+          <text wx:else>已使用</text>
+        </text>
+      </view>
+      <view class='lectronic-right' wx:else>
+        <text>已完成</text>
+      </view>
+    </view>
+    <view catchtap='sublevelSum'>
+      <view class='restrict-time'>
+        <view class='restrict-caution'>
+          <text wx:if="{{isticket}}">有限期至:</text>
+          <text wx:if="{{isticket}}">{{ticket[0].expiryDate}}</text>
+        </view>
+        <view class='restric-page-down'>
+          <text class='restric-page-text' id="{{ticketInfo.id}}">使用详情</text>
+          <image class='restrict-Images' src='/images/icon/home_arrow.png'></image>
+        </view>
+      </view>
+    </view>
+  </view> 
+
+
+   <view class='lectronic-wrap' wx:if="{{ticketInfo.shopName}}">
+    <view class='success'><radio checked="true" bindtap='radioOperate'/>支付成功</view>
+  </view> 
+
+  <view class='qr-code' wx:if="{{isticket}}"> 
+    <view class='rollMessage'>享7劵</view>
+    <block wx:for="{{ticket}}" wx:for-item="item" wx:for-index="idx" wx:key="{{index}}">
+    <image src='{{item.qrcodeUrl}}' class='codingImages' data-index='{{idx}}' bindtap='previewImg'></image>
+      <view class='coding-code {{idx > 2 && qrCodeFlag ? "hide" : ""}}'>
+        劵码:{{item.couponCode}}
+      </view>
+    </block>
+    <view class='codingeven-more' wx:if="{{ticket.length > 3}}" bindtap="onclickMore">
+      <text>{{qrCodeFlag ? '更多' : '收起'}}</text>
+      <image class="veent-more-img" wx:if="{{qrCodeFlag}}" src='/images/icon/xialatupian.png'></image>
+      <image class="veent-more-img-top" wx:else src='/images/icon/xialatupian.png'></image>
+    </view>
+  </view>
+
+  <view class='order-for-shop' wx:if="{{ticketInfo.shopName}}">
+    <view class='order-for-nei'>
+      <view class='order-for-text'>
+        <text>商家信息</text>
+      </view>
+      <view class='order-for-colour'>
+        <text>{{ticketInfo.shopName}}</text>
+      </view>
+    </view>
+  </view>
+
+  <view class='order-for-goods'>
+    <view class='order-for-nei'>
+      <view class='order-for-text'>
+        <text>订单详情</text>
+      </view>
+      <view class='order-for-colour'>
+        <text>订单号</text>
+        <text>{{ticketInfo.soId?ticketInfo.soId:ticketInfo.id}}</text>
+      </view>
+      <view class='order-for-colour'>
+        <text>联系电话</text>
+        <text>{{ticketInfo.userName}}</text>
+      </view>
+      <view class='order-for-colour'>
+        <text>下单时间</text>
+        <text>{{ticketInfo.createTime}}</text>
+      </view>
+      <view class='order-for-colour'>
+        <text>付款时间</text>
+        <text>{{ticketInfo.paidTime ? ticketInfo.paidTime : ticketInfo.updateTime}}</text>
+      </view>
+      <view class='order-for-colour'>
+        <text>付款方式</text>
+        <text>{{ticketInfo.payType=='2' ? '微信支付' :'余额支付'}}</text>
+      </view>
+      <view class='order-for-colour'>
+        <text>数量</text>
+        <text>{{ticketInfo.skuNum?ticketInfo.skuNum:1}}</text>
+      </view>
+      <view class='order-for-colour'>
+        <text>总价</text>
+        <text>￥<text>{{ticketInfo.soAmount}}</text></text>
+      </view>
+    </view>
+  </view>
+  
+  <view class='warm-prompt'>
+    <text>^_^温馨提示:到店向商家出示劵码</text>
+  </view>
+</view>
+
+
+<view class='modal_box' wx:if="{{ismoldel}}" bindtap='clickmolbox'>
+    <view class='envelope'>
+      <image bindtap='closemob' class='close' src='/images/icon/close.png'></image>
+      <view class='motitle'>恭喜获得</view>
+      <view class='money {{redfirst == 2?"received":""}}'><text wx:if="{{redfirst == 2}}">￥</text><text class='{{redfirst == 2?"big":""}}'>{{amount}}</text></view>
+      <image catchtap='clickcur' class='currency {{redfirst == 2?"xuanz":""}}' src='/images/icon/currency.png'></image>
+      <view  class='flod'  wx:if="{{redfirst == 1}}">
+        <image src='/images/icon/top2.png'></image>
+      </view>
+      <view class='caikai' wx:if="{{redfirst == 1}}" catchtap='clickcur'>拆开</view>
+      <view class='wallet' wx:else catchtap='gowallet'>已放入钱包<image src='/images/icon/right.png'></image></view>
+    </view>
+</view>

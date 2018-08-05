@@ -1,0 +1,36 @@
+<import src="index-item/index-item-template.wxml" />
+
+<!--index.wxml-->
+<view class="container">
+  <!--顶部 定位 搜索 卷  -->
+  <!-- <template is="locationSeek" data="{{...item}}" /> -->
+
+
+  <view class="newUserModal" wx:if="{{issnap}}">
+    <view class='drawer_screen'>
+      <view class='sqtishi'>提示</view>
+      <view class='drphnumber'>获得更多体验,请移步[我的]-[新用户注册]</view>
+      <button class='gettel sqgettel' bindtap='closetel' id='1'>确定</button>
+      <button class='gettel colosetel' bindtap='closetel' id='2'>取消</button>
+    </view>
+  </view>
+
+  <!-- <view  catchtouchmove='true'> -->
+  <view class="newUserModal loginuser" wx:if="{{istouqu}}" catchtouchmove='true'>
+   <view class="drawer_screen"></view>
+    <button class="newUserM_box" open-type="getUserInfo" bindgetuserinfo="againgetinfo">
+      <image class='loginimg' src='/images/icon/login.png'></image>
+    </button>
+  </view>
+   
+
+  
+
+  <!-- 底部动画 -->
+  <view class='bottomAnimation '>
+    <view class='bottomAnimationText'>
+      <image class='bottomAnimationImg' src='/images/icon/dongtaiLgy.png'></image>
+      <text>共享美味新生活</text>
+    </view>
+  </view>
+</view>

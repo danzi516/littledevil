@@ -1,0 +1,29 @@
+<view>
+  <view class='detailsWarp'>
+    <image class='detailsImg'  wx:if="{{!cfrom}}" src='/images/icon/quan.png'></image>
+    <image class='detailscf' wx:else src='/images/icon/package.png'></image>
+    
+    <view class='speciesWrap'  wx:if="{{!cfrom}}">
+      <text class='speciesText'>{{obj.inp}}元现金劵</text>
+      <!-- <text class='spaeciescondition'>{{obj.rule}}</text> -->
+    </view>
+    
+  </view>
+  <view class='countersign' wx:if="{{!cfrom}}">
+    <view class='countersign_left'>
+      <view>
+        <text class='amount-number'>{{sell}}</text>
+        <text class='amount-text'>元</text>
+        <text class='past-due'>{{orig}}元</text>
+      </view>
+      
+      <view class='countersign-past-due'>
+        <text>{{obj.inp}}元现金劵</text>
+        <!-- <text class='discount-number'>{{sell/obj.inp*10}}折</text> -->
+      </view>
+    </view>
+    <view class='countersign-right' catchtap='immediatelyBuy' >
+      <button class='countersign-right-text'>立即购买</button>
+    </view>
+  </view>
+</view>

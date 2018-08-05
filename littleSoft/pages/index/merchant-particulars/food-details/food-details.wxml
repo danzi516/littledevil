@@ -1,0 +1,66 @@
+<import src="../comment-template/comment-template.wxml" />
+
+
+<image class="foodpic" mode="aspectFill" src="{{foodData.picUrl}}"></image>
+
+<view class='skun'>
+  <text class='skuname'>{{foodData.skuName}}</text>
+  <view class='praise' id="{{foodData.id}}">
+    {{foodData.zan}}
+    <image wx:if="{{foodData.isZan}}" src='/images/icon/home_zaned.png' class='homezan' catchtap='quxiaozanwz'></image>
+    <image wx:else src='/images/icon/home_zan.png' class='homezan' catchtap='dianzanwz'></image>
+  </view>
+</view>
+<view class='skuinfo'>
+  {{foodData.skuInfo}}
+</view>
+<view class='geduan'></view>
+
+<image class='houttishi' wx:if="{{commentNum==0}}" src='/images/icon/zhanweitu.png'></image>
+
+<view class='initiate-exhibition' catchtap='jumpTotalComment' hidden='{{commentNum < 6}}'>
+  <view>
+    <image class='initiate-left' src='/images/icon/home_sign.png'></image>
+    <text class='initiate-text'>精选评价</text>
+  </view>
+  <image class='initiate-right' src='/images/icon/home_arrow.png'></image>
+</view>
+<view class='initiate-pingjia'>
+  <block wx:for="{{comment_list}}" wx:key="{{index}}">
+    <template is="commentItem" data="{{item}}"></template>
+  </block>
+</view>
+<view class='total-comment' hidden='{{commentNum < 6}}' catchtap='jumpTotalComment'>
+  <view class='total-center'>
+    <text>查看全部<text>{{commentNum}}</text>条评论</text>
+  </view>
+</view>
+<!-- <view class='botton-comment' bindtap='showAreatext'>
+  <image class='comment-images' src='/images/icon/write.png'></image>
+  <text class='reviewyan'>写评论</text>
+</view> -->
+<view class='evaluate'>
+  <view class='evaluateWrap'>
+    <button class='evaluateSon sonButton' bindtap='share' plain="true" data-name="shareBtn" open-type="share">
+      <image class='evaluateImg' src='/images/icon/find_share.png'></image>
+      <text class='evaluatExtea'>分享</text>
+    </button>
+    <view class='evaluateSon' bindtap='showAreatext'>
+      <view class='evaluateSonsed'>
+        <image class='evaluateImg' src='/images/icon/find_comment.png'></image>
+        <text class='evaluatExtea'>评价</text>
+      </view>
+    </view>
+    <view class='evaluateSon' id="{{_details.id}}" catchtap='clickzan'>
+      <image class='evaluateImg' wx:if="{{foodData.isZan==1}}" src='/images/icon/wenreview.png'></image>
+      <image class='evaluateImg' wx:else src='/images/icon/wenreviewed.png'></image>
+      <text class='{{foodData.isZan==1?"actzan":"nozan"}}'>点赞</text>
+    </view>
+  </view>
+</view>
+
+<form class='commentBox {{isComment ? "show" : "hide"}}'>
+  <textarea class="commentArea" placeholder='请输入评论' focus="{{isComment}}" bindinput="getCommentVal" cursor-spacing="10px" show-confirm-bar="false" fixed="true"></textarea>
+  <button form-type="reset" catchtap="sendComment">发送</button>
+</form>
+<!-- </view>  -->

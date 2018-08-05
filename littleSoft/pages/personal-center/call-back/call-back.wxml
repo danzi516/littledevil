@@ -1,0 +1,18 @@
+
+<view class='verification'>
+  <view class='setcode' wx:if="{{isent}}">
+    <input  class='fill'  type='number' bindinput="bindinputent" focus="{{true}}" value='{{_code}}' maxlength="12"  placeholder="请输入券码"></input>
+  </view>
+
+  <view class='verification-inside'>
+    <view class='inputBox'>
+      <text>{{tils}}:</text>
+      <text>{{customer}}</text>
+    </view>
+    <view class='inputBox'>
+     <text>{{place}}:</text>
+      <text>{{bond}}</text>
+    </view>
+    <span catchtap='confirm' class="okBtn {{okhx?'look':''}}">确认核销</span>
+  </view>
+</view>
