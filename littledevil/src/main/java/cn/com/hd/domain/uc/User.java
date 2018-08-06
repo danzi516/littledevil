@@ -20,6 +20,28 @@ public class User {
     private String openId;
 
     private String unionId;
+    
+    private String isCompany;
+    
+    private String isSaleman;
+    
+    
+	public String getIsCompany() {
+		return isCompany;
+	}
+
+	public void setIsCompany(String isCompany) {
+		this.isCompany = isCompany;
+	}
+
+	public String getIsSaleman() {
+		return isSaleman;
+	}
+
+	public void setIsSaleman(String isSaleman) {
+		this.isSaleman = isSaleman;
+	}
+
 	public String getUnionId() {
 		return unionId;
 	}

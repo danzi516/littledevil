@@ -224,6 +224,29 @@ public class WxController {
         return map;
 	}
 	
-	
+	 /**
+		 * 功能描述：更新用户
+		 * 作者：fengcaizhi
+		 * url：${webRoot}/wxpay/getOpenId
+		 * 请求方式：POST
+		 * @param  id
+		 * @return Map<String,Object>
+		 *         key:code["0":"成功","1":"失败"]
+		 */
+		@RequestMapping(value="getOpenId",method=RequestMethod.POST)
+		public @ResponseBody Map<String,Object> applySaleMan(String wxcode){
+			Map<String,Object> map=new HashMap<String,Object>();
+			String code="";
+			try{
+				JSONObject result = userService.getOpenidAndSessionKey(Constants.wxspAppid, Constants.wxspSecret, wxcode, Constants.grant_type);
+				code="0";
+				map.put("result", result);
+			}catch(Exception e){
+	            code="1";
+	            e.printStackTrace();
+	        }
+	        map.put("code", code);
+	        return map;
+		}
 	
 }

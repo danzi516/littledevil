@@ -3,6 +3,7 @@ package cn.com.hd.domain.uc;
 public class SaleMan {
     private Integer id;
     
+    private String invitationCode;
     private String state;
     
     private String registerTime;
@@ -49,6 +50,14 @@ public class SaleMan {
 
 	public void setUserInfo(UserInfo userInfo) {
 		this.userInfo = userInfo;
+	}
+
+	public String getInvitationCode() {
+		return invitationCode;
+	}
+
+	public void setInvitationCode(String invitationCode) {
+		this.invitationCode = invitationCode;
 	}
 
 }

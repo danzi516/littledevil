@@ -29,6 +29,15 @@ public class CompanyInfo {
     
     private String  registerTime;
     
+    private String  isState;
+	public String getIsState() {
+		return isState;
+	}
+
+	public void setIsState(String isState) {
+		this.isState = isState;
+	}
+
 	private User user;
     
     private String proviceName;

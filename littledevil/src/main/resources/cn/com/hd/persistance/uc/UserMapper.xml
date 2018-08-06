@@ -11,9 +11,11 @@
     <result column="lastlogin_time" property="lastLoginTime" jdbcType="TIMESTAMP" />
     <result column="open_id" property="openId" jdbcType="VARCHAR" />
     <result column="union_id" property="unionId" jdbcType="VARCHAR" />
+    <result column="is_company" property="isCompany" jdbcType="VARCHAR" />
+    <result column="is_saleman" property="isSaleman" jdbcType="VARCHAR" />
   </resultMap>
   <sql id="Base_Column_List" >
-    id, user_name, phone, password, user_type, state,lastlogin_time,open_id,union_id
+    id, user_name, phone, password, user_type, state,lastlogin_time,open_id,union_id,is_company,is_saleman
   </sql>
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
     select 
@@ -45,11 +47,11 @@
   </delete>
   <insert id="insert" parameterType="cn.com.hd.domain.uc.User" useGeneratedKeys="true" keyProperty="id">
     insert into t_user (id, user_name, phone, 
-      password, user_type, open_id,state,union_id,lastlogin_time
+      password, user_type, open_id,state,union_id,is_company,is_saleman,lastlogin_time
       )
     values (#{id,jdbcType=INTEGER}, #{userName,jdbcType=VARCHAR}, #{phone,jdbcType=VARCHAR}, 
       #{password,jdbcType=VARCHAR}, #{userType,jdbcType=VARCHAR}, 
-      #{openId,jdbcType=VARCHAR}, #{state,jdbcType=VARCHAR},#{unionId,jdbcType=VARCHAR},sysdate()
+      #{openId,jdbcType=VARCHAR}, #{state,jdbcType=VARCHAR},#{unionId,jdbcType=VARCHAR},#{isCompany,jdbcType=VARCHAR},#{isSaleman,jdbcType=VARCHAR},sysdate()
       )
   </insert>
   <insert id="insertSelective" parameterType="cn.com.hd.domain.uc.User"  useGeneratedKeys="true" keyProperty="id">
@@ -71,13 +73,19 @@
         user_type,
       </if>
       <if test="state != null" >
-        state
+        state,
       </if>
       <if test="openId != null" >
-        open_id
+        open_id,
       </if>
       <if test="unionId != null" >
-        union_id
+        union_id,
+      </if>
+      <if test="isCompany != null" >
+        is_company,
+      </if>
+      <if test="isSaleman != null" >
+        is_saleman
       </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides="," >
@@ -103,7 +111,13 @@
         #{openId,jdbcType=VARCHAR},
       </if>
        <if test="unionId != null" >
-        #{unionId,jdbcType=VARCHAR}
+        #{unionId,jdbcType=VARCHAR},
+      </if>
+       <if test="isCompany != null" >
+        #{isCompany,jdbcType=VARCHAR},
+      </if>
+       <if test="isSaleman != null" >
+        #{isSaleman,jdbcType=VARCHAR}
       </if>
     </trim>
   </insert>
@@ -125,6 +139,12 @@
       <if test="state != null" >
         state = #{state,jdbcType=VARCHAR},
       </if>
+       <if test="isCompany != null" >
+        is_company = #{isCompany,jdbcType=VARCHAR},
+      </if>
+       <if test="isSaleman != null" >
+        is_saleman = #{isSaleman,jdbcType=VARCHAR},
+      </if>
       lastlogin_time=sysdate()
     </set>
     where id = #{id,jdbcType=INTEGER}
@@ -136,6 +156,8 @@
       password = #{password,jdbcType=VARCHAR},
       user_type = #{userType,jdbcType=VARCHAR},
       state = #{state,jdbcType=VARCHAR},
+      is_company = #{isCompany,jdbcType=VARCHAR},
+      is_saleman = #{isSaleman,jdbcType=VARCHAR},
       lastlogin_time=sysdate()
     where id = #{id,jdbcType=INTEGER}
   </update>
