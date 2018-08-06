@@ -2,15 +2,15 @@
 Navicat MySQL Data Transfer
 
 Source Server         : localhost
-Source Server Version : 50715
+Source Server Version : 50711
 Source Host           : localhost:3306
 Source Database       : little_devil
 
 Target Server Type    : MYSQL
-Target Server Version : 50715
+Target Server Version : 50711
 File Encoding         : 65001
 
-Date: 2018-05-18 01:07:01
+Date: 2018-08-06 17:22:32  
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -98,6 +98,22 @@ INSERT INTO `t_app_operation` VALUES ('13', '删除', '1', 'delete');
 INSERT INTO `t_app_operation` VALUES ('14', '删除', '6', 'delete');
 
 -- ----------------------------
+-- Table structure for t_auth
+-- ----------------------------
+DROP TABLE IF EXISTS `t_auth`;
+CREATE TABLE `t_auth` (
+  `id` int(11) NOT NULL COMMENT '认证表',
+  `user_id` int(11) DEFAULT NULL,
+  `state` varchar(2) DEFAULT NULL COMMENT '状态',
+  `creat_time` timestamp NULL DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+-- ----------------------------
+-- Records of t_auth
+-- ----------------------------
+
+-- ----------------------------
 -- Table structure for t_commodity_category
 -- ----------------------------
 DROP TABLE IF EXISTS `t_commodity_category`;
@@ -130,7 +146,7 @@ CREATE TABLE `t_commodity_promotion` (
   `creat_time` timestamp NULL DEFAULT NULL COMMENT '创建时间',
   `update_time` timestamp NULL DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP COMMENT '修改时间',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8 COMMENT='商品种类';
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8 COMMENT='商品活动';
 
 -- ----------------------------
 -- Records of t_commodity_promotion
@@ -178,6 +194,7 @@ INSERT INTO `t_company_commodity` VALUES ('4', '6', '限时优惠', '111.00', '1
 DROP TABLE IF EXISTS `t_company_info`;
 CREATE TABLE `t_company_info` (
   `id` int(11) NOT NULL COMMENT '主键',
+  `user_id` int(11) DEFAULT NULL,
   `company_name` varchar(200) DEFAULT NULL COMMENT '企业名称',
   `company_logo` varchar(500) DEFAULT NULL COMMENT '企业图标',
   `company_type` int(11) DEFAULT NULL COMMENT '企业类型',
@@ -189,17 +206,18 @@ CREATE TABLE `t_company_info` (
   `address` varchar(500) DEFAULT NULL COMMENT '详细地址',
   `coordinate` varchar(100) DEFAULT NULL COMMENT '坐标',
   `register_time` timestamp NULL DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP,
+  `is_state` varchar(2) DEFAULT NULL COMMENT '认证状态(1启用，0禁用)',
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='商户信息表';
 
 -- ----------------------------
 -- Records of t_company_info
 -- ----------------------------
-INSERT INTO `t_company_info` VALUES ('6', '大唐会所', null, '1', '222', '15111111111', null, null, null, null, null, '2017-08-14 21:11:17');
-INSERT INTO `t_company_info` VALUES ('7', '大浪淘沙', null, '2', '222', '15111111112', null, null, null, null, null, '2017-08-14 21:11:06');
-INSERT INTO `t_company_info` VALUES ('8', '天健会所', null, '3', '222', '15111111113', null, null, null, null, null, '2017-08-14 22:02:25');
-INSERT INTO `t_company_info` VALUES ('9', '4444', null, '4', '222', '15111111114', null, null, null, null, null, '2017-06-13 16:22:46');
-INSERT INTO `t_company_info` VALUES ('10', '7777', null, '5', '222', '15111111115', null, null, null, null, null, '2017-06-15 11:14:23');
+INSERT INTO `t_company_info` VALUES ('6', null, '大唐会所', null, '1', '222', '15111111111', null, null, null, null, null, '2017-08-14 21:11:17', null);
+INSERT INTO `t_company_info` VALUES ('7', null, '大浪淘沙', null, '2', '222', '15111111112', null, null, null, null, null, '2017-08-14 21:11:06', null);
+INSERT INTO `t_company_info` VALUES ('8', null, '天健会所', null, '3', '222', '15111111113', null, null, null, null, null, '2017-08-14 22:02:25', null);
+INSERT INTO `t_company_info` VALUES ('9', null, '4444', null, '4', '222', '15111111114', null, null, null, null, null, '2017-06-13 16:22:46', null);
+INSERT INTO `t_company_info` VALUES ('10', null, '7777', null, '5', '222', '15111111115', null, null, null, null, null, '2017-06-15 11:14:23', null);
 
 -- ----------------------------
 -- Table structure for t_company_member
@@ -4089,6 +4107,24 @@ INSERT INTO `t_district` VALUES ('4083', '691403', '一牧场', '691400', '39140
 INSERT INTO `t_district` VALUES ('4084', '691404', '224团', '691400', '391404', '1');
 
 -- ----------------------------
+-- Table structure for t_manage_company
+-- ----------------------------
+DROP TABLE IF EXISTS `t_manage_company`;
+CREATE TABLE `t_manage_company` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `user_id` int(11) DEFAULT NULL,
+  `company_id` int(11) DEFAULT NULL,
+  `state` varchar(2) DEFAULT NULL,
+  `useNum` varchar(5) DEFAULT NULL,
+  `creat_time` timestamp NULL DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+-- ----------------------------
+-- Records of t_manage_company
+-- ----------------------------
+
+-- ----------------------------
 -- Table structure for t_member_commodity
 -- ----------------------------
 DROP TABLE IF EXISTS `t_member_commodity`;
@@ -4176,11 +4212,30 @@ INSERT INTO `t_member_recharge` VALUES ('7', '9', '6', '1', '0', '2017-09-02 20:
 INSERT INTO `t_member_recharge` VALUES ('8', '9', '6', '1', '0', '2017-09-02 21:02:28', '0', '17');
 
 -- ----------------------------
+-- Table structure for t_reg_verification
+-- ----------------------------
+DROP TABLE IF EXISTS `t_reg_verification`;
+CREATE TABLE `t_reg_verification` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `saleman_id` int(11) DEFAULT NULL,
+  `invitation_code` varchar(255) DEFAULT NULL,
+  `state` varchar(2) DEFAULT NULL,
+  `creat_time` timestamp NULL DEFAULT NULL,
+  `update_time` timestamp NULL DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='邀请码';
+
+-- ----------------------------
+-- Records of t_reg_verification
+-- ----------------------------
+
+-- ----------------------------
 -- Table structure for t_saleman
 -- ----------------------------
 DROP TABLE IF EXISTS `t_saleman`;
 CREATE TABLE `t_saleman` (
   `id` int(12) NOT NULL AUTO_INCREMENT,
+  `invitation_code` varchar(255) DEFAULT NULL COMMENT '邀请码',
   `state` varchar(2) DEFAULT NULL COMMENT '业务员状态：0：禁用  1：启用',
   `register_time` timestamp NULL DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP COMMENT '创建时间',
   PRIMARY KEY (`id`)
@@ -4189,8 +4244,8 @@ CREATE TABLE `t_saleman` (
 -- ----------------------------
 -- Records of t_saleman
 -- ----------------------------
-INSERT INTO `t_saleman` VALUES ('25', '1', '2017-03-13 13:57:03');
-INSERT INTO `t_saleman` VALUES ('31', '1', '2017-03-14 12:21:40');
+INSERT INTO `t_saleman` VALUES ('25', null, '1', '2017-03-13 13:57:03');
+INSERT INTO `t_saleman` VALUES ('31', null, '1', '2017-03-14 12:21:40');
 
 -- ----------------------------
 -- Table structure for t_transaction_commodity
@@ -4243,33 +4298,37 @@ CREATE TABLE `t_user` (
   `user_type` varchar(20) DEFAULT NULL COMMENT '用户类型：person个人；company企业;sys：系统用户',
   `state` varchar(2) DEFAULT '1' COMMENT '状态：1启用；0禁用',
   `lastlogin_time` timestamp NULL DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP,
-  `open_id` varchar(100) DEFAULT NULL,
+  `open_id` varchar(50) DEFAULT NULL,
+  `union_id` varchar(50) DEFAULT NULL,
+  `is_company` varchar(2) DEFAULT '0' COMMENT '0:不是，1：是',
+  `is_saleman` varchar(2) DEFAULT '0' COMMENT '0:不是，1：是',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=34 DEFAULT CHARSET=utf8 COMMENT='用户表';
+) ENGINE=InnoDB AUTO_INCREMENT=38 DEFAULT CHARSET=utf8 COMMENT='用户表';
 
 -- ----------------------------
 -- Records of t_user
 -- ----------------------------
-INSERT INTO `t_user` VALUES ('6', 'test', '15111111111', 'e10adc3949ba59abbe56e057f20f883e', 'company', '1', '2018-05-03 22:11:23', null);
-INSERT INTO `t_user` VALUES ('7', 'asdd1', '15111111112', 'e10adc3949ba59abbe56e057f20f883e', 'company', '0', '2016-12-13 15:20:40', null);
-INSERT INTO `t_user` VALUES ('8', 'asdd2', '15111111113', 'e10adc3949ba59abbe56e057f20f883e', 'company', '1', '2016-11-28 11:16:13', null);
-INSERT INTO `t_user` VALUES ('9', 'asdd3', '15111111114', 'e10adc3949ba59abbe56e057f20f883e', 'company', '1', '2016-11-28 11:16:14', null);
-INSERT INTO `t_user` VALUES ('10', 'asdd4', '15111111115', 'e10adc3949ba59abbe56e057f20f883e', 'company', '0', '2016-11-22 16:42:34', null);
-INSERT INTO `t_user` VALUES ('14', '13456789098', '13456789098', 'e10adc3949ba59abbe56e057f20f883e', 'person', '1', '2017-03-29 13:28:17', null);
-INSERT INTO `t_user` VALUES ('16', 'admin', '13456789092', 'e10adc3949ba59abbe56e057f20f883e', 'sys', '1', '2018-05-03 21:57:07', null);
-INSERT INTO `t_user` VALUES ('17', 'test111', '13456789096', 'e10adc3949ba59abbe56e057f20f883e', 'person', '1', '2018-05-18 01:06:02', null);
-INSERT INTO `t_user` VALUES ('19', 'test1112', '13456789333', 'e10adc3949ba59abbe56e057f20f883e', 'sys', '0', '2016-12-26 14:03:05', null);
-INSERT INTO `t_user` VALUES ('22', '13456789095', '13456789095', 'e10adc3949ba59abbe56e057f20f883e', 'person', '1', null, null);
-INSERT INTO `t_user` VALUES ('23', null, '13456789095', 'e10adc3949ba59abbe56e057f20f883e', 'person', '1', '2017-01-11 16:34:54', '111');
-INSERT INTO `t_user` VALUES ('25', 'test334', '13456789033', 'e10adc3949ba59abbe56e057f20f883e', 'person', '1', null, null);
-INSERT INTO `t_user` VALUES ('26', 'aaa111', '13456789022', 'e10adc3949ba59abbe56e057f20f883e', 'person', '1', null, null);
-INSERT INTO `t_user` VALUES ('27', 'aaa112', '13456789023', 'e10adc3949ba59abbe56e057f20f883e', 'person', '1', null, null);
-INSERT INTO `t_user` VALUES ('28', 'test112', '13456789024', 'e10adc3949ba59abbe56e057f20f883e', 'person', '1', null, null);
-INSERT INTO `t_user` VALUES ('29', 'test113', '13456789234', 'e10adc3949ba59abbe56e057f20f883e', 'person', '1', null, null);
-INSERT INTO `t_user` VALUES ('30', 'aa224', '13456789324', 'e10adc3949ba59abbe56e057f20f883e', 'person', '1', null, null);
-INSERT INTO `t_user` VALUES ('31', 'ad224', '13456789056', 'e10adc3949ba59abbe56e057f20f883e', 'person', '1', null, null);
-INSERT INTO `t_user` VALUES ('32', 'aa46', '13456789322', 'e10adc3949ba59abbe56e057f20f883e', 'person', '1', '2017-03-16 09:57:45', null);
-INSERT INTO `t_user` VALUES ('33', 'asda2223', '13456789098', 'e10adc3949ba59abbe56e057f20f883e', 'person', '1', null, null);
+INSERT INTO `t_user` VALUES ('6', 'test', '15111111111', 'e10adc3949ba59abbe56e057f20f883e', 'company', '1', '2018-05-03 22:11:23', null, null, null, null);
+INSERT INTO `t_user` VALUES ('7', 'asdd1', '15111111112', 'e10adc3949ba59abbe56e057f20f883e', 'company', '0', '2016-12-13 15:20:40', null, null, null, null);
+INSERT INTO `t_user` VALUES ('8', 'asdd2', '15111111113', 'e10adc3949ba59abbe56e057f20f883e', 'company', '1', '2016-11-28 11:16:13', null, null, null, null);
+INSERT INTO `t_user` VALUES ('9', 'asdd3', '15111111114', 'e10adc3949ba59abbe56e057f20f883e', 'company', '1', '2016-11-28 11:16:14', null, null, null, null);
+INSERT INTO `t_user` VALUES ('10', 'asdd4', '15111111115', 'e10adc3949ba59abbe56e057f20f883e', 'company', '0', '2016-11-22 16:42:34', null, null, null, null);
+INSERT INTO `t_user` VALUES ('14', '13456789098', '13456789098', 'e10adc3949ba59abbe56e057f20f883e', 'person', '1', '2017-03-29 13:28:17', null, null, null, null);
+INSERT INTO `t_user` VALUES ('16', 'admin', '13456789092', 'e10adc3949ba59abbe56e057f20f883e', 'sys', '1', '2018-05-03 21:57:07', null, null, null, null);
+INSERT INTO `t_user` VALUES ('17', 'test111', '13456789096', 'e10adc3949ba59abbe56e057f20f883e', 'person', '1', '2018-05-18 01:06:02', null, null, null, null);
+INSERT INTO `t_user` VALUES ('19', 'test1112', '13456789333', 'e10adc3949ba59abbe56e057f20f883e', 'sys', '0', '2016-12-26 14:03:05', null, null, null, null);
+INSERT INTO `t_user` VALUES ('22', '13456789095', '13456789095', 'e10adc3949ba59abbe56e057f20f883e', 'person', '1', null, null, null, null, null);
+INSERT INTO `t_user` VALUES ('23', null, '13456789095', 'e10adc3949ba59abbe56e057f20f883e', 'person', '1', '2017-01-11 16:34:54', '111', null, null, null);
+INSERT INTO `t_user` VALUES ('25', 'test334', '13456789033', 'e10adc3949ba59abbe56e057f20f883e', 'person', '1', null, null, null, null, null);
+INSERT INTO `t_user` VALUES ('26', 'aaa111', '13456789022', 'e10adc3949ba59abbe56e057f20f883e', 'person', '1', null, null, null, null, null);
+INSERT INTO `t_user` VALUES ('27', 'aaa112', '13456789023', 'e10adc3949ba59abbe56e057f20f883e', 'person', '1', null, null, null, null, null);
+INSERT INTO `t_user` VALUES ('28', 'test112', '13456789024', 'e10adc3949ba59abbe56e057f20f883e', 'person', '1', null, null, null, null, null);
+INSERT INTO `t_user` VALUES ('29', 'test113', '13456789234', 'e10adc3949ba59abbe56e057f20f883e', 'person', '1', null, null, null, null, null);
+INSERT INTO `t_user` VALUES ('30', 'aa224', '13456789324', 'e10adc3949ba59abbe56e057f20f883e', 'person', '1', null, null, null, null, null);
+INSERT INTO `t_user` VALUES ('31', 'ad224', '13456789056', 'e10adc3949ba59abbe56e057f20f883e', 'person', '1', null, null, null, null, null);
+INSERT INTO `t_user` VALUES ('32', 'aa46', '13456789322', 'e10adc3949ba59abbe56e057f20f883e', 'person', '1', '2017-03-16 09:57:45', null, null, null, null);
+INSERT INTO `t_user` VALUES ('33', 'asda2223', '13456789098', 'e10adc3949ba59abbe56e057f20f883e', 'person', '1', null, null, null, null, null);
+INSERT INTO `t_user` VALUES ('37', null, null, null, 'company', '0', '2018-07-31 16:48:33', 'o9Eb64scZgt-emtGrE1hXhiLXnW8', null, null, null);
 
 -- ----------------------------
 -- Table structure for t_user_follow
