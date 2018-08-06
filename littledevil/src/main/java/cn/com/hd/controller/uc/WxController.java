@@ -21,7 +21,9 @@ import cn.com.hd.common.Constants;
 import cn.com.hd.common.MD5Encrypt;
 import cn.com.hd.common.http.HttpRequest;
 import cn.com.hd.common.security.AESUtils;
+import cn.com.hd.domain.sys.RegVerification;
 import cn.com.hd.domain.uc.User;
+import cn.com.hd.service.sys.RegVerificationService;
 import cn.com.hd.service.uc.UserService;
 import net.sf.json.JSONObject;
 
@@ -37,7 +39,8 @@ public class WxController {
 	HttpSession session;
 	@Resource
 	private UserService userService;
-	
+	@Resource
+	RegVerificationService regVerificationService;
 	
 	//微信登录
 	@RequestMapping("openIdLogin")
@@ -89,7 +92,7 @@ public class WxController {
 	
 	/**
 	 * 功能描述：更新用户状态
-	 * 作者：fengcaizhi
+	 * 作者：wanglin
 	 * url：${webRoot}/wxpay/updateStatus
 	 * 请求方式：GET
 	 * @param  user User
@@ -113,7 +116,7 @@ public class WxController {
 	
 	/**
 	 * 功能描述：验证用户名,手机,邮箱,身份证号是否存在
-	 * 作者：fengcaizhi
+	 * 作者：wanglin
 	 * url：${webRoot}/wxpay/isExitsByCondition
 	 * 请求方式：GET
 	 * @param user User
@@ -132,7 +135,7 @@ public class WxController {
 	
 	/**
 	 * 功能描述：更新用户
-	 * 作者：fengcaizhi
+	 * 作者：wanglin
 	 * url：${webRoot}/wxpay/updateRecord
 	 * 请求方式：POST
 	 * @param  id
@@ -185,7 +188,7 @@ public class WxController {
             String result = AESUtils.decrypt(encryptedData, session_key, iv, "UTF-8");
             if (null != result && result.length() > 0) {
             	Map<String, Object> userInfo = userService.getWxUserInfo(encryptedData, session_key, iv);
-                map.put("status", 1);
+                map.put("status", 0);
                 map.put("msg", "解密成功");
                 map.put("userInfo", userInfo);
                 return map;
@@ -193,7 +196,7 @@ public class WxController {
         } catch (Exception e) {
             e.printStackTrace();
         }
-        map.put("status", 0);
+        map.put("status", 1);
         map.put("msg", "解密失败");
         return map;
     }
@@ -201,7 +204,7 @@ public class WxController {
 	
     /**
 	 * 功能描述：更新用户
-	 * 作者：fengcaizhi
+	 * 作者：wanglin
 	 * url：${webRoot}/wxpay/getOpenId
 	 * 请求方式：POST
 	 * @param  id
@@ -225,22 +228,20 @@ public class WxController {
 	}
 	
 	 /**
-		 * 功能描述：更新用户
-		 * 作者：fengcaizhi
-		 * url：${webRoot}/wxpay/getOpenId
+		 * 功能描述：申请成为业务员
+		 * 作者：wanglin
+		 * url：${webRoot}/wxpay/applySaleMan
 		 * 请求方式：POST
 		 * @param  id
 		 * @return Map<String,Object>
 		 *         key:code["0":"成功","1":"失败"]
 		 */
-		@RequestMapping(value="getOpenId",method=RequestMethod.POST)
+		@RequestMapping(value="applySaleMan",method=RequestMethod.POST)
 		public @ResponseBody Map<String,Object> applySaleMan(String wxcode){
 			Map<String,Object> map=new HashMap<String,Object>();
 			String code="";
 			try{
-				JSONObject result = userService.getOpenidAndSessionKey(Constants.wxspAppid, Constants.wxspSecret, wxcode, Constants.grant_type);
 				code="0";
-				map.put("result", result);
 			}catch(Exception e){
 	            code="1";
 	            e.printStackTrace();
@@ -248,5 +249,75 @@ public class WxController {
 	        map.put("code", code);
 	        return map;
 		}
-	
+		
+		/**
+		 * 功能描述：申请成为商户
+		 * 作者：wanglin
+		 * url：${webRoot}/wxpay/applySaleMan
+		 * 请求方式：POST
+		 * @param  id
+		 * @return Map<String,Object>
+		 *         key:code["0":"成功","1":"失败"]
+		 */
+		@RequestMapping(value="applyCompany",method=RequestMethod.POST)
+		public @ResponseBody Map<String,Object> applyCompany(String wxcode){
+			Map<String,Object> map=new HashMap<String,Object>();
+			String code="";
+			try{
+				code="0";
+			}catch(Exception e){
+	            code="1";
+	            e.printStackTrace();
+	        }
+	        map.put("code", code);
+	        return map;
+		}
+		
+		/**
+		 * 功能描述：获取邀请码
+		 * 作者：wanglin
+		 * url：${webRoot}/wxpay/getInvitationCode
+		 * 请求方式：POST
+		 * @param  id
+		 * @return Map<String,Object>
+		 *         key:code["0":"成功","1":"失败"]
+		 */
+		@RequestMapping(value="getInvitationCode",method=RequestMethod.POST)
+		public @ResponseBody Map<String,Object> getInvitationCode(int salemanId){
+			Map<String,Object> map=new HashMap<String,Object>();
+			String code="";
+			try{
+				RegVerification record = new RegVerification();
+				record.setSalemanId(salemanId);
+				record.setState("0");
+				if(regVerificationService.selectBySelective(record).size()==0){
+					for(int i=0;i<=5;i++){
+						int InvitationCode =(int) ((Math.random()*9+1)*100000);
+						record.setInvitationCode( String.valueOf(InvitationCode));
+						try{
+							regVerificationService.insert(record);
+							code="0";
+							map.put("InvitationCode",InvitationCode);
+							break;
+						}catch(Exception e){
+				            code="1";
+				            e.printStackTrace();
+				            continue;
+				        }	
+					} 
+					return map;
+				}
+				String InvitationCode = regVerificationService.selectBySelective(record).get(0).getInvitationCode();
+				map.put("InvitationCode",InvitationCode);
+				code="0";
+			}catch(Exception e){
+	            code="1";
+	            e.printStackTrace();
+	        }
+	        map.put("code", code);
+	        return map;
+		}
+		public static void main(String args[]) { 
+	        System.out.println((int)((Math.random()*9+1)*100000)); 
+	    } 
 }

@@ -2,6 +2,8 @@ package cn.com.hd.domain.sys;
 
 import java.util.List;
 
+import cn.com.hd.domain.uc.User;
+
 public class RegVerification {
 	private Integer id;
 
@@ -14,7 +16,7 @@ public class RegVerification {
 	private String creatTime;
 	
 	private String updateTime;
-
+	private User user;
 	public Integer getId() {
 		return id;
 	}
@@ -61,6 +63,14 @@ public class RegVerification {
 
 	public void setUpdateTime(String updateTime) {
 		this.updateTime = updateTime;
+	}
+
+	public User getUser() {
+		return user;
+	}
+
+	public void setUser(User user) {
+		this.user = user;
 	}
 	
 	

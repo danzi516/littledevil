@@ -125,6 +125,22 @@ Page({
       isNew: false
     });
   },
+  getInvitationCode:function(){
+    wx.request({
+      url: "http://127.0.0.1:8080/littledevil/wxpay/getInvitationCode",
+      header: {
+        'content-type': 'application/x-www-form-urlencoded' // 默认值
+      },
+      method: "POST",
+      data: {
+        salemanId:1
+      },
+      success: (res) => {
+       console.log(res)
+     
+      }
+    })
+  },
   getlocation: function () { //获取用户位置
     let that = this
     let lat = '',

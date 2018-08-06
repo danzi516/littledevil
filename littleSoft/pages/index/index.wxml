@@ -22,7 +22,7 @@
       <image class='loginimg' src='/images/icon/login.png'></image>
     </button>
   </view>
-   
+
 
   
 
@@ -33,4 +33,6 @@
       <text>共享美味新生活</text>
     </view>
   </view>
+
+  <button type="primary" bindtap="getInvitationCode"> 获取验证码 </button>
 </view>

@@ -40,17 +40,14 @@
     where id = #{id,jdbcType=INTEGER}
   </delete>
   <insert id="insert" parameterType="cn.com.hd.domain.sys.RegVerification" >
-    insert into t_reg_verification (id, saleman_id, invitation_code, 
+    insert into t_reg_verification (saleman_id, invitation_code, 
       state, creat_time )
-    values (#{id,jdbcType=INTEGER}, #{salemanId,jdbcType=INTEGER}, #{invitationCode,jdbcType=VARCHAR}, 
+    values ( #{salemanId,jdbcType=INTEGER}, #{invitationCode,jdbcType=VARCHAR}, 
       #{state,jdbcType=VARCHAR}, sysdate())
   </insert>
   <insert id="insertSelective" parameterType="cn.com.hd.domain.sys.RegVerification" useGeneratedKeys="true" keyProperty="id">
     insert into t_reg_verification
     <trim prefix="(" suffix=")" suffixOverrides="," >
-      <if test="id != null" >
-        id,
-      </if>
       <if test="salemanId != null" >
         saleman_id,
       </if>
@@ -63,9 +60,6 @@
      	creat_time
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides="," >
-      <if test="id != null" >
-        #{id,jdbcType=INTEGER},
-      </if>
       <if test="salemanId != null" >
         #{salemanId,jdbcType=INTEGER},
       </if>
