@@ -8,6 +8,7 @@ import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
+import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -16,6 +17,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
+
+import com.mysql.jdbc.exceptions.jdbc4.MySQLIntegrityConstraintViolationException;
 
 import cn.com.hd.common.Constants;
 import cn.com.hd.common.MD5Encrypt;
@@ -254,7 +257,7 @@ public class WxController {
 		}
 		
 		/**
-		 * 功能描述：商户认证
+		 * 功能描述：商户申请认证
 		 * 作者：wanglin
 		 * url：${webRoot}/wxpay/applyCompany
 		 * 请求方式：POST
@@ -263,11 +266,20 @@ public class WxController {
 		 *         key:code["0":"成功","1":"失败"]
 		 */
 		@RequestMapping(value="applyCompany",method=RequestMethod.POST)
-		public @ResponseBody Map<String,Object> applyCompany(int userid ,String invitationCode){
+		public @ResponseBody Map<String,Object> applyCompany(int userId ,String invitationCode){
 			Map<String,Object> map=new HashMap<String,Object>();
 			String code="";
 			String message="";
 			try{
+				CompanyAuth companyAuth = new CompanyAuth();
+				companyAuth.setCompanyId(userId);
+				companyAuth.setInvitationCode(invitationCode);
+				if(companyAuthService.selectBySelective(companyAuth).get(0).getState().equals("0")){
+					message="该用户已认证";
+					map.put("code", "3");
+					map.put("message", message);
+					return  map;
+				}
 				RegVerification record = new RegVerification();
 				record.setState("0");
 				record.setInvitationCode(invitationCode);
@@ -278,12 +290,14 @@ public class WxController {
 					map.put("message", message);
 					return  map;
 				}
-				CompanyAuth companyAuth = new CompanyAuth();
-				companyAuth.setInvitationCode(invitationCode);
-				companyAuth.setCompanyId(userid);
+				int id = regVerificationService.selectBySelective(record).get(0).getId();
 				companyAuth.setSalemanId(regVerificationService.selectBySelective(record).get(0).getSalemanId());
 				companyAuth.setState("1");
 				companyAuthService.insertSelective(companyAuth);
+				record.setState("1");
+				record.setId(id);
+				regVerificationService.updateByPrimaryKeySelective(record);
+				message="申请成功";
 				code="0";
 			}catch(Exception e){
 	            code="2";
@@ -304,7 +318,7 @@ public class WxController {
 		 * @return Map<String,Object>
 		 *         key:code["0":"成功","1":"失败"]
 		 */
-		@RequestMapping(value="getInvitationCode",method=RequestMethod.GET)
+		@RequestMapping(value="getInvitationCode",method=RequestMethod.POST)
 		public @ResponseBody Map<String,Object> getInvitationCode(int salemanId){
 			Map<String,Object> map=new HashMap<String,Object>();
 			String code="";
@@ -314,8 +328,8 @@ public class WxController {
 				record.setState("0");
 				if(regVerificationService.selectBySelective(record).size()==0){
 					for(int i=0;i<=5;i++){
-						int invitationCode =(int) ((Math.random()*9+1)*100000);
-						//int invitationCode =(int) ((Math.random()*4+1));
+						//int invitationCode =(int) ((Math.random()*9+1)*100000);
+						int invitationCode =(int) ((Math.random()*4+1));
 						record.setInvitationCode( String.valueOf(invitationCode));
 						try{
 							regVerificationService.insert(record);
@@ -323,10 +337,12 @@ public class WxController {
 							map.put("code", code);
 							map.put("InvitationCode",invitationCode);
 							break;
-						}catch(Exception e){
+						}catch(org.springframework.dao.DuplicateKeyException e){
+				            continue;
+				        }	
+						catch(Exception e){
 				            code="1";
 				            e.printStackTrace();
-				            continue;
 				        }	
 					} 
 					map.put("code", code);
@@ -345,4 +361,34 @@ public class WxController {
 		public static void main(String args[]) { 
 	        System.out.println((int)((Math.random()*9+1)*100000)); 
 	    } 
+		
+		
+		/**
+		 * 功能描述：商户认证通过
+		 * 作者：wanglin
+		 * url：${webRoot}/wxpay/companyThrough
+		 * 请求方式：POST
+		 * @param  id
+		 * @return Map<String,Object>
+		 *         key:code["0":"成功","1":"失败"]
+		 */
+		@RequestMapping(value="companyThrough",method=RequestMethod.POST)
+		public @ResponseBody Map<String,Object> companyThrough(int companyId,String validityTime){
+			Map<String,Object> map=new HashMap<String,Object>();
+			String code="";
+			String message="";
+			try{
+				CompanyAuth record = new CompanyAuth();
+				record.setCompanyId(companyId);
+				companyAuthService.updateByCompanyId(record);
+			}catch(Exception e){
+	            code="2";
+	            message="未知异常，请重试";
+	            e.printStackTrace();
+	        }
+			map.put("message", message);
+	        map.put("code", code);
+	        return map;
+		}
+		
 }

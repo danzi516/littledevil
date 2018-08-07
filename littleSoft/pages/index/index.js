@@ -141,6 +141,23 @@ Page({
       }
     })
   },
+  applyCompany: function () {
+    wx.request({
+      url: "http://127.0.0.1:8080/littledevil/wxpay/applyCompany",
+      header: {
+        'content-type': 'application/x-www-form-urlencoded' // 默认值
+      },
+      method: "POST",
+      data: {
+        userId: 33,
+        invitationCode: 747642
+      },
+      success: (res) => {
+        console.log(res)
+
+      }
+    })
+  },
   getlocation: function () { //获取用户位置
     let that = this
     let lat = '',

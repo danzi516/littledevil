@@ -21,18 +21,22 @@
     <button class="newUserM_box" open-type="getUserInfo" bindgetuserinfo="againgetinfo">
       <image class='loginimg' src='/images/icon/login.png'></image>
     </button>
-  </view>
+   </view>
+
 
 
   
 
   <!-- 底部动画 -->
-  <view class='bottomAnimation '>
+   <!--<view class='bottomAnimation '>
     <view class='bottomAnimationText'>
       <image class='bottomAnimationImg' src='/images/icon/dongtaiLgy.png'></image>
       <text>共享美味新生活</text>
     </view>
-  </view>
+  </view>-->
+<view class="page__bd page__bd_spacing">
+  <button style="margin-top: 10px;" type="primary" bindtap="getInvitationCode"> 1111 </button>
 
-  <button type="primary" bindtap="getInvitationCode"> 获取验证码 </button>
+  <button style="margin-top: 10px;" type="primary" bindtap="applyCompany"> 22222 </button>
+</view>
 </view>
