@@ -1,0 +1,156 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="cn.com.hd.persistance.company.CompanyAuthMapper" >
+  <resultMap id="BaseResultMap" type="cn.com.hd.domain.company.CompanyAuth" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="saleman_id" property="salemanId" jdbcType="INTEGER" />
+    <result column="company_id" property="companyId" jdbcType="INTEGER" />
+    <result column="invitation_code" property="invitationCode" jdbcType="VARCHAR" />
+    <result column="state" property="state" jdbcType="VARCHAR" />
+    <result column="creat_time" property="creatTime" jdbcType="TIMESTAMP" />
+    <result column="update_time" property="updateTime" jdbcType="TIMESTAMP" />
+    <result column="validity_time" property="validityTime" jdbcType="TIMESTAMP" />
+    <collection property="id" column="saleman_id" ofType="cn.com.hd.domain.uc.SaleMan" select="cn.com.hd.persistance.uc.SaleManMapper.selectByPrimaryKey"></collection>
+  	<collection property="id" column="company_id" ofType="cn.com.hd.domain.company.CompanyAuth" select="cn.com.hd.persistance.company.CompanyInfoMapper.selectByPrimaryKey"></collection>
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, saleman_id, company_id, invitation_code,state, creat_time, update_time, validity_time 
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from t_company_auth
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+   <select id="selectBySelective" resultMap="BaseResultMap" parameterType="cn.com.hd.domain.company.CompanyAuth" >
+    select 
+    <include refid="Base_Column_List" />
+    from t_company_auth
+    where 1=1 
+    <if test="id != null" >
+        and id = #{id,jdbcType=INTEGER}
+      </if>
+      <if test="salemanId != null" >
+       and saleman_id =#{salemanId,jdbcType=INTEGER}
+      </if>
+      <if test="invitationCode != null" >
+       and invitation_code =#{invitationCode,jdbcType=VARCHAR}
+      </if>
+       <if test="state != null" >
+       and state =#{state,jdbcType=VARCHAR}
+      </if>
+       <if test="company_id != null" >
+       and company_id =#{companyId,jdbcType=INTEGER}
+      </if>
+      <if test="validityTime != null" >
+       and company_id =#{companyId,jdbcType=INTEGER}
+      </if>
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from t_company_auth
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="cn.com.hd.domain.company.CompanyAuth" >
+    insert into t_company_auth (saleman_id,company_id,invitation_code,state,creat_time,validity_time)
+    values (#{salemanId,jdbcType=INTEGER}, #{companyId,jdbcType=INTEGER}, #{invitationCode,jdbcType=VARCHAR},#{state,jdbcType=VARCHAR}, sysdate(),#{validityTime,jdbcType=TIMESTAMP})
+  </insert>
+  <insert id="insertSelective" parameterType="cn.com.hd.domain.company.CompanyAuth" >
+    insert into t_company_auth
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="salemanId != null" >
+        saleman_id,
+      </if>
+      <if test="companyId != null" >
+        company_id,
+      </if>
+       <if test="invitationCode != null" >
+        invitation_code,
+      </if>
+      <if test="state != null" >
+        state,
+      </if>
+      <if test="validityTime != null" >
+        validity_time,
+      </if>
+      creat_time
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="salemanId != null" >
+        #{salemanId,jdbcType=INTEGER},
+      </if>
+      <if test="companyId != null" >
+        #{companyId,jdbcType=INTEGER},
+      </if>
+      <if test="invitationCode != null" >
+        #{invitationCode,jdbcType=VARCHAR},
+      </if>
+      <if test="state != null" >
+        #{state,jdbcType=VARCHAR},
+      </if>
+      <if test="validityTime != null" >
+        #{validityTime,jdbcType=TIMESTAMP},
+      </if>
+      sysdate()
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="cn.com.hd.domain.company.CompanyAuth" >
+    update t_company_auth
+    <set >
+      <if test="salemanId != null" >
+        saleman_id = #{salemanId,jdbcType=INTEGER},
+      </if>
+      <if test="companyId != null" >
+        company_id = #{companyId,jdbcType=INTEGER},
+      </if>
+       <if test="invitationCode != null" >
+        invitation_code = #{invitationCode,jdbcType=VARCHAR},
+      </if>
+      <if test="state != null" >
+        state = #{state,jdbcType=VARCHAR},
+      </if>
+      <if test="validityTime != null" >
+        validity_time = #{validityTime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByCompanyId" parameterType="cn.com.hd.domain.company.CompanyAuth" >
+    update t_company_auth
+    <set >
+      <if test="salemanId != null" >
+        saleman_id = #{salemanId,jdbcType=INTEGER},
+      </if>
+      <if test="companyId != null" >
+        company_id = #{companyId,jdbcType=INTEGER},
+      </if>
+       <if test="invitationCode != null" >
+        invitation_code = #{invitationCode,jdbcType=VARCHAR},
+      </if>
+      <if test="state != null" >
+        state = #{state,jdbcType=VARCHAR},
+      </if>
+      <if test="validityTime != null" >
+        validity_time = #{validityTime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where company_id = #{companyId,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="cn.com.hd.domain.company.CompanyAuth" >
+    update t_company_auth
+    set saleman_id = #{salemanId,jdbcType=INTEGER},
+      company_id = #{companyId,jdbcType=INTEGER},
+      invitation_code = #{invitationCode,jdbcType=VARCHAR},
+      state = #{state,jdbcType=VARCHAR},
+      validity_time = #{validityTime,jdbcType=TIMESTAMP}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  
+  <select id="selectByPage" parameterType="cn.com.hd.common.Page" resultMap="BaseResultMap">
+  	select t.id, t.saleman_id, t.company_id, t.invitationCode,t.state, t.validity_time, t.creat_time, t.update_time
+    where 1=1 
+     <if test="params['state'] != null and params['state'] != ''">  
+        	and state=#{params.state}
+    </if>
+  </select>
+  
+</mapper>

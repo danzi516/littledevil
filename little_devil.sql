@@ -10,7 +10,7 @@ Target Server Type    : MYSQL
 Target Server Version : 50711
 File Encoding         : 65001
 
-Date: 2018-08-06 17:22:32  
+Date: 2018-08-07 18:01:11
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -155,6 +155,26 @@ INSERT INTO `t_commodity_promotion` VALUES ('2', '6', null, null, '2017-09-11 20
 INSERT INTO `t_commodity_promotion` VALUES ('3', '6', '1', null, '2017-09-12 20:22:46', '2018-05-08 21:40:42');
 
 -- ----------------------------
+-- Table structure for t_company_auth
+-- ----------------------------
+DROP TABLE IF EXISTS `t_company_auth`;
+CREATE TABLE `t_company_auth` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `saleman_id` int(11) DEFAULT NULL,
+  `company_id` int(11) DEFAULT NULL,
+  `invitation_code` varchar(255) DEFAULT NULL,
+  `state` varchar(2) DEFAULT '1' COMMENT '0：通过,1：不通过',
+  `creat_time` timestamp NULL DEFAULT NULL,
+  `update_time` timestamp NULL DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP,
+  `validity_time` timestamp NULL DEFAULT NULL COMMENT '有效期',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='商家认证表';
+
+-- ----------------------------
+-- Records of t_company_auth
+-- ----------------------------
+
+-- ----------------------------
 -- Table structure for t_company_commodity
 -- ----------------------------
 DROP TABLE IF EXISTS `t_company_commodity`;
@@ -296,6 +316,20 @@ INSERT INTO `t_company_promotion` VALUES ('1', '6', '900套餐：买一送一', 
 INSERT INTO `t_company_promotion` VALUES ('2', '6', '300全套：特价优惠', '300.00', '300全套', '11111', '0', null, '0', null, null, null, null, null, null, null, null, '2017-08-12 19:29:12', null);
 INSERT INTO `t_company_promotion` VALUES ('3', '0', '现金', '0.00', '现金', null, '1', null, '0', null, null, null, null, null, null, null, null, '2017-09-04 20:58:12', null);
 INSERT INTO `t_company_promotion` VALUES ('4', '6', '限时优惠', '111.00', '11111', '111', '1', null, null, null, null, null, null, null, null, null, null, '2017-09-07 22:06:41', null);
+
+-- ----------------------------
+-- Table structure for t_company_recharge_log
+-- ----------------------------
+DROP TABLE IF EXISTS `t_company_recharge_log`;
+CREATE TABLE `t_company_recharge_log` (
+  `id` int(11) NOT NULL,
+  `company_id` int(11) DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+-- ----------------------------
+-- Records of t_company_recharge_log
+-- ----------------------------
 
 -- ----------------------------
 -- Table structure for t_company_role
@@ -4222,8 +4256,9 @@ CREATE TABLE `t_reg_verification` (
   `state` varchar(2) DEFAULT NULL,
   `creat_time` timestamp NULL DEFAULT NULL,
   `update_time` timestamp NULL DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='邀请码';
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `invitation_code` (`invitation_code`)
+) ENGINE=InnoDB AUTO_INCREMENT=62 DEFAULT CHARSET=utf8 COMMENT='邀请码';
 
 -- ----------------------------
 -- Records of t_reg_verification

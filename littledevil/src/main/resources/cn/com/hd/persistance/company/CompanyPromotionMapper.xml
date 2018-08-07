@@ -9,7 +9,6 @@
     <result column="promotion_logo" jdbcType="VARCHAR" property="promotionLogo" />
     <result column="promotion_note" jdbcType="VARCHAR" property="promotionNote" />
     <result column="state" jdbcType="VARCHAR" property="state" />
-    <result column="state" jdbcType="VARCHAR" property="state" />
   </resultMap>
   <resultMap extends="BaseResultMap" id="ResultMapWithBLOBs" type="cn.com.hd.domain.company.CompanyPromotion">
     <result column="promotion_note" jdbcType="LONGVARCHAR" property="promotionNote" />

@@ -21,8 +21,10 @@ import cn.com.hd.common.Constants;
 import cn.com.hd.common.MD5Encrypt;
 import cn.com.hd.common.http.HttpRequest;
 import cn.com.hd.common.security.AESUtils;
+import cn.com.hd.domain.company.CompanyAuth;
 import cn.com.hd.domain.sys.RegVerification;
 import cn.com.hd.domain.uc.User;
+import cn.com.hd.service.company.CompanyAuthService;
 import cn.com.hd.service.sys.RegVerificationService;
 import cn.com.hd.service.uc.UserService;
 import net.sf.json.JSONObject;
@@ -41,7 +43,8 @@ public class WxController {
 	private UserService userService;
 	@Resource
 	RegVerificationService regVerificationService;
-	
+	@Resource
+	CompanyAuthService companyAuthService;
 	//微信登录
 	@RequestMapping("openIdLogin")
 	public @ResponseBody Map<String,Object> openIdLogin(User user) throws IOException {
@@ -251,24 +254,43 @@ public class WxController {
 		}
 		
 		/**
-		 * 功能描述：申请成为商户
+		 * 功能描述：商户认证
 		 * 作者：wanglin
-		 * url：${webRoot}/wxpay/applySaleMan
+		 * url：${webRoot}/wxpay/applyCompany
 		 * 请求方式：POST
 		 * @param  id
 		 * @return Map<String,Object>
 		 *         key:code["0":"成功","1":"失败"]
 		 */
 		@RequestMapping(value="applyCompany",method=RequestMethod.POST)
-		public @ResponseBody Map<String,Object> applyCompany(String wxcode){
+		public @ResponseBody Map<String,Object> applyCompany(int userid ,String invitationCode){
 			Map<String,Object> map=new HashMap<String,Object>();
 			String code="";
+			String message="";
 			try{
+				RegVerification record = new RegVerification();
+				record.setState("0");
+				record.setInvitationCode(invitationCode);
+				if(regVerificationService.selectBySelective(record).size()==0){
+					code="1";
+					message="该邀请码不可用，请更换!";
+					map.put("code", code);
+					map.put("message", message);
+					return  map;
+				}
+				CompanyAuth companyAuth = new CompanyAuth();
+				companyAuth.setInvitationCode(invitationCode);
+				companyAuth.setCompanyId(userid);
+				companyAuth.setSalemanId(regVerificationService.selectBySelective(record).get(0).getSalemanId());
+				companyAuth.setState("1");
+				companyAuthService.insertSelective(companyAuth);
 				code="0";
 			}catch(Exception e){
-	            code="1";
+	            code="2";
+	            message="未知异常，请重试";
 	            e.printStackTrace();
 	        }
+			map.put("message", message);
 	        map.put("code", code);
 	        return map;
 		}
@@ -282,7 +304,7 @@ public class WxController {
 		 * @return Map<String,Object>
 		 *         key:code["0":"成功","1":"失败"]
 		 */
-		@RequestMapping(value="getInvitationCode",method=RequestMethod.POST)
+		@RequestMapping(value="getInvitationCode",method=RequestMethod.GET)
 		public @ResponseBody Map<String,Object> getInvitationCode(int salemanId){
 			Map<String,Object> map=new HashMap<String,Object>();
 			String code="";
@@ -292,12 +314,14 @@ public class WxController {
 				record.setState("0");
 				if(regVerificationService.selectBySelective(record).size()==0){
 					for(int i=0;i<=5;i++){
-						int InvitationCode =(int) ((Math.random()*9+1)*100000);
-						record.setInvitationCode( String.valueOf(InvitationCode));
+						int invitationCode =(int) ((Math.random()*9+1)*100000);
+						//int invitationCode =(int) ((Math.random()*4+1));
+						record.setInvitationCode( String.valueOf(invitationCode));
 						try{
 							regVerificationService.insert(record);
 							code="0";
-							map.put("InvitationCode",InvitationCode);
+							map.put("code", code);
+							map.put("InvitationCode",invitationCode);
 							break;
 						}catch(Exception e){
 				            code="1";
@@ -305,10 +329,11 @@ public class WxController {
 				            continue;
 				        }	
 					} 
+					map.put("code", code);
 					return map;
 				}
-				String InvitationCode = regVerificationService.selectBySelective(record).get(0).getInvitationCode();
-				map.put("InvitationCode",InvitationCode);
+				String invitationCode = regVerificationService.selectBySelective(record).get(0).getInvitationCode();
+				map.put("InvitationCode",invitationCode);
 				code="0";
 			}catch(Exception e){
 	            code="1";
