@@ -20,24 +20,16 @@ public class CompanyInfo {
     private String cityCode;
 
     private String countyCode;
-
+    private String areaString;
     private String address;
-
+    private String longitude;
+    private String latitude;
     private String coordinate;
     
     private Integer companyType;
     
     private String  registerTime;
     
-    private String  isState;
-	public String getIsState() {
-		return isState;
-	}
-
-	public void setIsState(String isState) {
-		this.isState = isState;
-	}
-
 	private User user;
     
     private String proviceName;
@@ -45,7 +37,42 @@ public class CompanyInfo {
     private String countyName;
     private String CompanyTypeName;
     
-    public Integer getId() {
+    
+    
+    
+    public String getLongitude() {
+		return longitude;
+	}
+
+	public void setLongitude(String longitude) {
+		this.longitude = longitude;
+	}
+
+	public String getLatitude() {
+		return latitude;
+	}
+
+	public void setLatitude(String latitude) {
+		this.latitude = latitude;
+	}
+
+	private String  isState;
+   	public String getIsState() {
+   		return isState;
+   	}
+
+   	public void setIsState(String isState) {
+   		this.isState = isState;
+   	}
+    public String getAreaString() {
+		return areaString;
+	}
+
+	public void setAreaString(String areaString) {
+		this.areaString = areaString;
+	}
+
+	public Integer getId() {
         return id;
     }
 

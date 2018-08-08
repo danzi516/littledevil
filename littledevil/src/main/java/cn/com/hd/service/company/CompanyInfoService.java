@@ -43,6 +43,10 @@ public class CompanyInfoService {
 		page.setData(companyInfoMapper.selectCompanyByPage(page));
     	return page;
     }
+	public List<CompanyInfo> selectBySelective(CompanyInfo record){
+		List<CompanyInfo> List = companyInfoMapper.selectBySelective(record);
+    	return List;
+    }
 	
 	public List<CompanyInfo> selectCompanyAllList(){
 		List<CompanyInfo> List = companyInfoMapper.selectCompanyAllList();

@@ -3,6 +3,7 @@
 <mapper namespace="cn.com.hd.persistance.company.CompanyInfoMapper" >
   <resultMap id="BaseResultMap" type="cn.com.hd.domain.company.CompanyInfo" >
     <id column="id" property="id" jdbcType="INTEGER" />
+    <id column="user_id" property="userId" jdbcType="INTEGER" />
     <result column="company_name" property="companyName" jdbcType="VARCHAR" />
     <result column="company_logo" property="companyLogo" jdbcType="VARCHAR" />
     <result column="link_person" property="linkPerson" jdbcType="VARCHAR" />
@@ -11,6 +12,9 @@
     <result column="city_code" property="cityCode" jdbcType="VARCHAR" />
     <result column="county_code" property="countyCode" jdbcType="VARCHAR" />
     <result column="address" property="address" jdbcType="VARCHAR" />
+    <result column="area_string" property="areaString" jdbcType="VARCHAR" />
+    <result column="latitude" property="areaString" jdbcType="VARCHAR" />
+    <result column="longitude" property="areaString" jdbcType="VARCHAR" />
     <result column="coordinate" property="coordinate" jdbcType="VARCHAR" />
     <result column="company_type" property="companyType" jdbcType="INTEGER" />
     <result column="is_state" property="isState" jdbcType="VARCHAR" />
@@ -22,8 +26,8 @@
   	<collection property="countyName" column="county_code" ofType="java.lang.String" select="cn.com.hd.persistance.sys.DistrictMapper.selectDistrictNameByCode"></collection>
   </resultMap>
   <sql id="Base_Column_List" >
-    id, company_name, company_logo, link_person, link_phone, provice_code, city_code, 
-    county_code, address, coordinate,company_type,is_state,register_time
+    id, user_id,company_name, company_logo, link_person, link_phone, provice_code, city_code, 
+    county_code, address,area_string,latitude,longitude, coordinate,company_type,is_state,register_time
   </sql>
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
     select 
@@ -31,25 +35,77 @@
     from t_company_info
     where id = #{id,jdbcType=INTEGER}
   </select>
+  <select id="selectBySelective" resultMap="BaseResultMap" parameterType="cn.com.hd.domain.company.CompanyInfo" >
+    select 
+    <include refid="Base_Column_List" />
+    from t_company_info
+    where 1=1
+    <if test="userId != null" >
+       and user_id = #{userId,jdbcType=INTEGER}
+      </if>
+      <if test="companyName != null" >
+      and  company_name = #{companyName,jdbcType=VARCHAR}
+      </if>
+      <if test="companyLogo != null" >
+      and  company_logo = #{companyLogo,jdbcType=VARCHAR}
+      </if>
+      <if test="linkPerson != null" >
+      and  link_person = #{linkPerson,jdbcType=VARCHAR}
+      </if>
+      <if test="linkPhone != null" >
+      and  link_phone = #{linkPhone,jdbcType=VARCHAR}
+      </if>
+      <if test="proviceCode != null" >
+      and  provice_code = #{proviceCode,jdbcType=VARCHAR}
+      </if>
+      <if test="cityCode != null" >
+      and  city_code = #{cityCode,jdbcType=VARCHAR}
+      </if>
+      <if test="countyCode != null" >
+      and  county_code = #{countyCode,jdbcType=VARCHAR}
+      </if>
+      <if test="address != null" >
+      and  address = #{address,jdbcType=VARCHAR}
+      </if>
+      <if test="areaString != null" >
+      and  area_string = #{areaString,jdbcType=VARCHAR}
+      </if>
+      <if test="latitude != null" >
+      and  latitude = #{latitude,jdbcType=VARCHAR}
+      </if>
+      <if test="longitude != null" >
+      and  longitude = #{longitude,jdbcType=VARCHAR}
+      </if>
+      <if test="coordinate != null" >
+      and  coordinate = #{coordinate,jdbcType=VARCHAR}
+      </if>
+      <if test="companyType != null" >
+      and  company_type = #{companyType,jdbcType=INTEGER}
+      </if>
+      <if test="isState != null" >
+      and  is_state = #{isState,jdbcType=VARCHAR}
+      </if>
+  </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
     delete from t_company_info
     where id = #{id,jdbcType=INTEGER}
   </delete>
   <insert id="insert" parameterType="cn.com.hd.domain.company.CompanyInfo" >
-    insert into t_company_info (id, company_name, company_logo, 
+    insert into t_company_info (user_id,company_name, company_logo, 
       link_person, link_phone, provice_code, 
-      city_code, county_code, address, 
+      city_code, county_code, address, area_string,latitude,longitude,
       coordinate,company_type,is_state,register_time)
-    values (#{id,jdbcType=INTEGER}, #{companyName,jdbcType=VARCHAR}, #{companyLogo,jdbcType=VARCHAR}, 
+    values (#{userId,jdbcType=INTEGER}, #{companyName,jdbcType=VARCHAR}, #{companyLogo,jdbcType=VARCHAR}, 
       #{linkPerson,jdbcType=VARCHAR}, #{linkPhone,jdbcType=VARCHAR}, #{proviceCode,jdbcType=VARCHAR}, 
-      #{cityCode,jdbcType=VARCHAR}, #{countyCode,jdbcType=VARCHAR}, #{address,jdbcType=VARCHAR}, 
+      #{cityCode,jdbcType=VARCHAR}, #{countyCode,jdbcType=VARCHAR}, #{address,jdbcType=VARCHAR},
+      #{areaString,jdbcType=VARCHAR},#{latitude,jdbcType=VARCHAR},#{longitude,jdbcType=VARCHAR}, 
       #{coordinate,jdbcType=VARCHAR},#{companyType,jdbcType=INTEGER}, #{isState,jdbcType=VARCHAR},sysdate())
   </insert>
   <insert id="insertSelective" parameterType="cn.com.hd.domain.company.CompanyInfo" >
     insert into t_company_info
     <trim prefix="(" suffix=")" suffixOverrides="," >
-      <if test="id != null" >
-        id,
+      <if test="userId != null" >
+        user_id,
       </if>
       <if test="companyName != null" >
         company_name,
@@ -75,6 +131,15 @@
       <if test="address != null" >
         address,
       </if>
+      <if test="areaString != null" >
+        area_string,
+      </if>
+      <if test="latitude != null" >
+        latitude,
+      </if>
+      <if test="longitude != null" >
+        longitude,
+      </if>
       <if test="coordinate != null" >
         coordinate,
       </if>
@@ -87,8 +152,8 @@
       register_time
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides="," >
-      <if test="id != null" >
-        #{id,jdbcType=INTEGER},
+      <if test="userId != null" >
+        #{userId,jdbcType=INTEGER},
       </if>
       <if test="companyName != null" >
         #{companyName,jdbcType=VARCHAR},
@@ -114,6 +179,15 @@
       <if test="address != null" >
         #{address,jdbcType=VARCHAR},
       </if>
+      <if test="areaString != null" >
+        #{areaString,jdbcType=VARCHAR},
+      </if>
+      <if test="latitude != null" >
+        #{latitude,jdbcType=VARCHAR},
+      </if>
+      <if test="longitude != null" >
+        #{longitude,jdbcType=VARCHAR},
+      </if>
       <if test="coordinate != null" >
         #{coordinate,jdbcType=VARCHAR},
       </if>
@@ -129,6 +203,9 @@
   <update id="updateByPrimaryKeySelective" parameterType="cn.com.hd.domain.company.CompanyInfo" >
     update t_company_info
     <set >
+      <if test="userId != null" >
+        user_id = #{userId,jdbcType=INTEGER},
+      </if>
       <if test="companyName != null" >
         company_name = #{companyName,jdbcType=VARCHAR},
       </if>
@@ -153,6 +230,15 @@
       <if test="address != null" >
         address = #{address,jdbcType=VARCHAR},
       </if>
+      <if test="areaString != null" >
+        area_string = #{areaString,jdbcType=VARCHAR},
+      </if>
+      <if test="latitude != null" >
+        latitude = #{latitude,jdbcType=VARCHAR},
+      </if>
+      <if test="longitude != null" >
+        longitude = #{longitude,jdbcType=VARCHAR},
+      </if>
       <if test="coordinate != null" >
         coordinate = #{coordinate,jdbcType=VARCHAR},
       </if>
@@ -167,7 +253,8 @@
   </update>
   <update id="updateByPrimaryKey" parameterType="cn.com.hd.domain.company.CompanyInfo" >
     update t_company_info
-    set company_name = #{companyName,jdbcType=VARCHAR},
+    set user_id = #{userId,jdbcType=INTEGER},
+      company_name = #{companyName,jdbcType=VARCHAR},
       company_logo = #{companyLogo,jdbcType=VARCHAR},
       link_person = #{linkPerson,jdbcType=VARCHAR},
       link_phone = #{linkPhone,jdbcType=VARCHAR},
@@ -175,6 +262,9 @@
       city_code = #{cityCode,jdbcType=VARCHAR},
       county_code = #{countyCode,jdbcType=VARCHAR},
       address = #{address,jdbcType=VARCHAR},
+      area_string = #{areaString,jdbcType=VARCHAR},
+      latitude = #{latitude,jdbcType=VARCHAR},
+      longitude = #{longitude,jdbcType=VARCHAR},
       coordinate = #{coordinate,jdbcType=VARCHAR},
       company_type = #{companyType,jdbcType=INTEGER},
       is_state = #{isState,jdbcType=VARCHAR}
@@ -184,7 +274,7 @@
   <select id="selectCompanyByPage" parameterType="cn.com.hd.common.Page" resultMap="BaseResultMap">
   	select t.id, t.company_name, t.company_logo, t.link_person, t.link_phone, t.provice_code, t.city_code, 
     t.county_code, t.address, t.coordinate,t.company_type,t.register_time from t_company_info t
-    LEFT JOIN t_user u on u.id = t.id
+    LEFT JOIN t_user u on u.id = t.user_id
     where 1=1 
     <if test="params['searchText'] != null and params['searchText'] != ''">  
         	and company_name  like '%${params.searchText}%' 
@@ -207,9 +297,8 @@
   </select>
   
    <select id="selectCompanyAllList"  resultMap="BaseResultMap">
-  	select t.id, t.company_name, t.company_logo, t.link_person, t.link_phone, t.provice_code, t.city_code, 
-    t.county_code, t.address, t.coordinate,t.company_type,t.register_time from t_company_info t
-    LEFT JOIN t_user u on u.id = t.id
-    
+  	select t.id, t.user_id,t.company_name, t.company_logo, t.link_person, t.link_phone, t.provice_code, t.city_code, 
+    t.county_code, t.address,t.area_string,t.latitude,t.longitude, t.coordinate,t.company_type,t.register_time from t_company_info t
+    LEFT JOIN t_user u on u.id = t.user_id
   </select>
 </mapper>
