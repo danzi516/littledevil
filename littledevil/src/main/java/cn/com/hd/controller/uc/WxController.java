@@ -27,6 +27,8 @@ import cn.com.hd.common.security.AESUtils;
 import cn.com.hd.domain.company.CompanyAuth;
 import cn.com.hd.domain.sys.RegVerification;
 import cn.com.hd.domain.uc.User;
+import cn.com.hd.domain.uc.UserInfo;
+import cn.com.hd.domain.uc.WxUserInfo;
 import cn.com.hd.service.company.CompanyAuthService;
 import cn.com.hd.service.sys.RegVerificationService;
 import cn.com.hd.service.uc.UserService;
@@ -390,5 +392,45 @@ public class WxController {
 	        map.put("code", code);
 	        return map;
 		}
+		
+		/**
+		 * 功能描述：会员注册登录
+		 * 作者：wanglin
+		 * url：${webRoot}/wxpay/memberInsert
+		 * 请求方式：POST
+		 * @param  id
+		 * @return Map<String,Object>
+		 *         key:code["0":"成功","1":"失败"]
+		 */
+		@RequestMapping(value="memberInsert",method=RequestMethod.POST)
+		public @ResponseBody Map<String,Object> memberInsert(int companyId,String wxcode,WxUserInfo wxUserInfo){
+			Map<String,Object> map=new HashMap<String,Object>();
+			String code="";
+			String message="";
+			User User= new User();
+			UserInfo userInfo = new UserInfo();
+			try{
+				JSONObject result = userService.getOpenidAndSessionKey(Constants.wxspAppid, Constants.wxspSecret, wxcode, Constants.grant_type);
+				String openid = (String) result.get("openid");
+				User.setOpenId(openid);
+				if(userService.selectByCondition(User)!=null){
+					code = "1";
+					message = "已经注册！！";
+					map.put("message", message);
+			        map.put("code", code);
+			        return map;
+				}
+					userInfo.setLogo(wxUserInfo.getAvatarUrl());
+					userInfo.setUcName(wxUserInfo.getNickName());
+			}catch(Exception e){
+	            code="2";
+	            message="未知异常，请重试";
+	            e.printStackTrace();
+	        }
+			map.put("message", message);
+	        map.put("code", code);
+	        return map;
+		}
+		
 		
 }

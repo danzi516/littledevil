@@ -4,21 +4,22 @@ import java.util.List;
 
 import cn.com.hd.common.Page;
 import cn.com.hd.domain.company.CompanyInfo;
+import cn.com.hd.domain.company.CompanyRechargeLog;
 
 
 public interface CompanyRechargeLogMapper {
     int deleteByPrimaryKey(Integer id);
 
-    int insert(CompanyInfo record);
+    int insert(CompanyRechargeLog record);
 
-    int insertSelective(CompanyInfo record);
+    int insertSelective(CompanyRechargeLog record);
 
-    CompanyInfo selectByPrimaryKey(Integer id);
+    CompanyRechargeLog selectByPrimaryKey(Integer id);
 
-    int updateByPrimaryKeySelective(CompanyInfo record);
+    int updateByPrimaryKeySelective(CompanyRechargeLog record);
 
-    int updateByPrimaryKey(CompanyInfo record);
-    List<CompanyInfo>  selectBySelective(CompanyInfo record);
-    List<CompanyInfo> selectByPage(Page page);
+    int updateByPrimaryKey(CompanyRechargeLog record);
+    List<CompanyRechargeLog>  selectBySelective(CompanyRechargeLog record);
+    List<CompanyRechargeLog> selectByPage(Page page);
     
 }

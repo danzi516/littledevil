@@ -108,9 +108,9 @@ public class UserInfo {
 	}
 
 	public String getSexCode() {
-		if(sex!=null&&sex.equals("0")){
+		if(sex!=null&&sex.equals("1")){
 			sexCode="男";
-		}else if(sex!=null&&sex.equals("1")){
+		}else if(sex!=null&&sex.equals("2")){
 			sexCode="女";
 		}else{
 			sexCode="保密";

@@ -3,7 +3,7 @@ package cn.com.hd.domain.company;
 import java.sql.Timestamp;
 
 import cn.com.hd.domain.uc.User;
-
+//商户充值流水
 public class CompanyRechargeLog {
     private Integer id;
 
