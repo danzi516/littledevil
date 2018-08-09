@@ -121,7 +121,7 @@ public class WxController {
 	}
 	
 	/**
-	 * 功能描述：验证用户名,手机,邮箱,身份证号是否存在
+	 * 功能描述：验证用户是否存在
 	 * 作者：wanglin
 	 * url：${webRoot}/wxpay/isExitsByCondition
 	 * 请求方式：GET
@@ -209,7 +209,7 @@ public class WxController {
 
 	
     /**
-	 * 功能描述：更新用户
+	 * 功能描述：getOpenId
 	 * 作者：wanglin
 	 * url：${webRoot}/wxpay/getOpenId
 	 * 请求方式：POST

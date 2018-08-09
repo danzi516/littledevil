@@ -11,7 +11,7 @@
     <result column="update_time" property="updateTime" jdbcType="TIMESTAMP" />
     <result column="validity_time" property="validityTime" jdbcType="TIMESTAMP" />
     <collection property="id" column="saleman_id" ofType="cn.com.hd.domain.uc.SaleMan" select="cn.com.hd.persistance.uc.SaleManMapper.selectByPrimaryKey"></collection>
-  	<collection property="id" column="company_id" ofType="cn.com.hd.domain.company.CompanyAuth" select="cn.com.hd.persistance.company.CompanyInfoMapper.selectByPrimaryKey"></collection>
+  	<collection property="id" column="company_id" ofType="cn.com.hd.domain.company.CompanyInfo" select="cn.com.hd.persistance.company.CompanyInfoMapper.selectByPrimaryKey"></collection>
   </resultMap>
   <sql id="Base_Column_List" >
     id, saleman_id, company_id, invitation_code,state, creat_time, update_time, validity_time 

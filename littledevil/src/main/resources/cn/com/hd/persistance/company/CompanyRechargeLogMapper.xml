@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="cn.com.hd.persistance.company.CompanyRechargeLogMapper" >
+  <resultMap id="BaseResultMap" type="cn.com.hd.domain.company.CompanyRechargeLog" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="company_id" property="companyId" jdbcType="INTEGER" />
+    <result column="validity_date" property="validityDate" jdbcType="VARCHAR" />
+    <result column="creat_time" property="creatTime" jdbcType="TIMESTAMP" />
+  	<collection property="id" column="company_id" ofType="cn.com.hd.domain.company.CompanyInfo" select="cn.com.hd.persistance.company.CompanyInfoMapper.selectByPrimaryKey"></collection>
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, company_id,validity_date, creat_time
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from t_company_recharge_log
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+   <select id="selectBySelective" resultMap="BaseResultMap" parameterType="cn.com.hd.domain.company.CompanyRechargeLog" >
+    select 
+    <include refid="Base_Column_List" />
+    from t_company_recharge_log
+    where 1=1 
+    <if test="id != null" >
+        and id = #{id,jdbcType=INTEGER}
+      </if>
+       <if test="company_id != null" >
+       and company_id =#{companyId,jdbcType=INTEGER}
+      </if>
+      <if test="validityDate != null" >
+       and validity_date =#{validityDate,jdbcType=VARCHAR}
+      </if>
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from t_company_recharge_log
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="cn.com.hd.domain.company.CompanyRechargeLog" >
+    insert into t_company_recharge_log (company_id,validity_date,creat_time)
+    values (#{companyId,jdbcType=INTEGER},#{validityDate,jdbcType=VARCHAR}, sysdate())
+  </insert>
+  <insert id="insertSelective" parameterType="cn.com.hd.domain.company.CompanyRechargeLog" >
+    insert into t_company_recharge_log
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="companyId != null" >
+        company_id,
+      </if>
+      <if test="validityDate != null" >
+        validity_date,
+      </if>
+      creat_time
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="companyId != null" >
+        #{companyId,jdbcType=INTEGER},
+      </if>
+      <if test="validityDate != null" >
+        #{validity_date,jdbcType=VARCHAR},
+      </if>
+      sysdate()
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="cn.com.hd.domain.company.CompanyRechargeLog" >
+    update t_company_recharge_log
+    <set >
+      <if test="companyId != null" >
+        company_id = #{companyId,jdbcType=INTEGER},
+      </if>
+      <if test="validityDate != null" >
+        validity_date = #{validityDate,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="cn.com.hd.domain.company.CompanyRechargeLog" >
+    update t_company_recharge_log
+    set company_id = #{companyId,jdbcType=INTEGER},
+     validity_date = #{validityDate,jdbcType=VARCHAR},
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  
+  <select id="selectByPage" parameterType="cn.com.hd.common.Page" resultMap="BaseResultMap">
+  	select t.id, t.company_id, t.validity_date, t.creat_time
+    where 1=1 
+     <if test="params['companyId'] != null and params['companyId'] != ''">  
+        	and company_id=#{params.companyId}
+    </if>
+  </select>
+  
+</mapper>
