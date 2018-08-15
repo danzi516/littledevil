@@ -17,7 +17,7 @@ public class CompanyMember {
     private String isDelete;
     
     private int cash;
-    
+    private String memberCard;
     private String  creatTime;
     
     private User user;
@@ -26,7 +26,16 @@ public class CompanyMember {
     
     private CompanyInfo companyInfo;
 
-    public Integer getId() {
+
+	public String getMemberCard() {
+		return memberCard;
+	}
+
+	public void setMemberCard(String memberCard) {
+		this.memberCard = memberCard;
+	}
+
+	public Integer getId() {
         return id;
     }
 

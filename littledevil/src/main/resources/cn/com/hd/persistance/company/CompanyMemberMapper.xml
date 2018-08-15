@@ -8,13 +8,14 @@
     <result column="member_type" jdbcType="INTEGER" property="memberType" />
     <result column="is_delete" jdbcType="VARCHAR" property="isDelete" />
     <result column="cash" jdbcType="INTEGER" property="cash" />
+    <result column="member_card" jdbcType="VARCHAR" property="memberCard" />
     <result column="creat_time" property="creatTime" jdbcType="TIMESTAMP" />
     <collection column="user_id" ofType="cn.com.hd.domain.uc.User" property="user" select="cn.com.hd.persistance.uc.UserMapper.selectByPrimaryKey" />
   	<collection column="user_id" ofType="cn.com.hd.domain.uc.UserInfo" property="userInfo" select="cn.com.hd.persistance.uc.UserInfoMapper.selectByPrimaryKey" />
   	 <collection column="company_id" ofType="cn.com.hd.domain.company.CompanyInfo" property="companyInfo" select="cn.com.hd.persistance.company.CompanyInfoMapper.selectByPrimaryKey" />
   </resultMap>
   <sql id="Base_Column_List">
-    id, user_id, company_id, member_type, is_delete, cash,creat_time
+    id, user_id, company_id, member_type, is_delete, cash,memberCard,creat_time
   </sql>
   <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
     select 
@@ -28,9 +29,9 @@
   </delete>
   <insert id="insert" parameterType="cn.com.hd.domain.company.CompanyMember">
     insert into t_company_member (id, user_id, company_id,
-      member_type, is_delete,creat_time)
+      member_type, is_delete,cash,member_card,creat_time)
     values (#{id,jdbcType=INTEGER}, #{userId,jdbcType=INTEGER}, #{companyId,jdbcType=INTEGER},
-      #{memberType,jdbcType=INTEGER}, #{isDelete,jdbcType=VARCHAR},#{cash,jdbcType=INTEGER},sysdate())
+      #{memberType,jdbcType=INTEGER}, #{isDelete,jdbcType=VARCHAR},#{cash,jdbcType=INTEGER},#{memberCard,jdbcType=VARCHAR},sysdate())
   </insert>
   <insert id="insertSelective" parameterType="cn.com.hd.domain.company.CompanyMember">
     insert into t_company_member
@@ -53,6 +54,9 @@
       <if test="cash != null">
         cash,
       </if>
+       <if test="memberCard != null">
+        member_card,
+      </if>
       creat_time
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
@@ -73,6 +77,9 @@
       </if>
        <if test="cash != null">
         #{cash,jdbcType=INTEGER},
+      </if>
+      <if test="memberCard != null">
+        #{memberCard,jdbcType=VARCHAR},
       </if>
        sysdate()
     </trim>
@@ -95,6 +102,9 @@
        <if test="cash != null">
         cash = #{cash,jdbcType=INTEGER},
       </if>
+      <if test="memberCard != null">
+        member_card = #{memberCard,jdbcType=VARCHAR},
+      </if>
     </set>
     where id = #{id,jdbcType=INTEGER}
   </update>
@@ -104,7 +114,8 @@
       company_id = #{companyId,jdbcType=INTEGER},
       member_type = #{memberType,jdbcType=INTEGER},
       is_delete = #{isDelete,jdbcType=VARCHAR},
-       cash = #{cash,jdbcType=INTEGER}
+       cash = #{cash,jdbcType=INTEGER},
+        member_card = #{memberCard,jdbcType=VARCHAR}
     where id = #{id,jdbcType=INTEGER}
   </update>
   
@@ -116,6 +127,7 @@
 	t.member_type,
 	t.is_delete,
 	t.cash,
+	t.member_card,
 	t.creat_time
 	FROM
 	t_company_member  t
@@ -140,6 +152,7 @@
 	t.member_type,
 	t.is_delete,
 	t.cash,
+	t.member_card,
 	t.creat_time
 	FROM
 	t_company_member  t
@@ -158,6 +171,7 @@
 	t.member_type,
 	t.is_delete,
 	t.cash,
+	t.member_card,
 	t.creat_time
 	FROM
 	t_company_member  t
@@ -174,6 +188,7 @@
 	t.member_type,
 	t.is_delete,
 	t.cash,
+	t.member_card,
 	t.creat_time
 	FROM
 	t_company_member  t
