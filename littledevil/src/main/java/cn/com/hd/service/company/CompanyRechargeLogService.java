@@ -12,7 +12,7 @@ import cn.com.hd.domain.company.CompanyRechargeLog;
 import cn.com.hd.persistance.company.CompanyAuthMapper;
 import cn.com.hd.persistance.company.CompanyRechargeLogMapper;
 
-@Service("companyAuthService")
+@Service("companyRechargeLogService")
 public class CompanyRechargeLogService {
 	@Autowired
 	private CompanyRechargeLogMapper companyRechargeLogMapper;

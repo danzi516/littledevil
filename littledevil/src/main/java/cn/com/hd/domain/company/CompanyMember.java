@@ -1,3 +1,4 @@
+
 package cn.com.hd.domain.company;
 
 import cn.com.hd.domain.uc.User;
@@ -13,7 +14,7 @@ public class CompanyMember {
     private Integer companyId;
 
     private Integer memberType;
-    private Integer member_card;
+    private String memberCard;
     private String isDelete;
     
     private double cash;
@@ -114,12 +115,13 @@ public class CompanyMember {
 		this.cash = cash;
 	}
 
-	public Integer getMember_card() {
-		return member_card;
+
+	public String getMemberCard() {
+		return memberCard;
 	}
 
-	public void setMember_card(Integer member_card) {
-		this.member_card = member_card;
+	public void setMemberCard(String memberCard) {
+		this.memberCard = memberCard;
 	}
 
 	public String getRemark() {
@@ -131,4 +133,5 @@ public class CompanyMember {
 	}
 	
 	
+
 }

@@ -25,12 +25,15 @@ import cn.com.hd.common.MD5Encrypt;
 import cn.com.hd.common.http.HttpRequest;
 import cn.com.hd.common.security.AESUtils;
 import cn.com.hd.domain.company.CompanyAuth;
+import cn.com.hd.domain.company.CompanyMember;
 import cn.com.hd.domain.sys.RegVerification;
 import cn.com.hd.domain.uc.User;
 import cn.com.hd.domain.uc.UserInfo;
 import cn.com.hd.domain.uc.WxUserInfo;
 import cn.com.hd.service.company.CompanyAuthService;
+import cn.com.hd.service.company.CompanyMemberService;
 import cn.com.hd.service.sys.RegVerificationService;
+import cn.com.hd.service.uc.UserInfoService;
 import cn.com.hd.service.uc.UserService;
 import net.sf.json.JSONObject;
 
@@ -46,6 +49,10 @@ public class WxController {
 	HttpSession session;
 	@Resource
 	private UserService userService;
+	@Resource
+	private UserInfoService userInfoService;
+	@Resource
+	private CompanyMemberService companyMemberService;
 	@Resource
 	RegVerificationService regVerificationService;
 	@Resource
@@ -403,8 +410,9 @@ public class WxController {
 		 *         key:code["0":"成功","1":"失败"]
 		 */
 		@RequestMapping(value="memberInsert",method=RequestMethod.POST)
-		public @ResponseBody Map<String,Object> memberInsert(int companyId,String wxcode,WxUserInfo wxUserInfo){
+		public @ResponseBody Map<String,Object> memberInsert( int companyId,String wxcode,String wxUserInfo){
 			Map<String,Object> map=new HashMap<String,Object>();
+			JSONObject UserInfo = JSONObject.fromObject(wxUserInfo);
 			String code="";
 			String message="";
 			User User= new User();
@@ -420,8 +428,17 @@ public class WxController {
 			        map.put("code", code);
 			        return map;
 				}
-					userInfo.setLogo(wxUserInfo.getAvatarUrl());
-					userInfo.setUcName(wxUserInfo.getNickName());
+					userInfo.setLogo(UserInfo.getString("avatarUrl"));
+					userInfo.setUcName(UserInfo.getString("nickName"));
+					userService.insert(User);
+					userInfoService.insert(userInfo);
+				CompanyMember companyMember = new CompanyMember();
+				companyMember.setCompanyId(companyId);
+				companyMember.setUserId(User.getId());
+				companyMember.setIsDelete("1");
+				int MemberCard = 100001234+User.getId();
+				companyMember.setMemberCard(String.valueOf(MemberCard));
+				companyMemberService.insert(companyMember);
 			}catch(Exception e){
 	            code="2";
 	            message="未知异常，请重试";

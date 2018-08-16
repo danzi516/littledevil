@@ -6,7 +6,7 @@
     <result column="user_id" jdbcType="INTEGER" property="userId" />
     <result column="company_id" jdbcType="INTEGER" property="companyId" />
     <result column="member_type" jdbcType="INTEGER" property="memberType" />
-    <result column="member_card" jdbcType="INTEGER" property="memberCard" />
+    <result column="member_card" jdbcType="VARCHAR" property="memberCard" />
     <result column="is_delete" jdbcType="VARCHAR" property="isDelete" />
     <result column="cash" jdbcType="double" property="cash" />
     <result column="remark" jdbcType="VARCHAR" property="remark" />
@@ -32,7 +32,7 @@
     insert into t_company_member (id, user_id, company_id,
       member_type,member_card, is_delete,cash,remark,creat_time)
     values (#{id,jdbcType=INTEGER}, #{userId,jdbcType=INTEGER}, #{companyId,jdbcType=INTEGER},
-      #{memberType,jdbcType=INTEGER},#{memberCard,jdbcType=INTEGER}, #{isDelete,jdbcType=VARCHAR},#{cash,jdbcType=double}, #{remark,jdbcType=VARCHAR},sysdate())
+      #{memberType,jdbcType=INTEGER},#{memberCard,jdbcType=VARCHAR}, #{isDelete,jdbcType=VARCHAR},#{cash,jdbcType=double}, #{remark,jdbcType=VARCHAR},sysdate())
   </insert>
   <insert id="insertSelective" parameterType="cn.com.hd.domain.company.CompanyMember">
     insert into t_company_member
@@ -77,7 +77,7 @@
         #{memberType,jdbcType=INTEGER},
       </if>
       <if test="memberCard != null">
-        #{memberCard,jdbcType=INTEGER},
+        #{memberCard,jdbcType=VARCHAR},
       </if>
       <if test="isDelete != null">
         #{isDelete,jdbcType=VARCHAR},
@@ -104,7 +104,7 @@
         member_type = #{memberType,jdbcType=INTEGER},
       </if>
       <if test="memberCard != null">
-        member_card = #{memberCard,jdbcType=INTEGER},
+        member_card = #{memberCard,jdbcType=VARCHAR},
       </if>
       <if test="isDelete != null">
         is_delete = #{isDelete,jdbcType=VARCHAR},
@@ -123,7 +123,7 @@
     set user_id = #{userId,jdbcType=INTEGER},
       company_id = #{companyId,jdbcType=INTEGER},
       member_type = #{memberType,jdbcType=INTEGER},
-        member_card = #{memberCard,jdbcType=INTEGER},
+        member_card = #{memberCard,jdbcType=VARCHAR},
       is_delete = #{isDelete,jdbcType=VARCHAR},
        cash = #{cash,jdbcType=double},
        remark = #{remark,jdbcType=VARCHAR}
@@ -204,6 +204,84 @@
 	t.is_delete,
 	t.cash,
 	t.remark,
+	t.creat_time
+	FROM
+	t_company_member  t
+    where 1=1
+        	and t.user_id= #{userId,jdbcType=INTEGER} and company_id = #{companyId,jdbcType=INTEGER} 
+  </select>
+  
+  
+   <select id="selectCompanyMemberByPage" parameterType="cn.com.hd.common.Page" resultMap="BaseResultMap">
+  SELECT
+	t.id,
+	t.user_id,
+	t.company_id,
+	t.member_type,
+	t.is_delete,
+	t.cash,
+	t.member_card,
+	t.creat_time
+	FROM
+	t_company_member  t
+	LEFT JOIN t_user_info  u ON t.user_id = u.id WHERE 1 = 1
+    <if test="params['companyId'] !=null"> 
+    and company_id=#{params.companyId}
+    </if>
+    <if test="params['isDelete'] != null and params['isDelete'] != ''">  
+        	and t.is_delete=#{params.isDelete}
+    </if>
+    <if test="params['searchText'] != null and params['searchText'] != ''">  
+        	and (u.uc_name like '%${params.searchText}%' ) 
+    </if>
+  </select>
+  
+      <!-- 根据条件查找用户信息 -->
+  <select id="selectByCondition" resultMap="BaseResultMap" parameterType="cn.com.hd.domain.company.CompanyMember" >
+    SELECT
+	t.id,
+	t.user_id,
+	t.company_id,
+	t.member_type,
+	t.is_delete,
+	t.cash,
+	t.member_card,
+	t.creat_time
+	FROM
+	t_company_member  t
+    where 1=1
+    <if test="userId != null">  
+        	and t.user_id=#{userId} and t.company_id=#{companyId}
+    </if>
+  </select>
+  
+      <!-- 根据用户id查找所属于的商户 -->
+  <select id="selectCompanyMemberByuserId" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    SELECT
+	t.id,
+	t.user_id,
+	t.company_id,
+	t.member_type,
+	t.is_delete,
+	t.cash,
+	t.member_card,
+	t.creat_time
+	FROM
+	t_company_member  t
+    where 1=1
+        	and t.user_id= #{userId,jdbcType=INTEGER}
+  </select>
+  
+      <!-- 根据用户id和商户id查找记录 -->
+  <select id="selectCompanyMemberByuserIdAndcompanyId" resultMap="BaseResultMap" parameterType="cn.com.hd.domain.company.CompanyMember" >
+    SELECT
+	t.id,
+	t.user_id,
+	t.company_id,
+	t.member_type,
+	t.is_delete,
+	t.cash,
+	t.member_card,
 	t.creat_time
 	FROM
 	t_company_member  t

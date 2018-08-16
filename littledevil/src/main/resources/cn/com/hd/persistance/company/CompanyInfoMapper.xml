@@ -90,7 +90,7 @@
     delete from t_company_info
     where id = #{id,jdbcType=INTEGER}
   </delete>
-  <insert id="insert" parameterType="cn.com.hd.domain.company.CompanyInfo" >
+  <insert id="insert" parameterType="cn.com.hd.domain.company.CompanyInfo" useGeneratedKeys="true" keyProperty="id">
     insert into t_company_info (user_id,company_name, company_logo, 
       link_person, link_phone, provice_code, 
       city_code, county_code, address, area_string,latitude,longitude,
