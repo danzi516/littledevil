@@ -6,15 +6,17 @@
     <result column="user_id" jdbcType="INTEGER" property="userId" />
     <result column="company_id" jdbcType="INTEGER" property="companyId" />
     <result column="member_type" jdbcType="INTEGER" property="memberType" />
+    <result column="member_card" jdbcType="INTEGER" property="memberCard" />
     <result column="is_delete" jdbcType="VARCHAR" property="isDelete" />
-    <result column="cash" jdbcType="INTEGER" property="cash" />
+    <result column="cash" jdbcType="double" property="cash" />
+    <result column="remark" jdbcType="VARCHAR" property="remark" />
     <result column="creat_time" property="creatTime" jdbcType="TIMESTAMP" />
     <collection column="user_id" ofType="cn.com.hd.domain.uc.User" property="user" select="cn.com.hd.persistance.uc.UserMapper.selectByPrimaryKey" />
   	<collection column="user_id" ofType="cn.com.hd.domain.uc.UserInfo" property="userInfo" select="cn.com.hd.persistance.uc.UserInfoMapper.selectByPrimaryKey" />
   	 <collection column="company_id" ofType="cn.com.hd.domain.company.CompanyInfo" property="companyInfo" select="cn.com.hd.persistance.company.CompanyInfoMapper.selectByPrimaryKey" />
   </resultMap>
   <sql id="Base_Column_List">
-    id, user_id, company_id, member_type, is_delete, cash,creat_time
+    id, user_id, company_id, member_type,member_card, is_delete, cash,remark,creat_time
   </sql>
   <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
     select 
@@ -28,9 +30,9 @@
   </delete>
   <insert id="insert" parameterType="cn.com.hd.domain.company.CompanyMember">
     insert into t_company_member (id, user_id, company_id,
-      member_type, is_delete,creat_time)
+      member_type,member_card, is_delete,cash,remark,creat_time)
     values (#{id,jdbcType=INTEGER}, #{userId,jdbcType=INTEGER}, #{companyId,jdbcType=INTEGER},
-      #{memberType,jdbcType=INTEGER}, #{isDelete,jdbcType=VARCHAR},#{cash,jdbcType=INTEGER},sysdate())
+      #{memberType,jdbcType=INTEGER},#{memberCard,jdbcType=INTEGER}, #{isDelete,jdbcType=VARCHAR},#{cash,jdbcType=double}, #{remark,jdbcType=VARCHAR},sysdate())
   </insert>
   <insert id="insertSelective" parameterType="cn.com.hd.domain.company.CompanyMember">
     insert into t_company_member
@@ -47,11 +49,17 @@
       <if test="memberType != null">
         member_type,
       </if>
+      <if test="memberCard != null">
+        member_card,
+      </if>
       <if test="isDelete != null">
         is_delete,
       </if>
       <if test="cash != null">
         cash,
+      </if>
+      <if test="remark != null">
+        remark,
       </if>
       creat_time
     </trim>
@@ -68,11 +76,17 @@
       <if test="memberType != null">
         #{memberType,jdbcType=INTEGER},
       </if>
+      <if test="memberCard != null">
+        #{memberCard,jdbcType=INTEGER},
+      </if>
       <if test="isDelete != null">
         #{isDelete,jdbcType=VARCHAR},
       </if>
        <if test="cash != null">
-        #{cash,jdbcType=INTEGER},
+        #{cash,jdbcType=double},
+      </if>
+      <if test="remark != null">
+        #{remark,jdbcType=VARCHAR},
       </if>
        sysdate()
     </trim>
@@ -89,11 +103,17 @@
       <if test="memberType != null">
         member_type = #{memberType,jdbcType=INTEGER},
       </if>
+      <if test="memberCard != null">
+        member_card = #{memberCard,jdbcType=INTEGER},
+      </if>
       <if test="isDelete != null">
         is_delete = #{isDelete,jdbcType=VARCHAR},
       </if>
        <if test="cash != null">
-        cash = #{cash,jdbcType=INTEGER},
+        cash = #{cash,jdbcType=double},
+      </if>
+      <if test="remark != null">
+        remark = #{remark,jdbcType=VARCHAR},
       </if>
     </set>
     where id = #{id,jdbcType=INTEGER}
@@ -103,8 +123,10 @@
     set user_id = #{userId,jdbcType=INTEGER},
       company_id = #{companyId,jdbcType=INTEGER},
       member_type = #{memberType,jdbcType=INTEGER},
+        member_card = #{memberCard,jdbcType=INTEGER},
       is_delete = #{isDelete,jdbcType=VARCHAR},
-       cash = #{cash,jdbcType=INTEGER}
+       cash = #{cash,jdbcType=double},
+       remark = #{remark,jdbcType=VARCHAR}
     where id = #{id,jdbcType=INTEGER}
   </update>
   
@@ -114,8 +136,10 @@
 	t.user_id,
 	t.company_id,
 	t.member_type,
+	t.member_card,
 	t.is_delete,
 	t.cash,
+	t.remark,
 	t.creat_time
 	FROM
 	t_company_member  t
@@ -138,8 +162,10 @@
 	t.user_id,
 	t.company_id,
 	t.member_type,
+	t.member_card,
 	t.is_delete,
 	t.cash,
+	t.remark,
 	t.creat_time
 	FROM
 	t_company_member  t
@@ -156,8 +182,10 @@
 	t.user_id,
 	t.company_id,
 	t.member_type,
+	t.member_card,
 	t.is_delete,
 	t.cash,
+	t.remark,
 	t.creat_time
 	FROM
 	t_company_member  t
@@ -172,8 +200,10 @@
 	t.user_id,
 	t.company_id,
 	t.member_type,
+	t.member_card,
 	t.is_delete,
 	t.cash,
+	t.remark,
 	t.creat_time
 	FROM
 	t_company_member  t

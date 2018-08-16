@@ -224,7 +224,7 @@ public class PersonController {
 			List<CompanyMember> CompanyMemberlist =	companyMemberService.selectCompanyMemberByuserId(userId);
 			for(int i=0;i<CompanyMemberlist.size();i++){
 				myCompany myCompany = new myCompany();
-				int cash = CompanyMemberlist.get(i).getCash(); //剩余金额
+				double cash = CompanyMemberlist.get(i).getCash(); //剩余金额
 				int companyId=CompanyMemberlist.get(i).getCompanyId();
 				MemberCommodity record = new MemberCommodity();   
 				record.setCompanyId(companyId);

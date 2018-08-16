@@ -13,11 +13,11 @@ public class CompanyMember {
     private Integer companyId;
 
     private Integer memberType;
-
+    private Integer member_card;
     private String isDelete;
     
-    private int cash;
-    
+    private double cash;
+    private String  remark;
     private String  creatTime;
     
     private User user;
@@ -106,12 +106,28 @@ public class CompanyMember {
 		this.number = number;
 	}
 
-	public int getCash() {
+	public double getCash() {
 		return cash;
 	}
 
-	public void setCash(int cash) {
+	public void setCash(double cash) {
 		this.cash = cash;
+	}
+
+	public Integer getMember_card() {
+		return member_card;
+	}
+
+	public void setMember_card(Integer member_card) {
+		this.member_card = member_card;
+	}
+
+	public String getRemark() {
+		return remark;
+	}
+
+	public void setRemark(String remark) {
+		this.remark = remark;
 	}
 	
 	

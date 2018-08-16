@@ -5,7 +5,7 @@ package cn.com.hd.domain.person;
 public class myCompany {
 	String companyName;
 	String creatTime;
-	int cash;
+	double cash;
 	String item;
 	String lastConsume;
 	int sumNumber;
@@ -21,10 +21,10 @@ public class myCompany {
 	public void setCreatTime(String creatTime) {
 		this.creatTime = creatTime;
 	}
-	public int getCash() {
+	public double getCash() {
 		return cash;
 	}
-	public void setCash(int cash) {
+	public void setCash(double cash) {
 		this.cash = cash;
 	}
 	public String getItem() {

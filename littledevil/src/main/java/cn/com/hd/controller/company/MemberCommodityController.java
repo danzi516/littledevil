@@ -214,8 +214,8 @@ public class MemberCommodityController {
         	CompanyMember companyMember = new CompanyMember();
         	companyMember.setCompanyId(record.getCompanyId());
     	    companyMember.setUserId(record.getUserId());
-    		int oldCash = companyMemberService.selectCompanyMemberByuserIdAndcompanyId(companyMember).getCash();
-    		int cash = oldCash - record.getConsumeCash();
+    	    double oldCash = companyMemberService.selectCompanyMemberByuserIdAndcompanyId(companyMember).getCash();
+    	    double cash = oldCash - record.getConsumeCash();
     		  if(record.getCommodityId()==0){  //现金
     	        	if(cash<0){
     	        		 code="2";//余额不足

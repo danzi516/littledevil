@@ -180,8 +180,8 @@ public class MemberRechargeController {
         	companyMember.setUserId(record.getUserId());
         	memberRechargeService.insert(record);
         	try {
-        		int oldCash = companyMemberService.selectCompanyMemberByuserIdAndcompanyId(companyMember).getCash();
-        		int cash = oldCash+ record.getRechargeCash();
+        		double oldCash = companyMemberService.selectCompanyMemberByuserIdAndcompanyId(companyMember).getCash();
+        		double cash = oldCash+ record.getRechargeCash();
         		companyMember.setCash(cash);
         		companyMember.setId(companyMemberService.selectCompanyMemberByuserIdAndcompanyId(companyMember).getId());
         		companyMemberService.updateByPrimaryKeySelective(companyMember);
