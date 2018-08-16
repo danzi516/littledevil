@@ -204,8 +204,8 @@ public class MemberConsumeController {
 	 *         key:rows[查询结果ist]
 	 *         key:total[记录总数]
 	 */
-    @RequestMapping(value="memberConsume",method=RequestMethod.POST)
-    public @ResponseBody Map<String, Object> memberConsume(@RequestBody MemberConsume record){
+    @RequestMapping(value="memberConsume2222222222222-废弃",method=RequestMethod.POST)
+    public @ResponseBody Map<String, Object> memberConsume22222222222(@RequestBody MemberConsume record){
         Map<String,Object> map = new HashMap<String,Object>();
         String code="";
         try {
@@ -231,7 +231,7 @@ public class MemberConsumeController {
     			  memberCommodity.setCommodityId(record.getCommodityId());
     			  memberCommodity.setCompanyId(record.getCompanyId());
     			  memberCommodity.setUserId(record.getUserId());
-				  memberCommodity = memberCommodityService.selectMemberCommodityByuserIdAndcommodityId(memberCommodity);
+				  memberCommodity = memberCommodityService.selectMemberCommodityByuserIdAndcommodityId(memberCommodity).get(0);
     			  int number = memberCommodity.getNumber()-record.getConsumeNumber();
     			  if(number<0){
     				  code="3";//次数不足
@@ -250,6 +250,29 @@ public class MemberConsumeController {
         map.put("code", code);
         return map;
     }
+    
+    /**
+   	 * 功能描述：添加消费记录-手动无商品
+   	 * 作者：lijiaxing
+   	 * url：${webRoot}/memberConsume/memberConsume
+   	 * 请求方式：POST
+   	 * @param  Page page
+   	 * @return Map<String,Object>
+   	 *         key:code["0":"成功","1":"失败"]
+   	 */
+       @RequestMapping(value="memberConsume",method=RequestMethod.POST)
+       public @ResponseBody Map<String, Object> memberConsume(@RequestBody MemberConsume record){
+           Map<String,Object> map = new HashMap<String,Object>();
+           String code="";
+           try {
+        	   memberConsumeService.insertSelective(record);
+           } catch (NumberFormatException e) {
+       	    e.printStackTrace();
+       	    code="1";
+       	}
+           map.put("code", code);
+           return map;
+       }
     
     /**
 	 * 功能描述：更新

@@ -206,8 +206,8 @@ public class MemberCommodityController {
 	 *         key:rows[查询结果ist]
 	 *         key:total[记录总数]
 	 */
-    @RequestMapping(value="memberConsume",method=RequestMethod.POST)
-    public @ResponseBody Map<String, Object> memberConsume(@RequestBody MemberConsume record){
+    @RequestMapping(value="memberConsume222222-废弃",method=RequestMethod.POST)
+    public @ResponseBody Map<String, Object> memberConsume222222(@RequestBody MemberConsume record){
         Map<String,Object> map = new HashMap<String,Object>();
         String code="";
         try {
@@ -233,7 +233,7 @@ public class MemberCommodityController {
     			  memberCommodity.setCommodityId(record.getCommodityId());
     			  memberCommodity.setCompanyId(record.getCompanyId());
     			  memberCommodity.setUserId(record.getUserId());
-				  memberCommodity = memberCommodityService.selectMemberCommodityByuserIdAndcommodityId(memberCommodity);
+				  memberCommodity = memberCommodityService.selectMemberCommodityByuserIdAndcommodityId(memberCommodity).get(0);
     			  int number = memberCommodity.getNumber()-record.getConsumeNumber();
     			  if(number<0){
     				  code="3";//次数不足
@@ -252,6 +252,38 @@ public class MemberCommodityController {
         map.put("code", code);
         return map;
     }
+    
+    /**
+   	 * 功能描述：添加消费记录
+   	 * 作者：lijiaxing
+   	 * url：${webRoot}/memberCommodity/memberConsume
+   	 * 请求方式：POST
+   	 * @param  Page page
+   	 * @return Map<String,Object>
+   	 *         key:code["0":"成功","1":"失败"]
+   	 *         key:rows[查询结果ist]
+   	 *         key:total[记录总数]
+   	 */
+       @RequestMapping(value="memberConsume",method=RequestMethod.POST)
+       public @ResponseBody Map<String, Object> memberConsume(@RequestBody MemberCommodity record){
+           Map<String,Object> map = new HashMap<String,Object>();
+           String code="";
+           try {
+        	   record.setIsDelete("1");
+        	   memberCommodityService.updateByPrimaryKeySelective(record);
+        	   MemberConsume memberConsume = new MemberConsume();
+        	   memberConsume.setCommodityId(record.getCommodityId());
+        	   memberConsume.setCompanyId(record.getCompanyId());
+        	   memberConsume.setCompanyMemberId(record.getCompanyMemberId());
+        	   memberConsume.setUserId(record.getUserId());
+        	   memberConsumeService.insert(memberConsume);
+       	} catch (Exception e) {
+       	    e.printStackTrace();
+       	    code="1";
+       	}
+           map.put("code", code);
+           return map;
+       }
     
     /**
 	 * 功能描述：更新

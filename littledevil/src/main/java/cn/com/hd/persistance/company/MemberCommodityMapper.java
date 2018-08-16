@@ -30,6 +30,8 @@ public interface MemberCommodityMapper {
     
     int sumNumberByuserIdAndcompanyId(MemberCommodity record);
     
-    MemberCommodity selectMemberCommodityByuserIdAndcommodityId(MemberCommodity record);
+    int sumNumberByuserIdAndcommodityId(MemberCommodity record);
+    
+    List<MemberCommodity> selectMemberCommodityByuserIdAndcommodityId(MemberCommodity record);
     
 }

@@ -410,7 +410,7 @@ public class WxController {
 		 *         key:code["0":"成功","1":"失败"]
 		 */
 		@RequestMapping(value="memberInsert",method=RequestMethod.POST)
-		public @ResponseBody Map<String,Object> memberInsert( int companyId,String wxcode,String wxUserInfo){
+		public @ResponseBody Map<String,Object> memberInsert(int companyId,String wxcode,String wxUserInfo){
 			Map<String,Object> map=new HashMap<String,Object>();
 			JSONObject UserInfo = JSONObject.fromObject(wxUserInfo);
 			String code="";

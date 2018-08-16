@@ -34,7 +34,7 @@ public class MemberCommodityService {
     	return MemberCommodityMapper.selectByPrimaryKey(id);
     }
 	
-	public MemberCommodity selectMemberCommodityByuserIdAndcommodityId(MemberCommodity record){
+	public List<MemberCommodity> selectMemberCommodityByuserIdAndcommodityId(MemberCommodity record){
     	return MemberCommodityMapper.selectMemberCommodityByuserIdAndcommodityId(record);
     }
 	
@@ -67,5 +67,9 @@ public class MemberCommodityService {
 	
 	public int sumNumberByuserIdAndcompanyId(MemberCommodity record){
 		return(MemberCommodityMapper.sumNumberByuserIdAndcompanyId(record));
+    }
+	
+	public int sumNumberByuserIdAndcommodityId(MemberCommodity record){
+		return(MemberCommodityMapper.sumNumberByuserIdAndcommodityId(record));
     }
 }

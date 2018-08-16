@@ -8,7 +8,7 @@
     <result column="member_type" jdbcType="INTEGER" property="memberType" />
     <result column="member_card" jdbcType="VARCHAR" property="memberCard" />
     <result column="is_delete" jdbcType="VARCHAR" property="isDelete" />
-    <result column="cash" jdbcType="double" property="cash" />
+    <result column="cash" jdbcType="DOUBLE" property="cash" />
     <result column="remark" jdbcType="VARCHAR" property="remark" />
     <result column="creat_time" property="creatTime" jdbcType="TIMESTAMP" />
     <collection column="user_id" ofType="cn.com.hd.domain.uc.User" property="user" select="cn.com.hd.persistance.uc.UserMapper.selectByPrimaryKey" />
@@ -32,7 +32,7 @@
     insert into t_company_member (id, user_id, company_id,
       member_type,member_card, is_delete,cash,remark,creat_time)
     values (#{id,jdbcType=INTEGER}, #{userId,jdbcType=INTEGER}, #{companyId,jdbcType=INTEGER},
-      #{memberType,jdbcType=INTEGER},#{memberCard,jdbcType=VARCHAR}, #{isDelete,jdbcType=VARCHAR},#{cash,jdbcType=double}, #{remark,jdbcType=VARCHAR},sysdate())
+      #{memberType,jdbcType=INTEGER},#{memberCard,jdbcType=VARCHAR}, #{isDelete,jdbcType=VARCHAR},#{cash,jdbcType=DOUBLE}, #{remark,jdbcType=VARCHAR},sysdate())
   </insert>
   <insert id="insertSelective" parameterType="cn.com.hd.domain.company.CompanyMember">
     insert into t_company_member
@@ -83,7 +83,7 @@
         #{isDelete,jdbcType=VARCHAR},
       </if>
        <if test="cash != null">
-        #{cash,jdbcType=double},
+        #{cash,jdbcType=DOUBLE},
       </if>
       <if test="remark != null">
         #{remark,jdbcType=VARCHAR},
@@ -110,7 +110,7 @@
         is_delete = #{isDelete,jdbcType=VARCHAR},
       </if>
        <if test="cash != null">
-        cash = #{cash,jdbcType=double},
+        cash = #{cash,jdbcType=DOUBLE},
       </if>
       <if test="remark != null">
         remark = #{remark,jdbcType=VARCHAR},
@@ -125,11 +125,34 @@
       member_type = #{memberType,jdbcType=INTEGER},
         member_card = #{memberCard,jdbcType=VARCHAR},
       is_delete = #{isDelete,jdbcType=VARCHAR},
-       cash = #{cash,jdbcType=double},
+       cash = #{cash,jdbcType=DOUBLE},
        remark = #{remark,jdbcType=VARCHAR}
     where id = #{id,jdbcType=INTEGER}
   </update>
   
+  
+      <!-- 根据条件查找用户信息 -->
+  <select id="selectByCondition" resultMap="BaseResultMap" parameterType="cn.com.hd.domain.company.CompanyMember" >
+    SELECT
+	t.id,
+	t.user_id,
+	t.company_id,
+	t.member_type,
+	t.member_card,
+	t.is_delete,
+	t.cash,
+	t.remark,
+	t.creat_time
+	FROM
+	t_company_member  t
+    where 1=1
+    <if test="userId != null">  
+        	and t.user_id=#{userId} and t.company_id=#{companyId}
+    </if>
+  </select>
+  
+  
+  
    <select id="selectCompanyMemberByPage" parameterType="cn.com.hd.common.Page" resultMap="BaseResultMap">
   SELECT
 	t.id,
@@ -155,25 +178,6 @@
     </if>
   </select>
   
-      <!-- 根据条件查找用户信息 -->
-  <select id="selectByCondition" resultMap="BaseResultMap" parameterType="cn.com.hd.domain.company.CompanyMember" >
-    SELECT
-	t.id,
-	t.user_id,
-	t.company_id,
-	t.member_type,
-	t.member_card,
-	t.is_delete,
-	t.cash,
-	t.remark,
-	t.creat_time
-	FROM
-	t_company_member  t
-    where 1=1
-    <if test="userId != null">  
-        	and t.user_id=#{userId} and t.company_id=#{companyId}
-    </if>
-  </select>
   
       <!-- 根据用户id查找所属于的商户 -->
   <select id="selectCompanyMemberByuserId" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
@@ -211,82 +215,45 @@
         	and t.user_id= #{userId,jdbcType=INTEGER} and company_id = #{companyId,jdbcType=INTEGER} 
   </select>
   
-  
-   <select id="selectCompanyMemberByPage" parameterType="cn.com.hd.common.Page" resultMap="BaseResultMap">
-  SELECT
-	t.id,
-	t.user_id,
-	t.company_id,
-	t.member_type,
-	t.is_delete,
-	t.cash,
-	t.member_card,
-	t.creat_time
-	FROM
-	t_company_member  t
-	LEFT JOIN t_user_info  u ON t.user_id = u.id WHERE 1 = 1
-    <if test="params['companyId'] !=null"> 
-    and company_id=#{params.companyId}
-    </if>
-    <if test="params['isDelete'] != null and params['isDelete'] != ''">  
-        	and t.is_delete=#{params.isDelete}
-    </if>
-    <if test="params['searchText'] != null and params['searchText'] != ''">  
-        	and (u.uc_name like '%${params.searchText}%' ) 
-    </if>
-  </select>
-  
-      <!-- 根据条件查找用户信息 -->
-  <select id="selectByCondition" resultMap="BaseResultMap" parameterType="cn.com.hd.domain.company.CompanyMember" >
-    SELECT
-	t.id,
-	t.user_id,
-	t.company_id,
-	t.member_type,
-	t.is_delete,
-	t.cash,
-	t.member_card,
-	t.creat_time
-	FROM
-	t_company_member  t
-    where 1=1
-    <if test="userId != null">  
-        	and t.user_id=#{userId} and t.company_id=#{companyId}
-    </if>
-  </select>
-  
-      <!-- 根据用户id查找所属于的商户 -->
-  <select id="selectCompanyMemberByuserId" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
-    SELECT
-	t.id,
-	t.user_id,
-	t.company_id,
-	t.member_type,
-	t.is_delete,
-	t.cash,
-	t.member_card,
-	t.creat_time
-	FROM
-	t_company_member  t
-    where 1=1
-        	and t.user_id= #{userId,jdbcType=INTEGER}
-  </select>
-  
+    
       <!-- 根据用户id和商户id查找记录 -->
-  <select id="selectCompanyMemberByuserIdAndcompanyId" resultMap="BaseResultMap" parameterType="cn.com.hd.domain.company.CompanyMember" >
+  <select id="selectByCompanyMember" resultMap="BaseResultMap" parameterType="cn.com.hd.domain.company.CompanyMember" >
     SELECT
 	t.id,
 	t.user_id,
 	t.company_id,
 	t.member_type,
+	t.member_card,
 	t.is_delete,
 	t.cash,
-	t.member_card,
+	t.remark,
 	t.creat_time
 	FROM
 	t_company_member  t
     where 1=1
-        	and t.user_id= #{userId,jdbcType=INTEGER} and company_id = #{companyId,jdbcType=INTEGER} 
+    <if test="userId != null">
+      and  user_id = #{userId,jdbcType=INTEGER}
+      </if>
+      <if test="companyId != null and companyId != ''">
+      and  company_id = #{companyId,jdbcType=INTEGER}
+      </if>
+      <if test="memberType != null and memberType != ''">
+      and  member_type = #{memberType,jdbcType=INTEGER}
+      </if>
+      <if test="memberCard != null and memberCard != ''">
+      and  member_card = #{memberCard,jdbcType=VARCHAR}
+      </if>
+      <if test="isDelete != null and isDelete != ''">
+      and  is_delete = #{isDelete,jdbcType=VARCHAR}
+      </if>
+       <if test="cash != null and cash != ''">
+      and  cash = #{cash,jdbcType=DOUBLE}
+      </if>
+      <if test="remark != null and remark != ''">
+      and  remark = #{remark,jdbcType=VARCHAR}
+      </if>
+    
   </select>
+  
   
 </mapper>

@@ -64,4 +64,8 @@ public class CompanyMemberService {
 	public CompanyMember selectCompanyMemberByuserIdAndcompanyId(CompanyMember record){
     	return companyMemberMapper.selectCompanyMemberByuserIdAndcompanyId(record);
     }
+	
+	public List<CompanyMember> selectByCompanyMember(CompanyMember record){
+    	return companyMemberMapper.selectByCompanyMember(record);
+    }
 }

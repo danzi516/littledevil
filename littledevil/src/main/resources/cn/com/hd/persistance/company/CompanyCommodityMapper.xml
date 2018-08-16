@@ -6,9 +6,10 @@
     <result column="company_id" jdbcType="INTEGER" property="companyId" />
     <result column="commodity_name" jdbcType="VARCHAR" property="commodityName" />
     <result column="commodity_price" jdbcType="DOUBLE" property="commodityPrice" />
-    <result column="commodity_logo" jdbcType="VARCHAR" property="commodityLogo" />
+    <result column="commodity_logo" jdbcType="VARCHAR" property="commodityLogo"/>
     <result column="commodity_note" jdbcType="VARCHAR" property="commodityNote" />
     <result column="state" jdbcType="VARCHAR" property="state" />
+    <result column="creat_time" jdbcType="VARCHAR" property="creatTime" />
   </resultMap>
   <resultMap extends="BaseResultMap" id="ResultMapWithBLOBs" type="cn.com.hd.domain.company.CompanyCommodity">
     <result column="commodity_note" jdbcType="LONGVARCHAR" property="commodityNote" />
@@ -47,7 +48,33 @@
         	and state=#{params.state}
     </if>
   </select>
-  
+  <select id="selectByCompanyCommodity" parameterType="cn.com.hd.domain.company.CompanyCommodity" resultMap="BaseResultMap">
+    select 
+    id, company_id, commodity_name, commodity_price, commodity_logo,commodity_note, state
+    from t_company_commodity
+    where 1=1
+    <if test="id != null and companyId != ''">
+      and  id=#{id,jdbcType=INTEGER}
+      </if>
+      <if test="companyId != null and companyId != ''">
+        and  company_id=#{companyId,jdbcType=INTEGER}
+      </if>
+      <if test="commodityName != null and commodityName != ''">
+        and  commodity_name=#{commodityName,jdbcType=VARCHAR}
+      </if>
+      <if test="commodityPrice != null and commodityPrice != ''">
+        and  commodity_price=#{commodityPrice,jdbcType=DOUBLE}
+      </if>
+      <if test="commodityLogo != null and commodityLogo != ''">
+        and  commodity_logo= #{commodityLogo,jdbcType=VARCHAR}
+      </if>
+      <if test="state != null and state != ''">
+        and  state=#{state,jdbcType=VARCHAR}
+      </if>
+      <if test="commodityNote != null and commodityNote != ''">
+        and  commodity_note=#{commodityNote,jdbcType=LONGVARCHAR}
+      </if>
+  </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
     delete from t_company_commodity
     where id = #{id,jdbcType=INTEGER}
@@ -55,10 +82,10 @@
   <insert id="insert" parameterType="cn.com.hd.domain.company.CompanyCommodity">
     insert into t_company_commodity (id, company_id, commodity_name, 
       commodity_price, commodity_logo, state, 
-      commodity_note)
+      commodity_note,creat_time)
     values (#{id,jdbcType=INTEGER}, #{companyId,jdbcType=INTEGER}, #{commodityName,jdbcType=VARCHAR}, 
       #{commodityPrice,jdbcType=DOUBLE}, #{commodityLogo,jdbcType=VARCHAR}, #{state,jdbcType=VARCHAR}, 
-      #{commodityNote,jdbcType=LONGVARCHAR})
+      #{commodityNote,jdbcType=LONGVARCHAR},sysdate())
   </insert>
   <insert id="insertSelective" parameterType="cn.com.hd.domain.company.CompanyCommodity">
     insert into t_company_commodity
@@ -84,6 +111,7 @@
       <if test="commodityNote != null">
         commodity_note,
       </if>
+      creat_time
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
       <if test="id != null">
@@ -107,6 +135,7 @@
       <if test="commodityNote != null">
         #{commodityNote,jdbcType=LONGVARCHAR},
       </if>
+      sysdate()
     </trim>
   </insert>
   <update id="updateByPrimaryKeySelective" parameterType="cn.com.hd.domain.company.CompanyCommodity">

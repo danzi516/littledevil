@@ -7,7 +7,7 @@ public class WxUserInfo {
 
     private String avatarUrl;
 
-    private String gender;
+    private int gender;
 
     private String city;
 
@@ -33,11 +33,11 @@ public class WxUserInfo {
 		this.avatarUrl = avatarUrl;
 	}
 
-	public String getGender() {
+	public int getGender() {
 		return gender;
 	}
 
-	public void setGender(String gender) {
+	public void setGender(int gender) {
 		this.gender = gender;
 	}
 

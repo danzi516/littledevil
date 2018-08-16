@@ -7,7 +7,7 @@ public class CompanyCommodity {
 
     private String commodityName;
 
-    private Double commodityPrice;
+    private double commodityPrice;
 
     private String commodityLogo;
 
@@ -39,11 +39,11 @@ public class CompanyCommodity {
         this.commodityName = commodityName;
     }
 
-    public Double getCommodityPrice() {
+    public double getCommodityPrice() {
         return commodityPrice;
     }
 
-    public void setCommodityPrice(Double commodityPrice) {
+    public void setCommodityPrice(double commodityPrice) {
         this.commodityPrice = commodityPrice;
     }
 

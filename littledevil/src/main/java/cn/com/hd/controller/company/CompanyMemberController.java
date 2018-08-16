@@ -255,14 +255,14 @@ public class CompanyMemberController {
 	       }
 	       
 	       /**
-		   	 * 功能描述：通过会员id查找商户
+		   	 * 功能描述：通过会员id查找
 		   	 * 作者：lijiaxing
 		   	 * url：${webRoot}/companyMember/selectByUserId
 		   	 * 请求方式：POST
 		   	 * @param  id
 		   	 * @return Map<String,Object>
 		   	 *         key:code["0":"成功","1":"失败"]
-		   	 *         key:CompanyInfo[CompanyInfo]
+		   	 *         key:CompanyMemberList[CompanyMemberList]
 		   	 */
 		       @RequestMapping(value="selectByUserId",method=RequestMethod.POST)
 		       public @ResponseBody Map<String, Object> selectByUserId(@RequestBody int id){
@@ -272,6 +272,32 @@ public class CompanyMemberController {
 		        	   List<CompanyMember> record=companyMemberService.selectCompanyMemberByuserId(id);
 		               code="0";
 		               map.put("CompanyMemberList",record);
+		           }catch(Exception e){
+		               code="1";
+		               e.printStackTrace();
+		           }
+		           map.put("code", code);
+		           return map;
+		       }
+		       
+	       /**
+		   	 * 功能描述：通过会员属性查找
+		   	 * 作者：lijiaxing
+		   	 * url：${webRoot}/companyMember/selectByCompanyMember
+		   	 * 请求方式：POST
+		   	 * @param  CompanyMember
+		   	 * @return Map<String,Object>
+		   	 *         key:code["0":"成功","1":"失败"]
+		   	 *         key:CompanyMemberList[CompanyMemberList]
+		   	 */
+		       @RequestMapping(value="selectByCompanyMember",method=RequestMethod.POST)
+		       public @ResponseBody Map<String, Object> selectByCompanyMember(@RequestBody CompanyMember record){
+		           Map<String,Object> map = new HashMap<String,Object>();
+		           String code="";
+		           try{
+		        	   List<CompanyMember> CompanyMemberList=companyMemberService.selectByCompanyMember(record);
+		               code="0";
+		               map.put("CompanyMemberList",CompanyMemberList);
 		           }catch(Exception e){
 		               code="1";
 		               e.printStackTrace();
