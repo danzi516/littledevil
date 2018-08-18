@@ -7,7 +7,9 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import cn.com.hd.common.Page;
+import cn.com.hd.domain.company.CompanyCommodity;
 import cn.com.hd.domain.company.CompanyInfo;
+import cn.com.hd.domain.company.MemberCommodity;
 import cn.com.hd.domain.company.MemberConsume;
 import cn.com.hd.domain.company.MemberRecharge;
 import cn.com.hd.persistance.company.CompanyInfoMapper;
@@ -15,6 +17,8 @@ import cn.com.hd.persistance.company.MemberConsumeMapper;
 
 @Service("memberConsumeService")
 public class MemberConsumeService {
+	CompanyCommodityService companyCommodityService;
+	MemberCommodityService memberCommodityService;
 	@Autowired
 	private MemberConsumeMapper memberConsumeMapper;
 	@Transactional
@@ -57,5 +61,18 @@ public class MemberConsumeService {
 	
 	public int sumconsumeCashByuserIdAndcompanyId(MemberConsume record){
 		return(memberConsumeMapper.sumconsumeCashByuserIdAndcompanyId(record));
+    }
+	
+	@Transactional
+	public int memberConsumeCommodity(MemberCommodity record){
+		 record.setIsDelete("1");
+  	   memberCommodityService.updateByPrimaryKeySelective(record);
+  	   MemberConsume memberConsume = new MemberConsume();
+  	   memberConsume.setCommodityId(record.getCommodityId());
+  	   memberConsume.setCompanyId(record.getCompanyId());
+  	   memberConsume.setCompanyMemberId(record.getCompanyMemberId());
+  	   memberConsume.setUserId(record.getUserId());
+  	   memberConsumeMapper.insert(memberConsume);
+  	   return(memberConsumeMapper.insert(memberConsume));
     }
 }
