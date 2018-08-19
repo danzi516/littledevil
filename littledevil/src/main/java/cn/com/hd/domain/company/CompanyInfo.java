@@ -3,10 +3,11 @@ package cn.com.hd.domain.company;
 import java.sql.Timestamp;
 
 import cn.com.hd.domain.uc.User;
+import cn.com.hd.domain.uc.UserInfo;
 
 public class CompanyInfo {
     private Integer id;
-
+    private Integer userId;
     private String companyName;
 
     private String companyLogo;
@@ -31,7 +32,7 @@ public class CompanyInfo {
     private String  registerTime;
     
 	private User user;
-    
+	private UserInfo userInfo;
     private String proviceName;
     private String cityName;
     private String countyName;
@@ -40,7 +41,23 @@ public class CompanyInfo {
     
     
     
-    public String getLongitude() {
+    public UserInfo getUserInfo() {
+		return userInfo;
+	}
+
+	public void setUserInfo(UserInfo userInfo) {
+		this.userInfo = userInfo;
+	}
+
+	public Integer getUserId() {
+		return userId;
+	}
+
+	public void setUserId(Integer userId) {
+		this.userId = userId;
+	}
+
+	public String getLongitude() {
 		return longitude;
 	}
 

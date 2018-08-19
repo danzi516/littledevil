@@ -1,10 +1,12 @@
 //index.js 
 import Api from '/../../utils/config/api.js';
+
 import {
   GLOBAL_API_DOMAIN
 } from '/../../utils/config/config.js';
-var utils = require('../../utils/util.js')
-var app = getApp();
+var utils = require('../../utils/util.js');
+import { req } from '../../utils/config/api.js'
+const app = getApp();
 
 Page({
   data: {
@@ -39,92 +41,128 @@ Page({
     settime: null,
     rematime: '获取验证码',
     afirst: false,
-    isclick: true
+    isclick: true,
+    newGoods: [],
+    resBaseUrl:"",                // 地址
+    todayTime: 0,                 // 今天日期
+    tabIndex: 0,                  // tab切换
+    apiStatus: 0                 // 顺序加载
   },
-  onShow: function() {
-    let that = this,
-      userInfo = app.globalData.userInfo;
-    console.log(this.data);
-    if (this.data.phone && this.data.veridyTime) {
-      this.setData({
-        userGiftFlag: false,
-        isNew: true,
-        isfirst: true,
-        isphoneNumber: true
-      })
-    }
-    if (userInfo.openId && userInfo.sessionKey && userInfo.unionId) {
-      that.setData({
-        istouqu: false
-      })
-      that.getmyuserinfo();
-    } else {
-      wx.login({
-        success: res => {
-          if (res.code) {
-            let _parms = {
-              code: res.code
-            }
-            console.log(res);
-            wx.getUserInfo({
-              success: res => {
-                console.log(res);
-                wx.request({
-                  url: 'http://127.0.0.1:8080/littledevil/user/decodeUserInfo',
-                  header: {
-                    "content-type": "application/x-www-form-urlencoded"
-                  },
-                  method: "POST",
-                  data: {
-                    encryptedData: res.encryptedData,
-                    iv: res.iv,
-                    code: _parms.code
-                  },
-                  success: result=> {
-                    console.log(result)
-                  }
-                })
-              }
-            })
-            console.log(res.code);
-            let that = this;
-            /* Api.getOpenId(_parms).then((res) => {
-               app.globalData.userInfo.openId = res.data.data.openId;
-               app.globalData.userInfo.sessionKey = res.data.data.sessionKey;
-               if (res.data.data.unionId) {
-                 app.globalData.userInfo.unionId = res.data.data.unionId;
-                 that.getmyuserinfo();
-               } else {
-                 that.findByCode();
-                 wx.hideLoading();
-               }
-             })*/
-          }
-        }
-      })
-    }
+  onLoad: function () {
 
-    let lat = wx.getStorageSync('lat');
-    let lng = wx.getStorageSync('lng');
-    if (lat && lng) {
-      setTimeout(function() {
-        that.requestCityName(lat, lng);
-        wx.removeStorageSync('lat');
-        wx.removeStorageSync('lng');
-      }, 500)
-    } else {
-      that.getlocation();
-    }
+    // 获取新品
+    console.log(1111111111111);
+    // req(app.globalData.bastUrl, 'appv3/modules', {
+    //   qt: 4
+    // }, "GET", true).then(res => {
+    //   console.log(res);
+    //   this.setData({
+    //     tabIndex: 0,
+    //     newGoods: res.data.result,
+    //     apiStatus: this.data.apiStatus + 1
+    //   })
+    //   //this.getHotlistLoading()
+      
+    // })
+    req(app.globalData.bastUrl, '/companyInfo/selectCompanyAllList', {
+      qt: 4
+    }, "GET", true).then(res => {
+      console.log(2222222222);
+      console.log(res.List);
+      this.setData({
+        tabIndex: 0,
+        newGoods: res.List,
+        apiStatus: this.data.apiStatus + 1,
+        resBaseUrl: app.globalData.bastUrl
+      })
+      //this.getHotlistLoading()
+
+    })
   },
-  onHide: function() {
-    let that = this;
-    clearInterval(that.data.settime)
-    that.setData({
-      userGiftFlag: false,
-      isfirst: false,
-      isNew: false
-    });
-  },
+  // onShow: function() {
+  //   let that = this,
+  //     userInfo = app.globalData.userInfo;
+  //   console.log(this.data);
+  //   if (this.data.phone && this.data.veridyTime) {
+  //     this.setData({
+  //       userGiftFlag: false,
+  //       isNew: true,
+  //       isfirst: true,
+  //       isphoneNumber: true
+  //     })
+  //   }
+  //   if (userInfo.openId && userInfo.sessionKey && userInfo.unionId) {
+  //     that.setData({
+  //       istouqu: false
+  //     })
+  //     that.getmyuserinfo();
+  //   } else {
+  //     // wx.login({
+  //     //   success: res => {
+  //     //     if (res.code) {
+  //     //       let _parms = {
+  //     //         code: res.code
+  //     //       }
+  //     //       console.log(res);
+  //     //       wx.getUserInfo({
+  //     //         success: res => {
+  //     //           console.log(res);
+  //     //           wx.request({
+  //     //             url: 'http://127.0.0.1:8080/littledevil/user/decodeUserInfo',
+  //     //             header: {
+  //     //               "content-type": "application/x-www-form-urlencoded"
+  //     //             },
+  //     //             method: "POST",
+  //     //             data: {
+  //     //               encryptedData: res.encryptedData,
+  //     //               iv: res.iv,
+  //     //               code: _parms.code
+  //     //             },
+  //     //             success: result=> {
+  //     //               console.log(result)
+  //     //             }
+  //     //           })
+  //     //         }
+  //     //       })
+  //     //       console.log(res.code);
+  //     //       let that = this;
+  //     //       /* Api.getOpenId(_parms).then((res) => {
+  //     //          app.globalData.userInfo.openId = res.data.data.openId;
+  //     //          app.globalData.userInfo.sessionKey = res.data.data.sessionKey;
+  //     //          if (res.data.data.unionId) {
+  //     //            app.globalData.userInfo.unionId = res.data.data.unionId;
+  //     //            that.getmyuserinfo();
+  //     //          } else {
+  //     //            that.findByCode();
+  //     //            wx.hideLoading();
+  //     //          }
+  //     //        })*/
+  //     //     }
+  //     //   }
+  //     // })
+  //   }
+
+  //   let lat = wx.getStorageSync('lat');
+  //   let lng = wx.getStorageSync('lng');
+  //   if (lat && lng) {
+  //     setTimeout(function() {
+  //       that.requestCityName(lat, lng);
+  //       wx.removeStorageSync('lat');
+  //       wx.removeStorageSync('lng');
+  //     }, 500)
+  //   } else {
+  //     that.getlocation();
+  //   }
+  // },
+  // onHide: function() {
+  //   let that = this;
+  //   clearInterval(that.data.settime)
+  //   that.setData({
+  //     userGiftFlag: false,
+  //     isfirst: false,
+  //     isNew: false
+  //   });
+  // },
   getInvitationCode:function(){
     wx.request({
       url: "http://127.0.0.1:8080/littledevil/wxpay/getInvitationCode",
@@ -155,6 +193,52 @@ Page({
       success: (res) => {
         console.log(res)
 
+      }
+    })
+  },
+  memberConsume: function () {
+    wx.request({
+      url: "http://127.0.0.1:8080/littledevil/memberConsume/memberConsume",
+      header: {
+        //'content-type': 'application/x-www-form-urlencoded' // 默认值
+        'content-type': 'application/json'
+      },
+      method: "POST",
+      data: {
+         companyMemberId: 1, 
+         companyId: 2, 
+         consumeCash: 2, 
+         commodityId: 3, 
+         isDelete: "0",
+          userId: 4, 
+          consumeNumber: 1, 
+          payCash: 1, 
+          consumeTime:""
+      },
+      success: (res) => {
+        console.log(res)
+      }
+    })
+  },
+  memberRecharge: function () {
+    wx.request({
+      url: "http://127.0.0.1:8080/littledevil/memberRecharge/insertRecord",
+      header: {
+        //'content-type': 'application/x-www-form-urlencoded' // 默认值
+        'content-type': 'application/json'
+      },
+      method: "POST",
+      data: {
+        companyMemberId: 12,
+        companyId: 7,
+        rechargeCash: 2,
+        isDelete: "0",
+        userId: 17,
+        payCash: 1,
+        rechargeTime: ""
+      },
+      success: (res) => {
+        console.log(res)
       }
     })
   },
@@ -207,4 +291,5 @@ Page({
     this.gettopic();
     this.gettoplistFor();
   }
+ 
 })

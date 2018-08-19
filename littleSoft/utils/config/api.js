@@ -1,6 +1,6 @@
 import MyHttp from './request.js';
 import { myStore } from '../tools/store';
-
+import { request, setConfig } from '../tools/wx-promise-request';
 //所有的请求
 const ALL_API = {
   userlist: { //openId登录
@@ -350,5 +350,59 @@ const ALL_API = {
   }
 }
 const Api = new MyHttp({}, ALL_API);
+// 封装请求接口
+const req = (baseUrl, url, data, method, showLoadingStatus, call) => {
+  return new Promise(function (resolve, reject) {
+    if (!showLoadingStatus) {
+      wx.showNavigationBarLoading()
+      wx.showLoading({
+        title: '加载中',
+        mask: true
+      })
+    }
+    if (call) {
+      var callback = call
+    }
+    request({
+      url: baseUrl + url,
+      data: data,
+      method: method,
+      header: {
+        'Authorization': wx.getStorageSync('token')
+      }
+    }).then(res => {
+      if (!showLoadingStatus) {
+        wx.hideNavigationBarLoading()
+        wx.hideLoading()
+      }
+      if (res.statusCode == 200) {
+        switch (res.data.code) {
+          case "0":
+            resolve(res.data)
+            break;
+          default:
+            //wx.showToast({ title: res.data.info.toString(), icon: 'none', duration: 2000 })
+        }
+      } else if (res.statusCode == 401) {
+        // 请求登陆
+        wx_login(baseUrl)
+        // 在用户登录过期后，需要回调更新页面状态
+        if (callback) {
+          callback()
+        }
+      }
+    }).catch(error => {
+      reject(error)
+      if (!showLoadingStatus) {
+        wx.hideNavigationBarLoading()
+        wx.hideLoading()
+      }
+    })
+  })
+}
 
-export default Api;
+module.exports = {
+  req: req,
+  Api: Api
+}
+//export default Api;

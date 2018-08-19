@@ -13,13 +13,14 @@
     <result column="county_code" property="countyCode" jdbcType="VARCHAR" />
     <result column="address" property="address" jdbcType="VARCHAR" />
     <result column="area_string" property="areaString" jdbcType="VARCHAR" />
-    <result column="latitude" property="areaString" jdbcType="VARCHAR" />
-    <result column="longitude" property="areaString" jdbcType="VARCHAR" />
+    <result column="latitude" property="latitude" jdbcType="VARCHAR" />
+    <result column="longitude" property="longitude" jdbcType="VARCHAR" />
     <result column="coordinate" property="coordinate" jdbcType="VARCHAR" />
     <result column="company_type" property="companyType" jdbcType="INTEGER" />
     <result column="is_state" property="isState" jdbcType="VARCHAR" />
     <result column="register_time" property="registerTime" jdbcType="TIMESTAMP" />
     <collection property="user" column="id" ofType="cn.com.hd.domain.uc.User" select="cn.com.hd.persistance.uc.UserMapper.selectByPrimaryKey"></collection>
+    <collection column="user_id" ofType="cn.com.hd.domain.uc.UserInfo" property="userInfo" select="cn.com.hd.persistance.uc.UserInfoMapper.selectByPrimaryKey" />
   	<collection property="CompanyTypeName" column="company_type" ofType="java.lang.String" select="cn.com.hd.persistance.sys.DictionaryMapper.selectDicNameById"></collection>
   	<collection property="proviceName" column="provice_code" ofType="java.lang.String" select="cn.com.hd.persistance.sys.DistrictMapper.selectDistrictNameByCode"></collection>
   	<collection property="cityName" column="city_code" ofType="java.lang.String" select="cn.com.hd.persistance.sys.DistrictMapper.selectDistrictNameByCode"></collection>

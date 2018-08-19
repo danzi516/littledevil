@@ -14,7 +14,8 @@ App({
   },
   onLaunch: function (options) {
     let q = decodeURIComponent(options.query.q)
-    
+    //this.globalData.bastUrl =  'https://api.ontheroadstore.com/'
+    this.globalData.bastUrl = 'http://localhost:8080/littledevil/'
   },
   onPullDownRefresh: function () {
     wx.stopPullDownRefresh()

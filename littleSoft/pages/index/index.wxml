@@ -1,28 +1,32 @@
-<import src="index-item/index-item-template.wxml" />
-
+<!-- <import src="index-item/index-item-template.wxml" /> -->
+ <scroll-view class='header' scroll-x bindscroll="scroll">
+  <view class='classifys'>
+    <view class="classify_item {{tabIndex == 0 ? 'active':''}}" bindtap="tabtap" data-id="0">商店</view>
+    <view class="classify_item {{tabIndex == item.id ? 'active':''}}" wx:key="key" wx:for="{{categories}}" bindtap="tabtap" data-id="{{item.id}}">{{item.name}}</view>
+  </view>
+</scroll-view>
 <!--index.wxml-->
-<view class="container">
+
   <!--顶部 定位 搜索 卷  -->
   <!-- <template is="locationSeek" data="{{...item}}" /> -->
 
 
-  <view class="newUserModal" wx:if="{{issnap}}">
+  <!-- <view class="newUserModal" wx:if="{{issnap}}">
     <view class='drawer_screen'>
       <view class='sqtishi'>提示</view>
       <view class='drphnumber'>获得更多体验,请移步[我的]-[新用户注册]</view>
       <button class='gettel sqgettel' bindtap='closetel' id='1'>确定</button>
       <button class='gettel colosetel' bindtap='closetel' id='2'>取消</button>
     </view>
-  </view>
+  </view> -->
 
-  <!-- <view  catchtouchmove='true'> -->
-  <view class="newUserModal loginuser" wx:if="{{istouqu}}" catchtouchmove='true'>
+  
+  <!-- <view class="newUserModal loginuser" wx:if="{{istouqu}}" catchtouchmove='true'>
    <view class="drawer_screen"></view>
     <button class="newUserM_box" open-type="getUserInfo" bindgetuserinfo="againgetinfo">
       <image class='loginimg' src='/images/icon/login.png'></image>
     </button>
-   </view>
-
+   </view> -->
 
 
   
@@ -34,9 +38,116 @@
       <text>共享美味新生活</text>
     </view>
   </view>-->
-<view class="page__bd page__bd_spacing">
-  <button style="margin-top: 10px;" type="primary" bindtap="getInvitationCode"> 1111 </button>
+<!-- <view class="page__bd page__bd_spacing">
+  <button style="margin-top: 10px;" type="primary" bindtap="getInvitationCode"> 获取邀请码 </button>
 
-  <button style="margin-top: 10px;" type="primary" bindtap="applyCompany"> 22222 </button>
-</view>
-</view>
+  <button style="margin-top: 10px;" type="primary" bindtap="applyCompany"> 商户申请认证 </button>
+
+  <navigator url="../index/webview/webview?companyId=6"  open-type = "redirect">
+        <button type="default">跳转1</button>
+      </navigator>
+
+  <navigator url="../index/webview/webview?companyId=6"  hover-class="navigator-hover">
+    <button type="default">跳转2</button>
+  </navigator>
+  <button style="margin-top: 10px;" type="primary" bindtap="memberConsume"> 消费 </button>
+  <button style="margin-top: 10px;" type="primary" bindtap="memberRecharge"> 充值 </button>
+</view>  -->
+
+
+<view class='main'> 
+  <view class="content_index {{tabIndex == 0 ? 'active':''}}">
+    
+    <view class="recommend" wx:if="{{newGoods.length}}">
+      <view class="title">今日推荐</view>
+      <view class="explain">时间：{{todayTime}}</view>
+      <view class="goods clearBoth" wx:for="{{newGoods}}" wx:key="{{item.id}}">
+        <image bindtap="navigateToGoods" data-id="{{item.id}}" class="cover" lazy-load mode="aspectFill" src="{{resBaseUrl+item.companyLogo}}" />
+        <view class="article_title" bindtap="navigateToGoods" data-id="{{item.id}}">{{item.areaString}}</view>
+        <image bindtap="navigateToUser" data-id="{{item.id}}" data-name="{{item.userInfo.logo}}" class="user_avatar float_left" lazy-load src="{{resBaseUrl+item.userInfo.logo}}" />
+        <text bindtap="navigateToUser" data-id="{{item.id}}" data-name="{{item.companyName}}" class="user_name float_left">{{item.companyName}}</text>
+        <text class="price font_din float_right">￥ {{item.price[0]}}</text>
+      </view>
+    </view>
+  </view> 
+<button style="margin-top: 10px;" type="primary" bindtap="getInvitationCode"> 获取邀请码 </button>
+  <button style="margin-top: 10px;" type="primary" bindtap="applyCompany"> 商户申请认证 </button>
+  <navigator url="../index/webview/webview?companyId=6"  open-type = "redirect">
+        <button type="default">跳转1</button>
+      </navigator>
+
+  <navigator url="../index/webview/webview?companyId=6"  hover-class="navigator-hover">
+    <button type="default">跳转2</button>
+  </navigator>
+  <button style="margin-top: 10px;" type="primary" bindtap="memberConsume"> 消费 </button>
+  <button style="margin-top: 10px;" type="primary" bindtap="memberRecharge"> 充值 </button>
+    <!-- <view class="ranking" wx:if="{{salesGoods.length}}">
+      <view class="title">哆嗦排行榜</view>
+      <view class="explain">TOP 10</view>
+      <swiper class='ranking_content' current="1" interval="3000" previous-margin="36rpx" next-margin="36rpx" circular="true">
+        <swiper-item wx:for="{{salesGoods}}" wx:key="{{item.id}}">
+          <view class="goods clearBoth">
+            <image bindtap="navigateToGoods" data-id="{{item.id}}" class="cover" lazy-load mode="aspectFill" src="{{item.cover}}@640w_1l" />
+            <view class="article_title" bindtap="navigateToGoods" data-id="{{item.id}}">{{item.title}}</view>
+            <image bindtap="navigateToUser" data-id="{{item.author}}" data-name="{{item.user_name}}" class="user_avatar float_left" lazy-load src="{{item.user_avatar}}" />
+            <text bindtap="navigateToUser" data-id="{{item.author}}" data-name="{{item.user_name}}" class="user_name float_left">{{item.user_name}}</text>
+            <text class="price font_din float_right">￥ {{item.price[0]}}</text>
+          </view>
+        </swiper-item>
+      </swiper>
+    </view>
+
+    <view class="showall" wx:if="{{hotGoods.length}}">
+      <view class="title">当下最热</view>
+      <view class="explain">The Hottest Monent</view>
+      <view class="goods clearBoth" wx:for="{{hotGoods}}" wx:key="id">
+        <image class="cover" bindtap="navigateToGoods" data-id="{{item.id}}" lazy-load mode="aspectFill" src="{{item.cover}}@640w_1l" />
+        <view class="article_title" bindtap="navigateToGoods" data-id="{{item.id}}">{{item.title}}</view>
+        <image bindtap="navigateToUser" data-id="{{item.author}}" data-name="{{item.user_name}}" class="user_avatar float_left" lazy-load src="{{item.user_avatar}}" />
+        <text bindtap="navigateToUser" data-id="{{item.author}}" data-name="{{item.user_name}}" class="user_name float_left">{{item.user_name}}</text>
+        <text class="price font_din float_right">￥ {{item.price[0]}}</text>
+      </view>
+    </view>
+  </view>
+  
+  <view class="content_classify {{tabIndex != 0 ? 'active':''}}" id="contentClassify">
+    <scroll-view class="classifys_scroll" scroll-x>
+      <view class='classifys_content'>
+        <view class="classify_son">
+          <image mode="aspectFill" src='/images/allClassify.png'></image>
+          <text class="{{categoriesTabIndex==tabIndex?'active':''}}" bindtap="classifySonTab" data-id="{{tabIndex}}">全部</text>
+        </view>
+        <view class="classify_son" wx:key="key" wx:for="{{categoriesChild}}">
+          <image mode="aspectFill" src='{{item.icon}}'></image>
+          <text class="{{categoriesTabIndex==item.id?'active':''}}" bindtap="classifySonTab" data-id="{{item.id}}">{{item.name}}</text>
+        </view>
+      </view>
+    </scroll-view>
+    <view class="classify_goods clearBoth" wx:key="key" wx:for="{{categoriesGoods}}">
+      <image bindtap="navigateToGoods" data-id="{{item.id}}" class="cover float_left" lazy-load mode="aspectFill" src="{{item.cover}}@640w_1l" />
+      <view bindtap="navigateToGoods" data-id="{{item.id}}" class="article_title float_left">{{item.title}}</view>
+      <image bindtap="navigateToUser" data-id="{{item.author}}" data-name="{{item.user_name}}" class="user_avatar float_left" lazy-load src="{{item.user_avatar}}" />
+      <text bindtap="navigateToUser" data-id="{{item.author}}" data-name="{{item.user_name}}" class="user_name float_left">{{item.user_name}}</text>
+      <text class="price font_din float_left">￥ {{item.price[0]}}</text>
+    </view>
+    <image src='/images/returnTop.png' class='return_top' bindtap="returnTop" wx:if="{{returnTopStatus}}"></image>
+  </view> -->
+</view> 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
