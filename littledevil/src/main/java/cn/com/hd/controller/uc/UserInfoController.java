@@ -211,16 +211,16 @@ public class UserInfoController {
     }
     
 	/**
-	 * 功能描述：添加用户
+	 * 功能描述：添加用户-废弃
 	 * 作者：lijiaxing
-	 * url：${webRoot}/userInfo/insertRecord
+	 * url：${webRoot}/userInfo/insertRecord111111111
 	 * 请求方式：POST
 	 * @param  id
 	 * @return Map<String,Object>
 	 *         key:code["0":"成功","1":"失败"]
 	 */
-	@RequestMapping(value="insertRecord",method=RequestMethod.POST)
-	public @ResponseBody Map<String,Object> insertRecord(@RequestBody UserInfo user){
+	@RequestMapping(value="insertRecord111111111",method=RequestMethod.POST)
+	public @ResponseBody Map<String,Object> insertRecord111111111(@RequestBody UserInfo user){
 		Map<String,Object> map=new HashMap<String,Object>();
 		String code="";
 		try{
@@ -243,6 +243,30 @@ public class UserInfoController {
 				saleMan.setState("1");
 				saleManService.insert(saleMan);
 			}
+			code="0";
+		}catch(Exception e){
+            code="1";
+            e.printStackTrace();
+        }
+        map.put("code", code);
+        return map;
+	}
+	
+	/**
+	 * 功能描述：添加用户扩展信息
+	 * 作者：lijiaxing
+	 * url：${webRoot}/userInfo/insertRecord111111111
+	 * 请求方式：POST
+	 * @param  id
+	 * @return Map<String,Object>
+	 *         key:code["0":"成功","1":"失败"]
+	 */
+	@RequestMapping(value="insertRecord",method=RequestMethod.POST)
+	public @ResponseBody Map<String,Object> insertRecord(@RequestBody UserInfo userInfo){
+		Map<String,Object> map=new HashMap<String,Object>();
+		String code="";
+		try{
+			userInfoService.insertSelective(userInfo);
 			code="0";
 		}catch(Exception e){
             code="1";

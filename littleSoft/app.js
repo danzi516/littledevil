@@ -20,8 +20,10 @@ App({
   onPullDownRefresh: function () {
     wx.stopPullDownRefresh()
   },
-  globalData: {  //全局变量
+  globalData: {
+      //全局变量
     picker:{},
+    id:'',
     userInfo: {
       openId: '',
       sessionKey:'',

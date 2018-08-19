@@ -27,19 +27,21 @@ import cn.com.hd.common.security.AESUtils;
 import cn.com.hd.domain.company.CompanyAuth;
 import cn.com.hd.domain.company.CompanyMember;
 import cn.com.hd.domain.sys.RegVerification;
+import cn.com.hd.domain.uc.SaleMan;
 import cn.com.hd.domain.uc.User;
 import cn.com.hd.domain.uc.UserInfo;
 import cn.com.hd.domain.uc.WxUserInfo;
 import cn.com.hd.service.company.CompanyAuthService;
 import cn.com.hd.service.company.CompanyMemberService;
 import cn.com.hd.service.sys.RegVerificationService;
+import cn.com.hd.service.uc.SaleManService;
 import cn.com.hd.service.uc.UserInfoService;
 import cn.com.hd.service.uc.UserService;
 import net.sf.json.JSONObject;
 
 /**
  *类说明：系统初始化页面控制器
- *@author lijiaxing 2016/10/17
+ *@author wanglin 
  *${webRoot}:系统运行根目录 
  **/
 @Controller
@@ -49,6 +51,8 @@ public class WxController {
 	HttpSession session;
 	@Resource
 	private UserService userService;
+	@Resource
+	private SaleManService saleManService;
 	@Resource
 	private UserInfoService userInfoService;
 	@Resource
@@ -147,6 +151,54 @@ public class WxController {
 		}
 	}
 	
+	/**
+	 * 功能描述：通过code验证用户是否存在
+	 * 作者：wanglin
+	 * url：${webRoot}/wxpay/isExitsByCode
+	 * 请求方式：Post
+	 * @param String code
+	 * @return Boolean
+	 *          值 ：含义【false：用户已存在，true：用户不存在】
+	 * */
+	@RequestMapping(value="/isExitsByCode",method=RequestMethod.POST)
+	public @ResponseBody Map<String,Object> isExitsByCode(String code){
+		Map<String,Object> map=new HashMap<String,Object>();
+		JSONObject json = userService.getOpenIdAndSessionKey(Constants.wxspAppid, Constants.wxspSecret, code, Constants.grant_type);
+		User user = new User();
+		user.setOpenId(json.getString("openid"));
+		if(userService.selectByCondition(user)!=null){
+			map.put("id",userService.selectByCondition(user).getId());
+			map.put("code", "1"); //1代表已经注册
+			return map;
+		}else{
+			user.setState("1");
+			userService.insertSelective(user);
+			map.put("id", user.getId());
+			map.put("code", "0");//0代表未注册
+			return map;
+		}
+	}
+	
+	/**
+	 * 功能描述：微信注册
+	 * 作者：wanglin
+	 * url：${webRoot}/wxpay/openIdInsert
+	 * 请求方式：Post
+	 * @param String code
+	 * @return Boolean
+	 *          值 ：含义【false：用户已存在，true：用户不存在】
+	 * */
+	@RequestMapping(value="/openIdInsert",method=RequestMethod.POST)
+	public @ResponseBody Boolean openIdInsert(int id,String userInfo){
+		JSONObject json = JSONObject.fromObject(userInfo);
+		UserInfo userinfo = new UserInfo();
+		userinfo.setLogo(json.getString("avatarUrl"));
+		userinfo.setUcName(json.getString("nickName"));
+		userinfo.setId(id);
+		userInfoService.insert(userinfo);
+		return true;
+	}
+	
 	
 	/**
 	 * 功能描述：更新用户
@@ -178,7 +230,7 @@ public class WxController {
      *
      * @param encryptedData 明文,加密数据
      * @param iv            加密算法的初始向量
-     * @param code          用户允许登录后，回调内容会带上 code（有效期五分钟），开发者需要将 code 发送到开发者服务器后台，使用code 换取 session_key api，将 code 换成 openid 和 session_key
+     * @param code          用户允许登录后，回调内容会带上 code（有效期五分钟），开发者需要将 code 发送到开发者服务器后台，使用code 换取 session_key api，将 code 换成 openId 和 session_key
      * @return
      */
     @RequestMapping(value = "/decodeUserInfo", method = RequestMethod.POST)
@@ -191,12 +243,12 @@ public class WxController {
             map.put("msg", "code 不能为空");
             return map;
         }
-        JSONObject json = userService.getOpenidAndSessionKey(Constants.wxspAppid, Constants.wxspSecret, code, Constants.grant_type);
+        JSONObject json = userService.getOpenIdAndSessionKey(Constants.wxspAppid, Constants.wxspSecret, code, Constants.grant_type);
        
         //获取会话密钥（session_key）
         String session_key = json.get("session_key").toString();
-        //用户的唯一标识（openid）
-        String openid = (String) json.get("openid");
+        //用户的唯一标识（openId）
+        String openId = (String) json.get("openId");
  
         //////////////// 2、对encryptedData加密数据进行AES解密 ////////////////
         try {
@@ -218,20 +270,20 @@ public class WxController {
 
 	
     /**
-	 * 功能描述：getOpenId
+	 * 功能描述：getopenId
 	 * 作者：wanglin
-	 * url：${webRoot}/wxpay/getOpenId
+	 * url：${webRoot}/wxpay/getopenId
 	 * 请求方式：POST
 	 * @param  id
 	 * @return Map<String,Object>
 	 *         key:code["0":"成功","1":"失败"]
 	 */
-	@RequestMapping(value="getOpenId",method=RequestMethod.POST)
-	public @ResponseBody Map<String,Object> getOpenId(String wxcode){
+	@RequestMapping(value="getopenId",method=RequestMethod.POST)
+	public @ResponseBody Map<String,Object> getopenId(String wxcode){
 		Map<String,Object> map=new HashMap<String,Object>();
 		String code="";
 		try{
-			JSONObject result = userService.getOpenidAndSessionKey(Constants.wxspAppid, Constants.wxspSecret, wxcode, Constants.grant_type);
+			JSONObject result = userService.getOpenIdAndSessionKey(Constants.wxspAppid, Constants.wxspSecret, wxcode, Constants.grant_type);
 			code="0";
 			map.put("result", result);
 		}catch(Exception e){
@@ -252,10 +304,14 @@ public class WxController {
 		 *         key:code["0":"成功","1":"失败"]
 		 */
 		@RequestMapping(value="applySaleMan",method=RequestMethod.POST)
-		public @ResponseBody Map<String,Object> applySaleMan(String wxcode){
+		public @ResponseBody Map<String,Object> applySaleMan(int salemanId){
 			Map<String,Object> map=new HashMap<String,Object>();
+			SaleMan saleMan = new SaleMan();
 			String code="";
 			try{
+				saleMan.setId(salemanId);
+				saleMan.setState("0");
+				saleManService.insert(saleMan);
 				code="0";
 			}catch(Exception e){
 	            code="1";
@@ -337,8 +393,8 @@ public class WxController {
 				record.setState("0");
 				if(regVerificationService.selectBySelective(record).size()==0){
 					for(int i=0;i<=5;i++){
-						//int invitationCode =(int) ((Math.random()*9+1)*100000);
-						int invitationCode =(int) ((Math.random()*4+1));
+						int invitationCode =(int) ((Math.random()*9+1)*100000);
+						//int invitationCode =(int) ((Math.random()*4+1));
 						record.setInvitationCode( String.valueOf(invitationCode));
 						try{
 							regVerificationService.insert(record);
@@ -418,9 +474,9 @@ public class WxController {
 			User User= new User();
 			UserInfo userInfo = new UserInfo();
 			try{
-				JSONObject result = userService.getOpenidAndSessionKey(Constants.wxspAppid, Constants.wxspSecret, wxcode, Constants.grant_type);
-				String openid = (String) result.get("openid");
-				User.setOpenId(openid);
+				JSONObject result = userService.getOpenIdAndSessionKey(Constants.wxspAppid, Constants.wxspSecret, wxcode, Constants.grant_type);
+				String openId = (String) result.get("openId");
+				User.setOpenId(openId);
 				if(userService.selectByCondition(User)!=null){
 					code = "1";
 					message = "已经注册！！";
@@ -431,6 +487,7 @@ public class WxController {
 					userInfo.setLogo(UserInfo.getString("avatarUrl"));
 					userInfo.setUcName(UserInfo.getString("nickName"));
 					userService.insert(User);
+					userInfo.setId(User.getId());
 					userInfoService.insert(userInfo);
 				CompanyMember companyMember = new CompanyMember();
 				companyMember.setCompanyId(companyId);

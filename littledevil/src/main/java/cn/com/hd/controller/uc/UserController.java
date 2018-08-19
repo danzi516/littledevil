@@ -304,7 +304,7 @@ public class UserController {
             map.put("msg", "code 不能为空");
             return map;
         }
-        JSONObject json = userService.getOpenidAndSessionKey(Constants.wxspAppid, Constants.wxspSecret, code, Constants.grant_type);
+        JSONObject json = userService.getOpenIdAndSessionKey(Constants.wxspAppid, Constants.wxspSecret, code, Constants.grant_type);
        
         //获取会话密钥（session_key）
         String session_key = json.get("session_key").toString();

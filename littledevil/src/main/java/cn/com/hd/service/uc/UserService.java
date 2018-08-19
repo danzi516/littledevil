@@ -67,7 +67,7 @@ public class UserService {
                 //userInfo.put("userInfo", userInfo);
                 return userInfo;
     }
-    public JSONObject getOpenidAndSessionKey(String wxspAppid, String wxspSecret, String code,String grant_type){
+    public JSONObject getOpenIdAndSessionKey(String wxspAppid, String wxspSecret, String code,String grant_type){
     	  //////////////// 1、向微信服务器 使用登录凭证 code 获取 session_key 和 openid ////////////////
         //请求参数
     	  String params = "appid=" + wxspAppid + "&secret=" + wxspSecret + "&js_code=" + code + "&grant_type=" + grant_type;
@@ -78,7 +78,7 @@ public class UserService {
           //获取会话密钥（session_key）
           String session_key = json.get("session_key").toString();
           //用户的唯一标识（openid）
-          String openid = (String) json.get("openid");
+          String openId = (String) json.get("openid");
           return json;
     }
     

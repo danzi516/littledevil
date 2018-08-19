@@ -7,7 +7,7 @@ import {
 var utils = require('../../utils/util.js');
 import { req } from '../../utils/config/api.js'
 const app = getApp();
-
+var userId;
 Page({
   data: {
     _build_url: GLOBAL_API_DOMAIN,
@@ -49,21 +49,7 @@ Page({
     apiStatus: 0                 // 顺序加载
   },
   onLoad: function () {
-
     // 获取新品
-    console.log(1111111111111);
-    // req(app.globalData.bastUrl, 'appv3/modules', {
-    //   qt: 4
-    // }, "GET", true).then(res => {
-    //   console.log(res);
-    //   this.setData({
-    //     tabIndex: 0,
-    //     newGoods: res.data.result,
-    //     apiStatus: this.data.apiStatus + 1
-    //   })
-    //   //this.getHotlistLoading()
-      
-    // })
     req(app.globalData.bastUrl, '/companyInfo/selectCompanyAllList', {
       qt: 4
     }, "GET", true).then(res => {
@@ -77,6 +63,39 @@ Page({
       })
       //this.getHotlistLoading()
 
+    })
+  },
+  // 顶部tab切换
+  tabtap: function (e) {
+    let that = this
+    // tab切换
+    let id = e.target.dataset.id
+    this.setData({
+      tabIndex: id,
+      categoriesTabIndex: id
+    })
+    // 设置滚动条在顶部
+    this.returnTop()
+    // 切换到商店直接返回
+    if (id == 0) return
+    // // 赋值子分类
+    // this.data.categories.forEach(function (value) {
+    //   if (value.id == id) {
+    //     that.setData({
+    //       categoriesChild: value.children
+    //     })
+    //   }
+    // })
+    // // 切换到新的
+    // this.clearcategoriesGoods()
+    // // 分类关联商品
+    // this.getcategoriesGoods()
+  },
+  // 返回顶部
+  returnTop: function () {
+    wx.pageScrollTo({
+      scrollTop: 0,
+      duration: 300
     })
   },
   // onShow: function() {
@@ -163,6 +182,98 @@ Page({
   //     isNew: false
   //   });
   // },
+  userLogin:function(){
+  wx.login({
+    success: res => {
+      if (res.code) {
+        let _parms = {
+          code: res.code
+          }
+        wx.request({
+          url: "http://127.0.0.1:8080/littledevil/wxpay/isExitsByCode",
+          header: {'content-type': 'application/x-www-form-urlencoded'},
+          method: "POST",
+          data: {code: _parms.code},
+          success: (res) => {
+            console.log(res);
+            userId = res.data.id
+            if (res.data.code=="0"){
+              wx.getUserInfo({
+                success: res => {
+                  console.log(res);
+                  wx.request({
+                    url: 'http://127.0.0.1:8080/littledevil/wxpay/openIdInsert',
+                    header: {
+                      "content-type": "application/x-www-form-urlencoded"
+                    },
+                    method: "POST",
+                    data: {
+                      userInfo: JSON.stringify(res.userInfo),
+                      id: parseInt(userId)
+                    },
+                    success: result => {
+                      console.log(result)
+                      wx.showToast({
+                        title: '注册成功',
+                        icon: 'succes',
+                        duration: 1500,
+                        mask: true
+                      })
+                    }
+                  })
+                 }
+              })
+            }
+            else{
+              wx.showToast({
+                title: '已经注册',
+                icon: 'none',
+                duration: 1500,
+                mask: true
+              })
+            }
+          }
+        })
+        // wx.getUserInfo({
+        //   success: res => {
+        //     console.log(res);
+        //     wx.request({
+        //       url: 'http://127.0.0.1:8080/littledevil/user/decodeUserInfo',
+        //       header: {
+        //         "content-type": "application/x-www-form-urlencoded"
+        //       },
+        //       method: "POST",
+        //       data: {
+        //         encryptedData: res.encryptedData,
+        //         iv: res.iv,
+        //         code: _parms.code
+        //       },
+        //       success: result => {
+        //         console.log(result)
+        //       }
+        //     })
+        //   }
+        // })
+      }
+    }
+    })
+    },
+  applySaleMan: function () {
+    wx.request({
+      url: "http://127.0.0.1:8080/littledevil/wxpay/applySaleMan",
+      header: {
+        'content-type': 'application/x-www-form-urlencoded' // 默认值
+      },
+      method: "POST",
+      data: {
+        salemanId: parseInt(userId)
+      },
+      success: (res) => {
+        console.log(res)
+
+      }
+    })
+  },
   getInvitationCode:function(){
     wx.request({
       url: "http://127.0.0.1:8080/littledevil/wxpay/getInvitationCode",
@@ -171,11 +282,16 @@ Page({
       },
       method: "POST",
       data: {
-        salemanId:1
+        salemanId: parseInt(userId)
       },
       success: (res) => {
        console.log(res)
-     
+        wx.showToast({
+          title: '邀请码：' + res.data.InvitationCode,
+          icon: 'none',
+          duration: 1500,
+          mask: true
+        })
       }
     })
   },
@@ -187,7 +303,7 @@ Page({
       },
       method: "POST",
       data: {
-        userId: 33,
+        userId: parseInt(userId),
         invitationCode: 747642
       },
       success: (res) => {
