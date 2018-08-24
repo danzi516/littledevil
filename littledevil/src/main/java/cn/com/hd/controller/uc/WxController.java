@@ -2,6 +2,7 @@ package cn.com.hd.controller.uc;
 
 import java.io.IOException;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import javax.annotation.Resource;
@@ -37,6 +38,7 @@ import cn.com.hd.service.sys.RegVerificationService;
 import cn.com.hd.service.uc.SaleManService;
 import cn.com.hd.service.uc.UserInfoService;
 import cn.com.hd.service.uc.UserService;
+import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
 
 /**
@@ -505,6 +507,50 @@ public class WxController {
 	        map.put("code", code);
 	        return map;
 		}
+		
+		
+		/**
+		 * 功能描述：会员购买清单
+		 * 作者：wanglin
+		 * url：${webRoot}/wxpay/memberBuyList
+		 * 请求方式：POST
+		 * @param  list[int userId,int commodityId,int promotionId,int num]
+		 * @return Map<String,Object>
+		 *         key:code["0":"成功","1":"失败"]
+		 */
+		@RequestMapping(value="memberBuyList",method=RequestMethod.POST)
+		public @ResponseBody Map<String,Object> memberBuyList(String List){
+			Map<String,Object> map=new HashMap<String,Object>();
+			String code="";
+			String message="";
+			try{
+				JSONObject jsonObject = JSONObject.fromObject(List);
+				String memberBuyList=jsonObject.getString("memberBuyList");
+				JSONArray jsonArray = JSONArray.fromObject(memberBuyList);
+				if(jsonArray.size()>0){
+					for(int i=0;i<jsonArray.size();i++){
+						JSONObject job = jsonArray.getJSONObject(i);
+						//Cardetails cardetails = (Cardetails) JSONObject.toBean(carDetailObj, Cardetails.class);//封装成bean
+						int userId = Integer.parseInt((String) job.get("userId"));
+						int commodityId = Integer.parseInt((String) job.get("commodityId"));
+						int promotionId = Integer.parseInt((String) job.get("promotionId"));
+						int num = Integer.parseInt((String) job.get("num"));
+					}
+				}
+			}catch(Exception e){
+	            code="2";
+	            message="未知异常，请重试";
+	            e.printStackTrace();
+	        }
+			map.put("message", message);
+	        map.put("code", code);
+	        return map;
+		}	
+		
+		
+		
+		
+		
 		
 		
 }
