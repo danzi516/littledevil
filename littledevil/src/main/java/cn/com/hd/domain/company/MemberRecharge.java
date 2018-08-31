@@ -11,21 +11,56 @@ public class MemberRecharge {
 
 	    private int companyId;
 
-	    private int rechargeCash;
+	    private double rechargeCash;
 
-	    private int payCash;
+	    private double payCash;
 
 	    private String isDelete;
 
 	    private int userId;
 
 	    private String rechargeTime;
+	    
+	    private int recorderId;
+	    
+	    private String balanceTime;
+	    
+	    private String balanceState;
 
 	    private User user;	
 	    
 	    private UserInfo userInfo;
 	    
 	    private CompanyInfo companyInfo;
+
+	    
+	    
+	    
+	    
+	    
+		public int getRecorderId() {
+			return recorderId;
+		}
+
+		public void setRecorderId(int recorderId) {
+			this.recorderId = recorderId;
+		}
+
+		public String getBalanceTime() {
+			return balanceTime;
+		}
+
+		public void setBalanceTime(String balanceTime) {
+			this.balanceTime = balanceTime;
+		}
+
+		public String getBalanceState() {
+			return balanceState;
+		}
+
+		public void setBalanceState(String balanceState) {
+			this.balanceState = balanceState;
+		}
 
 		public Integer getId() {
 			return id;
@@ -51,19 +86,19 @@ public class MemberRecharge {
 			this.companyId = companyId;
 		}
 
-		public int getRechargeCash() {
+		public double getRechargeCash() {
 			return rechargeCash;
 		}
 
-		public void setRechargeCash(int rechargeCash) {
+		public void setRechargeCash(double rechargeCash) {
 			this.rechargeCash = rechargeCash;
 		}
 
-		public int getPayCash() {
+		public double getPayCash() {
 			return payCash;
 		}
 
-		public void setPayCash(int payCash) {
+		public void setPayCash(double payCash) {
 			this.payCash = payCash;
 		}
 

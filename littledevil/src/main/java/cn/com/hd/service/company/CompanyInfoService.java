@@ -39,8 +39,8 @@ public class CompanyInfoService {
     	return companyInfoMapper.updateByPrimaryKey(record);
     }
     
-	public Page selectCompanyByPage(Page page){
-		page.setData(companyInfoMapper.selectCompanyByPage(page));
+	public Page selectByPage(Page page){
+		page.setData(companyInfoMapper.selectByPage(page));
     	return page;
     }
 	public List<CompanyInfo> selectBySelective(CompanyInfo record){
@@ -48,8 +48,8 @@ public class CompanyInfoService {
     	return List;
     }
 	
-	public List<CompanyInfo> selectCompanyAllList(){
-		List<CompanyInfo> List = companyInfoMapper.selectCompanyAllList();
+	public List<CompanyInfo> selectAllList(){
+		List<CompanyInfo> List = companyInfoMapper.selectAllList();
     	return List;
     }
 }

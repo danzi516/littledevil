@@ -8,6 +8,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import cn.com.hd.common.Page;
 import cn.com.hd.domain.company.CompanyInfo;
+import cn.com.hd.domain.company.MemberConsume;
 import cn.com.hd.domain.company.MemberRecharge;
 import cn.com.hd.persistance.company.MemberRechargeMapper;
 
@@ -40,8 +41,12 @@ public class MemberRechargeService {
     	return memberRechargeMapper.updateByPrimaryKey(record);
     }
     
-	public Page selectCompanyByPage(Page page){
-		page.setData(memberRechargeMapper.selectCompanyByPage(page));
+	public Page selectByPage(Page page){
+		page.setData(memberRechargeMapper.selectByPage(page));
     	return page;
+    }
+	
+	public List<MemberRecharge>  selectBySelective(MemberRecharge record){
+		return(memberRechargeMapper.selectBySelective(record));
     }
 }

@@ -40,9 +40,14 @@ public class CommodityPromotionService {
     	return CommodityPromotionMapper.updateByPrimaryKey(record);
     }
 	
-	public Page selectCommodityPromotionByPage(Page page){
-		page.setData(CommodityPromotionMapper.selectCommodityPromotionByPage(page));
+	public Page selectByPage(Page page){
+		page.setData(CommodityPromotionMapper.selectByPage(page));
     	return page;
+    }
+	
+	public List<CommodityPromotion> selectBySelective(CommodityPromotion record){
+		List<CommodityPromotion> CommodityPromotionList = CommodityPromotionMapper.selectBySelective(record);
+    	return CommodityPromotionList;
     }
 	
 	public List<CommodityPromotion> selectByCompanyId(Integer companyId){

@@ -47,8 +47,8 @@ public class CompanyMemberService {
     	return companyMemberMapper.updateByPrimaryKey(record);
     }
 
-	public Page selectCompanyMemberByPage(Page page){
-		page.setData(companyMemberMapper.selectCompanyMemberByPage(page));
+	public Page selectByPage(Page page){
+		page.setData(companyMemberMapper.selectByPage(page));
     	return page;
     }
 	
@@ -65,7 +65,7 @@ public class CompanyMemberService {
     	return companyMemberMapper.selectCompanyMemberByuserIdAndcompanyId(record);
     }
 	
-	public List<CompanyMember> selectByCompanyMember(CompanyMember record){
-    	return companyMemberMapper.selectByCompanyMember(record);
+	public List<CompanyMember> selectBySelective(CompanyMember record){
+    	return companyMemberMapper.selectBySelective(record);
     }
 }

@@ -21,7 +21,9 @@ public interface CompanyPromotionMapper {
 
     int updateByPrimaryKey(CompanyPromotion record);
     
-    List<CompanyPromotion> selectCompanyPromotionByPage(Page page);
+    List<CompanyPromotion> selectByPage(Page page);
+    
+    List<CompanyPromotion> selectBySelective(CompanyPromotion record);
     
     List<CompanyPromotion> selectByCompanyId(Integer companyId);
 }

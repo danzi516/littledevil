@@ -5,6 +5,7 @@ import java.util.List;
 
 import cn.com.hd.common.Page;
 import cn.com.hd.domain.company.CompanyInfo;
+import cn.com.hd.domain.company.MemberConsume;
 import cn.com.hd.domain.company.MemberRecharge;
 
 
@@ -21,5 +22,7 @@ public interface MemberRechargeMapper {
 
     int updateByPrimaryKey(MemberRecharge record);
     
-    List<MemberRecharge> selectCompanyByPage(Page page);
+    List<MemberRecharge> selectByPage(Page page);
+    
+    List<MemberRecharge>  selectBySelective(MemberRecharge record);
 }

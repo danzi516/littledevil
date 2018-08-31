@@ -17,6 +17,7 @@ import org.springframework.web.servlet.ModelAndView;
 import cn.com.hd.common.MD5Encrypt;
 import cn.com.hd.common.Page;
 import cn.com.hd.domain.company.CompanyPromotion;
+import cn.com.hd.domain.company.CompanyCommodity;
 import cn.com.hd.domain.company.CompanyInfo;
 import cn.com.hd.domain.company.CompanyMember;
 import cn.com.hd.domain.uc.User;
@@ -90,7 +91,7 @@ public class CompanyPromotionController {
 	 /**
 	 * 功能描述：分页查询所有企业促销
 	 * 作者：lijiaxing
-	 * url：${webRoot}/companyPromotion/selectListByPage
+	 * url：${webRoot}/companyPromotion/selectByPage
 	 * 请求方式：POST
 	 * @param  Page page
 	 * @return Map<String,Object>
@@ -98,12 +99,12 @@ public class CompanyPromotionController {
 	 *         key:rows[查询结果list]
 	 *         key:total[记录总数]
 	 */
-    @RequestMapping(value="selectListByPage",method=RequestMethod.POST)
-    public @ResponseBody Map<String, Object> selectListByPage(Page page){
+    @RequestMapping(value="selectByPage",method=RequestMethod.POST)
+    public @ResponseBody Map<String, Object> selectByPage(Page page){
         Map<String,Object> map = new HashMap<String,Object>();
         String code="";
         try{
-            page = companyPromotionService.selectCompanyPromotionByPage(page);
+            page = companyPromotionService.selectByPage(page);
             code="0";
             map.put("rows", page.getData());
     		map.put("total", page.getTotalRecord());
@@ -165,5 +166,32 @@ public class CompanyPromotionController {
             
             return map;
         }      
+      
+      /**
+	   	 * 功能描述：通过属性查找
+	   	 * 作者：lijiaxing
+	   	 * url：${webRoot}/companyPromotion/selectBySelective
+	   	 * 请求方式：POST
+	   	 * @param  CompanyMember
+	   	 * @return Map<String,Object>
+	   	 *         key:code["0":"成功","1":"失败"]
+	   	 *         key:CompanyMemberList[CompanyMemberList]
+	   	 */
+	       @RequestMapping(value="selectBySelective",method=RequestMethod.POST)
+	       public @ResponseBody Map<String, Object> selectBySelective(@RequestBody CompanyPromotion record){
+	           Map<String,Object> map = new HashMap<String,Object>();
+	           String code="";
+	           try{
+	        	   List<CompanyPromotion> CompanyPromotionList=companyPromotionService.selectBySelective(record);
+	               code="0";
+	               map.put("CompanyPromotionList",CompanyPromotionList);
+	           }catch(Exception e){
+	               code="1";
+	               e.printStackTrace();
+	           }
+	           map.put("code", code);
+	           return map;
+	       }
+ 
       
 }

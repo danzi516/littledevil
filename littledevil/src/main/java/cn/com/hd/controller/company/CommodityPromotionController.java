@@ -63,7 +63,7 @@ public class CommodityPromotionController {
 	 /**
 	 * 功能描述：分页查询所有企业促销
 	 * 作者：lijiaxing
-	 * url：${webRoot}/CommodityPromotion/selectListByPage
+	 * url：${webRoot}/CommodityPromotion/selectByPage
 	 * 请求方式：POST
 	 * @param  Page page
 	 * @return Map<String,Object>
@@ -71,12 +71,12 @@ public class CommodityPromotionController {
 	 *         key:rows[查询结果list]
 	 *         key:total[记录总数]
 	 */
-    @RequestMapping(value="selectListByPage",method=RequestMethod.POST)
-    public @ResponseBody Map<String, Object> selectListByPage(Page page){
+    @RequestMapping(value="selectByPage",method=RequestMethod.POST)
+    public @ResponseBody Map<String, Object> selectByPage(Page page){
         Map<String,Object> map = new HashMap<String,Object>();
         String code="";
         try{
-            page = commodityPromotionService.selectCommodityPromotionByPage(page);
+            page = commodityPromotionService.selectByPage(page);
             code="0";
             map.put("rows", page.getData());
     		map.put("total", page.getTotalRecord());
@@ -169,7 +169,7 @@ public class CommodityPromotionController {
     /**
    	 * 功能描述：删除关联
    	 * 作者：lijiaxing
-   	 * url：${webRoot}/companyInfo/deleteRecord
+   	 * url：${webRoot}/CommodityPromotion/deleteRecord
    	 * 请求方式：POST
    	 * @param  主键id
    	 * @return Map<String,Object>
@@ -189,4 +189,32 @@ public class CommodityPromotionController {
            map.put("code", code);
            return map;
        }  
+       
+       /**
+		   	 * 功能描述：通过属性查找
+		   	 * 作者：lijiaxing
+		   	 * url：${webRoot}/CommodityPromotion/selectBySelective
+		   	 * 请求方式：POST
+		   	 * @param  CompanyMember
+		   	 * @return Map<String,Object>
+		   	 *         key:code["0":"成功","1":"失败"]
+		   	 *         key:CompanyMemberList[CompanyMemberList]
+		   	 */
+		       @RequestMapping(value="selectBySelective",method=RequestMethod.POST)
+		       public @ResponseBody Map<String, Object> selectBySelective(@RequestBody CommodityPromotion record){
+		           Map<String,Object> map = new HashMap<String,Object>();
+		           String code="";
+		           try{
+		        	   List<CommodityPromotion> CommodityPromotionList=commodityPromotionService.selectBySelective(record);
+		               code="0";
+		               map.put("CommodityPromotionList",CommodityPromotionList);
+		           }catch(Exception e){
+		               code="1";
+		               e.printStackTrace();
+		           }
+		           map.put("code", code);
+		           return map;
+		       }
+       
+       
 }

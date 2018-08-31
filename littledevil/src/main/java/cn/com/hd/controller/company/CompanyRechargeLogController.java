@@ -16,6 +16,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 import cn.com.hd.common.MD5Encrypt;
 import cn.com.hd.common.Page;
+import cn.com.hd.domain.company.CompanyMember;
 import cn.com.hd.domain.company.CompanyRechargeLog;
 import cn.com.hd.domain.company.MemberConsume;
 import cn.com.hd.domain.uc.User;
@@ -24,7 +25,7 @@ import cn.com.hd.service.company.CompanyRechargeLogService;
 import cn.com.hd.service.uc.UserService;
 
 @Controller
-@RequestMapping("/companyRechargeLogService")
+@RequestMapping("/companyRechargeLog")
 public class CompanyRechargeLogController {
 	@Resource
 	private CompanyRechargeLogService companyRechargeLogService;
@@ -35,7 +36,7 @@ public class CompanyRechargeLogController {
 	/**
 	 * 功能描述：分页查询
 	 * 作者：wanglin
-	 * url：${webRoot}/companyInfo/selectByPage
+	 * url：${webRoot}/companyRechargeLog/selectByPage
 	 * 请求方式：POST
 	 * @param  Page page
 	 * @return Map<String,Object>
@@ -64,7 +65,7 @@ public class CompanyRechargeLogController {
     /**
 	 * 功能描述：添加
 	 * 作者：wanglin
-	 * url：${webRoot}/companyInfo/insertRecord
+	 * url：${webRoot}/companyRechargeLog/insertRecord
 	 * 请求方式：POST
 	 * @param  Page page
 	 * @return Map<String,Object>
@@ -91,7 +92,7 @@ public class CompanyRechargeLogController {
     /**
 	 * 功能描述：删除
 	 * 作者：wanglin
-	 * url：${webRoot}/companyInfo/deleteRecord
+	 * url：${webRoot}/companyRechargeLog/deleteRecord
 	 * 请求方式：POST
 	 * @param  Page page
 	 * @return Map<String,Object>
@@ -117,7 +118,7 @@ public class CompanyRechargeLogController {
     /**
    	 * 功能描述：查询单个
    	 * 作者：wanglin
-   	 * url：${webRoot}/companyInfo/selectRecordById
+   	 * url：${webRoot}/companyRechargeLog/selectRecordById
    	 * 请求方式：POST
    	 * @param  id
    	 * @return Map<String,Object>
@@ -139,4 +140,30 @@ public class CompanyRechargeLogController {
            map.put("code", code);
            return map;
        }
+       
+       /**
+	   	 * 功能描述：通过属性查找
+	   	 * 作者：lijiaxing
+	   	 * url：${webRoot}/companyRechargeLog/selectBySelective
+	   	 * 请求方式：POST
+	   	 * @param  CompanyMember
+	   	 * @return Map<String,Object>
+	   	 *         key:code["0":"成功","1":"失败"]
+	   	 *         key:CompanyMemberList[CompanyMemberList]
+	   	 */
+	       @RequestMapping(value="selectBySelective",method=RequestMethod.POST)
+	       public @ResponseBody Map<String, Object> selectBySelective(@RequestBody CompanyRechargeLog record){
+	           Map<String,Object> map = new HashMap<String,Object>();
+	           String code="";
+	           try{
+	        	   List<CompanyRechargeLog> CompanyRechargeLogList=companyRechargeLogService.selectBySelective(record);
+	               code="0";
+	               map.put("CompanyRechargeLogList",CompanyRechargeLogList);
+	           }catch(Exception e){
+	               code="1";
+	               e.printStackTrace();
+	           }
+	           map.put("code", code);
+	           return map;
+	       }
 }

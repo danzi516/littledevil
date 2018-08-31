@@ -272,7 +272,7 @@
     where id = #{id,jdbcType=INTEGER}
   </update>
   
-  <select id="selectCompanyByPage" parameterType="cn.com.hd.common.Page" resultMap="BaseResultMap">
+  <select id="selectByPage" parameterType="cn.com.hd.common.Page" resultMap="BaseResultMap">
   	select t.id, t.company_name, t.company_logo, t.link_person, t.link_phone, t.provice_code, t.city_code, 
     t.county_code, t.address, t.coordinate,t.company_type,t.register_time from t_company_info t
     LEFT JOIN t_user u on u.id = t.user_id
@@ -297,7 +297,7 @@
     </if>
   </select>
   
-   <select id="selectCompanyAllList"  resultMap="BaseResultMap">
+   <select id="selectAllList"  resultMap="BaseResultMap">
   	select t.id, t.user_id,t.company_name, t.company_logo, t.link_person, t.link_phone, t.provice_code, t.city_code, 
     t.county_code, t.address,t.area_string,t.latitude,t.longitude, t.coordinate,t.company_type,t.register_time from t_company_info t
     LEFT JOIN t_user u on u.id = t.user_id

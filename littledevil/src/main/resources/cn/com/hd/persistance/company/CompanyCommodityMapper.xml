@@ -10,12 +10,13 @@
     <result column="commodity_note" jdbcType="VARCHAR" property="commodityNote" />
     <result column="state" jdbcType="VARCHAR" property="state" />
     <result column="creat_time" jdbcType="VARCHAR" property="creatTime" />
+    <result column="real_price" jdbcType="DOUBLE" property="realPrice" />
   </resultMap>
   <resultMap extends="BaseResultMap" id="ResultMapWithBLOBs" type="cn.com.hd.domain.company.CompanyCommodity">
     <result column="commodity_note" jdbcType="LONGVARCHAR" property="commodityNote" />
   </resultMap>
   <sql id="Base_Column_List">
-    id, company_id, commodity_name, commodity_price, commodity_logo,commodity_note, state
+    id, company_id, commodity_name, commodity_price, commodity_logo,commodity_note, state,creat_time,real_price
   </sql>
   <sql id="Blob_Column_List">
     commodity_note
@@ -28,13 +29,13 @@
   </select>
    <select id="selectByCompanyId" parameterType="java.lang.Integer" resultMap="BaseResultMap">
     select 
-    id, company_id, commodity_name, commodity_price, commodity_logo,commodity_note, state
+    id, company_id, commodity_name, commodity_price, commodity_logo,commodity_note, state,creat_time,real_price
     from t_company_commodity
     where company_id = #{companyId,jdbcType=INTEGER} and state=1
   </select>
-   <select id="selectCompanyCommodityByPage" parameterType="cn.com.hd.common.Page" resultMap="BaseResultMap">
+   <select id="selectByPage" parameterType="cn.com.hd.common.Page" resultMap="BaseResultMap">
   SELECT
-	id, company_id, commodity_name, commodity_price, commodity_logo,commodity_note, state
+	id, company_id, commodity_name, commodity_price, commodity_logo,commodity_note, state,creat_time,real_price
 	FROM
 	t_company_commodity  t
 	 WHERE 1 = 1
@@ -48,9 +49,9 @@
         	and state=#{params.state}
     </if>
   </select>
-  <select id="selectByCompanyCommodity" parameterType="cn.com.hd.domain.company.CompanyCommodity" resultMap="BaseResultMap">
+  <select id="selectBySelective" parameterType="cn.com.hd.domain.company.CompanyCommodity" resultMap="BaseResultMap">
     select 
-    id, company_id, commodity_name, commodity_price, commodity_logo,commodity_note, state
+    id, company_id, commodity_name, commodity_price, commodity_logo,commodity_note, state,creat_time,real_price
     from t_company_commodity
     where 1=1
     <if test="id != null and companyId != ''">
@@ -82,10 +83,10 @@
   <insert id="insert" parameterType="cn.com.hd.domain.company.CompanyCommodity">
     insert into t_company_commodity (id, company_id, commodity_name, 
       commodity_price, commodity_logo, state, 
-      commodity_note,creat_time)
+      commodity_note,creat_time,real_price)
     values (#{id,jdbcType=INTEGER}, #{companyId,jdbcType=INTEGER}, #{commodityName,jdbcType=VARCHAR}, 
       #{commodityPrice,jdbcType=DOUBLE}, #{commodityLogo,jdbcType=VARCHAR}, #{state,jdbcType=VARCHAR}, 
-      #{commodityNote,jdbcType=LONGVARCHAR},sysdate())
+      #{commodityNote,jdbcType=LONGVARCHAR},sysdate(),#{realPrice,jdbcType=DOUBLE})
   </insert>
   <insert id="insertSelective" parameterType="cn.com.hd.domain.company.CompanyCommodity">
     insert into t_company_commodity
@@ -111,6 +112,9 @@
       <if test="commodityNote != null">
         commodity_note,
       </if>
+      <if test="realPrice != null">
+        real_price,
+      </if>
       creat_time
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
@@ -134,6 +138,9 @@
       </if>
       <if test="commodityNote != null">
         #{commodityNote,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="realPrice != null">
+        #{realPrice,jdbcType=LONGVARCHAR},
       </if>
       sysdate()
     </trim>
@@ -159,6 +166,9 @@
       <if test="commodityNote != null">
         commodity_note = #{commodityNote,jdbcType=LONGVARCHAR},
       </if>
+      <if test="realPrice != null">
+       real_price =  #{realPrice,jdbcType=LONGVARCHAR},
+      </if>
     </set>
     where id = #{id,jdbcType=INTEGER}
   </update>
@@ -169,7 +179,8 @@
       commodity_price = #{commodityPrice,jdbcType=DOUBLE},
       commodity_logo = #{commodityLogo,jdbcType=VARCHAR},
       state = #{state,jdbcType=VARCHAR},
-      commodity_note = #{commodityNote,jdbcType=LONGVARCHAR}
+      commodity_note = #{commodityNote,jdbcType=LONGVARCHAR},
+       real_price =  #{realPrice,jdbcType=LONGVARCHAR}
     where id = #{id,jdbcType=INTEGER}
   </update>
   <update id="updateByPrimaryKey" parameterType="cn.com.hd.domain.company.CompanyCommodity">
@@ -178,7 +189,8 @@
       commodity_name = #{commodityName,jdbcType=VARCHAR},
       commodity_price = #{commodityPrice,jdbcType=DOUBLE},
       commodity_logo = #{commodityLogo,jdbcType=VARCHAR},
-      state = #{state,jdbcType=VARCHAR}
+      state = #{state,jdbcType=VARCHAR},
+       real_price =  #{realPrice,jdbcType=LONGVARCHAR}
     where id = #{id,jdbcType=INTEGER}
   </update>
  

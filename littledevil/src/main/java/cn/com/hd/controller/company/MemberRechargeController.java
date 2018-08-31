@@ -136,7 +136,7 @@ public class MemberRechargeController {
 	/**
 	 * 功能描述：分页查询所有充值记录
 	 * 作者：lijiaxing
-	 * url：${webRoot}/memberRecharge/selectListByPage
+	 * url：${webRoot}/memberRecharge/selectByPage
 	 * 请求方式：POST
 	 * @param  Page page
 	 * @return Map<String,Object>
@@ -144,12 +144,12 @@ public class MemberRechargeController {
 	 *         key:rows[查询结果ist]
 	 *         key:total[记录总数]
 	 */
-    @RequestMapping(value="selectListByPage",method=RequestMethod.POST)
-    public @ResponseBody Map<String, Object> selectListByPage(Page page){
+    @RequestMapping(value="selectByPage",method=RequestMethod.POST)
+    public @ResponseBody Map<String, Object> selectByPage(Page page){
         Map<String,Object> map = new HashMap<String,Object>();
         String code="";
         try{
-            page = memberRechargeService.selectCompanyByPage(page);
+            page = memberRechargeService.selectByPage(page);
             code="0";
             map.put("rows", page.getData());
     		map.put("total", page.getTotalRecord());
@@ -248,4 +248,31 @@ public class MemberRechargeController {
         map.put("code", code);
         return map;
     }
+    
+    /**
+  	 * 功能描述：通过属性查找
+  	 * 作者：lijiaxing
+  	 * url：${webRoot}/memberConsume/selectBySelective
+  	 * 请求方式：POST
+  	 * @param  CompanyMember
+  	 * @return Map<String,Object>
+  	 *         key:code["0":"成功","1":"失败"]
+  	 *         key:CompanyMemberList[CompanyMemberList]
+  	 */
+      @RequestMapping(value="selectBySelective",method=RequestMethod.POST)
+      public @ResponseBody Map<String, Object> selectBySelective(@RequestBody MemberRecharge record){
+          Map<String,Object> map = new HashMap<String,Object>();
+          String code="";
+          try{
+       	   List<MemberRecharge> MemberRechargeList=memberRechargeService.selectBySelective(record);
+              code="0";
+              map.put("MemberRechargeList",MemberRechargeList);
+          }catch(Exception e){
+              code="1";
+              e.printStackTrace();
+          }
+          map.put("code", code);
+          return map;
+      }
+    
 }

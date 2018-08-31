@@ -20,7 +20,7 @@ public interface CompanyMemberMapper {
 
     int updateByPrimaryKey(CompanyMember record);
     
-    List<CompanyMember> selectCompanyMemberByPage(Page page);
+    List<CompanyMember> selectByPage(Page page);
     
     List<CompanyMember> selectCompanyMemberByuserId(int userId);
     
@@ -28,5 +28,5 @@ public interface CompanyMemberMapper {
     
     CompanyMember selectCompanyMemberByuserIdAndcompanyId(CompanyMember record);
     
-    List<CompanyMember> selectByCompanyMember(CompanyMember record);
+    List<CompanyMember> selectBySelective(CompanyMember record);
 }

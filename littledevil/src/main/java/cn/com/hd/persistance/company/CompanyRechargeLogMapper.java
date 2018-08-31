@@ -19,7 +19,9 @@ public interface CompanyRechargeLogMapper {
     int updateByPrimaryKeySelective(CompanyRechargeLog record);
 
     int updateByPrimaryKey(CompanyRechargeLog record);
+    
     List<CompanyRechargeLog>  selectBySelective(CompanyRechargeLog record);
+    
     List<CompanyRechargeLog> selectByPage(Page page);
     
 }

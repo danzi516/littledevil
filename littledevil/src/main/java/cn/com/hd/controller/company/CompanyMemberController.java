@@ -150,7 +150,7 @@ public class CompanyMemberController {
 	    /**
 		 * 功能描述：分页查询所有企业会员
 		 * 作者：lijiaxing
-		 * url：${webRoot}/companyMember/selectListByPage
+		 * url：${webRoot}/companyMember/selectByPage
 		 * 请求方式：POST
 		 * @param  Page page
 		 * @return Map<String,Object>
@@ -158,12 +158,12 @@ public class CompanyMemberController {
 		 *         key:rows[查询结果ist]
 		 *         key:total[记录总数]
 		 */
-	    @RequestMapping(value="selectListByPage",method=RequestMethod.POST)
-	    public @ResponseBody Map<String, Object> selectListByPage(Page page){
+	    @RequestMapping(value="selectByPage",method=RequestMethod.POST)
+	    public @ResponseBody Map<String, Object> selectByPage(Page page){
 	        Map<String,Object> map = new HashMap<String,Object>();
 	        String code="";
 	        try{
-	            page = companyMemberService.selectCompanyMemberByPage(page);
+	            page = companyMemberService.selectByPage(page);
 	            code="0";
 	            map.put("rows", page.getData());
 	    		map.put("total", page.getTotalRecord());
@@ -281,21 +281,21 @@ public class CompanyMemberController {
 		       }
 		       
 	       /**
-		   	 * 功能描述：通过会员属性查找
+		   	 * 功能描述：通过属性查找
 		   	 * 作者：lijiaxing
-		   	 * url：${webRoot}/companyMember/selectByCompanyMember
+		   	 * url：${webRoot}/companyMember/selectBySelective
 		   	 * 请求方式：POST
 		   	 * @param  CompanyMember
 		   	 * @return Map<String,Object>
 		   	 *         key:code["0":"成功","1":"失败"]
 		   	 *         key:CompanyMemberList[CompanyMemberList]
 		   	 */
-		       @RequestMapping(value="selectByCompanyMember",method=RequestMethod.POST)
-		       public @ResponseBody Map<String, Object> selectByCompanyMember(@RequestBody CompanyMember record){
+		       @RequestMapping(value="selectBySelective",method=RequestMethod.POST)
+		       public @ResponseBody Map<String, Object> selectBySelective(@RequestBody CompanyMember record){
 		           Map<String,Object> map = new HashMap<String,Object>();
 		           String code="";
 		           try{
-		        	   List<CompanyMember> CompanyMemberList=companyMemberService.selectByCompanyMember(record);
+		        	   List<CompanyMember> CompanyMemberList=companyMemberService.selectBySelective(record);
 		               code="0";
 		               map.put("CompanyMemberList",CompanyMemberList);
 		           }catch(Exception e){

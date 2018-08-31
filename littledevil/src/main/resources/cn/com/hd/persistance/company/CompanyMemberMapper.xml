@@ -153,7 +153,7 @@
   
   
   
-   <select id="selectCompanyMemberByPage" parameterType="cn.com.hd.common.Page" resultMap="BaseResultMap">
+   <select id="selectByPage" parameterType="cn.com.hd.common.Page" resultMap="BaseResultMap">
   SELECT
 	t.id,
 	t.user_id,
@@ -217,7 +217,7 @@
   
     
       <!-- 根据用户id和商户id查找记录 -->
-  <select id="selectByCompanyMember" resultMap="BaseResultMap" parameterType="cn.com.hd.domain.company.CompanyMember" >
+  <select id="selectBySelective" resultMap="BaseResultMap" parameterType="cn.com.hd.domain.company.CompanyMember" >
     SELECT
 	t.id,
 	t.user_id,

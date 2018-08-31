@@ -46,8 +46,8 @@ public class MemberConsumeService {
     	return memberConsumeMapper.updateByPrimaryKey(record);
     }
     
-	public Page selectCompanyByPage(Page page){
-		page.setData(memberConsumeMapper.selectCompanyByPage(page));
+	public Page selectByPage(Page page){
+		page.setData(memberConsumeMapper.selectByPage(page));
     	return page;
     }
 	
@@ -57,6 +57,10 @@ public class MemberConsumeService {
 	
 	public List<MemberConsume>  selectMemberConsumeByuserId(int userId){
 		return(memberConsumeMapper.selectMemberConsumeByuserId(userId));
+    }
+	
+	public List<MemberConsume>  selectBySelective(MemberConsume record){
+		return(memberConsumeMapper.selectBySelective(record));
     }
 	
 	public int sumconsumeCashByuserIdAndcompanyId(MemberConsume record){

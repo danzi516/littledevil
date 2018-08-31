@@ -26,14 +26,20 @@ import cn.com.hd.common.MD5Encrypt;
 import cn.com.hd.common.http.HttpRequest;
 import cn.com.hd.common.security.AESUtils;
 import cn.com.hd.domain.company.CompanyAuth;
+import cn.com.hd.domain.company.CompanyCommodity;
 import cn.com.hd.domain.company.CompanyMember;
+import cn.com.hd.domain.company.CompanyPromotion;
+import cn.com.hd.domain.company.MemberCommodity;
 import cn.com.hd.domain.sys.RegVerification;
 import cn.com.hd.domain.uc.SaleMan;
 import cn.com.hd.domain.uc.User;
 import cn.com.hd.domain.uc.UserInfo;
 import cn.com.hd.domain.uc.WxUserInfo;
 import cn.com.hd.service.company.CompanyAuthService;
+import cn.com.hd.service.company.CompanyCommodityService;
 import cn.com.hd.service.company.CompanyMemberService;
+import cn.com.hd.service.company.CompanyPromotionService;
+import cn.com.hd.service.company.MemberCommodityService;
 import cn.com.hd.service.sys.RegVerificationService;
 import cn.com.hd.service.uc.SaleManService;
 import cn.com.hd.service.uc.UserInfoService;
@@ -63,6 +69,12 @@ public class WxController {
 	RegVerificationService regVerificationService;
 	@Resource
 	CompanyAuthService companyAuthService;
+	@Resource
+	private CompanyPromotionService companyPromotionService;
+	@Resource
+	private CompanyCommodityService companyCommodityService;
+	@Resource
+	MemberCommodityService memberCommodityService;
 	//微信登录
 	@RequestMapping("openIdLogin")
 	public @ResponseBody Map<String,Object> openIdLogin(User user) throws IOException {
@@ -425,10 +437,7 @@ public class WxController {
 	        map.put("code", code);
 	        return map;
 		}
-		public static void main(String args[]) { 
-	        System.out.println((int)((Math.random()*9+1)*100000)); 
-	    } 
-		
+	
 		
 		/**
 		 * 功能描述：商户认证通过
@@ -524,17 +533,39 @@ public class WxController {
 			String code="";
 			String message="";
 			try{
-				JSONObject jsonObject = JSONObject.fromObject(List);
-				String memberBuyList=jsonObject.getString("memberBuyList");
+				JSONObject json = JSONObject.fromObject(List);
+				int userId = Integer.parseInt((String) json.get("userId"));
+				int companyMemberId = Integer.parseInt((String) json.get("companyMemberId"));
+				int companyId = Integer.parseInt((String) json.get("companyId"));
+				double cash = companyMemberService.selectByPrimaryKey(companyMemberId).getCash();
+				double totalCash = Double.parseDouble((String)json.get("totalCash"));
+				if()
+				String memberBuyList=json.getString("memberBuyList");
 				JSONArray jsonArray = JSONArray.fromObject(memberBuyList);
 				if(jsonArray.size()>0){
 					for(int i=0;i<jsonArray.size();i++){
+						MemberCommodity memberCommodity = new MemberCommodity();
 						JSONObject job = jsonArray.getJSONObject(i);
 						//Cardetails cardetails = (Cardetails) JSONObject.toBean(carDetailObj, Cardetails.class);//封装成bean
-						int userId = Integer.parseInt((String) job.get("userId"));
+						int number = Integer.parseInt((String) job.get("num"));
+						double consumeCash = Double.parseDouble((String)job.get("consumeCash"));
+						double payCash = Double.parseDouble((String)job.get("payCash"));
 						int commodityId = Integer.parseInt((String) job.get("commodityId"));
-						int promotionId = Integer.parseInt((String) job.get("promotionId"));
-						int num = Integer.parseInt((String) job.get("num"));
+						memberCommodity.setCompanyMemberId(companyMemberId);
+						memberCommodity.setCompanyId(companyId);
+						memberCommodity.setConsumeCash(consumeCash);
+						memberCommodity.setPayCash(payCash);
+						memberCommodity.setIsDelete("0");
+						memberCommodity.setUserId(userId);
+						memberCommodity.setCommodityId(commodityId);
+						memberCommodity.setNumber(number);
+						
+						if(job.get("promotionId")==null||job.get("promotionId").equals("")){
+							memberCommodityService.insert(memberCommodity);
+						}
+						else{
+							
+						}
 					}
 				}
 			}catch(Exception e){
@@ -547,10 +578,46 @@ public class WxController {
 	        return map;
 		}	
 		
+		/**
+		 * 功能描述：获取门店活动和商品
+		 * 作者：wanglin
+		 * url：${webRoot}/wxpay/getSaleList
+		 * 请求方式：POST
+		 * @param  list[int userId,int commodityId,int promotionId,int num]
+		 * @return Map<String,Object>
+		 *         key:code["0":"成功","1":"失败"]
+		 */
+		@RequestMapping(value="getSaleList",method=RequestMethod.POST)
+		public @ResponseBody Map<String,Object> getSaleList(int companyId){
+			Map<String,Object> map=new HashMap<String,Object>();
+			String code="";
+			String message="";
+			try{
+				List<CompanyPromotion> companyPromotionList = companyPromotionService.selectByCompanyId(companyId);
+				List<CompanyCommodity> companyCommodityList = companyCommodityService.selectByCompanyId(companyId);
+				code="0";
+                map.put("companyPromotionList",companyPromotionList);
+                map.put("companyCommodityList",companyCommodityList);
+			}catch(Exception e){
+	            code="2";
+	            message="未知异常，请重试";
+	            e.printStackTrace();
+	        }
+			map.put("message", message);
+	        map.put("code", code);
+	        return map;
+		}	
 		
 		
-		
-		
+		public static void main(String args[]) {
+	        System.out.println((int)((Math.random()*9+1)*100000));
+	        String aaa = "[{\"userId\":111,\"commodityId\":111,\"promotionId\":'',\"num\":4},{\"userId\":5,\"commodityId\":6,\"num\":8}]";
+	        JSONArray jsonArray = JSONArray.fromObject(aaa);
+	        System.out.println(jsonArray);
+	        JSONObject jsonObject = JSONObject.fromObject(aaa);
+	        System.out.println(jsonObject);
+	        
+	    } 
 		
 		
 }

@@ -19,7 +19,9 @@ public interface CommodityPromotionMapper {
 
     int updateByPrimaryKey(CommodityPromotion record);
     
-    List<CommodityPromotion> selectCommodityPromotionByPage(Page page);
+    List<CommodityPromotion> selectByPage(Page page);
+    
+    List<CommodityPromotion> selectBySelective(CommodityPromotion record);
     
     List<CommodityPromotion> selectByCompanyId(Integer companyId);
 }

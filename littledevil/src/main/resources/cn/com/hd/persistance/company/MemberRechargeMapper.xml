@@ -5,17 +5,20 @@
     <id column="id" property="id" jdbcType="INTEGER" />
     <result column="company_member_id" property="companyMemberId" jdbcType="INTEGER" />
     <result column="company_id" property="companyId" jdbcType="INTEGER" />
-    <result column="recharge_cash" property="rechargeCash" jdbcType="INTEGER" />
-    <result column="pay_cash" property="payCash" jdbcType="INTEGER" />
+    <result column="recharge_cash" property="rechargeCash" jdbcType="DOUBLE" />
+    <result column="pay_cash" property="payCash" jdbcType="DOUBLE" />
     <result column="is_delete" property="isDelete" jdbcType="VARCHAR" />
     <result column="user_id" property="userId" jdbcType="INTEGER" />
     <result column="recharge_time" property="rechargeTime" jdbcType="TIMESTAMP" />
+    <result column="recorder_id" property="recorderId" jdbcType="INTEGER" />
+    <result column="balance_time" property="balanceTime" jdbcType="TIMESTAMP" />
+    <result column="balance_state" property="balanceState" jdbcType="VARCHAR" />
     <collection property="user" column="user_id" ofType="cn.com.hd.domain.uc.User" select="cn.com.hd.persistance.uc.UserMapper.selectByPrimaryKey"></collection>
   	<collection property="userInfo" column="user_id" ofType="cn.com.hd.domain.uc.UserInfo"  select="cn.com.hd.persistance.uc.UserInfoMapper.selectByPrimaryKey" />
   </resultMap>
   <sql id="Base_Column_List" >
     id, company_member_id, company_id, recharge_cash, pay_cash, is_delete, 
-    user_id, recharge_time
+    user_id, recharge_time,recorder_id,balance_time,balance_state
   </sql>
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
     select 
@@ -29,10 +32,10 @@
   </delete>
   <insert id="insert" parameterType="cn.com.hd.domain.company.MemberConsume" >
     insert into t_member_recharge (company_member_id, company_id, recharge_cash, pay_cash,  is_delete, 
-    user_id, recharge_time)
+    user_id, recharge_time,recorder_id,balance_time,balance_state)
     values (#{companyMemberId,jdbcType=INTEGER}, #{companyId,jdbcType=INTEGER}, 
-      #{rechargeCash,jdbcType=INTEGER}, #{payCash,jdbcType=INTEGER}, 
-      #{isDelete,jdbcType=VARCHAR}, #{userId,jdbcType=INTEGER},sysdate())
+      #{rechargeCash,jdbcType=DOUBLE}, #{payCash,jdbcType=DOUBLE}, 
+      #{isDelete,jdbcType=VARCHAR}, #{userId,jdbcType=INTEGER},sysdate(),#{recorderId,jdbcType=INTEGER},#{balanceTime,jdbcType=VARCHAR},#{balanceState,jdbcType=VARCHAR})
   </insert>
   <insert id="insertSelective" parameterType="cn.com.hd.domain.company.MemberConsume" >
     insert into t_member_recharge
@@ -58,6 +61,15 @@
       <if test="userId != null" >
         user_id,
       </if>
+      <if test="recorderId != null" >
+        recorder_id,
+      </if>
+      <if test="balanceTime != null" >
+        balance_time,
+      </if>
+      <if test="balanceState != null" >
+        balance_state,
+      </if>
      recharge_time
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides="," >
@@ -71,10 +83,10 @@
         #{companyId,jdbcType=INTEGER},
       </if>
       <if test="rechargeCash != null" >
-        #{rechargeCash,jdbcType=INTEGER},
+        #{rechargeCash,jdbcType=DOUBLE},
       </if>
       <if test="payCash != null" >
-        #{payCash,jdbcType=INTEGER},
+        #{payCash,jdbcType=DOUBLE},
       </if>
       <if test="commodityId != null" >
         #{commodityId,jdbcType=INTEGER},
@@ -84,6 +96,15 @@
       </if>
       <if test="userId != null" >
         #{userId,jdbcType=INTEGER},
+      </if>
+      <if test="recorderId != null" >
+        #{recorderId,jdbcType=INTEGER},
+      </if>
+      <if test="balanceTime != null" >
+        #{balanceTime,jdbcType=VARCHAR},
+      </if>
+      <if test="balanceState != null" >
+        #{balanceState,jdbcType=VARCHAR},
       </if>
       sysdate()
     </trim>
@@ -98,16 +119,25 @@
         company_id = #{companyId,jdbcType=VARCHAR},
       </if>
       <if test="rechargeCash != null" >
-        recharge_cash = #{rechargeCash,jdbcType=INTEGER},
+        recharge_cash = #{rechargeCash,jdbcType=DOUBLE},
       </if>
       <if test="payCash != null" >
-        pay_cash = #{payCash,jdbcType=INTEGER},
+        pay_cash = #{payCash,jdbcType=DOUBLE},
       </if>
       <if test="isDelete != null" >
         is_delete = #{isDelete,jdbcType=VARCHAR},
       </if>
       <if test="userId != null" >
-        user_id = #{userId,jdbcType=VARCHAR},
+        user_id = #{userId,jdbcType=INTEGER},
+      </if>
+       <if test="recorderId != null" >
+        recorder_id = #{recorderId,jdbcType=VARCHAR},
+      </if>
+       <if test="balanceTime != null" >
+        balance_time = #{balanceTime,jdbcType=VARCHAR},
+      </if>
+       <if test="balanceState != null" >
+        balance_state = #{balanceState,jdbcType=VARCHAR},
       </if>
     </set>
     where id = #{id,jdbcType=INTEGER}
@@ -116,16 +146,19 @@
     update t_member_recharge
     set company_member_id = #{companyMemberId,jdbcType=VARCHAR},
       company_id = #{companyId,jdbcType=VARCHAR},
-      recharge_cash = #{rechargeCash,jdbcType=INTEGER},
-      pay_cash = #{payCash,jdbcType=INTEGER},
+      recharge_cash = #{rechargeCash,jdbcType=DOUBLE},
+      pay_cash = #{payCash,jdbcType=DOUBLE},
       is_delete = #{isDelete,jdbcType=VARCHAR},
-      user_id = #{userId,jdbcType=VARCHAR}
+      user_id = #{userId,jdbcType=VARCHAR},
+      recorder_id = #{recorderId,jdbcType=INTEGER},
+      balance_time = #{balanceTime,jdbcType=VARCHAR},
+      balance_state = #{balanceState,jdbcType=VARCHAR}
     where id = #{id,jdbcType=INTEGER}
   </update>
   
-  <select id="selectCompanyByPage" parameterType="cn.com.hd.common.Page" resultMap="BaseResultMap">
+  <select id="selectByPage" parameterType="cn.com.hd.common.Page" resultMap="BaseResultMap">
   	select t.id, t.company_member_id, t.company_id, t.recharge_cash, t.pay_cash, t.is_delete, 
-    t.user_id, t.recharge_time from t_member_recharge t
+    t.user_id, t.recharge_time,t.recorder_id,t.balance_time,t.balance_state from t_member_recharge t
     LEFT JOIN t_user_info  u ON t.user_id = u.id where 1=1
     <if test="params['companyMemberId'] !=null"> 
     and company_member_id=#{params.companyMemberId}

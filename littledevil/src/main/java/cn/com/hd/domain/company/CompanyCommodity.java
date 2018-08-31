@@ -14,8 +14,26 @@ public class CompanyCommodity {
     private String state;
 
     private String commodityNote;
+    private String creatTime;
+    private double realPrice;
+    
+    public String getCreatTime() {
+		return creatTime;
+	}
 
-    public Integer getId() {
+	public void setCreatTime(String creatTime) {
+		this.creatTime = creatTime;
+	}
+
+	public double getRealPrice() {
+		return realPrice;
+	}
+
+	public void setRealPrice(double realPrice) {
+		this.realPrice = realPrice;
+	}
+
+	public Integer getId() {
         return id;
     }
 

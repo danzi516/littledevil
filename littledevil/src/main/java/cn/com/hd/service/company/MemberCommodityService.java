@@ -72,4 +72,10 @@ public class MemberCommodityService {
 	public int sumNumberByuserIdAndcommodityId(MemberCommodity record){
 		return(MemberCommodityMapper.sumNumberByuserIdAndcommodityId(record));
     }
+	
+	public List<MemberCommodity>  selectBySelective(MemberCommodity record){
+		return(MemberCommodityMapper.selectBySelective(record));
+    }
+	
+	
 }

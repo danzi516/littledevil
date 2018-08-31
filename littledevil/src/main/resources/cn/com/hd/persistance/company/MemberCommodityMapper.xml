@@ -5,8 +5,8 @@
     <id column="id" property="id" jdbcType="INTEGER" />
     <result column="company_member_id" property="companyMemberId" jdbcType="INTEGER" />
     <result column="company_id" property="companyId" jdbcType="INTEGER" />
-    <result column="consume_cash" property="consumeCash" jdbcType="INTEGER" />
-    <result column="pay_cash" property="payCash" jdbcType="INTEGER" />
+    <result column="consume_cash" property="consumeCash" jdbcType="DOUBLE" />
+    <result column="pay_cash" property="payCash" jdbcType="DOUBLE" />
     <result column="commodity_id" property="commodityId" jdbcType="INTEGER" />
     <result column="is_delete" property="isDelete" jdbcType="VARCHAR" />
     <result column="user_id" property="userId" jdbcType="INTEGER" />
@@ -36,7 +36,7 @@
     insert into t_member_commodity (company_member_id, company_id, consume_cash, pay_cash, commodity_id, is_delete, 
     user_id, consume_time,number,promotion_id)
     values (#{companyMemberId,jdbcType=INTEGER}, #{companyId,jdbcType=INTEGER}, 
-      #{consumeCash,jdbcType=INTEGER}, #{payCash,jdbcType=INTEGER}, #{commodityId,jdbcType=INTEGER}, 
+      #{consumeCash,jdbcType=DOUBLE}, #{payCash,jdbcType=DOUBLE}, #{commodityId,jdbcType=INTEGER}, 
       #{isDelete,jdbcType=VARCHAR}, #{userId,jdbcType=INTEGER},sysdate(),#{number,jdbcType=INTEGER),#{promotionId,jdbcType=INTEGER)
   </insert>
   <insert id="insertSelective" parameterType="cn.com.hd.domain.company.MemberCommodity" >
@@ -85,10 +85,10 @@
         #{companyId,jdbcType=INTEGER},
       </if>
       <if test="consumeCash != null" >
-        #{consumeCash,jdbcType=INTEGER},
+        #{consumeCash,jdbcType=DOUBLE},
       </if>
       <if test="payCash != null" >
-        #{payCash,jdbcType=INTEGER},
+        #{payCash,jdbcType=DOUBLE},
       </if>
       <if test="commodityId != null" >
         #{commodityId,jdbcType=INTEGER},
@@ -118,10 +118,10 @@
         company_id = #{companyId,jdbcType=INTEGER},
       </if>
       <if test="consumeCash != null" >
-        consume_cash = #{consumeCash,jdbcType=INTEGER},
+        consume_cash = #{consumeCash,jdbcType=DOUBLE},
       </if>
       <if test="payCash != null" >
-        pay_cash = #{payCash,jdbcType=INTEGER},
+        pay_cash = #{payCash,jdbcType=DOUBLE},
       </if>
       <if test="commodityId != null" >
         commodity_id = #{commodityId,jdbcType=INTEGER},
@@ -145,8 +145,8 @@
     update t_member_commodity
     set company_member_id = #{companyMemberId,jdbcType=INTEGER},
       company_id = #{companyId,jdbcType=INTEGER},
-      consume_cash = #{consumeCash,jdbcType=INTEGER},
-      pay_cash = #{payCash,jdbcType=INTEGER},
+      consume_cash = #{consumeCash,jdbcType=DOUBLE},
+      pay_cash = #{payCash,jdbcType=DOUBLE},
       commodity_id = #{commodityId,jdbcType=INTEGER},
       is_delete = #{isDelete,jdbcType=VARCHAR},
       user_id = #{userId,jdbcType=INTEGER},
@@ -224,5 +224,38 @@
     order by consume_time desc
   </select>
   
+  <select id="selectBySelective" resultMap="BaseResultMap" parameterType="cn.com.hd.domain.company.MemberCommodity" >
+    select 
+    <include refid="Base_Column_List" />
+    from t_member_commodity
+    where 1=1 
+    <if test="companyMemberId != null" >
+      and  company_member_id = #{companyMemberId,jdbcType=INTEGER}
+      </if>
+      <if test="companyId != null" >
+      and  company_id = #{companyId,jdbcType=INTEGER}
+      </if>
+      <if test="consumeCash != null" >
+       and consume_cash = #{consumeCash,jdbcType=DOUBLE}
+      </if>
+      <if test="payCash != null" >
+      and  pay_cash = #{payCash,jdbcType=DOUBLE}
+      </if>
+      <if test="commodityId != null" >
+       and commodity_id = #{commodityId,jdbcType=INTEGER}
+      </if>
+      <if test="isDelete != null" >
+       and is_delete = #{isDelete,jdbcType=VARCHAR}
+      </if>
+      <if test="userId != null" >
+       and user_id = #{userId,jdbcType=INTEGER}
+      </if>
+      <if test="number != null" >
+       and number = #{number,jdbcType=INTEGER}
+      </if>
+      <if test="promotionId != null" >
+       and promotion_id = #{promotionId,jdbcType=INTEGER}
+      </if>
+  </select>
   
 </mapper>

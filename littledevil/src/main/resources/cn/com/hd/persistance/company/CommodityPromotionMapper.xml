@@ -23,7 +23,26 @@
     from t_commodity_promotion
     where company_id = #{companyId,jdbcType=INTEGER} 
   </select>
-   <select id="selectCommodityPromotionByPage" parameterType="cn.com.hd.common.Page" resultMap="BaseResultMap">
+  <select id="selectBySelective" parameterType="cn.com.hd.domain.company.CommodityPromotion" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from t_commodity_promotion
+    where 1 = 1 
+    <if test="id != null">
+        and id = #{id,jdbcType=INTEGER}
+      </if>
+      <if test="companyId != null">
+        company_id,
+      </if>
+      <if test="commodityId != null">
+        commodity_id,
+      </if>
+      <if test="promotionId != null">
+        promotion_id,
+      </if>
+    	creat_time
+  </select>
+   <select id="selectByPage" parameterType="cn.com.hd.common.Page" resultMap="BaseResultMap">
   SELECT
 	<include refid="Base_Column_List" />
 	FROM

@@ -2,15 +2,15 @@
 Navicat MySQL Data Transfer
 
 Source Server         : localhost
-Source Server Version : 50715
+Source Server Version : 50711
 Source Host           : localhost:3306
 Source Database       : little_devil
 
 Target Server Type    : MYSQL
-Target Server Version : 50715
+Target Server Version : 50711
 File Encoding         : 65001
 
-Date: 2018-08-19 22:28:59
+Date: 2018-08-31 16:44:14
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -151,8 +151,8 @@ CREATE TABLE `t_commodity_promotion` (
 -- ----------------------------
 -- Records of t_commodity_promotion
 -- ----------------------------
-INSERT INTO `t_commodity_promotion` VALUES ('2', '6', null, null, '2017-09-11 20:21:52', '2017-09-17 20:28:52');
-INSERT INTO `t_commodity_promotion` VALUES ('3', '6', '1', null, '2017-09-12 20:22:46', '2018-05-08 21:40:42');
+INSERT INTO `t_commodity_promotion` VALUES ('2', '6', '1', '1', '2017-09-11 20:21:52', '2018-08-29 16:21:42');
+INSERT INTO `t_commodity_promotion` VALUES ('3', '6', '2', '1', '2017-09-12 20:22:46', '2018-08-29 16:21:44');
 
 -- ----------------------------
 -- Table structure for t_company_auth
@@ -181,7 +181,7 @@ DROP TABLE IF EXISTS `t_company_commodity`;
 CREATE TABLE `t_company_commodity` (
   `id` int(11) NOT NULL AUTO_INCREMENT COMMENT '主键',
   `company_id` int(11) NOT NULL COMMENT '企业ID',
-  `commodity_name` varchar(11) DEFAULT NULL COMMENT '商品名称',
+  `commodity_name` varchar(300) DEFAULT NULL COMMENT '商品名称',
   `commodity_price` double(20,2) DEFAULT NULL COMMENT '商品价格',
   `commodity_note` text COMMENT '商品简介',
   `commodity_logo` varchar(500) DEFAULT NULL COMMENT '商品图标',
@@ -197,16 +197,17 @@ CREATE TABLE `t_company_commodity` (
   `top` int(2) DEFAULT NULL COMMENT '置顶',
   `recommend` int(2) DEFAULT NULL COMMENT '推荐',
   `creat_time` timestamp NULL DEFAULT NULL COMMENT '发布时间',
+  `real_price` double(10,2) DEFAULT NULL COMMENT '实际价格',
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8 COMMENT='商户商品表';
 
 -- ----------------------------
 -- Records of t_company_commodity
 -- ----------------------------
-INSERT INTO `t_company_commodity` VALUES ('1', '6', '900套餐：买一送一', '900.00', '900套餐：全套', '11111', '1', null, '0', null, null, null, null, null, null, null, null, '2017-08-22 21:00:55');
-INSERT INTO `t_company_commodity` VALUES ('2', '6', '300全套：特价优惠', '300.00', '300全套', '11111', '0', null, '0', null, null, null, null, null, null, null, null, '2017-08-12 19:29:12');
-INSERT INTO `t_company_commodity` VALUES ('3', '0', '现金', '0.00', '现金', null, '1', null, '0', null, null, null, null, null, null, null, null, '2017-09-04 20:58:12');
-INSERT INTO `t_company_commodity` VALUES ('4', '6', '限时优惠', '111.00', '11111', '111', '1', null, null, null, null, null, null, null, null, null, null, '2017-09-07 22:06:41');
+INSERT INTO `t_company_commodity` VALUES ('1', '6', '900套餐：买一送一', '900.00', '900套餐：全套', '11111', '1', null, '0', null, null, null, null, null, null, null, null, '2017-08-22 21:00:55', null);
+INSERT INTO `t_company_commodity` VALUES ('2', '6', '300全套：特价优惠', '300.00', '300全套', '11111', '0', null, '0', null, null, null, null, null, null, null, null, '2017-08-12 19:29:12', null);
+INSERT INTO `t_company_commodity` VALUES ('3', '0', '现金', '0.00', '现金', null, '1', null, '0', null, null, null, null, null, null, null, null, '2017-09-04 20:58:12', null);
+INSERT INTO `t_company_commodity` VALUES ('4', '6', '600全套：限时优惠', '111.00', '11111', '111', '1', null, null, null, null, null, null, null, null, null, null, '2017-09-07 22:06:41', null);
 
 -- ----------------------------
 -- Table structure for t_company_info
@@ -294,7 +295,7 @@ DROP TABLE IF EXISTS `t_company_promotion`;
 CREATE TABLE `t_company_promotion` (
   `id` int(11) NOT NULL AUTO_INCREMENT COMMENT '主键',
   `company_id` int(11) NOT NULL COMMENT '企业ID',
-  `promotion_name` varchar(11) DEFAULT NULL COMMENT '活动名称',
+  `promotion_name` varchar(300) DEFAULT NULL COMMENT '活动名称',
   `promotion_price` double(20,2) DEFAULT NULL COMMENT '活动价格',
   `promotion_note` text COMMENT '活动简介',
   `promotion_logo` varchar(500) DEFAULT NULL COMMENT '活动图标',
@@ -311,16 +312,17 @@ CREATE TABLE `t_company_promotion` (
   `recommend` int(2) DEFAULT NULL COMMENT '推荐',
   `creat_time` timestamp NULL DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP COMMENT '发布时间',
   `active_time` timestamp NULL DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP COMMENT '有效时间',
+  `real_price` double(10,2) DEFAULT NULL COMMENT '实际价格',
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8 COMMENT='商户商品表';
 
 -- ----------------------------
 -- Records of t_company_promotion
 -- ----------------------------
-INSERT INTO `t_company_promotion` VALUES ('1', '6', '900套餐：买一送一', '899.00', '900套餐：全套', '11111', '1', null, '0', null, null, null, null, null, null, null, null, '2018-03-19 20:57:34', null);
-INSERT INTO `t_company_promotion` VALUES ('2', '6', '300全套：特价优惠', '300.00', '300全套', '11111', '0', null, '0', null, null, null, null, null, null, null, null, '2017-08-12 19:29:12', null);
-INSERT INTO `t_company_promotion` VALUES ('3', '0', '现金', '0.00', '现金', null, '1', null, '0', null, null, null, null, null, null, null, null, '2017-09-04 20:58:12', null);
-INSERT INTO `t_company_promotion` VALUES ('4', '6', '限时优惠', '111.00', '11111', '111', '1', null, null, null, null, null, null, null, null, null, null, '2017-09-07 22:06:41', null);
+INSERT INTO `t_company_promotion` VALUES ('1', '6', '活动啦：900套餐：买一送一', '899.00', '900套餐：全套', '11111', '1', null, '0', null, null, null, null, null, null, null, null, '2018-08-29 14:55:29', '2018-08-29 14:55:29', null);
+INSERT INTO `t_company_promotion` VALUES ('2', '6', '300全套：特价优惠', '300.00', '300全套', '11111', '0', null, '0', null, null, null, null, null, null, null, null, '2017-08-12 19:29:12', null, null);
+INSERT INTO `t_company_promotion` VALUES ('3', '0', '现金', '0.00', '现金', null, '1', null, '0', null, null, null, null, null, null, null, null, '2017-09-04 20:58:12', null, null);
+INSERT INTO `t_company_promotion` VALUES ('4', '6', '限时优惠活动2', '111.00', '11111', '111', '1', null, null, null, null, null, null, null, null, null, null, '2018-08-29 14:54:25', '2018-08-29 14:54:25', null);
 
 -- ----------------------------
 -- Table structure for t_company_recharge_log
@@ -4166,6 +4168,32 @@ CREATE TABLE `t_manage_company` (
 -- ----------------------------
 
 -- ----------------------------
+-- Table structure for t_member_bill_flow
+-- ----------------------------
+DROP TABLE IF EXISTS `t_member_bill_flow`;
+CREATE TABLE `t_member_bill_flow` (
+  `id` int(11) NOT NULL AUTO_INCREMENT COMMENT '主键id',
+  `company_member_id` int(11) DEFAULT NULL COMMENT '门店会员id',
+  `company_id` int(11) DEFAULT NULL COMMENT '门店id',
+  `user_id` int(11) DEFAULT NULL COMMENT '用户id',
+  `commodity_id` int(11) DEFAULT NULL COMMENT '商品id',
+  `promotion_id` int(11) DEFAULT NULL COMMENT '活动id',
+  `bill_cash` double(10,2) DEFAULT NULL COMMENT '账单金额',
+  `pay_cash` double(10,2) DEFAULT NULL COMMENT '实际金额',
+  `is_delete` varchar(2) DEFAULT NULL COMMENT '是否删除 0：不删除  1:删除',
+  `flow_type` varchar(2) DEFAULT NULL COMMENT '流水类型 0：消费券 1：购买 2:现金消费 3:现金充值',
+  `consume_number` int(11) DEFAULT NULL COMMENT '消费个数',
+  `recorder_id` int(11) DEFAULT NULL COMMENT '记录员id',
+  `bill_model` varchar(3) DEFAULT NULL COMMENT '金额0:''+''，1:''-''',
+  `creat_time` datetime DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='会员账单流水';
+
+-- ----------------------------
+-- Records of t_member_bill_flow
+-- ----------------------------
+
+-- ----------------------------
 -- Table structure for t_member_commodity
 -- ----------------------------
 DROP TABLE IF EXISTS `t_member_commodity`;
@@ -4173,8 +4201,8 @@ CREATE TABLE `t_member_commodity` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `company_member_id` int(11) DEFAULT NULL COMMENT '关联id',
   `company_id` int(11) DEFAULT NULL COMMENT '商户ID',
-  `consume_cash` int(255) DEFAULT NULL COMMENT '消费金额',
-  `pay_cash` int(255) DEFAULT NULL COMMENT '实收金额',
+  `consume_cash` double(20,2) DEFAULT NULL COMMENT '消费金额',
+  `pay_cash` double(20,2) DEFAULT NULL COMMENT '实收金额',
   `consume_time` timestamp NULL DEFAULT NULL COMMENT '消费时间',
   `is_delete` varchar(2) COLLATE utf8_unicode_ci DEFAULT NULL COMMENT '是否删除 1(删除)0(不删除)',
   `user_id` int(11) DEFAULT NULL COMMENT '会员id',
@@ -4187,9 +4215,9 @@ CREATE TABLE `t_member_commodity` (
 -- ----------------------------
 -- Records of t_member_commodity
 -- ----------------------------
-INSERT INTO `t_member_commodity` VALUES ('1', '3', '6', '300', '0', '2017-07-20 21:25:54', '0', '17', '2', '63', null);
-INSERT INTO `t_member_commodity` VALUES ('2', '3', '6', '900', '0', '2017-07-20 21:25:55', '0', '17', '1', '98', null);
-INSERT INTO `t_member_commodity` VALUES ('3', '3', '6', '111', '0', '2017-07-20 21:25:57', '0', '17', '4', '22', null);
+INSERT INTO `t_member_commodity` VALUES ('1', '3', '6', '300.00', '0.00', '2017-07-20 21:25:54', '0', '17', '2', '63', null);
+INSERT INTO `t_member_commodity` VALUES ('2', '3', '6', '900.00', '0.00', '2017-07-20 21:25:55', '0', '17', '1', '98', null);
+INSERT INTO `t_member_commodity` VALUES ('3', '3', '6', '111.00', '0.00', '2017-07-20 21:25:57', '0', '17', '4', '22', null);
 
 -- ----------------------------
 -- Table structure for t_member_consume
@@ -4199,31 +4227,33 @@ CREATE TABLE `t_member_consume` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `company_member_id` int(11) DEFAULT NULL COMMENT '关联id',
   `company_id` int(11) DEFAULT NULL COMMENT '商户ID',
-  `consume_cash` int(255) DEFAULT NULL COMMENT '消费金额',
-  `pay_cash` int(255) DEFAULT NULL COMMENT '实收金额',
+  `consume_cash` double(255,0) DEFAULT NULL COMMENT '消费金额',
+  `pay_cash` double(255,0) DEFAULT NULL COMMENT '实收金额',
   `consume_time` timestamp NULL DEFAULT NULL COMMENT '消费时间',
   `is_delete` varchar(2) COLLATE utf8_unicode_ci DEFAULT NULL COMMENT '是否删除 1(删除)0(不删除)',
   `user_id` int(11) DEFAULT NULL COMMENT '会员id',
   `commodity_id` int(11) DEFAULT NULL COMMENT '商品id',
   `consume_number` int(11) DEFAULT NULL COMMENT '消费次数',
+  `promotion_id` int(11) DEFAULT NULL COMMENT '活动id',
+  `consume_type` varchar(2) COLLATE utf8_unicode_ci DEFAULT NULL COMMENT '0：消费券 1：购买 2:现金',
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=13 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci COMMENT='消费记录';
 
 -- ----------------------------
 -- Records of t_member_consume
 -- ----------------------------
-INSERT INTO `t_member_consume` VALUES ('1', '3', '6', '300', '0', '2017-07-20 21:25:54', '0', '14', '2', '66');
-INSERT INTO `t_member_consume` VALUES ('2', '3', '6', '900', '0', '2017-07-20 21:25:55', '0', '14', '3', '99');
-INSERT INTO `t_member_consume` VALUES ('3', '3', '6', '100', '0', '2017-07-20 21:25:57', '0', '14', '4', '22');
-INSERT INTO `t_member_consume` VALUES ('4', '3', '6', '5', '0', '2017-07-20 21:25:59', '0', '14', '1', '11');
-INSERT INTO `t_member_consume` VALUES ('5', '9', '6', '1', '0', '2017-09-02 21:34:22', '0', '17', '3', '0');
-INSERT INTO `t_member_consume` VALUES ('6', '9', '6', '900', '0', '2017-09-02 21:35:33', '0', '17', '1', '0');
-INSERT INTO `t_member_consume` VALUES ('7', '9', '6', '11', '0', '2017-09-04 20:31:13', '0', '17', '3', '0');
-INSERT INTO `t_member_consume` VALUES ('8', '9', '6', '1', '0', '2017-09-04 20:57:40', '0', '17', '3', '1');
-INSERT INTO `t_member_consume` VALUES ('9', '9', '6', '900', '0', '2017-09-04 20:58:26', '0', '17', '1', '1');
-INSERT INTO `t_member_consume` VALUES ('10', '9', '6', '900', '0', '2017-09-04 20:58:52', '0', '17', '1', '1');
-INSERT INTO `t_member_consume` VALUES ('11', '9', '6', '900', '0', '2017-09-04 21:04:04', '0', '17', '1', '1');
-INSERT INTO `t_member_consume` VALUES ('12', '9', '6', '900', '0', '2017-09-05 21:34:16', '0', '17', '1', '1');
+INSERT INTO `t_member_consume` VALUES ('1', '3', '6', '300', '0', '2017-07-20 21:25:54', '0', '14', '2', '66', null, null);
+INSERT INTO `t_member_consume` VALUES ('2', '3', '6', '900', '0', '2017-07-20 21:25:55', '0', '14', '3', '99', null, null);
+INSERT INTO `t_member_consume` VALUES ('3', '3', '6', '100', '0', '2017-07-20 21:25:57', '0', '14', '4', '22', null, null);
+INSERT INTO `t_member_consume` VALUES ('4', '3', '6', '5', '0', '2017-07-20 21:25:59', '0', '14', '1', '11', null, null);
+INSERT INTO `t_member_consume` VALUES ('5', '9', '6', '1', '0', '2017-09-02 21:34:22', '0', '17', '3', '0', null, null);
+INSERT INTO `t_member_consume` VALUES ('6', '9', '6', '900', '0', '2017-09-02 21:35:33', '0', '17', '1', '0', null, null);
+INSERT INTO `t_member_consume` VALUES ('7', '9', '6', '11', '0', '2017-09-04 20:31:13', '0', '17', '3', '0', null, null);
+INSERT INTO `t_member_consume` VALUES ('8', '9', '6', '1', '0', '2017-09-04 20:57:40', '0', '17', '3', '1', null, null);
+INSERT INTO `t_member_consume` VALUES ('9', '9', '6', '900', '0', '2017-09-04 20:58:26', '0', '17', '1', '1', null, null);
+INSERT INTO `t_member_consume` VALUES ('10', '9', '6', '900', '0', '2017-09-04 20:58:52', '0', '17', '1', '1', null, null);
+INSERT INTO `t_member_consume` VALUES ('11', '9', '6', '900', '0', '2017-09-04 21:04:04', '0', '17', '1', '1', null, null);
+INSERT INTO `t_member_consume` VALUES ('12', '9', '6', '900', '0', '2017-09-05 21:34:16', '0', '17', '1', '1', null, null);
 
 -- ----------------------------
 -- Table structure for t_member_recharge
@@ -4231,27 +4261,30 @@ INSERT INTO `t_member_consume` VALUES ('12', '9', '6', '900', '0', '2017-09-05 2
 DROP TABLE IF EXISTS `t_member_recharge`;
 CREATE TABLE `t_member_recharge` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
-  `company_member_id` int(11) DEFAULT NULL COMMENT '��ԱID',
-  `company_id` int(11) DEFAULT NULL COMMENT '�̻�ID',
-  `recharge_cash` int(255) DEFAULT NULL COMMENT '��ֵ���',
-  `pay_cash` int(255) DEFAULT NULL COMMENT 'ʵ�ս��',
-  `recharge_time` timestamp NULL DEFAULT NULL COMMENT '��ֵʱ��',
-  `is_delete` varchar(2) COLLATE utf8_unicode_ci DEFAULT NULL COMMENT '�Ƿ�ɾ��',
-  `user_id` int(11) DEFAULT NULL COMMENT '������',
+  `company_member_id` int(11) DEFAULT NULL COMMENT '商户的会员id',
+  `company_id` int(11) DEFAULT NULL COMMENT '商户ID',
+  `recharge_cash` double(255,0) DEFAULT NULL COMMENT '充值金额',
+  `pay_cash` double(255,0) DEFAULT NULL COMMENT '实付金额',
+  `recharge_time` timestamp NULL DEFAULT NULL COMMENT '充值时间',
+  `is_delete` varchar(2) COLLATE utf8_unicode_ci DEFAULT NULL COMMENT '是否删除 0:不删除 1:删除',
+  `user_id` int(11) DEFAULT NULL COMMENT '用户id',
+  `recorder_id` int(11) DEFAULT NULL COMMENT '记录员id',
+  `balance_time` timestamp NULL DEFAULT NULL COMMENT '结算时间',
+  `balance_state` varchar(2) COLLATE utf8_unicode_ci DEFAULT NULL COMMENT '结算状态',
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci COMMENT='充值记录';
 
 -- ----------------------------
 -- Records of t_member_recharge
 -- ----------------------------
-INSERT INTO `t_member_recharge` VALUES ('1', '3', '6', '100', '0', '2017-07-20 21:24:27', '0', '14');
-INSERT INTO `t_member_recharge` VALUES ('2', '3', '6', '200', '0', '2017-07-20 21:24:30', '0', '14');
-INSERT INTO `t_member_recharge` VALUES ('3', '3', '6', '100', '0', '2017-07-20 21:24:31', '0', '14');
-INSERT INTO `t_member_recharge` VALUES ('4', '3', '6', '11', '0', '2017-07-20 21:24:35', '0', '14');
-INSERT INTO `t_member_recharge` VALUES ('5', '9', '6', '1', '0', '2017-09-02 20:54:54', '0', '17');
-INSERT INTO `t_member_recharge` VALUES ('6', '9', '6', '1', '0', '2017-09-02 20:57:42', '0', '17');
-INSERT INTO `t_member_recharge` VALUES ('7', '9', '6', '1', '0', '2017-09-02 20:58:56', '0', '17');
-INSERT INTO `t_member_recharge` VALUES ('8', '9', '6', '1', '0', '2017-09-02 21:02:28', '0', '17');
+INSERT INTO `t_member_recharge` VALUES ('1', '3', '6', '100', '0', '2017-07-20 21:24:27', '0', '14', null, null, null);
+INSERT INTO `t_member_recharge` VALUES ('2', '3', '6', '200', '0', '2017-07-20 21:24:30', '0', '14', null, null, null);
+INSERT INTO `t_member_recharge` VALUES ('3', '3', '6', '100', '0', '2017-07-20 21:24:31', '0', '14', null, null, null);
+INSERT INTO `t_member_recharge` VALUES ('4', '3', '6', '11', '0', '2017-07-20 21:24:35', '0', '14', null, null, null);
+INSERT INTO `t_member_recharge` VALUES ('5', '9', '6', '1', '0', '2017-09-02 20:54:54', '0', '17', null, null, null);
+INSERT INTO `t_member_recharge` VALUES ('6', '9', '6', '1', '0', '2017-09-02 20:57:42', '0', '17', null, null, null);
+INSERT INTO `t_member_recharge` VALUES ('7', '9', '6', '1', '0', '2017-09-02 20:58:56', '0', '17', null, null, null);
+INSERT INTO `t_member_recharge` VALUES ('8', '9', '6', '1', '0', '2017-09-02 21:02:28', '0', '17', null, null, null);
 
 -- ----------------------------
 -- Table structure for t_reg_verification

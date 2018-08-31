@@ -9,31 +9,64 @@
     <result column="promotion_logo" jdbcType="VARCHAR" property="promotionLogo" />
     <result column="promotion_note" jdbcType="VARCHAR" property="promotionNote" />
     <result column="state" jdbcType="VARCHAR" property="state" />
+    <result column="creat_time" jdbcType="VARCHAR" property="creatTime" />
+    <result column="real_price" jdbcType="DOUBLE" property="realPrice" />
   </resultMap>
   <resultMap extends="BaseResultMap" id="ResultMapWithBLOBs" type="cn.com.hd.domain.company.CompanyPromotion">
     <result column="promotion_note" jdbcType="LONGVARCHAR" property="promotionNote" />
   </resultMap>
   <sql id="Base_Column_List">
-    id, company_id, promotion_name, promotion_price, promotion_logo,promotion_note, state
+    id, company_id, promotion_name, promotion_price, promotion_logo,promotion_note, state,creat_time,real_price
   </sql>
   <sql id="Blob_Column_List">
     promotion_note
   </sql>
+  
   <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
     select 
     <include refid="Base_Column_List" />
     from t_company_promotion
     where id = #{id,jdbcType=INTEGER}
   </select>
+  
+  <select id="selectBySelective" parameterType="cn.com.hd.domain.company.CompanyPromotion" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from t_company_promotion
+    where 1=1
+    <if test="id != null and id != ''">
+      and  id=#{id,jdbcType=INTEGER}
+      </if>
+      <if test="companyId != null and companyId != ''">
+        and  company_id=#{companyId,jdbcType=INTEGER}
+      </if>
+      <if test="promotionName != null and promotionName != ''">
+        and  promotion_name=#{promotionName,jdbcType=VARCHAR}
+      </if>
+      <if test="promotionPrice != null and promotionPrice != ''">
+        and  promotion_price=#{promotionPrice,jdbcType=DOUBLE}
+      </if>
+      <if test="promotionLogo != null and promotionLogo != ''">
+        and  promotion_logo= #{promotionLogo,jdbcType=VARCHAR}
+      </if>
+      <if test="state != null and state != ''">
+        and  state=#{state,jdbcType=VARCHAR}
+      </if>
+      <if test="promotionNote != null and promotionNote != ''">
+        and  promotion_note=#{promotionNote,jdbcType=LONGVARCHAR}
+      </if>
+  </select>
+  
    <select id="selectByCompanyId" parameterType="java.lang.Integer" resultMap="BaseResultMap">
     select 
-    id, company_id, promotion_name, promotion_price, promotion_logo,promotion_note, state
+    id, company_id, promotion_name, promotion_price, promotion_logo,promotion_note, state,creat_time,real_price
     from t_company_promotion
     where company_id = #{companyId,jdbcType=INTEGER} and state=1
   </select>
-   <select id="selectCompanyPromotionByPage" parameterType="cn.com.hd.common.Page" resultMap="BaseResultMap">
+  
+   <select id="selectByPage" parameterType="cn.com.hd.common.Page" resultMap="BaseResultMap">
   SELECT
-	id, company_id, promotion_name, promotion_price, promotion_logo,promotion_note, state
+	id, company_id, promotion_name, promotion_price, promotion_logo,promotion_note, state,creat_time,real_price
 	FROM
 	t_company_promotion  t
 	 WHERE 1 = 1
@@ -52,14 +85,16 @@
     delete from t_company_promotion
     where id = #{id,jdbcType=INTEGER}
   </delete>
+  
   <insert id="insert" parameterType="cn.com.hd.domain.company.CompanyPromotion">
     insert into t_company_promotion (id, company_id, promotion_name, 
       promotion_price, promotion_logo, state, 
-      promotion_note)
+      promotion_note,creat_time,real_price)
     values (#{id,jdbcType=INTEGER}, #{companyId,jdbcType=INTEGER}, #{promotionName,jdbcType=VARCHAR}, 
       #{promotionPrice,jdbcType=DOUBLE}, #{promotionLogo,jdbcType=VARCHAR}, #{state,jdbcType=VARCHAR}, 
-      #{promotionNote,jdbcType=LONGVARCHAR})
+      #{promotionNote,jdbcType=LONGVARCHAR},sysdate(),#{realPrice,jdbcType=DOUBLE})
   </insert>
+  
   <insert id="insertSelective" parameterType="cn.com.hd.domain.company.CompanyPromotion">
     insert into t_company_promotion
     <trim prefix="(" suffix=")" suffixOverrides=",">
@@ -84,6 +119,10 @@
       <if test="promotionNote != null">
         promotion_note,
       </if>
+<if test="realPrice != null">
+        real_price,
+      </if>
+      creat_time
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
       <if test="id != null">
@@ -107,8 +146,13 @@
       <if test="promotionNote != null">
         #{promotionNote,jdbcType=LONGVARCHAR},
       </if>
+<if test="realPrice != null">
+        #{realPrice,jdbcType=LONGVARCHAR},
+      </if>
+      sysdate()
     </trim>
   </insert>
+  
   <update id="updateByPrimaryKeySelective" parameterType="cn.com.hd.domain.company.CompanyPromotion">
     update t_company_promotion
     <set>
@@ -130,9 +174,13 @@
       <if test="promotionNote != null">
         promotion_note = #{promotionNote,jdbcType=LONGVARCHAR},
       </if>
+<if test="realPrice != null">
+       real_price =  #{realPrice,jdbcType=LONGVARCHAR},
+      </if>
     </set>
     where id = #{id,jdbcType=INTEGER}
   </update>
+  
   <update id="updateByPrimaryKeyWithBLOBs" parameterType="cn.com.hd.domain.company.CompanyPromotion">
     update t_company_promotion
     set company_id = #{companyId,jdbcType=INTEGER},
@@ -140,16 +188,19 @@
       promotion_price = #{promotionPrice,jdbcType=DOUBLE},
       promotion_logo = #{promotionLogo,jdbcType=VARCHAR},
       state = #{state,jdbcType=VARCHAR},
-      promotion_note = #{promotionNote,jdbcType=LONGVARCHAR}
+      promotion_note = #{promotionNote,jdbcType=LONGVARCHAR},
+real_price =  #{realPrice,jdbcType=LONGVARCHAR}
     where id = #{id,jdbcType=INTEGER}
   </update>
+  
   <update id="updateByPrimaryKey" parameterType="cn.com.hd.domain.company.CompanyPromotion">
     update t_company_promotion
     set company_id = #{companyId,jdbcType=INTEGER},
       promotion_name = #{promotionName,jdbcType=VARCHAR},
       promotion_price = #{promotionPrice,jdbcType=DOUBLE},
       promotion_logo = #{promotionLogo,jdbcType=VARCHAR},
-      state = #{state,jdbcType=VARCHAR}
+      state = #{state,jdbcType=VARCHAR},
+ real_price =  #{realPrice,jdbcType=LONGVARCHAR}
     where id = #{id,jdbcType=INTEGER}
   </update>
  

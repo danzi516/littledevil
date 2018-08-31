@@ -107,7 +107,7 @@ public class CompanyInfoController {
         Map<String,Object> map = new HashMap<String,Object>();
         String code="";
         try{
-            page = companyInfoService.selectCompanyByPage(page);
+            page = companyInfoService.selectByPage(page);
             code="0";
             map.put("rows", page.getData());
     		map.put("total", page.getTotalRecord());
@@ -135,7 +135,7 @@ public class CompanyInfoController {
         Map<String,Object> map = new HashMap<String,Object>();
         String code="";
         try{
-        	List<CompanyInfo> List = companyInfoService.selectCompanyAllList();
+        	List<CompanyInfo> List = companyInfoService.selectAllList();
             code="0";
             map.put("List",List);
         }catch(Exception e){

@@ -22,6 +22,7 @@ import cn.com.hd.common.Page;
 import cn.com.hd.domain.company.CompanyCommodity;
 import cn.com.hd.domain.company.CompanyInfo;
 import cn.com.hd.domain.company.CompanyMember;
+import cn.com.hd.domain.company.CompanyRechargeLog;
 import cn.com.hd.domain.company.MemberCommodity;
 import cn.com.hd.domain.company.MemberConsume;
 import cn.com.hd.domain.uc.User;
@@ -357,4 +358,31 @@ public class MemberCommodityController {
         map.put("code", code);
         return map;
     }
+    
+    /**
+   	 * 功能描述：通过属性查找
+   	 * 作者：lijiaxing
+   	 * url：${webRoot}/memberCommodity/selectBySelective
+   	 * 请求方式：POST
+   	 * @param  CompanyMember
+   	 * @return Map<String,Object>
+   	 *         key:code["0":"成功","1":"失败"]
+   	 *         key:CompanyMemberList[CompanyMemberList]
+   	 */
+       @RequestMapping(value="selectBySelective",method=RequestMethod.POST)
+       public @ResponseBody Map<String, Object> selectBySelective(@RequestBody MemberCommodity record){
+           Map<String,Object> map = new HashMap<String,Object>();
+           String code="";
+           try{
+        	   List<MemberCommodity> MemberCommodityList=memberCommodityService.selectBySelective(record);
+               code="0";
+               map.put("MemberCommodityList",MemberCommodityList);
+           }catch(Exception e){
+               code="1";
+               e.printStackTrace();
+           }
+           map.put("code", code);
+           return map;
+       }
+    
 }

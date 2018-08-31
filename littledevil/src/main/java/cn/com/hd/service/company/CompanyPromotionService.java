@@ -40,13 +40,18 @@ public class CompanyPromotionService {
     	return companyPromotionMapper.updateByPrimaryKey(record);
     }
 	
-	public Page selectCompanyPromotionByPage(Page page){
-		page.setData(companyPromotionMapper.selectCompanyPromotionByPage(page));
+	public Page selectByPage(Page page){
+		page.setData(companyPromotionMapper.selectByPage(page));
     	return page;
     }
 	
 	public List<CompanyPromotion> selectByCompanyId(Integer companyId){
 		List<CompanyPromotion> CompanyPromotionList = companyPromotionMapper.selectByCompanyId(companyId);
+    	return CompanyPromotionList;
+    }
+	
+	public List<CompanyPromotion> selectBySelective(CompanyPromotion record){
+		List<CompanyPromotion> CompanyPromotionList = companyPromotionMapper.selectBySelective(record);
     	return CompanyPromotionList;
     }
 }

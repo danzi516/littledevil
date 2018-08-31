@@ -11,9 +11,9 @@ public class MemberCommodity {
 
 	    private int companyId;
 
-	    private int consumeCash;
+	    private double consumeCash;
 
-	    private int payCash;
+	    private double payCash;
 
 	    private int commodityId;
 
@@ -65,19 +65,19 @@ public class MemberCommodity {
 			this.companyId = companyId;
 		}
 
-		public int getConsumeCash() {
+		public double getConsumeCash() {
 			return consumeCash;
 		}
 
-		public void setConsumeCash(int consumeCash) {
+		public void setConsumeCash(double consumeCash) {
 			this.consumeCash = consumeCash;
 		}
 
-		public int getPayCash() {
+		public double getPayCash() {
 			return payCash;
 		}
 
-		public void setPayCash(int payCash) {
+		public void setPayCash(double payCash) {
 			this.payCash = payCash;
 		}
 

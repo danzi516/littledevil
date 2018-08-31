@@ -5,13 +5,15 @@
     <id column="id" property="id" jdbcType="INTEGER" />
     <result column="company_member_id" property="companyMemberId" jdbcType="INTEGER" />
     <result column="company_id" property="companyId" jdbcType="INTEGER" />
-    <result column="consume_cash" property="consumeCash" jdbcType="INTEGER" />
-    <result column="pay_cash" property="payCash" jdbcType="INTEGER" />
+    <result column="consume_cash" property="consumeCash" jdbcType="DOUBLE" />
+    <result column="pay_cash" property="payCash" jdbcType="DOUBLE" />
     <result column="commodity_id" property="commodityId" jdbcType="INTEGER" />
     <result column="is_delete" property="isDelete" jdbcType="VARCHAR" />
     <result column="user_id" property="userId" jdbcType="INTEGER" />
     <result column="consume_time" property="consumeTime" jdbcType="TIMESTAMP" />
     <result column="consume_number" property="consumeNumber" jdbcType="INTEGER" />
+    <result column="promotion_id" property="promotionId" jdbcType="INTEGER" />
+    <result column="consume_type" property="consumeType" jdbcType="VARCHAR" />
     <collection property="user" column="user_id" ofType="cn.com.hd.domain.uc.User" select="cn.com.hd.persistance.uc.UserMapper.selectByPrimaryKey"></collection>
   	<collection property="userInfo" column="user_id" ofType="cn.com.hd.domain.uc.UserInfo"  select="cn.com.hd.persistance.uc.UserInfoMapper.selectByPrimaryKey" />
   	<collection column="company_id" ofType="cn.com.hd.domain.company.CompanyInfo" property="companyInfo" select="cn.com.hd.persistance.company.CompanyInfoMapper.selectByPrimaryKey" />
@@ -19,7 +21,7 @@
   </resultMap>
   <sql id="Base_Column_List" >
     id, company_member_id, company_id, consume_cash, pay_cash, commodity_id, is_delete, 
-    user_id, consume_time,consume_number
+    user_id, consume_time,consume_number,promotion_id,consume_type
   </sql>
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
     select 
@@ -32,10 +34,10 @@
     where id = #{id,jdbcType=INTEGER}
   </delete>
   <insert id="insert" parameterType="cn.com.hd.domain.company.MemberConsume" >
-    insert into t_member_consume (company_member_id, company_id, consume_cash, pay_cash, commodity_id, is_delete, user_id, consume_time,consume_number)
+    insert into t_member_consume (company_member_id, company_id, consume_cash, pay_cash, commodity_id, is_delete, user_id, consume_time,consume_number,promotion_id,consume_type)
     values (#{companyMemberId,jdbcType=INTEGER}, #{companyId,jdbcType=INTEGER}, 
-      #{consumeCash,jdbcType=INTEGER}, #{payCash,jdbcType=INTEGER}, #{commodityId,jdbcType=INTEGER}, 
-      #{isDelete,jdbcType=VARCHAR}, #{userId,jdbcType=INTEGER},sysdate(), #{consumeNumber,jdbcType=INTEGER})
+      #{consumeCash,jdbcType=DOUBLE}, #{payCash,jdbcType=DOUBLE}, #{commodityId,jdbcType=INTEGER}, 
+      #{isDelete,jdbcType=VARCHAR}, #{userId,jdbcType=INTEGER},sysdate(), #{consumeNumber,jdbcType=INTEGER},#{promotionId,jdbcType=INTEGER},#{consumeType,jdbcType=VARCHAR})
   </insert>
   <insert id="insertSelective" parameterType="cn.com.hd.domain.company.MemberConsume" >
     insert into t_member_consume
@@ -67,6 +69,12 @@
        <if test="consumeNumber != null" >
         consume_number,
       </if>
+       <if test="promotionId != null" >
+        promotion_id,
+      </if>
+       <if test="consumeType != null" >
+        consume_type,
+      </if>
      consume_time
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides="," >
@@ -80,10 +88,10 @@
         #{companyId,jdbcType=INTEGER},
       </if>
       <if test="consumeCash != null" >
-        #{consumeCash,jdbcType=INTEGER},
+        #{consumeCash,jdbcType=DOUBLE},
       </if>
       <if test="payCash != null" >
-        #{payCash,jdbcType=INTEGER},
+        #{payCash,jdbcType=DOUBLE},
       </if>
       <if test="commodityId != null" >
         #{commodityId,jdbcType=INTEGER},
@@ -96,6 +104,12 @@
       </if>
         <if test="consumeNumber != null" >
         #{consumeNumber,jdbcType=INTEGER},
+      </if>
+       <if test="promotionId != null" >
+        #{promotionId,jdbcType=INTEGER},
+      </if>
+      <if test="consumeType != null" >
+        #{consumeType,jdbcType=VARCHAR},
       </if>
       sysdate()
     </trim>
@@ -110,10 +124,10 @@
         company_id = #{companyId,jdbcType=INTEGER},
       </if>
       <if test="consumeCash != null" >
-        consume_cash = #{consumeCash,jdbcType=INTEGER},
+        consume_cash = #{consumeCash,jdbcType=DOUBLE},
       </if>
       <if test="payCash != null" >
-        pay_cash = #{payCash,jdbcType=INTEGER},
+        pay_cash = #{payCash,jdbcType=DOUBLE},
       </if>
       <if test="commodityId != null" >
         commodity_id = #{commodityId,jdbcType=INTEGER},
@@ -127,6 +141,12 @@
        <if test="consumeNumber != null" >
         consume_number = #{consumeNumber,jdbcType=INTEGER},
       </if>
+       <if test="promotionId != null" >
+        promotion_id = #{promotionId,jdbcType=INTEGER},
+      </if>
+      <if test="consumeType != null" >
+        consume_type = #{promotionId,jdbcType=VARCHAR},
+      </if>
     </set>
     where id = #{id,jdbcType=INTEGER}
   </update>
@@ -134,18 +154,20 @@
     update t_member_consume
     set company_member_id = #{companyMemberId,jdbcType=INTEGER},
       company_id = #{companyId,jdbcType=INTEGER},
-      consume_cash = #{consumeCash,jdbcType=INTEGER},
-      pay_cash = #{payCash,jdbcType=INTEGER},
+      consume_cash = #{consumeCash,jdbcType=DOUBLE},
+      pay_cash = #{payCash,jdbcType=DOUBLE},
       commodity_id = #{commodityId,jdbcType=INTEGER},
       is_delete = #{isDelete,jdbcType=VARCHAR},
       user_id = #{userId,jdbcType=INTEGER},
-      consume_number = #{consumeNumber,jdbcType=INTEGER}
+      consume_number = #{consumeNumber,jdbcType=INTEGER},
+      promotion_id = #{promotionId,jdbcType=INTEGER},
+      consume_type = #{consumeType,jdbcType=VARCHAR}
     where id = #{id,jdbcType=INTEGER}
   </update>
   
-  <select id="selectCompanyByPage" parameterType="cn.com.hd.common.Page" resultMap="BaseResultMap">
+  <select id="selectByPage" parameterType="cn.com.hd.common.Page" resultMap="BaseResultMap">
   	select t.id, t.company_member_id, t.company_id, t.consume_cash, t.pay_cash, t.commodity_id, t.is_delete, 
-    t.user_id, t.consume_time,t.consume_number from t_member_consume t
+    t.user_id, t.consume_time,t.consume_number,t.promotion_id,t.consume_type from t_member_consume t
     LEFT JOIN t_user_info  u ON t.user_id = u.id
     where 1=1
     <if test="params['companyMemberId'] !=null"> 
@@ -182,5 +204,41 @@
     order by consume_time desc
   </select>
   
+  <select id="selectBySelective" resultMap="BaseResultMap" parameterType="cn.com.hd.domain.company.MemberConsume" >
+    select 
+    <include refid="Base_Column_List" />
+    from t_member_consume
+    where 1=1
+	  <if test="companyMemberId != null" >
+      and  company_member_id = #{companyMemberId,jdbcType=INTEGER}
+      </if>
+      <if test="companyId != null" >
+      and  company_id = #{companyId,jdbcType=INTEGER}
+      </if>
+      <if test="consumeCash != null" >
+      and  consume_cash = #{consumeCash,jdbcType=DOUBLE}
+      </if>
+      <if test="payCash != null" >
+      and  pay_cash = #{payCash,jdbcType=DOUBLE}
+      </if>
+      <if test="commodityId != null" >
+      and  commodity_id = #{commodityId,jdbcType=INTEGER}
+      </if>
+      <if test="isDelete != null" >
+      and  is_delete = #{isDelete,jdbcType=VARCHAR}
+      </if>
+      <if test="userId != null" >
+     and   user_id = #{userId,jdbcType=INTEGER}
+      </if>
+       <if test="consumeNumber != null" >
+      and  consume_number = #{consumeNumber,jdbcType=INTEGER}
+      </if>
+       <if test="promotionId != null" >
+      and  promotion_id = #{promotionId,jdbcType=INTEGER}
+      </if>
+      <if test="consumeType != null" >
+      and  consume_type = #{promotionId,jdbcType=VARCHAR}
+      </if>
+  </select>
   
 </mapper>

@@ -18,8 +18,10 @@ public interface CompanyInfoMapper {
     int updateByPrimaryKeySelective(CompanyInfo record);
 
     int updateByPrimaryKey(CompanyInfo record);
-    List<CompanyInfo>  selectBySelective(CompanyInfo record);
-    List<CompanyInfo> selectCompanyByPage(Page page);
     
-    List<CompanyInfo> selectCompanyAllList();
+    List<CompanyInfo>  selectBySelective(CompanyInfo record);
+    
+    List<CompanyInfo> selectByPage(Page page);
+    
+    List<CompanyInfo> selectAllList();
 }

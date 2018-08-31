@@ -11,9 +11,9 @@ public class MemberConsume {
 
 	    private int companyId;
 
-	    private int consumeCash;
+	    private double consumeCash;
 
-	    private int payCash;
+	    private double payCash;
 
 	    private int commodityId;
 
@@ -24,7 +24,11 @@ public class MemberConsume {
 	    private String consumeTime;
 	    
 	    int consumeNumber;
-
+	    
+	    int promotionId;
+	    
+	    private String consumeType;
+	    
 	    private User user;	
 	    
 	    private UserInfo userInfo;
@@ -32,6 +36,24 @@ public class MemberConsume {
 	    private CompanyInfo companyInfo;
 	    
 	    private CompanyCommodity companyCommodity;
+
+	    
+	    
+		public String getType() {
+			return consumeType;
+		}
+
+		public void setType(String consumeType) {
+			this.consumeType = consumeType;
+		}
+
+		public int getPromotionId() {
+			return promotionId;
+		}
+
+		public void setPromotionId(int promotionId) {
+			this.promotionId = promotionId;
+		}
 
 		public CompanyCommodity getCompanyCommodity() {
 			return companyCommodity;
@@ -65,19 +87,19 @@ public class MemberConsume {
 			this.companyId = companyId;
 		}
 
-		public int getConsumeCash() {
+		public double getConsumeCash() {
 			return consumeCash;
 		}
 
-		public void setConsumeCash(int consumeCash) {
+		public void setConsumeCash(double consumeCash) {
 			this.consumeCash = consumeCash;
 		}
 
-		public int getPayCash() {
+		public double getPayCash() {
 			return payCash;
 		}
 
-		public void setPayCash(int payCash) {
+		public void setPayCash(double payCash) {
 			this.payCash = payCash;
 		}
 

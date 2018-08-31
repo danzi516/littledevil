@@ -40,13 +40,18 @@ public class CompanyCommodityService {
     	return companyCommodityMapper.updateByPrimaryKey(record);
     }
 	
-	public Page selectCompanyCommodityByPage(Page page){
-		page.setData(companyCommodityMapper.selectCompanyCommodityByPage(page));
+	public Page selectByPage(Page page){
+		page.setData(companyCommodityMapper.selectByPage(page));
     	return page;
     }
 	
 	public List<CompanyCommodity> selectByCompanyId(Integer companyId){
 		List<CompanyCommodity> CompanyCommodityList = companyCommodityMapper.selectByCompanyId(companyId);
+    	return CompanyCommodityList;
+    }
+	
+	public List<CompanyCommodity> selectBySelective(CompanyCommodity record){
+		List<CompanyCommodity> CompanyCommodityList = companyCommodityMapper.selectBySelective(record);
     	return CompanyCommodityList;
     }
 }

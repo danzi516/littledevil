@@ -4,6 +4,7 @@ package cn.com.hd.persistance.company;
 import java.util.List;
 
 import cn.com.hd.common.Page;
+import cn.com.hd.domain.company.CompanyRechargeLog;
 import cn.com.hd.domain.company.MemberCommodity;
 
 
@@ -33,5 +34,13 @@ public interface MemberCommodityMapper {
     int sumNumberByuserIdAndcommodityId(MemberCommodity record);
     
     List<MemberCommodity> selectMemberCommodityByuserIdAndcommodityId(MemberCommodity record);
+    
+    List<MemberCommodity>  selectBySelective(MemberCommodity record);
+    
+    
+    
+    
+    
+    
     
 }

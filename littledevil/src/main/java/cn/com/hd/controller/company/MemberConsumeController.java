@@ -147,12 +147,12 @@ public class MemberConsumeController {
 	 *         key:rows[查询结果ist]
 	 *         key:total[记录总数]
 	 */
-    @RequestMapping(value="selectListByPage",method=RequestMethod.POST)
-    public @ResponseBody Map<String, Object> selectListByPage(Page page){
+    @RequestMapping(value="selectByPage",method=RequestMethod.POST)
+    public @ResponseBody Map<String, Object> selectByPage(Page page){
         Map<String,Object> map = new HashMap<String,Object>();
         String code="";
         try{
-            page = memberConsumeService.selectCompanyByPage(page);
+            page = memberConsumeService.selectByPage(page);
             code="0";
             map.put("rows", page.getData());
     		map.put("total", page.getTotalRecord());
@@ -332,11 +332,11 @@ public class MemberConsumeController {
    	 *         key:code["0":"成功","1":"失败"]
    	 */
        @RequestMapping(value="insertRecord",method=RequestMethod.POST)
-       public @ResponseBody Map<String, Object> insertRecord(@RequestBody MemberCommodity record){
+       public @ResponseBody Map<String, Object> insertRecord(@RequestBody MemberConsume record){
            Map<String,Object> map = new HashMap<String,Object>();
            String code="";
            try{
-           	memberCommodityService.insertSelective(record);
+        	   memberConsumeService.insertSelective(record);
                code="0";
            }catch(Exception e){
                code="1";
@@ -345,4 +345,30 @@ public class MemberConsumeController {
            map.put("code", code);
            return map;
        }
+       
+       /**
+      	 * 功能描述：通过属性查找
+      	 * 作者：lijiaxing
+      	 * url：${webRoot}/memberConsume/selectBySelective
+      	 * 请求方式：POST
+      	 * @param  CompanyMember
+      	 * @return Map<String,Object>
+      	 *         key:code["0":"成功","1":"失败"]
+      	 *         key:CompanyMemberList[CompanyMemberList]
+      	 */
+          @RequestMapping(value="selectBySelective",method=RequestMethod.POST)
+          public @ResponseBody Map<String, Object> selectBySelective(@RequestBody MemberConsume record){
+              Map<String,Object> map = new HashMap<String,Object>();
+              String code="";
+              try{
+           	   List<MemberConsume> MemberConsumeList=memberConsumeService.selectBySelective(record);
+                  code="0";
+                  map.put("MemberConsumeList",MemberConsumeList);
+              }catch(Exception e){
+                  code="1";
+                  e.printStackTrace();
+              }
+              map.put("code", code);
+              return map;
+          }
 }
