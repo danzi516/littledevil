@@ -23,12 +23,12 @@ navigator{
   width: 100%;
   height: 100%;
 }
-view,
+/* view,
 text{
   font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-}
+} */
 image{
-  background: #ECECEC;
+  background: #FFF;
   width: 100%;
   height: 100%;
   

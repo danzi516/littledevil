@@ -1,4 +1,5 @@
 <!-- <import src="index-item/index-item-template.wxml" /> -->
+<import src="order-template-item/order-template-item.wxml" />
  <scroll-view class='header' scroll-x bindscroll="scroll">
   <view class='classifys'>
     <view class="classify_item {{tabIndex == 0 ? 'active':''}}" bindtap="tabtap" data-id="0">商店首页</view>
@@ -73,12 +74,17 @@
     </view>
   </view> 
   <view class="content_index {{tabIndex == 1 ? 'active':''}}">
-  <text>用户注册</text>
-  <button style="margin-top: 10px;" type="primary" bindtap="userLogin"> 用户注册 </button>
+   <text>用户注册</text>
+   <button style="margin-top: 10px;" type="primary" bindtap="userLogin"> 用户注册 </button>
+   <template is="order_template" ></template>
+  
+    <block wx:for="{{order_list}}" wx:for-item="item" wx:for-index="idx" wx:key="{{index}}">
+      <template is="order_template" data="{{item}}">11111111111111</template>
+    </block>
   </view> 
-<view class="content_index {{tabIndex == 2 ? 'active':''}}">
- <text>业务员功能</text>
-  <button style="margin-top: 10px;" type="primary" bindtap="applySaleMan"> 申请成为业务员 </button>
+  <view class="content_index {{tabIndex == 2 ? 'active':''}}">
+    <text>业务员功能</text>
+    <button style="margin-top: 10px;" type="primary" bindtap="applySaleMan"> 申请成为业务员 </button>
     <button style="margin-top: 10px;" type="primary" bindtap="getInvitationCode"> 获取邀请码 </button>
     <button style="margin-top: 10px;" type="primary" bindtap="applyCompany"> 商户申请认证 </button>
     <navigator url="../index/webview/webview?companyId=6"  open-type = "redirect">
@@ -93,9 +99,6 @@
   </view> 
   
 </view> 
-
-
-
 
 
 

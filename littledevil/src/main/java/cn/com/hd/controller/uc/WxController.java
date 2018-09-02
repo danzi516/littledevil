@@ -539,35 +539,41 @@ public class WxController {
 				int companyId = Integer.parseInt((String) json.get("companyId"));
 				double cash = companyMemberService.selectByPrimaryKey(companyMemberId).getCash();
 				double totalCash = Double.parseDouble((String)json.get("totalCash"));
-				if()
-				String memberBuyList=json.getString("memberBuyList");
-				JSONArray jsonArray = JSONArray.fromObject(memberBuyList);
-				if(jsonArray.size()>0){
-					for(int i=0;i<jsonArray.size();i++){
-						MemberCommodity memberCommodity = new MemberCommodity();
-						JSONObject job = jsonArray.getJSONObject(i);
-						//Cardetails cardetails = (Cardetails) JSONObject.toBean(carDetailObj, Cardetails.class);//封装成bean
-						int number = Integer.parseInt((String) job.get("num"));
-						double consumeCash = Double.parseDouble((String)job.get("consumeCash"));
-						double payCash = Double.parseDouble((String)job.get("payCash"));
-						int commodityId = Integer.parseInt((String) job.get("commodityId"));
-						memberCommodity.setCompanyMemberId(companyMemberId);
-						memberCommodity.setCompanyId(companyId);
-						memberCommodity.setConsumeCash(consumeCash);
-						memberCommodity.setPayCash(payCash);
-						memberCommodity.setIsDelete("0");
-						memberCommodity.setUserId(userId);
-						memberCommodity.setCommodityId(commodityId);
-						memberCommodity.setNumber(number);
-						
-						if(job.get("promotionId")==null||job.get("promotionId").equals("")){
-							memberCommodityService.insert(memberCommodity);
-						}
-						else{
+				if(cash<totalCash){
+					code="1";
+					message="余额不足，请先充值";
+				}
+				else{
+					String memberBuyList=json.getString("memberBuyList");
+					JSONArray jsonArray = JSONArray.fromObject(memberBuyList);
+					if(jsonArray.size()>0){
+						for(int i=0;i<jsonArray.size();i++){
+							MemberCommodity memberCommodity = new MemberCommodity();
+							JSONObject job = jsonArray.getJSONObject(i);
+							//Cardetails cardetails = (Cardetails) JSONObject.toBean(carDetailObj, Cardetails.class);//封装成bean
+							int number = Integer.parseInt((String) job.get("num"));
+							double consumeCash = Double.parseDouble((String)job.get("consumeCash"));
+							double payCash = Double.parseDouble((String)job.get("payCash"));
+							int commodityId = Integer.parseInt((String) job.get("commodityId"));
+							memberCommodity.setCompanyMemberId(companyMemberId);
+							memberCommodity.setCompanyId(companyId);
+							memberCommodity.setConsumeCash(consumeCash);
+							memberCommodity.setPayCash(payCash);
+							memberCommodity.setIsDelete("0");
+							memberCommodity.setUserId(userId);
+							memberCommodity.setCommodityId(commodityId);
+							memberCommodity.setNumber(number);
 							
+							if(job.get("promotionId")==null||job.get("promotionId").equals("")){
+								memberCommodityService.insert(memberCommodity);
+							}
+							else{
+								
+							}
 						}
 					}
 				}
+				
 			}catch(Exception e){
 	            code="2";
 	            message="未知异常，请重试";

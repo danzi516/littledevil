@@ -1,0 +1,37 @@
+<template name="order_template">
+  <view class='personnelWrap' id="197044" data-skuid="3" catchtap='lowerLevel' data-shopName="" data-soStatus="2">
+    <view class="personnelTime">
+      <view class="personnelTime_left">
+        
+        <text >2018-09-02 22:19:32</text>
+      </view>
+      <view class="personnelTime_right">
+        <text>待付款</text>
+      </view>
+    </view>
+    <view class='personnelOrder'>
+      <view class='iconLogoWrap'>
+        <image class='iconLogo_sj' src='/images/icon/xiangqiLGBL.gif'></image>
+      </view>
+      <view class='iconLogo-right'>
+        <view class='logo-right-top'>
+          <view class='logo-right-condition'>
+            <text>1111111111</text>
+          </view>
+          <view class='roll-unused'>
+            <text>￥111</text>
+            <text>x222</text>
+          </view>
+        </view>
+        <view class='roll-wrap-button'>
+          <view>
+            <text>{{shopName?'实付':'总价'}}</text>
+          </view>
+          <view>
+            <text>￥333</text>
+          </view>
+        </view>
+      </view>
+    </view>
+  </view>
+</template>

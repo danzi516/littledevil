@@ -1,4 +1,5 @@
 /* 首页分类 */
+@import'order-template-item/order-template-item.wxss';
 .main{
   height: auto;
 }
