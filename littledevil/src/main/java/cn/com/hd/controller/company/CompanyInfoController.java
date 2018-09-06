@@ -94,7 +94,7 @@ public class CompanyInfoController {
 	/**
 	 * 功能描述：分页查询所有企业
 	 * 作者：lijiaxing
-	 * url：${webRoot}/companyInfo/selectListByPage
+	 * url：${webRoot}/companyInfo/selectByPage
 	 * 请求方式：POST
 	 * @param  Page page
 	 * @return Map<String,Object>
@@ -102,8 +102,8 @@ public class CompanyInfoController {
 	 *         key:rows[查询结果ist]
 	 *         key:total[记录总数]
 	 */
-    @RequestMapping(value="selectListByPage",method=RequestMethod.POST)
-    public @ResponseBody Map<String, Object> selectListByPage(Page page){
+    @RequestMapping(value="selectByPage",method=RequestMethod.POST)
+    public @ResponseBody Map<String, Object> selectByPage(Page page){
         Map<String,Object> map = new HashMap<String,Object>();
         String code="";
         try{

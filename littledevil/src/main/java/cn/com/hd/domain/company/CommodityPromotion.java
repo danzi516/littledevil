@@ -6,6 +6,8 @@ public class CommodityPromotion {
 	private Integer commodityId;
 	private Integer promotionId;
 	private String creatTime;
+	private CompanyInfo companyInfo;
+	private CompanyCommodity companyCommodity;
 	public Integer getId() {
 		return id;
 	}
@@ -35,6 +37,18 @@ public class CommodityPromotion {
 	}
 	public void setCreatTime(String creatTime) {
 		this.creatTime = creatTime;
+	}
+	public CompanyInfo getCompanyInfo() {
+		return companyInfo;
+	}
+	public void setCompanyInfo(CompanyInfo companyInfo) {
+		this.companyInfo = companyInfo;
+	}
+	public CompanyCommodity getCompanyCommodity() {
+		return companyCommodity;
+	}
+	public void setCompanyCommodity(CompanyCommodity companyCommodity) {
+		this.companyCommodity = companyCommodity;
 	}
 
 }

@@ -7,6 +7,8 @@
     <result column="commodity_id" jdbcType="INTEGER" property="commodityId" />
     <result column="promotion_id" jdbcType="INTEGER" property="promotionId" />
     <result column="creat_time" jdbcType="TIMESTAMP" property="creatTime" />
+  	<collection property="companyInfo" column="company_id" ofType="cn.com.hd.domain.company.CompanyInfo" select="cn.com.hd.persistance.company.CompanyInfoMapper.selectByPrimaryKey" />
+	<collection property="companyCommodity" column="commodity_id" ofType="cn.com.hd.domain.company.CompanyCommodity"  select="cn.com.hd.persistance.company.CompanyCommodityMapper.selectByPrimaryKey" />
   </resultMap>
   <sql id="Base_Column_List">
     id, company_id, commodity_id ,promotion_id ,creat_time

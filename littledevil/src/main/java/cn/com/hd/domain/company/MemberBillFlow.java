@@ -9,6 +9,8 @@ public class MemberBillFlow {
 
 	private int companyMemberId;
 	
+	private int memberCommodityId;
+	
 	private int companyId;
 	
 	private int userId;
@@ -40,6 +42,14 @@ public class MemberBillFlow {
 	private CompanyInfo companyInfo;
 
 	private CompanyCommodity companyCommodity;
+
+	public int getMemberCommodityId() {
+		return memberCommodityId;
+	}
+
+	public void setMemberCommodityId(int memberCommodityId) {
+		this.memberCommodityId = memberCommodityId;
+	}
 
 	public Integer getId() {
 		return id;

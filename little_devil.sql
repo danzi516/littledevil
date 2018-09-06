@@ -10,7 +10,7 @@ Target Server Type    : MYSQL
 Target Server Version : 50711
 File Encoding         : 65001
 
-Date: 2018-08-31 16:44:14
+Date: 2018-09-06 20:02:28
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -4174,14 +4174,15 @@ DROP TABLE IF EXISTS `t_member_bill_flow`;
 CREATE TABLE `t_member_bill_flow` (
   `id` int(11) NOT NULL AUTO_INCREMENT COMMENT '主键id',
   `company_member_id` int(11) DEFAULT NULL COMMENT '门店会员id',
+  `member_commodity_id` int(11) DEFAULT NULL COMMENT '会员商品id',
   `company_id` int(11) DEFAULT NULL COMMENT '门店id',
   `user_id` int(11) DEFAULT NULL COMMENT '用户id',
   `commodity_id` int(11) DEFAULT NULL COMMENT '商品id',
   `promotion_id` int(11) DEFAULT NULL COMMENT '活动id',
   `bill_cash` double(10,2) DEFAULT NULL COMMENT '账单金额',
   `pay_cash` double(10,2) DEFAULT NULL COMMENT '实际金额',
-  `is_delete` varchar(2) DEFAULT NULL COMMENT '是否删除 0：不删除  1:删除',
-  `flow_type` varchar(2) DEFAULT NULL COMMENT '流水类型 0：消费券 1：购买 2:现金消费 3:现金充值',
+  `is_delete` varchar(2) DEFAULT NULL COMMENT '是否删除 0：删除  1:不删除',
+  `flow_type` varchar(2) DEFAULT NULL COMMENT '流水类型 0：消费券 1：购买(活动) 2:购买(商品) 3:现金消费 4:现金充值',
   `consume_number` int(11) DEFAULT NULL COMMENT '消费个数',
   `recorder_id` int(11) DEFAULT NULL COMMENT '记录员id',
   `bill_model` varchar(3) DEFAULT NULL COMMENT '金额0:''+''，1:''-''',
@@ -4204,20 +4205,21 @@ CREATE TABLE `t_member_commodity` (
   `consume_cash` double(20,2) DEFAULT NULL COMMENT '消费金额',
   `pay_cash` double(20,2) DEFAULT NULL COMMENT '实收金额',
   `consume_time` timestamp NULL DEFAULT NULL COMMENT '消费时间',
-  `is_delete` varchar(2) COLLATE utf8_unicode_ci DEFAULT NULL COMMENT '是否删除 1(删除)0(不删除)',
+  `is_delete` varchar(2) COLLATE utf8_unicode_ci DEFAULT NULL COMMENT '是否删除 0(删除)1(不删除)',
   `user_id` int(11) DEFAULT NULL COMMENT '会员id',
   `commodity_id` int(11) DEFAULT NULL COMMENT '商品id',
   `number` int(11) DEFAULT NULL COMMENT '剩余次数',
   `promotion_id` int(11) DEFAULT NULL,
+  `card_num` int(11) DEFAULT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci COMMENT='消费记录';
 
 -- ----------------------------
 -- Records of t_member_commodity
 -- ----------------------------
-INSERT INTO `t_member_commodity` VALUES ('1', '3', '6', '300.00', '0.00', '2017-07-20 21:25:54', '0', '17', '2', '63', null);
-INSERT INTO `t_member_commodity` VALUES ('2', '3', '6', '900.00', '0.00', '2017-07-20 21:25:55', '0', '17', '1', '98', null);
-INSERT INTO `t_member_commodity` VALUES ('3', '3', '6', '111.00', '0.00', '2017-07-20 21:25:57', '0', '17', '4', '22', null);
+INSERT INTO `t_member_commodity` VALUES ('1', '3', '6', '300.00', '0.00', '2017-07-20 21:25:54', '0', '17', '2', '63', null, null);
+INSERT INTO `t_member_commodity` VALUES ('2', '3', '6', '900.00', '0.00', '2017-07-20 21:25:55', '0', '17', '1', '98', null, null);
+INSERT INTO `t_member_commodity` VALUES ('3', '3', '6', '111.00', '0.00', '2017-07-20 21:25:57', '0', '17', '4', '22', null, null);
 
 -- ----------------------------
 -- Table structure for t_member_consume
@@ -4230,7 +4232,7 @@ CREATE TABLE `t_member_consume` (
   `consume_cash` double(255,0) DEFAULT NULL COMMENT '消费金额',
   `pay_cash` double(255,0) DEFAULT NULL COMMENT '实收金额',
   `consume_time` timestamp NULL DEFAULT NULL COMMENT '消费时间',
-  `is_delete` varchar(2) COLLATE utf8_unicode_ci DEFAULT NULL COMMENT '是否删除 1(删除)0(不删除)',
+  `is_delete` varchar(2) COLLATE utf8_unicode_ci DEFAULT NULL COMMENT '是否删除 0(删除)1(不删除)',
   `user_id` int(11) DEFAULT NULL COMMENT '会员id',
   `commodity_id` int(11) DEFAULT NULL COMMENT '商品id',
   `consume_number` int(11) DEFAULT NULL COMMENT '消费次数',
@@ -4266,7 +4268,7 @@ CREATE TABLE `t_member_recharge` (
   `recharge_cash` double(255,0) DEFAULT NULL COMMENT '充值金额',
   `pay_cash` double(255,0) DEFAULT NULL COMMENT '实付金额',
   `recharge_time` timestamp NULL DEFAULT NULL COMMENT '充值时间',
-  `is_delete` varchar(2) COLLATE utf8_unicode_ci DEFAULT NULL COMMENT '是否删除 0:不删除 1:删除',
+  `is_delete` varchar(2) COLLATE utf8_unicode_ci DEFAULT NULL COMMENT '是否删除 0:删除 1:不删除',
   `user_id` int(11) DEFAULT NULL COMMENT '用户id',
   `recorder_id` int(11) DEFAULT NULL COMMENT '记录员id',
   `balance_time` timestamp NULL DEFAULT NULL COMMENT '结算时间',

@@ -615,13 +615,16 @@ public class WxController {
 		}	
 		
 		
+		
+		
+		
 		public static void main(String args[]) {
-	        System.out.println((int)((Math.random()*9+1)*100000));
+	        System.out.println((int)((Math.random()*9+1)*1000000000));
 	        String aaa = "[{\"userId\":111,\"commodityId\":111,\"promotionId\":'',\"num\":4},{\"userId\":5,\"commodityId\":6,\"num\":8}]";
 	        JSONArray jsonArray = JSONArray.fromObject(aaa);
 	        System.out.println(jsonArray);
-	        JSONObject jsonObject = JSONObject.fromObject(aaa);
-	        System.out.println(jsonObject);
+//	        JSONObject jsonObject = JSONObject.fromObject(aaa);
+//	        System.out.println(jsonObject);
 	        
 	    } 
 		

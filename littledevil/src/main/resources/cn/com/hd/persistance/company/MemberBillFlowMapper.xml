@@ -4,6 +4,7 @@
   <resultMap id="BaseResultMap" type="cn.com.hd.domain.company.MemberBillFlow" >
     <id column="id" property="id" jdbcType="INTEGER" />
     <result column="company_member_id" property="companyMemberId" jdbcType="INTEGER" />
+    <result column="member_commodity_id" property="memberCommodityId" jdbcType="INTEGER" />
     <result column="company_id" property="companyId" jdbcType="INTEGER" />
     <result column="user_id" property="userId" jdbcType="INTEGER" />
     <result column="commodity_id" property="commodityId" jdbcType="INTEGER" />
@@ -23,7 +24,7 @@
 	
   </resultMap>
   <sql id="Base_Column_List" >
-    id, company_member_id,company_id, user_id, commodity_id, promotion_id, bill_cash, pay_cash, is_delete, flow_type,consume_number,recorder_id,bill_model, creat_time
+    id, company_member_id,memberCommodityId,company_id, user_id, commodity_id, promotion_id, bill_cash, pay_cash, is_delete, flow_type,consume_number,recorder_id,bill_model, creat_time
   </sql>
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
     select 
@@ -41,6 +42,9 @@
       </if>
 	  <if test="companyMemberId != null" >
        and company_member_id = #{companyMemberId,jdbcType=INTEGER}
+      </if>
+        <if test="memberCommodityId != null" >
+       and member_commodity_id = #{memberCommodityId,jdbcType=INTEGER}
       </if>
 	  <if test="companyId != null" >
        and company_id = #{companyId,jdbcType=INTEGER}
@@ -83,8 +87,8 @@
     where id = #{id,jdbcType=INTEGER}
   </delete>
   <insert id="insert" parameterType="cn.com.hd.domain.company.MemberBillFlow" useGeneratedKeys="true" keyProperty="id">
-    insert into t_member_bill_flow (company_member_id,company_id, user_id, commodity_id, promotion_id, bill_cash, pay_cash, is_delete, flow_type,consume_number,recorder_id,bill_model, creat_time)
-    values (#{companyMemberId,jdbcType=INTEGER}, #{companyId,jdbcType=INTEGER}, 
+    insert into t_member_bill_flow (company_member_id,member_commodity_id ,company_id, user_id, commodity_id, promotion_id, bill_cash, pay_cash, is_delete, flow_type,consume_number,recorder_id,bill_model, creat_time)
+    values (#{companyMemberId,jdbcType=INTEGER},#{memberCommodityId,jdbcType=INTEGER}, #{companyId,jdbcType=INTEGER}, 
       #{userId,jdbcType=INTEGER}, #{commodityId,jdbcType=INTEGER},#{promotionId,jdbcType=INTEGER}, #{billCash,jdbcType=DOUBLE}, 
       #{payCash,jdbcType=DOUBLE}, #{isDelete,jdbcType=VARCHAR}, #{flowType,jdbcType=VARCHAR},
       #{consumeNumber,jdbcType=VARCHAR},#{recorderId,jdbcType=VARCHAR},#{billModel,jdbcType=VARCHAR}, sysdate())
@@ -94,6 +98,9 @@
     <trim prefix="(" suffix=")" suffixOverrides="," >
       <if test="companyMemberId != null" >
         company_member_id,
+      </if>
+      <if test="memberCommodityId != null" >
+        member_commodity_id ,
       </if>
       <if test="commodityId != null" >
         company_id,
@@ -133,6 +140,9 @@
     <trim prefix="values (" suffix=")" suffixOverrides="," >
       <if test="companyMemberId != null" >
         #{companyMemberId,jdbcType=INTEGER},
+      </if>
+       <if test="memberCommodityId != null" >
+        #{memberCommodityId,jdbcType=INTEGER},
       </if>
       <if test="commodityId != null" >
         #{companyId,jdbcType=INTEGER}, 
@@ -176,6 +186,9 @@
       <if test="companyMemberId != null" >
         company_member_id = #{companyMemberId,jdbcType=INTEGER},
       </if>
+      <if test="memberCommodityId != null" >
+        member_commodity_id = #{memberCommodityId,jdbcType=INTEGER},
+      </if>
       <if test="commodityId != null" >
         company_id = #{companyId,jdbcType=INTEGER}, 
       </if>
@@ -216,6 +229,7 @@
     update t_member_bill_flow
     set 
         company_member_id = #{companyMemberId,jdbcType=INTEGER},
+        member_commodity_id = #{memberCommodityId,jdbcType=INTEGER},
         company_id = #{companyId,jdbcType=INTEGER}, 
         user_id = #{userId,jdbcType=INTEGER}, 
         commodity_id = #{commodityId,jdbcType=INTEGER},
@@ -231,7 +245,7 @@
   </update>
   
   <select id="selectByPage" parameterType="cn.com.hd.common.Page" resultMap="BaseResultMap">
-  	select t.id,t.company_member_id,t.company_id, t.user_id, t.commodity_id, t.promotion_id, t.bill_cash, t.pay_cash, t.is_delete, t.flow_type,t.consume_number,t.recorder_id,t.bill_model,t.creat_time from t_member_bill_flow t
+  	select t.id,t.company_member_id,t.member_commodity_id,t.company_id, t.user_id, t.commodity_id, t.promotion_id, t.bill_cash, t.pay_cash, t.is_delete, t.flow_type,t.consume_number,t.recorder_id,t.bill_model,t.creat_time from t_member_bill_flow t
     LEFT JOIN t_user u on u.id = t.user_id
     where 1=1 
     <if test="params['searchText'] != null and params['searchText'] != ''">  
@@ -240,6 +254,6 @@
   </select>
   
    <select id="selectAllList"  resultMap="BaseResultMap">
-  	select t.id,t.company_member_id,t.company_id, t.user_id, t.commodity_id, t.promotion_id, t.bill_cash, t.pay_cash, t.is_delete, t.flow_type,t.consume_number,t.recorder_id,t.bill_model,t.creat_time from t_member_bill_flow t
+  	select t.id,t.company_member_id,t.member_commodity_id,t.company_id, t.user_id, t.commodity_id, t.promotion_id, t.bill_cash, t.pay_cash, t.is_delete, t.flow_type,t.consume_number,t.recorder_id,t.bill_model,t.creat_time from t_member_bill_flow t
   </select>
 </mapper>

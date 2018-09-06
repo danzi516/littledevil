@@ -139,7 +139,7 @@ public class MemberConsumeController {
 	/**
 	 * 功能描述：分页查询所有消费记录
 	 * 作者：lijiaxing
-	 * url：${webRoot}/memberConsume/selectListByPage
+	 * url：${webRoot}/memberConsume/selectByPage
 	 * 请求方式：POST
 	 * @param  Page page
 	 * @return Map<String,Object>

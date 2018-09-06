@@ -142,7 +142,7 @@ public class MemberCommodityController {
 	/**
 	 * 功能描述：分页查询所有记录
 	 * 作者：lijiaxing
-	 * url：${webRoot}/memberCommodity/selectListByPage
+	 * url：${webRoot}/memberCommodity/selectByPage
 	 * 请求方式：POST
 	 * @param  Page page
 	 * @return Map<String,Object>
@@ -150,8 +150,8 @@ public class MemberCommodityController {
 	 *         key:rows[查询结果list]
 	 *         key:total[记录总数]
 	 */
-    @RequestMapping(value="selectListByPage",method=RequestMethod.POST)
-    public @ResponseBody Map<String, Object> selectListByPage(Page page){
+    @RequestMapping(value="selectByPage",method=RequestMethod.POST)
+    public @ResponseBody Map<String, Object> selectByPage(Page page){
         Map<String,Object> map = new HashMap<String,Object>();
         String code="";
         try{

@@ -23,7 +23,11 @@ public class MemberCommodity {
 
 	    private String consumeTime;
 	    
-	    int number;
+	    private int number;
+	    
+	    private  int promotionId;
+	    
+	    private  int cardNum;
 
 	    private User user;	
 	    
@@ -32,6 +36,25 @@ public class MemberCommodity {
 	    private CompanyInfo companyInfo;
 	    
 	    private CompanyCommodity companyCommodity;
+
+	    
+	    
+	    
+		public int getCardNum() {
+			return cardNum;
+		}
+
+		public void setCardNum(int cardNum) {
+			this.cardNum = cardNum;
+		}
+
+		public int getPromotionId() {
+			return promotionId;
+		}
+
+		public void setPromotionId(int promotionId) {
+			this.promotionId = promotionId;
+		}
 
 		public CompanyCommodity getCompanyCommodity() {
 			return companyCommodity;

@@ -13,6 +13,7 @@
     <result column="consume_time" property="consumeTime" jdbcType="TIMESTAMP" />
     <result column="number" property="number" jdbcType="INTEGER" />
     <result column="promotion_id" property="promotionId" jdbcType="INTEGER" />
+    <result column="card_num" property="cardNum" jdbcType="INTEGER" />
     <collection property="user" column="user_id" ofType="cn.com.hd.domain.uc.User" select="cn.com.hd.persistance.uc.UserMapper.selectByPrimaryKey"></collection>
   	<collection property="userInfo" column="user_id" ofType="cn.com.hd.domain.uc.UserInfo"  select="cn.com.hd.persistance.uc.UserInfoMapper.selectByPrimaryKey" />
  	<collection column="company_id" ofType="cn.com.hd.domain.company.CompanyInfo" property="companyInfo" select="cn.com.hd.persistance.company.CompanyInfoMapper.selectByPrimaryKey" />
@@ -20,7 +21,7 @@
   </resultMap>
   <sql id="Base_Column_List" >
     id, company_member_id, company_id, consume_cash, pay_cash, commodity_id, is_delete, 
-    user_id, consume_time,number,promotion_id
+    user_id, consume_time,number,promotion_id,card_num
   </sql>
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
     select 
@@ -37,7 +38,7 @@
     user_id, consume_time,number,promotion_id)
     values (#{companyMemberId,jdbcType=INTEGER}, #{companyId,jdbcType=INTEGER}, 
       #{consumeCash,jdbcType=DOUBLE}, #{payCash,jdbcType=DOUBLE}, #{commodityId,jdbcType=INTEGER}, 
-      #{isDelete,jdbcType=VARCHAR}, #{userId,jdbcType=INTEGER},sysdate(),#{number,jdbcType=INTEGER),#{promotionId,jdbcType=INTEGER)
+      #{isDelete,jdbcType=VARCHAR}, #{userId,jdbcType=INTEGER},sysdate(),#{number,jdbcType=INTEGER),#{promotionId,jdbcType=INTEGER),#{cardNum,jdbcType=INTEGER)
   </insert>
   <insert id="insertSelective" parameterType="cn.com.hd.domain.company.MemberCommodity" >
     insert into t_member_commodity
@@ -72,6 +73,9 @@
       <if test="promotionId != null" >
         promotion_id,
       </if>
+      <if test="cardNum != null" >
+        card_num,
+      </if>
      consume_time
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides="," >
@@ -104,6 +108,9 @@
       </if>
       <if test="promotionId != null" >
         #{promotionId,jdbcType=INTEGER},
+      </if>
+      <if test="cardNum != null" >
+        #{cardNum,jdbcType=INTEGER},
       </if>
       sysdate()
     </trim>
@@ -138,6 +145,9 @@
       <if test="promotionId != null" >
         promotion_id = #{promotionId,jdbcType=INTEGER},
       </if>
+      <if test="cardNum != null" >
+        card_num = #{cardNum,jdbcType=INTEGER},
+      </if>
     </set>
     where id = #{id,jdbcType=INTEGER}
   </update>
@@ -151,13 +161,14 @@
       is_delete = #{isDelete,jdbcType=VARCHAR},
       user_id = #{userId,jdbcType=INTEGER},
       number = #{number,jdbcType=INTEGER},
-      promotion_id = #{promotionId,jdbcType=INTEGER}
+      promotion_id = #{promotionId,jdbcType=INTEGER},
+      card_num = #{cardNum,jdbcType=INTEGER}
     where id = #{id,jdbcType=INTEGER}
   </update>
   
   <select id="selectByPage" parameterType="cn.com.hd.common.Page" resultMap="BaseResultMap">
   	select t.id, t.company_member_id, t.company_id, t.consume_cash, t.pay_cash, t.commodity_id, t.is_delete, 
-    t.user_id, t.consume_time,t.number,t.promotion_id from t_member_commodity t
+    t.user_id, t.consume_time,t.number,t.promotion_id,t.card_num from t_member_commodity t
     LEFT JOIN t_user_info  u ON t.user_id = u.id
     where 1=1
     <if test="params['companyMemberId'] !=null"> 
@@ -170,7 +181,7 @@
   
   <select id="selectPageByCompanyId" parameterType="cn.com.hd.common.Page" resultMap="BaseResultMap">
   	select t.id, t.company_member_id, t.company_id, t.consume_cash, t.pay_cash, t.commodity_id, t.is_delete, 
-    t.user_id, t.consume_time,t.number,t.promotion_id from t_member_commodity t
+    t.user_id, t.consume_time,t.number,t.promotion_id,t.card_num from t_member_commodity t
     LEFT JOIN t_user_info  u ON t.user_id = u.id
     where 1=1
     <if test="params['companyId'] !=null"> 
@@ -183,7 +194,7 @@
   
   <select id="selectByCompanyId" parameterType="cn.com.hd.domain.company.MemberCommodity" resultMap="BaseResultMap">
   	select t.id, t.company_member_id, t.company_id, t.consume_cash, t.pay_cash, t.commodity_id, t.is_delete, 
-    t.user_id, t.consume_time,t.number,t.promotion_id from t_member_commodity t
+    t.user_id, t.consume_time,t.number,t.promotion_id,t.card_num from t_member_commodity t
     LEFT JOIN t_user_info  u ON t.user_id = u.id
     where company_id = #{companyId,jdbcType=INTEGER} 
   </select>
@@ -218,7 +229,7 @@
     <select id="selectMemberCommodityByuserIdAndcommodityId" resultMap="BaseResultMap" parameterType="cn.com.hd.domain.company.MemberCommodity" >
    select 
    t.id, t.company_member_id, t.company_id, t.consume_cash, t.pay_cash, t.commodity_id, t.is_delete, 
-    t.user_id, t.consume_time,t.number,t.promotion_id
+    t.user_id, t.consume_time,t.number,t.promotion_id,t.card_num
     from t_member_commodity t
     where user_id = #{userId,jdbcType=INTEGER}  and commodity_id = #{commodityId,jdbcType=INTEGER} 
     order by consume_time desc
@@ -255,6 +266,9 @@
       </if>
       <if test="promotionId != null" >
        and promotion_id = #{promotionId,jdbcType=INTEGER}
+      </if>
+      <if test="cardNum != null" >
+       and card_num = #{cardNum,jdbcType=INTEGER}
       </if>
   </select>
   
