@@ -29,6 +29,7 @@ import cn.com.hd.domain.company.CompanyAuth;
 import cn.com.hd.domain.company.CompanyCommodity;
 import cn.com.hd.domain.company.CompanyMember;
 import cn.com.hd.domain.company.CompanyPromotion;
+import cn.com.hd.domain.company.MemberBillFlow;
 import cn.com.hd.domain.company.MemberCommodity;
 import cn.com.hd.domain.sys.RegVerification;
 import cn.com.hd.domain.uc.SaleMan;
@@ -40,6 +41,7 @@ import cn.com.hd.service.company.CompanyCommodityService;
 import cn.com.hd.service.company.CompanyMemberService;
 import cn.com.hd.service.company.CompanyPromotionService;
 import cn.com.hd.service.company.MemberCommodityService;
+import cn.com.hd.service.company.MemberPaymentService;
 import cn.com.hd.service.sys.RegVerificationService;
 import cn.com.hd.service.uc.SaleManService;
 import cn.com.hd.service.uc.UserInfoService;
@@ -75,6 +77,8 @@ public class WxController {
 	private CompanyCommodityService companyCommodityService;
 	@Resource
 	MemberCommodityService memberCommodityService;
+	@Resource
+	MemberPaymentService memberPaymentService;
 	//微信登录
 	@RequestMapping("openIdLogin")
 	public @ResponseBody Map<String,Object> openIdLogin(User user) throws IOException {
@@ -264,7 +268,7 @@ public class WxController {
         //用户的唯一标识（openId）
         String openId = (String) json.get("openId");
  
-        //////////////// 2、对encryptedData加密数据进行AES解密 ////////////////
+        //////////////// 对encryptedData加密数据进行AES解密 ////////////////
         try {
             String result = AESUtils.decrypt(encryptedData, session_key, iv, "UTF-8");
             if (null != result && result.length() > 0) {
@@ -389,7 +393,7 @@ public class WxController {
 		}
 		
 		/**
-		 * 功能描述：获取邀请码
+		 * 功能描述：业务员获取邀请码
 		 * 作者：wanglin
 		 * url：${webRoot}/wxpay/getInvitationCode
 		 * 请求方式：POST
@@ -455,6 +459,8 @@ public class WxController {
 			String message="";
 			try{
 				CompanyAuth record = new CompanyAuth();
+				record.setValidityTime(validityTime);
+				record.setState("0");
 				record.setCompanyId(companyId);
 				companyAuthService.updateByCompanyId(record);
 			}catch(Exception e){
@@ -519,16 +525,16 @@ public class WxController {
 		
 		
 		/**
-		 * 功能描述：会员购买清单
+		 * 功能描述：会员流水-购买
 		 * 作者：wanglin
-		 * url：${webRoot}/wxpay/memberBuyList
+		 * url：${webRoot}/wxpay/memberBillBuy
 		 * 请求方式：POST
 		 * @param  list[int userId,int commodityId,int promotionId,int num]
 		 * @return Map<String,Object>
 		 *         key:code["0":"成功","1":"失败"]
 		 */
-		@RequestMapping(value="memberBuyList",method=RequestMethod.POST)
-		public @ResponseBody Map<String,Object> memberBuyList(String List){
+		@RequestMapping(value="memberBillBuy",method=RequestMethod.POST)
+		public @ResponseBody Map<String,Object> memberBillBuy(String List){
 			Map<String,Object> map=new HashMap<String,Object>();
 			String code="";
 			String message="";
@@ -537,43 +543,60 @@ public class WxController {
 				int userId = Integer.parseInt((String) json.get("userId"));
 				int companyMemberId = Integer.parseInt((String) json.get("companyMemberId"));
 				int companyId = Integer.parseInt((String) json.get("companyId"));
-				double cash = companyMemberService.selectByPrimaryKey(companyMemberId).getCash();
+				int memberCommodityId = Integer.parseInt((String) json.get("memberCommodityId"));
+				int recorderId = Integer.parseInt((String) json.get("recorderId"));
 				double totalCash = Double.parseDouble((String)json.get("totalCash"));
+				double cash = companyMemberService.selectByPrimaryKey(companyMemberId).getCash();
 				if(cash<totalCash){
-					code="1";
-					message="余额不足，请先充值";
+					code = "1";
+					message = "余额不足";
+					map.put("message", message);
+			        map.put("code", code);
+			        return map; 
 				}
 				else{
 					String memberBuyList=json.getString("memberBuyList");
 					JSONArray jsonArray = JSONArray.fromObject(memberBuyList);
 					if(jsonArray.size()>0){
 						for(int i=0;i<jsonArray.size();i++){
-							MemberCommodity memberCommodity = new MemberCommodity();
+							MemberBillFlow memberBillFlow = new MemberBillFlow();
+							memberBillFlow.setUserId(userId);
+							memberBillFlow.setCompanyId(companyId);
+							memberBillFlow.setCompanyMemberId(companyMemberId);
+							memberBillFlow.setMemberCommodityId(memberCommodityId);
+							memberBillFlow.setRecorderId(recorderId);
+							memberBillFlow.setBillModel((String) json.get("billModel"));
 							JSONObject job = jsonArray.getJSONObject(i);
-							//Cardetails cardetails = (Cardetails) JSONObject.toBean(carDetailObj, Cardetails.class);//封装成bean
+							String flowType = (String)job.get("flowType");
+							memberBillFlow.setFlowType(flowType);
 							int number = Integer.parseInt((String) job.get("num"));
+							int promotionId = Integer.parseInt((String) job.get("promotionId"));
+							int commodityId = Integer.parseInt((String) job.get("commodityId"));
 							double consumeCash = Double.parseDouble((String)job.get("consumeCash"));
 							double payCash = Double.parseDouble((String)job.get("payCash"));
-							int commodityId = Integer.parseInt((String) job.get("commodityId"));
-							memberCommodity.setCompanyMemberId(companyMemberId);
-							memberCommodity.setCompanyId(companyId);
-							memberCommodity.setConsumeCash(consumeCash);
-							memberCommodity.setPayCash(payCash);
-							memberCommodity.setIsDelete("0");
-							memberCommodity.setUserId(userId);
-							memberCommodity.setCommodityId(commodityId);
-							memberCommodity.setNumber(number);
-							
-							if(job.get("promotionId")==null||job.get("promotionId").equals("")){
-								memberCommodityService.insert(memberCommodity);
+							memberBillFlow.setConsumeNumber(number);
+							memberBillFlow.setBillCash(consumeCash);
+							memberBillFlow.setPayCash(payCash);
+							memberBillFlow.setPromotionId(promotionId);
+							memberBillFlow.setCommodityId(commodityId);
+							memberBillFlow.setIsDelete("1");
+							if(flowType.equals("1")){//购买活动
+								memberPaymentService.memberBuyPromotion(memberBillFlow);
+								code="0";
+							}
+							else if(flowType.equals("2")){//购买商品
+								memberPaymentService.memberBuyCommodity(memberBillFlow);
+								code="0";
 							}
 							else{
-								
+								code="1";
 							}
 						}
 					}
+					else{
+						code="1";
+					}
 				}
-				
 			}catch(Exception e){
 	            code="2";
 	            message="未知异常，请重试";
@@ -584,6 +607,59 @@ public class WxController {
 	        return map;
 		}	
 		
+		/**
+		 * 功能描述：会员流水-非购买
+		 * 作者：wanglin
+		 * url：${webRoot}/wxpay/memberBillFlow
+		 * 请求方式：POST
+		 * @param  list[int userId,int commodityId,int promotionId,int num]
+		 * @return Map<String,Object>
+		 *         key:code["0":"成功","1":"失败"]
+		 */
+		@RequestMapping(value="memberBillFlow",method=RequestMethod.POST)
+		public @ResponseBody Map<String,Object> memberBillFlow(String BillFlow){
+			Map<String,Object> map=new HashMap<String,Object>();
+			String code="";
+			String message="";
+			try{
+				JSONObject json = JSONObject.fromObject(BillFlow);
+				String flowType = (String)json.get("flowType");
+				MemberBillFlow memberBillFlow = new MemberBillFlow();
+				memberBillFlow.setUserId(Integer.parseInt((String) json.get("userId")));
+				memberBillFlow.setCompanyId(Integer.parseInt((String) json.get("companyId")));
+				memberBillFlow.setCompanyMemberId(Integer.parseInt((String) json.get("companyMemberId")));
+				memberBillFlow.setMemberCommodityId(Integer.parseInt((String) json.get("memberCommodityId")));
+				memberBillFlow.setBillCash(Double.parseDouble((String) json.get("billCash")));
+				memberBillFlow.setPayCash(Double.parseDouble((String) json.get("payCash")));
+				memberBillFlow.setIsDelete("1");
+				memberBillFlow.setRecorderId(Integer.parseInt((String) json.get("recorderId")));
+				memberBillFlow.setBillModel((String) json.get("billModel"));
+				memberBillFlow.setFlowType(flowType);
+				if(flowType.equals("0")){//消费
+					memberPaymentService.memberConsume(memberBillFlow);
+					code="0";
+				}
+				else if(flowType.equals("3")){//现金消费
+					memberPaymentService.memberCash(memberBillFlow);
+					code="0";
+				}
+				else if (flowType.equals("4")){//充值
+					memberPaymentService.memberRecharge(memberBillFlow);
+					code="0";
+				}
+				else{
+					code="1";
+				}
+				
+			}catch(Exception e){
+	            code="2";
+	            message="未知异常，请重试";
+	            e.printStackTrace();
+	        }
+			map.put("message", message);
+	        map.put("code", code);
+	        return map;
+		}
 		/**
 		 * 功能描述：获取门店活动和商品
 		 * 作者：wanglin

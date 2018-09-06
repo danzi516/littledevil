@@ -87,12 +87,28 @@ public class MemberPaymentService {
 		memberCommodityService.updateByPrimaryKeySelective(memberCommodity);
 	}
 	@Transactional
-	public void memberCash(MemberBillFlow memberBillFlow){
-		
+	public int memberCash(MemberBillFlow memberBillFlow){
+		CompanyMember companyMember = companyMemberService.selectByPrimaryKey(memberBillFlow.getCompanyMemberId());
+		double cash = companyMember.getCash();
+		double payCash = memberBillFlow.getPayCash();
+		if(cash<payCash){
+			return 1;
+		}
+		else{
+			companyMember.setCash(cash-payCash);
+			companyMember.setId(memberBillFlow.getCompanyMemberId());
+			companyMemberService.updateByPrimaryKeySelective(companyMember);
+			return 0;
+		}
 	}
 	@Transactional
 	public void memberRecharge(MemberBillFlow memberBillFlow){
-		
+		CompanyMember companyMember = companyMemberService.selectByPrimaryKey(memberBillFlow.getCompanyMemberId());
+		double cash = companyMember.getCash();
+		double payCash = memberBillFlow.getPayCash();
+		companyMember.setCash(payCash+cash);
+		companyMember.setId(memberBillFlow.getCompanyMemberId());
+		companyMemberService.updateByPrimaryKeySelective(companyMember);
 	}
 	
 	
