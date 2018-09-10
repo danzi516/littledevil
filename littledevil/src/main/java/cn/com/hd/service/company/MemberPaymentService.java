@@ -47,7 +47,6 @@ public class MemberPaymentService {
 		//memberCommodity.setPromotionId(memberBillFlow.getPromotionId());
 		memberCommodityService.insert(memberCommodity); //添加商品记录
 		memberBillFlowService.insert(memberBillFlow); //添加流水
-		
 		CompanyMember companyMember = new CompanyMember();
 		companyMember.setId(memberBillFlow.getCompanyMemberId());
 		double cash = companyMemberService.selectByPrimaryKey(memberBillFlow.getCompanyMemberId()).getCash()-memberBillFlow.getPayCash();
@@ -90,6 +89,8 @@ public class MemberPaymentService {
 		memberCommodity.setId(memberBillFlow.getMemberCommodityId());
 		memberCommodity.setIsDelete("0");
 		memberCommodityService.updateByPrimaryKeySelective(memberCommodity);
+		memberConsumeService.insert(setMemberConsume(memberBillFlow));
+		memberBillFlowService.insert(memberBillFlow);
 	}
 	@Transactional
 	public int memberCash(MemberBillFlow memberBillFlow){
@@ -100,21 +101,11 @@ public class MemberPaymentService {
 			return 1;
 		}
 		else{
-			MemberConsume memberConsume = new MemberConsume();
-			memberConsume.setCompanyMemberId(memberBillFlow.getCompanyMemberId());
-			memberConsume.setCommodityId(memberBillFlow.getCommodityId());
-			memberConsume.setCompanyId(memberBillFlow.getCompanyId());
-			memberConsume.setConsumeCash(memberBillFlow.getBillCash());
-			memberConsume.setPayCash(memberBillFlow.getPayCash());
-			memberConsume.setIsDelete("1");
-			memberConsume.setUserId(memberBillFlow.getUserId());
-			memberConsume.setConsumeType(memberBillFlow.getFlowType());
-			memberConsumeService.insert(memberConsume);
+			memberConsumeService.insert(setMemberConsume(memberBillFlow));
 			companyMember.setCash(cash-payCash);
 			companyMember.setId(memberBillFlow.getCompanyMemberId());
-			1111111
 			companyMemberService.updateByPrimaryKeySelective(companyMember);
-			
+			memberBillFlowService.insert(memberBillFlow);
 			return 0;
 		}
 	}
@@ -140,5 +131,20 @@ public class MemberPaymentService {
 		memberBillFlowService.insert(memberBillFlow);
 		}
 	}
+	
+	//设置MemberConsume
+	public MemberConsume setMemberConsume(MemberBillFlow memberBillFlow){
+		MemberConsume memberConsume = new MemberConsume();
+		memberConsume.setCompanyMemberId(memberBillFlow.getCompanyMemberId());
+		memberConsume.setCommodityId(memberBillFlow.getCommodityId());
+		memberConsume.setCompanyId(memberBillFlow.getCompanyId());
+		memberConsume.setConsumeCash(memberBillFlow.getBillCash());
+		memberConsume.setPayCash(memberBillFlow.getPayCash());
+		memberConsume.setIsDelete("1");
+		memberConsume.setUserId(memberBillFlow.getUserId());
+		memberConsume.setConsumeType(memberBillFlow.getFlowType());
+		return memberConsume;
+	}
+	
 	
 }
