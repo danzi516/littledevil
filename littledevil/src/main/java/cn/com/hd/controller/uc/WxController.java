@@ -327,11 +327,17 @@ public class WxController {
 			SaleMan saleMan = new SaleMan();
 			String code="";
 			try{
-				saleMan.setId(salemanId);
-				saleMan.setState("0");
-				saleManService.insert(saleMan);
-				code="0";
-			}catch(Exception e){
+				if(saleManService.selectByPrimaryKey(salemanId)!=null){//已申请
+					code="2";
+				}
+				else{
+					saleMan.setId(salemanId);
+					saleMan.setState("0");
+					saleManService.insert(saleMan);
+					code="0";
+				}
+			}
+			catch(Exception e){
 	            code="1";
 	            e.printStackTrace();
 	        }
@@ -625,14 +631,22 @@ public class WxController {
 				JSONObject json = JSONObject.fromObject(BillFlow);
 				String flowType = (String)json.get("flowType");
 				MemberBillFlow memberBillFlow = new MemberBillFlow();
-				memberBillFlow.setUserId(Integer.parseInt((String) json.get("userId")));
-				memberBillFlow.setCompanyId(Integer.parseInt((String) json.get("companyId")));
-				memberBillFlow.setCompanyMemberId(Integer.parseInt((String) json.get("companyMemberId")));
-				memberBillFlow.setMemberCommodityId(Integer.parseInt((String) json.get("memberCommodityId")));
-				memberBillFlow.setBillCash(Double.parseDouble((String) json.get("billCash")));
-				memberBillFlow.setPayCash(Double.parseDouble((String) json.get("payCash")));
+//				memberBillFlow.setUserId(Integer.parseInt((String) json.get("userId")));
+//				memberBillFlow.setCompanyId(Integer.parseInt((String) json.get("companyId")));
+//				memberBillFlow.setCompanyMemberId(Integer.parseInt((String) json.get("companyMemberId")));
+//				memberBillFlow.setMemberCommodityId(Integer.parseInt((String) json.get("memberCommodityId")));
+//				memberBillFlow.setBillCash(Double.parseDouble((String) json.get("billCash")));
+//				memberBillFlow.setPayCash(Double.parseDouble((String) json.get("payCash")));
+//				memberBillFlow.setIsDelete("1");
+//				memberBillFlow.setRecorderId(Integer.parseInt((String) json.get("recorderId")));
+				memberBillFlow.setUserId((Integer)json.get("userId"));
+				memberBillFlow.setCompanyId((Integer)json.get("companyId"));
+				memberBillFlow.setCompanyMemberId((Integer)json.get("companyMemberId"));
+				memberBillFlow.setMemberCommodityId((Integer)json.get("memberCommodityId"));
+				memberBillFlow.setBillCash((Double)json.get("billCash"));
+				memberBillFlow.setPayCash((Double)json.get("payCash"));
 				memberBillFlow.setIsDelete("1");
-				memberBillFlow.setRecorderId(Integer.parseInt((String) json.get("recorderId")));
+				memberBillFlow.setRecorderId((Integer)json.get("recorderId"));
 				memberBillFlow.setBillModel((String) json.get("billModel"));
 				memberBillFlow.setFlowType(flowType);
 				if(flowType.equals("0")){//消费

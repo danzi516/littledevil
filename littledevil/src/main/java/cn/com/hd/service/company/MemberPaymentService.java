@@ -12,6 +12,8 @@ import cn.com.hd.domain.company.CompanyCommodity;
 import cn.com.hd.domain.company.CompanyMember;
 import cn.com.hd.domain.company.MemberBillFlow;
 import cn.com.hd.domain.company.MemberCommodity;
+import cn.com.hd.domain.company.MemberConsume;
+import cn.com.hd.domain.company.MemberRecharge;
 
 
 @Service("memberPaymentService")
@@ -26,7 +28,10 @@ public class MemberPaymentService {
 	CompanyCommodityService companyCommodityService;
 	@Resource
 	CompanyMemberService companyMemberService;
-	
+	@Resource
+	MemberRechargeService memberRechargeService;
+	@Resource
+	MemberConsumeService memberConsumeService;
 	
 	@Transactional
 	public void memberBuyCommodity(MemberBillFlow memberBillFlow){
@@ -95,21 +100,45 @@ public class MemberPaymentService {
 			return 1;
 		}
 		else{
+			MemberConsume memberConsume = new MemberConsume();
+			memberConsume.setCompanyMemberId(memberBillFlow.getCompanyMemberId());
+			memberConsume.setCommodityId(memberBillFlow.getCommodityId());
+			memberConsume.setCompanyId(memberBillFlow.getCompanyId());
+			memberConsume.setConsumeCash(memberBillFlow.getBillCash());
+			memberConsume.setPayCash(memberBillFlow.getPayCash());
+			memberConsume.setIsDelete("1");
+			memberConsume.setUserId(memberBillFlow.getUserId());
+			memberConsume.setConsumeType(memberBillFlow.getFlowType());
+			memberConsumeService.insert(memberConsume);
 			companyMember.setCash(cash-payCash);
 			companyMember.setId(memberBillFlow.getCompanyMemberId());
+			1111111
 			companyMemberService.updateByPrimaryKeySelective(companyMember);
+			
 			return 0;
 		}
 	}
 	@Transactional
 	public void memberRecharge(MemberBillFlow memberBillFlow){
 		CompanyMember companyMember = companyMemberService.selectByPrimaryKey(memberBillFlow.getCompanyMemberId());
+		if(companyMember!=null){
 		double cash = companyMember.getCash();
 		double payCash = memberBillFlow.getPayCash();
 		companyMember.setCash(payCash+cash);
 		companyMember.setId(memberBillFlow.getCompanyMemberId());
 		companyMemberService.updateByPrimaryKeySelective(companyMember);
+		MemberRecharge memberRecharge = new MemberRecharge();
+		memberRecharge.setCompanyMemberId(memberBillFlow.getCompanyMemberId());
+		memberRecharge.setCompanyId(memberBillFlow.getCompanyId());
+		memberRecharge.setRechargeCash(memberBillFlow.getBillCash());
+		memberRecharge.setPayCash(memberBillFlow.getPayCash());
+		memberRecharge.setIsDelete("1");
+		memberRecharge.setUserId(memberBillFlow.getUserId());
+		memberRecharge.setRecorderId(memberBillFlow.getRecorderId());
+		memberRecharge.setBalanceState("0");
+		memberRechargeService.insert(memberRecharge);
+		memberBillFlowService.insert(memberBillFlow);
+		}
 	}
-	
 	
 }

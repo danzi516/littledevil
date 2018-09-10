@@ -39,11 +39,13 @@ public class MemberConsume {
 
 	    
 	    
-		public String getType() {
+		
+
+		public String getConsumeType() {
 			return consumeType;
 		}
 
-		public void setType(String consumeType) {
+		public void setConsumeType(String consumeType) {
 			this.consumeType = consumeType;
 		}
 
