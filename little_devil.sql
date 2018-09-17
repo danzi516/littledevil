@@ -2,15 +2,15 @@
 Navicat MySQL Data Transfer
 
 Source Server         : localhost
-Source Server Version : 50711
+Source Server Version : 50715
 Source Host           : localhost:3306
 Source Database       : little_devil
 
 Target Server Type    : MYSQL
-Target Server Version : 50711
+Target Server Version : 50715
 File Encoding         : 65001
 
-Date: 2018-09-06 20:02:28
+Date: 2018-09-17 20:03:30
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -4182,7 +4182,7 @@ CREATE TABLE `t_member_bill_flow` (
   `bill_cash` double(10,2) DEFAULT NULL COMMENT '账单金额',
   `pay_cash` double(10,2) DEFAULT NULL COMMENT '实际金额',
   `is_delete` varchar(2) DEFAULT NULL COMMENT '是否删除 0：删除  1:不删除',
-  `flow_type` varchar(2) DEFAULT NULL COMMENT '流水类型 0：消费券 1：购买(活动) 2:购买(商品) 3:现金消费 4:现金充值',
+  `flow_type` varchar(2) DEFAULT NULL COMMENT '流水类型 1：消费券 2:购买 3:现金消费 4:现金充值',
   `consume_number` int(11) DEFAULT NULL COMMENT '消费个数',
   `recorder_id` int(11) DEFAULT NULL COMMENT '记录员id',
   `bill_model` varchar(3) DEFAULT NULL COMMENT '金额0:''+''，1:''-''',

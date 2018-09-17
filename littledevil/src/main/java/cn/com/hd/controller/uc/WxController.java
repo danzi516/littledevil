@@ -533,14 +533,15 @@ public class WxController {
 		/**
 		 * 功能描述：会员流水-购买
 		 * 作者：wanglin
-		 * url：${webRoot}/wxpay/memberBillBuy
+		 * url：${webRoot}/wxpay/memberBillBuy_old
 		 * 请求方式：POST
-		 * @param  list[int userId,int commodityId,int promotionId,int num]
+		 //@param  list[int userId,int commodityId,int promotionId,int num]
+		 * @param {info,commodityIds,promotionIds} 
 		 * @return Map<String,Object>
 		 *         key:code["0":"成功","1":"失败"]
 		 */
-		@RequestMapping(value="memberBillBuy",method=RequestMethod.POST)
-		public @ResponseBody Map<String,Object> memberBillBuy(String List){
+		@RequestMapping(value="memberBillBuy_old",method=RequestMethod.POST)
+		public @ResponseBody Map<String,Object> memberBillBuy_old(String List){
 			Map<String,Object> map=new HashMap<String,Object>();
 			String code="";
 			String message="";
@@ -612,7 +613,97 @@ public class WxController {
 	        map.put("code", code);
 	        return map;
 		}	
-		
+		/**
+		 * 功能描述：会员流水-购买
+		 * 作者：wanglin
+		 * url：${webRoot}/wxpay/memberBillBuy
+		 * 请求方式：POST
+		 * @param {info,commodityIds,promotionIds} 
+		 * @return Map<String,Object>
+		 *         key:code["0":"成功","1":"失败"]
+		 */
+		@RequestMapping(value="memberBillBuy",method=RequestMethod.POST)
+		public @ResponseBody Map<String,Object> memberBillBuy(@RequestBody Map<String,Object> billMap){
+			Map<String,Object> map=new HashMap<String,Object>();
+			String code="";
+			String message="";
+			double cash = -1000000,totalCash=0;
+			int number = 0,userId = 0,companyMemberId=0,companyId=0,memberCommodityId=0,recorderId=0;
+			try{
+				if(billMap.get("userId")!=null){
+					userId = (Integer)billMap.get("userId");
+				}
+				if(billMap.get("companyMemberId")!=null){
+					companyMemberId =  (Integer)billMap.get("companyMemberId");
+				}
+				if(billMap.get("companyId")!=null){
+					companyId =  (Integer)billMap.get("companyId");
+				}
+				if(billMap.get("memberCommodityId")!=null){
+					memberCommodityId =  (Integer)billMap.get("memberCommodityId");
+				}
+				if(billMap.get("recorderId")!=null){
+					recorderId = (Integer)billMap.get("recorderId");
+				}
+				if(billMap.get("totalCash")!=null){
+					totalCash =(Double) billMap.get("totalCash");
+				}
+				if(companyMemberService.selectByPrimaryKey(companyMemberId)!=null){
+					cash = companyMemberService.selectByPrimaryKey(companyMemberId).getCash();
+				}
+				String flowType = billMap.get("flowType").toString();
+				if(billMap.get("num")!=null){
+					number = (Integer)billMap.get("num");
+				}
+				double consumeCash =(Double) billMap.get("consumeCash");
+				double payCash = (Double) billMap.get("payCash");
+				MemberBillFlow memberBillFlow = new MemberBillFlow();
+				memberBillFlow.setUserId(userId);
+				memberBillFlow.setCompanyId(companyId);
+				memberBillFlow.setCompanyMemberId(companyMemberId);
+				memberBillFlow.setMemberCommodityId(memberCommodityId);
+				memberBillFlow.setRecorderId(recorderId);
+				memberBillFlow.setBillModel(billMap.get("billModel").toString());
+				memberBillFlow.setFlowType(flowType);
+				memberBillFlow.setConsumeNumber(number);
+				memberBillFlow.setBillCash(consumeCash);
+				memberBillFlow.setPayCash(payCash);
+				memberBillFlow.setIsDelete("1");
+				if(cash ==-1000000){
+					code = "1";
+					message = "数据错误";
+					map.put("message", message);
+			        map.put("code", code);
+			        return map;
+				}
+				else if(cash<totalCash){
+					code = "1";
+					message = "余额不足";
+					map.put("message", message);
+			        map.put("code", code);
+			        return map; 
+				}
+				else{
+					String[] commodityIds = billMap.get("commodityIds").toString().split(",");
+					 for (int i = 0; i < commodityIds.length; i++) {
+						 memberBillFlow.setCommodityId(Integer.parseInt(commodityIds[i]));
+						 memberPaymentService.memberBuyCommodity(memberBillFlow); 
+					 }
+					 String[] promotionIds = billMap.get("promotionIds").toString().split(",");
+					 for (int i = 0; i < commodityIds.length; i++) {
+						 memberBillFlow.setCommodityId(Integer.parseInt(promotionIds[i]));
+						 memberPaymentService.memberBuyPromotion(memberBillFlow);
+					 }
+				}
+			}catch(Exception e){
+	            code="2";
+	            message="未知异常，请重试";
+	            e.printStackTrace();
+	        }
+			map.put("message", message);
+	        map.put("code", code);
+	        return map;
+		}	
 		/**
 		 * 功能描述：会员流水-非购买
 		 * 作者：wanglin
@@ -631,14 +722,6 @@ public class WxController {
 				JSONObject json = JSONObject.fromObject(BillFlow);
 				String flowType = (String)json.get("flowType");
 				MemberBillFlow memberBillFlow = new MemberBillFlow();
-//				memberBillFlow.setUserId(Integer.parseInt((String) json.get("userId")));
-//				memberBillFlow.setCompanyId(Integer.parseInt((String) json.get("companyId")));
-//				memberBillFlow.setCompanyMemberId(Integer.parseInt((String) json.get("companyMemberId")));
-//				memberBillFlow.setMemberCommodityId(Integer.parseInt((String) json.get("memberCommodityId")));
-//				memberBillFlow.setBillCash(Double.parseDouble((String) json.get("billCash")));
-//				memberBillFlow.setPayCash(Double.parseDouble((String) json.get("payCash")));
-//				memberBillFlow.setIsDelete("1");
-//				memberBillFlow.setRecorderId(Integer.parseInt((String) json.get("recorderId")));
 				memberBillFlow.setUserId((Integer)json.get("userId"));
 				memberBillFlow.setCompanyId((Integer)json.get("companyId"));
 				memberBillFlow.setCompanyMemberId((Integer)json.get("companyMemberId"));
@@ -649,7 +732,7 @@ public class WxController {
 				memberBillFlow.setRecorderId((Integer)json.get("recorderId"));
 				memberBillFlow.setBillModel((String) json.get("billModel"));
 				memberBillFlow.setFlowType(flowType);
-				if(flowType.equals("0")){//消费
+				if(flowType.equals("1")){//消费券
 					memberPaymentService.memberConsume(memberBillFlow);
 					code="0";
 				}
