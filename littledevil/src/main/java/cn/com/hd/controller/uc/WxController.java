@@ -762,12 +762,12 @@ public class WxController {
 		 * 作者：wanglin
 		 * url：${webRoot}/wxpay/getSaleList
 		 * 请求方式：POST
-		 * @param  list[int userId,int commodityId,int promotionId,int num]
+		 * @param  list[int companyId]
 		 * @return Map<String,Object>
 		 *         key:code["0":"成功","1":"失败"]
 		 */
-		@RequestMapping(value="getSaleList",method=RequestMethod.POST)
-		public @ResponseBody Map<String,Object> getSaleList(int companyId){
+		@RequestMapping(value="getCompanySaleList",method=RequestMethod.POST)
+		public @ResponseBody Map<String,Object> getCompanySaleList(int companyId){
 			Map<String,Object> map=new HashMap<String,Object>();
 			String code="";
 			String message="";

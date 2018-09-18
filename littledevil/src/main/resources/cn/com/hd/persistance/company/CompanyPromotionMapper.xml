@@ -10,13 +10,14 @@
     <result column="promotion_note" jdbcType="VARCHAR" property="promotionNote" />
     <result column="state" jdbcType="VARCHAR" property="state" />
     <result column="creat_time" jdbcType="VARCHAR" property="creatTime" />
+    <result column="active_time" jdbcType="VARCHAR" property="activeTime" />
     <result column="real_price" jdbcType="DOUBLE" property="realPrice" />
   </resultMap>
   <resultMap extends="BaseResultMap" id="ResultMapWithBLOBs" type="cn.com.hd.domain.company.CompanyPromotion">
     <result column="promotion_note" jdbcType="LONGVARCHAR" property="promotionNote" />
   </resultMap>
   <sql id="Base_Column_List">
-    id, company_id, promotion_name, promotion_price, promotion_logo,promotion_note, state,creat_time,real_price
+    id, company_id, promotion_name, promotion_price, promotion_logo,promotion_note, state,creat_time,active_time,real_price
   </sql>
   <sql id="Blob_Column_List">
     promotion_note
@@ -59,14 +60,14 @@
   
    <select id="selectByCompanyId" parameterType="java.lang.Integer" resultMap="BaseResultMap">
     select 
-    id, company_id, promotion_name, promotion_price, promotion_logo,promotion_note, state,creat_time,real_price
+    id, company_id, promotion_name, promotion_price, promotion_logo,promotion_note, state,creat_time,active_time,real_price
     from t_company_promotion
     where company_id = #{companyId,jdbcType=INTEGER} and state=1
   </select>
   
    <select id="selectByPage" parameterType="cn.com.hd.common.Page" resultMap="BaseResultMap">
   SELECT
-	id, company_id, promotion_name, promotion_price, promotion_logo,promotion_note, state,creat_time,real_price
+	id, company_id, promotion_name, promotion_price, promotion_logo,promotion_note, state,creat_time,active_time,real_price
 	FROM
 	t_company_promotion  t
 	 WHERE 1 = 1
@@ -89,10 +90,10 @@
   <insert id="insert" parameterType="cn.com.hd.domain.company.CompanyPromotion">
     insert into t_company_promotion (id, company_id, promotion_name, 
       promotion_price, promotion_logo, state, 
-      promotion_note,creat_time,real_price)
+      promotion_note,creat_time,active_time,real_price)
     values (#{id,jdbcType=INTEGER}, #{companyId,jdbcType=INTEGER}, #{promotionName,jdbcType=VARCHAR}, 
       #{promotionPrice,jdbcType=DOUBLE}, #{promotionLogo,jdbcType=VARCHAR}, #{state,jdbcType=VARCHAR}, 
-      #{promotionNote,jdbcType=LONGVARCHAR},sysdate(),#{realPrice,jdbcType=DOUBLE})
+      #{promotionNote,jdbcType=LONGVARCHAR},sysdate(),#{activeTime,jdbcType=VARCHAR},#{realPrice,jdbcType=DOUBLE})
   </insert>
   
   <insert id="insertSelective" parameterType="cn.com.hd.domain.company.CompanyPromotion">
@@ -119,8 +120,11 @@
       <if test="promotionNote != null">
         promotion_note,
       </if>
-<if test="realPrice != null">
+      <if test="realPrice != null">
         real_price,
+      </if>
+      <if test="activeTime != null">
+        active_time,
       </if>
       creat_time
     </trim>
@@ -146,8 +150,11 @@
       <if test="promotionNote != null">
         #{promotionNote,jdbcType=LONGVARCHAR},
       </if>
-<if test="realPrice != null">
-        #{realPrice,jdbcType=LONGVARCHAR},
+	  <if test="realPrice != null">
+        #{realPrice,jdbcType=DOUBLE},
+      </if>
+      <if test="activeTime != null">
+        #{activeTime,jdbcType=VARCHAR},
       </if>
       sysdate()
     </trim>
@@ -174,8 +181,11 @@
       <if test="promotionNote != null">
         promotion_note = #{promotionNote,jdbcType=LONGVARCHAR},
       </if>
-<if test="realPrice != null">
-       real_price =  #{realPrice,jdbcType=LONGVARCHAR},
+	  <if test="realPrice != null">
+       real_price = #{realPrice,jdbcType=LONGVARCHAR},
+      </if>
+       <if test="activeTime != null">
+        active_time =  #{activeTime,jdbcType=VARCHAR},
       </if>
     </set>
     where id = #{id,jdbcType=INTEGER}
@@ -189,7 +199,8 @@
       promotion_logo = #{promotionLogo,jdbcType=VARCHAR},
       state = #{state,jdbcType=VARCHAR},
       promotion_note = #{promotionNote,jdbcType=LONGVARCHAR},
-real_price =  #{realPrice,jdbcType=LONGVARCHAR}
+      active_time = #{activeTime,jdbcType=VARCHAR},
+      real_price =  #{realPrice,jdbcType=LONGVARCHAR}
     where id = #{id,jdbcType=INTEGER}
   </update>
   
@@ -200,7 +211,8 @@ real_price =  #{realPrice,jdbcType=LONGVARCHAR}
       promotion_price = #{promotionPrice,jdbcType=DOUBLE},
       promotion_logo = #{promotionLogo,jdbcType=VARCHAR},
       state = #{state,jdbcType=VARCHAR},
- real_price =  #{realPrice,jdbcType=LONGVARCHAR}
+      active_time = #{activeTime,jdbcType=VARCHAR},
+      real_price =  #{realPrice,jdbcType=LONGVARCHAR}
     where id = #{id,jdbcType=INTEGER}
   </update>
  

@@ -15,14 +15,35 @@ public class CompanyPromotion {
 
     private String promotionNote;
 
-    private String active_time;
+    private String creatTime;
     
-	public String getActive_time() {
-		return active_time;
+    private String activeTime;
+    
+    private Double realPrice;
+    
+	public String getCreatTime() {
+		return creatTime;
 	}
 
-	public void setActive_time(String active_time) {
-		this.active_time = active_time;
+	public void setCreatTime(String creatTime) {
+		this.creatTime = creatTime;
+	}
+
+
+	public String getActiveTime() {
+		return activeTime;
+	}
+
+	public void setActiveTime(String activeTime) {
+		this.activeTime = activeTime;
+	}
+
+	public Double getRealPrice() {
+		return realPrice;
+	}
+
+	public void setRealPrice(Double realPrice) {
+		this.realPrice = realPrice;
 	}
 
 	public Integer getId() {
