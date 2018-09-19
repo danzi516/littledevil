@@ -12,7 +12,7 @@ import cn.com.hd.domain.company.MemberConsume;
 import cn.com.hd.domain.company.MemberRecharge;
 import cn.com.hd.persistance.company.MemberRechargeMapper;
 
-@Service("MemberRechargeService")
+@Service("memberRechargeService")
 public class MemberRechargeService {
 	@Autowired
 	private MemberRechargeMapper memberRechargeMapper;

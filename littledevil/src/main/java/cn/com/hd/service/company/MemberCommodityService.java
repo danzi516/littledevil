@@ -13,7 +13,7 @@ import cn.com.hd.domain.company.MemberRecharge;
 import cn.com.hd.persistance.company.CompanyInfoMapper;
 import cn.com.hd.persistance.company.MemberCommodityMapper;
 
-@Service("MemberCommodityService")
+@Service("memberCommodityService")
 public class MemberCommodityService {
 	@Autowired
 	private MemberCommodityMapper MemberCommodityMapper;
