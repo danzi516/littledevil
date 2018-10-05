@@ -81,18 +81,22 @@
     <block wx:for="{{order_list}}" wx:for-item="item" wx:for-index="idx" wx:key="{{index}}">
       <template is="order_template" data="{{item}}">11111111111111</template>
     </block>
+     <navigator url="../index/webview/webview?companyId=6"  hover-class="navigator-hover">
+    <button style="margin-top: 10px;" type="primary" bindtap="editCompanyInfo"> 编辑店铺 </button>
+    </navigator>
+     
   </view> 
   <view class="content_index {{tabIndex == 2 ? 'active':''}}">
     <text>业务员功能</text>
     <button style="margin-top: 10px;" type="primary" bindtap="applySaleMan"> 申请成为业务员 </button>
     <button style="margin-top: 10px;" type="primary" bindtap="getInvitationCode"> 获取邀请码 </button>
     <button style="margin-top: 10px;" type="primary" bindtap="applyCompany"> 商户申请认证 </button>
-    <navigator url="../index/webview/webview?companyId=6"  open-type = "redirect">
+    <!-- <navigator url="../index/webview/webview?companyId=6"  open-type = "redirect">
         <button type="default">跳转1</button>
-      </navigator>
+      </navigator> -->
 
     <navigator url="../index/webview/webview?companyId=6"  hover-class="navigator-hover">
-    <button type="default">跳转2</button>
+    <button type="default">跳转</button>
     </navigator>
     <button style="margin-top: 10px;" type="primary" bindtap="memberConsume"> 消费 </button>
     <button style="margin-top: 10px;" type="primary" bindtap="memberRecharge"> 充值 </button>

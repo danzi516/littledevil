@@ -183,7 +183,7 @@ Page({
   //   });
   // },
   userLogin:function(){
-  wx.login({
+    wx.login({
     success: res => {
       if (res.code) {
         let _parms = {
@@ -258,6 +258,10 @@ Page({
     }
     })
     },
+  editCompanyInfo: function () {
+
+  },
+  
   applySaleMan: function () {
     wx.request({
       url: "http://127.0.0.1:8080/littledevil/wxpay/applySaleMan",

@@ -77,14 +77,14 @@
       },
       {
         "selectedColor": "#FF4411",
-        "pagePath": "pages/activityDetails/activity-details",
+        "pagePath": "pages/index/index",
         "text": "活动",
         "iconPath": "images/icon/home_tab_huodong.png",
         "selectedIconPath": "images/icon/home_tab_huodonged.png"
       },
       {
         "selectedColor": "#FF4411",
-        "pagePath": "pages/discover-plate/discover-plate",
+        "pagePath": "pages/index/index",
         "text": "推荐",
         "iconPath": "images/icon/home_tab_search.png",
         "selectedIconPath": "images/icon/home_tab_searched.png"
